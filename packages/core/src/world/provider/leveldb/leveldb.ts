@@ -247,55 +247,55 @@ class LevelDBProvider extends WorldProvider {
             }
           }
 
-          // // Read the biomes from the chunk.
-          // const biomes = this.readChunkBiomes(chunk, dimension);
+          // Read the biomes from the chunk.
+          const biomes = this.readChunkBiomes(chunk, dimension);
 
-          // // Iterate through the biomes and add them to the chunk.
-          // for (let i = 0; i < biomes.length; i++) {
-          //   // Get the corresponding subchunk and biome.
-          //   const subchunk = chunk.subchunks[i];
-          //   const biome = biomes[i];
+          // Iterate through the biomes and add them to the chunk.
+          for (let i = 0; i < biomes.length; i++) {
+            // Get the corresponding subchunk and biome.
+            const subchunk = chunk.subchunks[i];
+            const biome = biomes[i];
 
-          //   // Check if the subchunk and biome exist.
-          //   if (!subchunk || !biome) continue;
+            // Check if the subchunk and biome exist.
+            if (!subchunk || !biome) continue;
 
-          //   // Set the biome storage of the subchunk.
-          //   subchunk.biomes = biome;
-          // }
+            // Set the biome storage of the subchunk.
+            subchunk.biomes = biome;
+          }
 
-          // // Read the entities from the database.
-          // const entities = this.readChunkEntities(chunk, dimension);
+          // Read the entities from the database.
+          const entities = this.readChunkEntities(chunk, dimension);
 
-          // // Check if there are any entities in the chunk.
-          // if (entities.length > 0) {
-          //   // Iterate through the entities and add them to the chunk.
-          //   for (const storage of entities) {
-          //     // Get the unique id of the entity.
-          //     const uniqueId = storage.get<LongTag>("UniqueID");
+          // Check if there are any entities in the chunk.
+          if (entities.length > 0) {
+            // Iterate through the entities and add them to the chunk.
+            for (const storage of entities) {
+              // Get the unique id of the entity.
+              const uniqueId = storage.get<LongTag>("UniqueID");
 
-          //     // Skip if the unique id does not exist.
-          //     if (!uniqueId) continue;
+              // Skip if the unique id does not exist.
+              if (!uniqueId) continue;
 
-          //     // Set the entity storage in the chunk.
-          //     chunk.setEntityStorage(
-          //       BigInt(uniqueId.valueOf()),
-          //       storage,
-          //       false
-          //     );
-          //   }
-          // }
+              // Set the entity storage in the chunk.
+              chunk.setEntityStorage(
+                BigInt(uniqueId.valueOf()),
+                storage,
+                false
+              );
+            }
+          }
 
-          // // Read the blocks from the chunk.
-          // const blocks = this.readChunkBlocks(chunk, dimension);
+          // Read the blocks from the chunk.
+          const blocks = this.readChunkBlocks(chunk, dimension);
 
-          // // Check if there are any blocks in the chunk.
-          // if (blocks.length > 0) {
-          //   // Iterate through the blocks and add them to the chunk.
-          //   for (const storage of blocks) {
-          //     // Set the block storage in the chunk.
-          //     chunk.setBlockStorage(storage.getPosition(), storage, false);
-          //   }
-          // }
+          // Check if there are any blocks in the chunk.
+          if (blocks.length > 0) {
+            // Iterate through the blocks and add them to the chunk.
+            for (const storage of blocks) {
+              // Set the block storage in the chunk.
+              chunk.setBlockStorage(storage.getPosition(), storage, false);
+            }
+          }
 
           // Add a small delay to simulate async loading.
           // TODO: Once leveldb supports async, remove this.
