@@ -21,6 +21,7 @@ import { Entity } from "../../entity";
 import { EntityEquipmentTrait } from "../equipment";
 import { EntityInventoryTrait } from "../inventory";
 import { EntityItemStackTrait } from "../item-stack";
+import { EntityActorMetadata } from "../../actor-metadata";
 
 import { PlayerChunkRenderingTrait } from "./chunk-rendering";
 import { PlayerTrait } from "./trait";
@@ -51,6 +52,39 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       !entity.isTicking // Verify the entity is ticking (in the world
     )
       return;
+
+    // Prepare a variable to track if the rendering was canceled
+    let canceled = false;
+
+    // Prepare the metadata, flags, and shared properties
+    let metadata = entity.metadata;
+
+    // Call the onRendered method of the entity traits
+    for (const [, trait] of entity.traits) {
+      // Check if the trait has an onRendered method
+      if (trait.onRendered) {
+        // Clone the metadata, flags, and shared properties
+        metadata = EntityActorMetadata.clone(metadata, entity, true);
+
+        const options = {
+          cancel: false,
+          player: this.player,
+          metadata
+        };
+
+        // Call the onRendered method
+        trait.onRendered(options);
+
+        // Check if the rendering was cancelled
+        if (options.cancel) {
+          canceled = true;
+          break;
+        }
+      }
+    }
+
+    // Check if the rendering was cancelled
+    if (canceled) return;
 
     // Add the entity to the rendered entities
     this.entities.add(entity.uniqueId);
@@ -125,7 +159,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
           ? new NetworkItemStackDescriptor(0)
           : ItemStack.toNetworkStack(heldItem);
       packet.gamemode = entity.getGamemode();
-      packet.data = entity.metadata.getAllActorMetadataAsDataItems();
+      packet.data = metadata.getAllActorMetadataAsDataItems();
       packet.properties =
         entity.sharedProperties.getSharedPropertiesAsSyncData();
       packet.uniqueEntityId = entity.uniqueId;
@@ -183,7 +217,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       packet.item = ItemStack.toNetworkStack(itemComponent.itemStack);
       packet.position = entity.position;
       packet.velocity = entity.velocity;
-      packet.data = entity.metadata.getAllActorMetadataAsDataItems();
+      packet.data = metadata.getAllActorMetadataAsDataItems();
       packet.fromFishing = false;
 
       // Send the packet to the player
@@ -208,7 +242,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     packet.headYaw = entity.rotation.headYaw;
     packet.bodyYaw = entity.rotation.yaw;
     packet.attributes = [];
-    packet.data = entity.metadata.getAllActorMetadataAsDataItems();
+    packet.data = metadata.getAllActorMetadataAsDataItems();
     packet.properties = entity.sharedProperties.getSharedPropertiesAsSyncData();
     packet.links = [];
 

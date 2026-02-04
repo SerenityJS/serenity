@@ -12,6 +12,7 @@ import {
   EntityTeleportOptions
 } from "../../types";
 import { Dimension } from "../../world";
+import { EntityRenderedOptions } from "../types";
 
 class EntityTrait extends Trait {
   /**
@@ -99,6 +100,12 @@ class EntityTrait extends Trait {
    * @note This event requires the entity to have `EntityGravityTrait` attached.
    */
   public onFallOnBlock?(event: EntityFallOnBlockTraitEvent): void;
+
+  /**
+   * Called when the entity that this trait is attached to is rendered for a player.
+   * @param details The details of the entity rendering.
+   */
+  public onRendered?(details: EntityRenderedOptions): void;
 
   /**
    * Clones the entity trait.
