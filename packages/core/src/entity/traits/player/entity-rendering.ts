@@ -9,8 +9,7 @@ import {
   MobArmorEquipmentPacket,
   NetworkItemStackDescriptor,
   PermissionLevel,
-  RemoveEntityPacket,
-  Vector3f
+  RemoveEntityPacket
 } from "@serenityjs/protocol";
 
 import { EntityRidingTrait } from "..";
@@ -22,6 +21,7 @@ import { Entity } from "../../entity";
 import { EntityEquipmentTrait } from "../equipment";
 import { EntityInventoryTrait } from "../inventory";
 import { EntityItemStackTrait } from "../item-stack";
+import { EntityActorMetadata } from "../../actor-metadata";
 
 import { PlayerChunkRenderingTrait } from "./chunk-rendering";
 import { PlayerTrait } from "./trait";
@@ -52,6 +52,39 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       !entity.isTicking // Verify the entity is ticking (in the world
     )
       return;
+
+    // Prepare a variable to track if the rendering was canceled
+    let canceled = false;
+
+    // Prepare the metadata, flags, and shared properties
+    let metadata = entity.metadata;
+
+    // Call the onRendered method of the entity traits
+    for (const [, trait] of entity.traits) {
+      // Check if the trait has an onRendered method
+      if (trait.onRendered) {
+        // Clone the metadata, flags, and shared properties
+        metadata = EntityActorMetadata.clone(metadata, entity, true);
+
+        const options = {
+          cancel: false,
+          player: this.player,
+          metadata
+        };
+
+        // Call the onRendered method
+        trait.onRendered(options);
+
+        // Check if the rendering was cancelled
+        if (options.cancel) {
+          canceled = true;
+          break;
+        }
+      }
+    }
+
+    // Check if the rendering was cancelled
+    if (canceled) return;
 
     // Add the entity to the rendered entities
     this.entities.add(entity.uniqueId);
@@ -126,7 +159,7 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
           ? new NetworkItemStackDescriptor(0)
           : ItemStack.toNetworkStack(heldItem);
       packet.gamemode = entity.getGamemode();
-      packet.data = entity.metadata.getAllActorMetadataAsDataItems();
+      packet.data = metadata.getAllActorMetadataAsDataItems();
       packet.properties =
         entity.sharedProperties.getSharedPropertiesAsSyncData();
       packet.uniqueEntityId = entity.uniqueId;
@@ -159,9 +192,6 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         packet.links.push(link);
       }
 
-      // Adjust the player's position for rendering
-      packet.position.y += entity.getCollisionHeight(); // Adjust the y position for the player
-
       // Send the packet to the player
       this.player.send(packet);
       if (armor) this.player.send(armor);
@@ -169,13 +199,6 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       // Break out of the function
       return;
     }
-
-    // Adjust the entity's position
-    const position = new Vector3f(
-      entity.position.x,
-      entity.position.y,
-      entity.position.z
-    );
 
     // Check if the entity is an item
     if (entity.isItem()) {
@@ -192,9 +215,9 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
       packet.uniqueId = entity.uniqueId;
       packet.runtimeId = entity.runtimeId;
       packet.item = ItemStack.toNetworkStack(itemComponent.itemStack);
-      packet.position = position;
+      packet.position = entity.position;
       packet.velocity = entity.velocity;
-      packet.data = entity.metadata.getAllActorMetadataAsDataItems();
+      packet.data = metadata.getAllActorMetadataAsDataItems();
       packet.fromFishing = false;
 
       // Send the packet to the player
@@ -212,14 +235,14 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
     packet.uniqueEntityId = entity.uniqueId;
     packet.runtimeId = entity.runtimeId;
     packet.identifier = entity.type.identifier;
-    packet.position = position;
+    packet.position = entity.position;
     packet.velocity = entity.velocity;
     packet.pitch = entity.rotation.pitch;
     packet.yaw = entity.rotation.yaw;
     packet.headYaw = entity.rotation.headYaw;
     packet.bodyYaw = entity.rotation.yaw;
     packet.attributes = [];
-    packet.data = entity.metadata.getAllActorMetadataAsDataItems();
+    packet.data = metadata.getAllActorMetadataAsDataItems();
     packet.properties = entity.sharedProperties.getSharedPropertiesAsSyncData();
     packet.links = [];
 

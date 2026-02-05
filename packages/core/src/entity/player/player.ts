@@ -712,12 +712,6 @@ class Player extends Entity {
       if (!this.hasTrait(PlayerChunkRenderingTrait))
         return void this.spawn({ changedDimensions: true });
 
-      // Get the chunk rendering trait
-      const rendering = this.getTrait(PlayerChunkRenderingTrait);
-
-      // Send the player the spawn chunks
-      rendering.send(this.dimension, ...rendering.next());
-
       // Spawn the player in the new dimension
       return void this.spawn({ changedDimensions: true });
     } else {
@@ -742,12 +736,6 @@ class Player extends Entity {
 
       // Spawn the player in the new dimension
       this.spawn({ changedDimensions: false, initialSpawn: false });
-
-      // Get the chunk rendering trait
-      const rendering = this.getTrait(PlayerChunkRenderingTrait);
-
-      // Send the player the spawn chunks
-      return void rendering.send(this.dimension, ...rendering.next());
     }
   }
 

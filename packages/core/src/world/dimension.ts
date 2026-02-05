@@ -71,10 +71,34 @@ class Dimension {
   protected readonly serenity: Serenity;
 
   /**
-   * The chunks that have been quieried from the provider.
+   * The chunks that have been hydrated in the dimension.
    * This is used to prevent the reinstantiation of blocks and entities when a chunk is being loaded multiple times.
    */
-  private readonly queriedChunksFromProvider = new Set<bigint>();
+  private readonly hydratedChunks = new Set<bigint>();
+
+  /**
+   * The loading chunks in the dimension.
+   * This is used to prevent multiple simultaneous loads of the same chunk.
+   */
+  private readonly loadingChunks = new Map<bigint, Promise<Chunk>>();
+
+  /**
+   * The chunk watchers in the dimension.
+   * @internal Used for chunk garbage collection.
+   */
+  private readonly chunkWatchers = new Map<bigint, number>();
+
+  /**
+   * The last unwatched at ticks for chunks in the dimension.
+   * @internal Used for chunk garbage collection.
+   */
+  private readonly chunkLastUnwatchedAt = new Map<bigint, bigint>();
+
+  /**
+   * The last access ticks for chunks in the dimension.
+   * @internal Used for chunk garbage collection.
+   */
+  private readonly chunkLastAccessAt = new Map<bigint, bigint>();
 
   /**
    * The properties of the dimension.
@@ -341,10 +365,13 @@ class Dimension {
         block.isTicking = false;
       }
     }
+
+    // Clean up chunks every second (20 ticks)
+    if (this.world.currentTick % 20n === 0n) this.cleanUpChunks();
   }
 
   /**
-   * Gets a chunk from the dimension.
+   * Gets a chunk from the dimension synchronously.
    * @param cx The chunk x coordinate.
    * @param cz The chunk z coordinate.
    * @returns The chunk at the specified coordinates.
@@ -366,140 +393,147 @@ class Dimension {
       // Fetch the chunk from the cache
       const chunk = chunks.get(hash) as Chunk;
 
-      // Check if the chunk has been queried from the provider before
-      if (!this.queriedChunksFromProvider.has(hash)) {
-        // Add the chunk hash to the queried chunks set
-        // NOTE: Must add has before fetching the block data to prevent stack overflow
-        this.queriedChunksFromProvider.add(hash);
+      // Hydrate the chunk if it hasn't been queried before
+      this.hydrateChunkOnce(chunk);
 
-        // Get all the block data from the chunk
-        const blockStorages = chunk.getAllBlockStorages();
-
-        // Check if there is any block storage in the chunk
-        if (blockStorages.length > 0) {
-          // Iterate through the blocks and add them to the chunk.
-          for (const storage of blockStorages) {
-            // Get the position of the block storage
-            const position = storage.getPosition();
-
-            // Create a new block instance using the block storage
-            const block = new Block(this, position, storage);
-
-            // Add the block to the block cache
-            this.blocks.set(BlockPosition.hash(block.position), block);
-          }
-        }
-
-        // Get all the entity data from the chunk
-        const entities = chunk.getAllEntityStorages();
-
-        // Check if there is any entity storage in the chunk
-        if (entities.length > 0) {
-          // Iterate through the entities and add them to the chunk.
-          for (const [, storage] of entities) {
-            // Get the identifier of the entity
-            const identifier = storage.get<StringTag>("identifier");
-
-            // Skip if the identifier does not exist or if the entity is a player
-            if (!identifier || identifier.valueOf() === EntityIdentifier.Player)
-              continue;
-
-            // Create a new entity instance using the entity storage
-            const entity = new Entity(this, identifier.valueOf(), { storage });
-
-            // Spawn the entity in the dimension
-            entity.spawn({ initialSpawn: false });
-          }
-        }
-      }
+      // Touch the chunk to update its last access tick
+      this.touchChunk(chunk);
 
       // Return the cached chunk
       return chunk;
     }
 
     // Create a new chunk to pass to the provider
-    const chunk = new Chunk(cx, cz, this.type);
+    const placeholder = new Chunk(cx, cz, this.type);
+
+    // Read the chunk from the provider synchronously
+    void this.getChunkAsync(cx, cz);
+
+    // Return the placeholder chunk
+    return placeholder;
+  }
+
+  /**
+   * Gets a chunk from the dimension asynchronously.
+   * This method prevents multiple simultaneous loads of the same chunk, and is used for generating and rendering chunks.
+   * @param cx The chunk x coordinate.
+   * @param cz The chunk z coordinate.
+   * @returns The chunk at the specified coordinates.
+   */
+  public async getChunkAsync(cx: number, cz: number): Promise<Chunk> {
+    // Generate the coordinate hash for the chunk
+    const hash = ChunkCoords.hash({ x: cx, z: cz });
+
+    // Check if the provider contains the dimensions
+    if (!this.world.provider.chunks.has(this))
+      // If not, create a new map for the dimension
+      this.world.provider.chunks.set(this, new Map());
+
+    // Fetch the chunks from the provider via the dimension
+    const chunks = this.world.provider.chunks.get(this);
+
+    // Check if the targeted chunk is cached, if so, return it
+    if (chunks && chunks.has(hash)) {
+      // Fetch the chunk from the cache
+      const chunk = chunks.get(hash) as Chunk;
+
+      // Hydrate the chunk if it hasn't been queried before
+      this.hydrateChunkOnce(chunk);
+
+      // Touch the chunk to update its last access tick
+      this.touchChunk(chunk);
+
+      // Return the cached chunk
+      return Promise.resolve(chunk);
+    }
+
+    // Check if the chunk is already being loaded
+    if (this.loadingChunks.has(hash)) {
+      return this.loadingChunks.get(hash) as Promise<Chunk>;
+    }
+
+    // Create a new chunk to pass to the provider
+    const placeholder = new Chunk(cx, cz, this.type);
 
     // Await for the chunk to be generated
-    this.world.provider
-      .readChunk(chunk, this)
+    const promise = this.world.provider
+      .readChunk(placeholder, this)
       // Await the chunk to be loaded
       .then((chunk) => {
-        // Check if the chunk has been queried from the provider before
-        if (!this.queriedChunksFromProvider.has(hash)) {
-          // Add the chunk hash to the queried chunks set
-          this.queriedChunksFromProvider.add(hash);
+        // Hydrate the chunk once
+        this.hydrateChunkOnce(chunk);
 
-          // Get all the block data from the chunk
-          const blockStorages = chunk.getAllBlockStorages();
-
-          // Check if there is any block storage in the chunk
-          if (blockStorages.length > 0) {
-            // Iterate through the blocks and add them to the chunk.
-            for (const storage of blockStorages) {
-              // Get the position of the block storage
-              const position = storage.getPosition();
-
-              // Create a new block instance using the block storage
-              const block = new Block(this, position, storage);
-
-              // Add the block to the block cache
-              this.blocks.set(BlockPosition.hash(block.position), block);
-            }
-          }
-
-          // Get all the entity data from the chunk
-          const entities = chunk.getAllEntityStorages();
-
-          // Check if there is any entity storage in the chunk
-          if (entities.length > 0) {
-            // Iterate through the entities and add them to the chunk.
-            for (const [, storage] of entities) {
-              // Get the identifier of the entity
-              const identifier = storage.get<StringTag>("identifier");
-
-              // Skip if the identifier does not exist or if the entity is a player
-              if (
-                !identifier ||
-                identifier.valueOf() === EntityIdentifier.Player
-              )
-                continue;
-
-              // Create a new entity instance using the entity storage
-              const entity = new Entity(this, identifier.valueOf(), {
-                storage
-              });
-
-              // Spawn the entity in the dimension
-              entity.spawn({ initialSpawn: false });
-            }
-          }
-        }
-
-        // Iterate over all the players in the dimension
-        for (const player of this.getPlayers()) {
-          // Get the player's chunk rendering trait
-          const trait = player.getTrait(PlayerChunkRenderingTrait);
-
-          // Check if the player has the chunk being set
-          if (!trait.chunks.has(chunk.hash)) continue;
-
-          // Send the chunk to the player
-          trait.send(this, chunk);
-        }
+        // Touch the chunk to update its last access tick
+        this.touchChunk(chunk);
 
         // Return the chunk
         return chunk;
       })
       // Catch any errors that occur while loading the chunk
       .catch((reason) => {
+        // Log the error to the console
         this.world.logger.error(
           `Failed to load chunk at (${cx}, ${cz}) in dimension "${this.identifier}"`,
           reason
         );
+
+        // Rethrow the error
+        throw reason;
+      })
+      .finally(() => {
+        // Remove the chunk from the loading chunks map
+        this.loadingChunks.delete(hash);
       });
 
-    return chunk; // Return the chunk
+    // Set the chunk in the loading chunks map
+    this.loadingChunks.set(hash, promise);
+
+    return promise; // Return the chunk
+  }
+
+  /**
+   * Hydrates a chunk by instantiating its blocks and entities into the dimension.
+   * @param chunk The chunk to hydrate.
+   */
+  private hydrateChunkOnce(chunk: Chunk): void {
+    // Get the hash of the chunk
+    const hash = chunk.hash;
+
+    // Only hydrate once per chunk hash
+    if (this.hydratedChunks.has(hash)) return;
+
+    // NOTE: Must add before fetching data to prevent re-entrancy issues
+    this.hydratedChunks.add(hash);
+
+    // Iterate through all the block storages in the chunk
+    const blockStorages = chunk.getAllBlockStorages();
+    for (const storage of blockStorages) {
+      // Fetch the position of the block storage
+      const position = storage.getPosition();
+
+      // Create a new block instance using the block storage
+      const block = new Block(this, position, storage);
+
+      // Add the block to the block cache
+      this.blocks.set(BlockPosition.hash(block.position), block);
+    }
+
+    // Iterate through all the entity storages in the chunk
+    const entities = chunk.getAllEntityStorages();
+
+    // Iterate over all the entity storages in the chunk
+    for (const [, storage] of entities) {
+      // Get the identifier of the entity
+      const identifier = storage.get<StringTag>("identifier");
+      if (!identifier || identifier.valueOf() === EntityIdentifier.Player)
+        continue;
+
+      // Create a new entity instance using the entity storage
+      const entity = new Entity(this, identifier.valueOf(), { storage });
+
+      // Spawn the entity in the dimension
+      entity.spawn({ initialSpawn: false });
+    }
   }
 
   /**
@@ -517,6 +551,131 @@ class Dimension {
 
       // Send the chunk to the player
       trait.send(this, chunk);
+    }
+  }
+
+  /**
+   * Touches a chunk in the dimension, updating its last access tick.
+   * @param chunk The chunk to touch.
+   * @internal Used for chunk garbage collection.
+   */
+  public touchChunk(chunk: Chunk | bigint): void {
+    // Get the hash of the chunk
+    const hash = typeof chunk === "bigint" ? chunk : chunk.hash;
+
+    // Update the last access tick for the chunk
+    this.chunkLastAccessAt.set(hash, this.world.currentTick);
+  }
+
+  /**
+   * Marks a chunk as being watched in the dimension.
+   * @param chunk The chunk to mark as watched.
+   * @internal Used for chunk garbage collection.
+   */
+  public onChunkWatched(chunk: Chunk | bigint): void {
+    // Get the hash of the chunk
+    const hash = typeof chunk === "bigint" ? chunk : chunk.hash;
+
+    // Increment the watcher count for the chunk
+    this.chunkWatchers.set(hash, (this.chunkWatchers.get(hash) ?? 0) + 1);
+
+    // Delete the last unwatched at tick
+    this.chunkLastUnwatchedAt.delete(hash);
+  }
+
+  /**
+   * Marks a chunk as being unwatched in the dimension.
+   * @param chunk The chunk to mark as unwatched.
+   * @internal Used for chunk garbage collection.
+   */
+  public onChunkUnwatched(chunk: Chunk | bigint): void {
+    // Get the hash of the chunk
+    const hash = typeof chunk === "bigint" ? chunk : chunk.hash;
+
+    // Calculate the next watcher count
+    const next = (this.chunkWatchers.get(hash) ?? 0) - 1;
+
+    // Check if the next watcher count is less than or equal to 0
+    if (next <= 0) {
+      // Delete the chunk from the watchers map
+      this.chunkWatchers.delete(hash);
+
+      // Set the last unwatched at tick
+      this.chunkLastUnwatchedAt.set(hash, this.world.currentTick);
+    } else {
+      // Update the watcher count
+      this.chunkWatchers.set(hash, next);
+    }
+  }
+
+  /**
+   * Sweeps and unloads chunks that are no longer being watched.
+   * @param unloadDelayTick The delay in ticks before unloading a chunk.
+   */
+  public cleanUpChunks(unloadDelayTick: bigint = 100n): void {
+    // Get the chunks for the dimension from the provider
+    const chunks = this.world.provider.chunks.get(this);
+    if (!chunks) return;
+
+    // Get the current tick
+    const now = this.world.currentTick;
+
+    // Iterate over all the chunks in the dimension
+    for (const [hash, chunk] of chunks) {
+      // Check if the chunk is memory locked
+      // This prevents the chunk from being unloaded
+      if (chunk.memoryLock) continue;
+
+      // Check if the chunk is being watched
+      if (this.chunkWatchers.has(hash)) continue;
+
+      // Get the last unwatched at timestamp
+      const lastUnwatchedAt = this.chunkLastUnwatchedAt.get(hash) ?? now;
+
+      // Check if the chunk has been unwatched for longer than the unload delay
+      if (now - lastUnwatchedAt >= unloadDelayTick) {
+        // Check if the chunk is dirty and needs to be saved
+        if (chunk.dirty) {
+          // Log the chunk save
+          this.world.logger.debug(
+            `Saving dirty chunk at (§u${chunk.x}§r, §u${chunk.z}§r) in dimension §u${this.identifier}§r before unloading.`
+          );
+
+          // Write the chunk to the provider
+          this.world.provider.writeChunk(chunk, this);
+
+          // Skip the unload process for this tick
+          continue;
+        }
+
+        // Iterate over all the entities in the dimension
+        for (const [, entity] of this.entities) {
+          if (entity.isPlayer()) continue;
+
+          // Check if the entity is within the chunk being unloaded
+          const entityChunkX = entity.position.x >> 4;
+          const entityChunkZ = entity.position.z >> 4;
+          if (entityChunkX === chunk.x && entityChunkZ === chunk.z) {
+            // Log the entity despawn
+            this.world.logger.debug(
+              `Despawning entity §u${entity.type.identifier}:${entity.uniqueId}§r from chunk at (§u${chunk.x}§r, §u${chunk.z}§r) in dimension §u${this.identifier}§r before unloading.`
+            );
+
+            // Despawn the entity from the dimension
+            entity.despawn();
+          }
+        }
+
+        // Unload the chunk from the provider
+        chunks.delete(hash);
+
+        // Remove the chunk from the hydrated chunks set
+        this.hydratedChunks.delete(hash);
+
+        // Remove the chunk from the last access and last unwatched maps
+        this.chunkLastAccessAt.delete(hash);
+        this.chunkLastUnwatchedAt.delete(hash);
+      }
     }
   }
 

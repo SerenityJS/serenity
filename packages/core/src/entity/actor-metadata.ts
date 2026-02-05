@@ -39,12 +39,18 @@ class EntityActorMetadata {
   private readonly metadata = new Map<ActorDataId, DataItem>();
 
   /**
+   * Whether to silently set metadata without sending updates.
+   */
+  private silent = false;
+
+  /**
    * Create a new EntityActorMetadata instance.
    * @param entity The entity that this metadata set is attached to.
    */
-  public constructor(entity: Entity) {
+  public constructor(entity: Entity, silent = false) {
     // Assign the entity to the private field
     this.entity = entity;
+    this.silent = silent;
   }
 
   /**
@@ -117,22 +123,25 @@ class EntityActorMetadata {
       // Set the metadata in the map
       this.metadata.set(id, dataItem);
 
-      // Create a new SetActorDataPacket
-      const packet = new SetActorDataPacket();
-      packet.runtimeEntityId = this.entity.runtimeId;
-      packet.inputTick = this.entity.isPlayer()
-        ? this.entity.inputInfo.tick
-        : this.entity.dimension.world.currentTick;
-      packet.data = this.getAllActorMetadataAsDataItems();
-      packet.properties =
-        this.entity.sharedProperties.getSharedPropertiesAsSyncData();
+      // If not silent, send an update packet
+      if (!this.silent) {
+        // Create a new SetActorDataPacket
+        const packet = new SetActorDataPacket();
+        packet.runtimeEntityId = this.entity.runtimeId;
+        packet.inputTick = this.entity.isPlayer()
+          ? this.entity.inputInfo.tick
+          : this.entity.dimension.world.currentTick;
+        packet.data = this.getAllActorMetadataAsDataItems();
+        packet.properties =
+          this.entity.sharedProperties.getSharedPropertiesAsSyncData();
 
-      // Iterate over the flags set on the entity
-      for (const [flat, enabled] of this.entity.flags.getAllActorFlags())
-        packet.setActorFlag(flat, enabled);
+        // Iterate over the flags set on the entity
+        for (const [flat, enabled] of this.entity.flags.getAllActorFlags())
+          packet.setActorFlag(flat, enabled);
 
-      // Send the packet to the dimension
-      this.entity.dimension.broadcast(packet);
+        // Send the packet to the dimension
+        this.entity.dimension.broadcast(packet);
+      }
     }
   }
 
@@ -142,6 +151,30 @@ class EntityActorMetadata {
    */
   public getAllActorMetadataAsDataItems(): Array<DataItem> {
     return Array.from(this.metadata.values());
+  }
+
+  /**
+   * Clone the actor metadata from one entity to another.
+   * @param source The source entity actor metadata.
+   * @param target The target entity.
+   * @returns The cloned entity actor metadata.
+   */
+  public static clone(
+    source: EntityActorMetadata,
+    target: Entity,
+    silent = false
+  ): EntityActorMetadata {
+    // Create a new EntityActorMetadata instance for the target entity
+    const cloned = new EntityActorMetadata(target, silent);
+
+    // Iterate over the source metadata and copy each item to the cloned metadata
+    for (const [id, item] of source.metadata.entries()) {
+      // Create a new DataItem and set it in the cloned metadata
+      cloned.metadata.set(id, new DataItem(id, item.type, item.value));
+    }
+
+    // Return the cloned metadata
+    return cloned;
   }
 }
 

@@ -485,6 +485,16 @@ export class Chunk {
     this.dirty = source.dirty;
     this.cache = source.cache;
 
+    // Copy over the block storages.
+    for (const [key, storage] of source.blocks) {
+      this.blocks.set(key, storage);
+    }
+
+    // Copy over the entity storages.
+    for (const [key, storage] of source.entities) {
+      this.entities.set(key, storage);
+    }
+
     // Return the target chunk.
     return this;
   }

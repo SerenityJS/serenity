@@ -39,9 +39,12 @@ class LevelDBProvider extends WorldProvider {
   public readonly db: Leveldb;
 
   /**
-   * The loaded chunks in the provider.
+   * The in-flight chunk loading promises per dimension.
    */
-  public readonly chunks = new Map<Dimension, Map<bigint, Chunk>>();
+  private readonly loading = new WeakMap<
+    Dimension,
+    Map<bigint, Promise<Chunk>>
+  >();
 
   public constructor(path: string) {
     super();
@@ -51,6 +54,25 @@ class LevelDBProvider extends WorldProvider {
 
     // Open the database for the provider
     this.db = Leveldb.open(resolve(path, "db"));
+  }
+
+  /**
+   * Get the loading map for a dimension.
+   * @param dimension The dimension to get the loading map for.
+   * @returns The loading map for the dimension.
+   */
+  private getLoadingMap(dimension: Dimension): Map<bigint, Promise<Chunk>> {
+    // Attempt to get the loading map for the dimension.
+    let map = this.loading.get(dimension);
+
+    // Create a new map if it does not exist.
+    if (!map) {
+      map = new Map<bigint, Promise<Chunk>>();
+      this.loading.set(dimension, map);
+    }
+
+    // Return the loading map.
+    return map;
   }
 
   public async onShutdown(): Promise<void> {
@@ -92,53 +114,62 @@ class LevelDBProvider extends WorldProvider {
     const schedule = this.world.schedule(80);
 
     // Create a new method to hold the pregeneration logic.
-    const pregenerate = () => {
-      // Pregenerate the dimensions for the world.
+    const pregenerate = async () => {
       for (const [, dimension] of this.world.dimensions) {
-        // Get the spawn position of the dimension.
-        const sx = dimension.properties.spawnPosition[0] >> 4;
-        const sz = dimension.properties.spawnPosition[2] >> 4;
+        // Fetch pregeneration options.
+        const pregeneration = dimension.properties.chunkPregeneration ?? [];
 
-        // Get the view distance of the dimension.
-        const viewDistance = dimension.viewDistance;
+        // Prepare a var to track pregenerated chunks.
+        let chunkCount = 0;
 
-        // Prepare the amount of chunks to pregenerate.
-        let chunkCount: number = 0;
+        // Iterate through each pregeneration option.
+        for (const { start, end, memoryLock } of pregeneration) {
+          // Mask to chunk coordinates.
+          const sx = start[0] >> 4;
+          const sz = start[1] >> 4;
+          const ex = end[0] >> 4;
+          const ez = end[1] >> 4;
 
-        // Iterate through the chunks to pregenerate.
-        for (let x = sx - viewDistance; x <= sx + viewDistance; x++) {
-          for (let z = sz - viewDistance; z <= sz + viewDistance; z++) {
-            // Create a new chunk instance.
-            const chunk = new Chunk(x, z, dimension.type);
+          // Iterate through each chunk in the area.
+          for (let x = sx; x <= ex; x++) {
+            for (let z = sz; z <= ez; z++) {
+              // Create a new chunk and read it.
+              let chunk = new Chunk(x, z, dimension.type);
+              chunk = await this.readChunk(chunk, dimension);
 
-            // Read the chunk from the filesystem.
-            this.readChunk(chunk, dimension);
+              // Memory lock the chunk if needed.
+              chunk.memoryLock = memoryLock ?? false;
 
-            // Increment the count of pregenerated chunks.
-            chunkCount++;
+              // Increment the pregenerated chunk count.
+              chunkCount++;
+            }
           }
         }
 
-        // Get the amount of entities and blocks in the dimension.
+        // Gather some statistics.
         const entityCount = dimension.entities.size;
         const blockCount = dimension.blocks.size;
 
-        // Log the amount of chunks to pregenerate.
+        // Log the pregeneration results.
         this.world.logger.info(
           `Successfully pre-generated §u${chunkCount}§r chunks for dimension §u${dimension.identifier}§r which contains §u${entityCount}§r entities and §u${blockCount}§r blocks.`
         );
       }
     };
 
-    // Call the pregenerate method immediately.
+    // Schedule the pregeneration task.
     schedule.on(pregenerate);
   }
 
   public async onSave(): Promise<void> {
     // Iterate through the chunks and write them to the database.
     // Iterate through all the dimensions in the chunks map.
-    for (const [dimension, chunks] of this.chunks) {
-      // Iterate through all the chunks in the dimension's chunk map.
+    for (const [, dimension] of this.world.dimensions) {
+      // Fetch the chunks for the dimension.
+      const chunks = this.chunks.get(dimension);
+      if (!chunks) continue; // No chunks to save for this dimension.
+
+      // Iterate through the chunks and write them to the database.
       for (const chunk of chunks.values()) {
         // Write the chunk to the filesystem.
         await this.writeChunk(chunk, dimension);
@@ -149,8 +180,12 @@ class LevelDBProvider extends WorldProvider {
     return this.db.flush();
   }
 
-  public readBuffer(key: string): Buffer {
-    return this.db.get(Buffer.from(key));
+  public readBuffer(key: string): Buffer | null {
+    try {
+      return this.db.get(Buffer.from(key));
+    } catch {
+      return null;
+    }
   }
 
   public writeBuffer(key: string, value: Buffer): void {
@@ -158,128 +193,165 @@ class LevelDBProvider extends WorldProvider {
   }
 
   public async readChunk(chunk: Chunk, dimension: Dimension): Promise<Chunk> {
-    // Check if the chunks contain the dimension.
-    if (!this.chunks.has(dimension)) {
-      this.chunks.set(dimension, new Map());
-    }
-
-    // Get the dimension chunks.
+    // Check if the chunks contain the dimension, if not, create a new map for it.
+    if (!this.chunks.has(dimension)) this.chunks.set(dimension, new Map());
     const chunks = this.chunks.get(dimension) as Map<bigint, Chunk>;
 
     // Check if the cache contains the chunk.
     if (chunks.has(chunk.hash)) return chunks.get(chunk.hash) as Chunk;
-    // Check if the leveldb contains the chunk.
-    else if (this.hasChunk(chunk.x, chunk.z, dimension)) {
-      // Iterate through the subchunks of the chunk.
-      for (let i = 0; i < Chunk.MAX_SUB_CHUNKS; i++) {
-        // Prepare an offset variable.
-        // This is used to adjust the index for overworld dimensions.
-        let offset = 0;
 
-        // Check if the dimension type is overworld.
-        if (chunk.type === DimensionType.Overworld) offset = 4; // Adjust index for overworld
-
-        // Calculate the subchunk Y coordinate.
-        const cy = i - offset;
-
-        // Attempt to read the subchunk from the database.
-        try {
-          // Read the subchunk from the database.
-          const subchunk = this.readSubChunk(chunk.x, cy, chunk.z, dimension);
-
-          // Check if the subchunk is empty.
-          if (subchunk.isEmpty()) continue;
-
-          // Push the subchunk to the chunk.
-          chunk.subchunks[i] = subchunk;
-        } catch {
-          // We can ignore any error that occurs while reading the subchunk.
-          continue;
-        }
-      }
-
-      // Read the biomes from the chunk.
-      const biomes = this.readChunkBiomes(chunk, dimension);
-
-      // Iterate through the biomes and add them to the chunk.
-      for (let i = 0; i < biomes.length; i++) {
-        // Get the corresponding subchunk and biome.
-        const subchunk = chunk.subchunks[i];
-        const biome = biomes[i];
-
-        // Check if the subchunk and biome exist.
-        if (!subchunk || !biome) continue;
-
-        // Set the biome storage of the subchunk.
-        subchunk.biomes = biome;
-      }
-
-      // Read the entities from the database.
-      const entities = this.readChunkEntities(chunk, dimension);
-
-      // Check if there are any entities in the chunk.
-      if (entities.length > 0) {
-        // Iterate through the entities and add them to the chunk.
-        for (const storage of entities) {
-          // Get the unique id of the entity.
-          const uniqueId = storage.get<LongTag>("UniqueID");
-
-          // Skip if the unique id does not exist.
-          if (!uniqueId) continue;
-
-          // Set the entity storage in the chunk.
-          chunk.setEntityStorage(BigInt(uniqueId.valueOf()), storage, false);
-        }
-      }
-
-      // Read the blocks from the chunk.
-      const blocks = this.readChunkBlocks(chunk, dimension);
-
-      // Check if there are any blocks in the chunk.
-      if (blocks.length > 0) {
-        // Iterate through the blocks and add them to the chunk.
-        for (const storage of blocks) {
-          // Set the block storage in the chunk.
-          chunk.setBlockStorage(storage.getPosition(), storage, false);
-        }
-      }
-
-      // Add the chunk to the cache.
-      chunks.set(chunk.hash, chunk);
-
-      // Return the chunk.
-      return chunk;
-    } else {
-      // Generate a new chunk if it does not exist.
-      const resultant = await dimension.generator.apply(chunk.x, chunk.z);
-
-      // Read the entities from the database.
-      const entities = this.readChunkEntities(chunk, dimension);
-
-      // Check if there are any entities in the chunk.
-      if (entities.length > 0) {
-        // Iterate through the entities and add them to the chunk.
-        for (const storage of entities) {
-          // Get the unique id of the entity.
-          const uniqueId = storage.get<LongTag>("UniqueID");
-
-          // Skip if the unique id does not exist.
-          if (!uniqueId) continue;
-
-          // Set the entity storage in the chunk.
-          chunk.setEntityStorage(BigInt(uniqueId.valueOf()), storage, false);
-        }
-      }
-
-      // Add the chunk to the cache.
-      chunks.set(chunk.hash, chunk.insert(resultant));
-
-      // Call the populate method of the dimension generator.
-      await dimension.generator.populate?.(chunk);
-
-      // Return the generated chunk.
-      return chunk;
+    // Check if the chunk is currently being loaded.
+    const loading = this.getLoadingMap(dimension);
+    if (loading.has(chunk.hash)) {
+      // Concurrent load, wait for the existing promise to resolve.
+      return loading.get(chunk.hash) as Promise<Chunk>;
     }
+
+    // Create a new promise to load the chunk.
+    const promise = (async () => {
+      try {
+        // Check if the leveldb contains the chunk.
+        if (this.hasChunk(chunk.x, chunk.z, dimension)) {
+          // TODO: Make reading chunks fully async.
+
+          // Iterate through the subchunks of the chunk.
+          for (let i = 0; i < Chunk.MAX_SUB_CHUNKS; i++) {
+            // Prepare an offset variable.
+            // This is used to adjust the index for overworld dimensions.
+            let offset = 0;
+
+            // Check if the dimension type is overworld.
+            if (chunk.type === DimensionType.Overworld) offset = 4; // Adjust index for overworld
+
+            // Calculate the subchunk Y coordinate.
+            const cy = i - offset;
+
+            // Attempt to read the subchunk from the database.
+            try {
+              // Read the subchunk from the database.
+              const subchunk = this.readSubChunk(
+                chunk.x,
+                cy,
+                chunk.z,
+                dimension
+              );
+
+              // Check if the subchunk is empty.
+              if (subchunk.isEmpty()) continue;
+
+              // Push the subchunk to the chunk.
+              chunk.subchunks[i] = subchunk;
+            } catch {
+              // We can ignore any error that occurs while reading the subchunk.
+              continue;
+            }
+          }
+
+          // Read the biomes from the chunk.
+          const biomes = this.readChunkBiomes(chunk, dimension);
+
+          // Iterate through the biomes and add them to the chunk.
+          for (let i = 0; i < biomes.length; i++) {
+            // Get the corresponding subchunk and biome.
+            const subchunk = chunk.subchunks[i];
+            const biome = biomes[i];
+
+            // Check if the subchunk and biome exist.
+            if (!subchunk || !biome) continue;
+
+            // Set the biome storage of the subchunk.
+            subchunk.biomes = biome;
+          }
+
+          // Read the entities from the database.
+          const entities = this.readChunkEntities(chunk, dimension);
+
+          // Check if there are any entities in the chunk.
+          if (entities.length > 0) {
+            // Iterate through the entities and add them to the chunk.
+            for (const storage of entities) {
+              // Get the unique id of the entity.
+              const uniqueId = storage.get<LongTag>("UniqueID");
+
+              // Skip if the unique id does not exist.
+              if (!uniqueId) continue;
+
+              // Set the entity storage in the chunk.
+              chunk.setEntityStorage(
+                BigInt(uniqueId.valueOf()),
+                storage,
+                false
+              );
+            }
+          }
+
+          // Read the blocks from the chunk.
+          const blocks = this.readChunkBlocks(chunk, dimension);
+
+          // Check if there are any blocks in the chunk.
+          if (blocks.length > 0) {
+            // Iterate through the blocks and add them to the chunk.
+            for (const storage of blocks) {
+              // Set the block storage in the chunk.
+              chunk.setBlockStorage(storage.getPosition(), storage, false);
+            }
+          }
+
+          // Add a small delay to simulate async loading.
+          // TODO: Once leveldb supports async, remove this.
+          await new Promise((resolve) => setImmediate(resolve));
+
+          // Add the chunk to the cache.
+          chunks.set(chunk.hash, chunk);
+
+          // Return the chunk.
+          return chunk;
+        } else {
+          // Generate a new chunk if it does not exist.
+          const resultant = await dimension.generator.apply(chunk.x, chunk.z);
+
+          // Read the entities from the database.
+          const entities = this.readChunkEntities(chunk, dimension);
+
+          // Check if there are any entities in the chunk.
+          if (entities.length > 0) {
+            // Iterate through the entities and add them to the chunk.
+            for (const storage of entities) {
+              // Get the unique id of the entity.
+              const uniqueId = storage.get<LongTag>("UniqueID");
+
+              // Skip if the unique id does not exist.
+              if (!uniqueId) continue;
+
+              // Set the entity storage in the chunk.
+              chunk.setEntityStorage(
+                BigInt(uniqueId.valueOf()),
+                storage,
+                false
+              );
+            }
+          }
+
+          // Add the chunk to the cache.
+          chunks.set(chunk.hash, chunk.insert(resultant));
+
+          // Call the populate method of the dimension generator.
+          await dimension.generator.populate?.(chunk);
+
+          // Return the generated chunk.
+          return chunk;
+        }
+      } finally {
+        // Remove the loading promise from the map.
+        loading.delete(chunk.hash);
+      }
+    })();
+
+    // Store the loading promise.
+    loading.set(chunk.hash, promise);
+
+    // Return the chunk loading promise.
+    return promise;
   }
 
   public async writeChunk(chunk: Chunk, dimension: Dimension): Promise<void> {
