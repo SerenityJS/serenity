@@ -14,7 +14,8 @@ import {
   StartGamePacket,
   PermissionLevel,
   SyncActorPropertyPacket,
-  PackType
+  PackType,
+  VoxelShapesPacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { CompoundTag, ListTag } from "@serenityjs/nbt";
@@ -275,8 +276,15 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;
 
+        // Not really sure what this is for, but its now required
+        const voxels = new VoxelShapesPacket();
+        voxels.shapes = [];
+        voxels.hashString = "";
+        voxels.registryHandle = 0;
+
         // Send the packets to the player
         player.sendImmediate(
+          voxels,
           packet,
           status,
           actors,

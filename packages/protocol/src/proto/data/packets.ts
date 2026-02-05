@@ -180,6 +180,7 @@ import { GameTestResponsePacket } from "./game-test-response";
 import { AgentAnimationPacket } from "./agent-animation";
 import { PlayerToggleCrafterRequestPacket } from "./player-toggle-crafter-request";
 import { CodeBuilderSourcePacket } from "./code-builder-source";
+import { VoxelShapesPacket } from "./voxel-shapes-packet";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -358,7 +359,8 @@ const Packets = {
   [Packet.MovementEffect]: MovementEffectPacket, // 318
   [Packet.PlayerUpdateEntityOverrides]: PlayerUpdateEntityOverridesPacket, // 325
   [Packet.ServerScriptDebugDrawer]: ServerScriptDebugDrawerPacket, // 328
-  [Packet.GraphicsOverrideParameter]: GraphicsOverrideParameterPacket // 329
+  [Packet.GraphicsOverrideParameter]: GraphicsOverrideParameterPacket, // 329
+  [Packet.VoxelShapesPacket]: VoxelShapesPacket // 337
 };
 
 export { Packets };

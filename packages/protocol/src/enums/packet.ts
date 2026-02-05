@@ -179,7 +179,8 @@ enum Packet {
   MovementEffect = 0x1_3e, // 318
   PlayerUpdateEntityOverrides = 0x1_45, // 325
   ServerScriptDebugDrawer = 0x1_48, // 328
-  GraphicsOverrideParameter = 0x1_4b // 331
+  GraphicsOverrideParameter = 0x1_4b, // 331
+  VoxelShapesPacket = 337
 }
 
 export { Packet };
