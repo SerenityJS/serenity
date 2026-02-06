@@ -179,7 +179,9 @@ enum Packet {
   MovementEffect = 0x1_3e, // 318
   PlayerUpdateEntityOverrides = 0x1_45, // 325
   ServerScriptDebugDrawer = 0x1_48, // 328
+  ClientboundDataStore = 0x1_4a, // 330
   GraphicsOverrideParameter = 0x1_4b, // 331
+  ClientboundDataDrivenUIShowScreenPacket = 0x1_4d, // 333
   VoxelShapesPacket = 337
 }
 

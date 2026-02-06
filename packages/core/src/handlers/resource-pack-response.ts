@@ -279,8 +279,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         // Not really sure what this is for, but its now required
         const voxels = new VoxelShapesPacket();
         voxels.shapes = [];
-        voxels.hashString = "";
-        voxels.registryHandle = 0;
+        voxels.names = [];
 
         // Send the packets to the player
         player.sendImmediate(
