@@ -82,12 +82,12 @@ class TargetEnum extends ValidEnum {
       const queries =
         query.length > 0
           ? query
-            .slice(1, -1)
-            .split(",")
-            .flatMap((data) => {
-              const [key, value] = data.split("=");
-              return { key, value };
-            })
+              .slice(1, -1)
+              .split(",")
+              .flatMap((data) => {
+                const [key, value] = data.split("=");
+                return { key, value };
+              })
           : [];
 
       // Check if the symbol is a valid query.
@@ -148,14 +148,16 @@ class TargetEnum extends ValidEnum {
         // Get all entities.
         case "e": {
           //Finds the count query
-          const allEntities = origin.getEntities()
+          const allEntities = origin.getEntities();
           if (queries.length === 0) {
             return new TargetEnum(allEntities);
           }
 
           const countQuery = queries.find((entry) => entry.key == "c")?.value;
           //Get the count limit from the query
-          const limit = Number.isFinite(Number(countQuery)) ? Number(countQuery) : allEntities.length;
+          const limit = Number.isFinite(Number(countQuery))
+            ? Number(countQuery)
+            : allEntities.length;
 
           // Filter entities by query.
           const entities = allEntities
@@ -240,7 +242,8 @@ class TargetEnum extends ValidEnum {
                   }
 
                   //Allows the "c" query
-                  case "c": break;
+                  case "c":
+                    break;
 
                   default: {
                     throw new TypeError(`Invalid query key "${key}"`);

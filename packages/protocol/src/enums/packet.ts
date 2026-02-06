@@ -182,6 +182,7 @@ enum Packet {
   ClientboundDataStore = 0x1_4a, // 330
   GraphicsOverrideParameter = 0x1_4b, // 331
   ClientboundDataDrivenUIShowScreenPacket = 0x1_4d, // 333
+  ClientboundDataDrivenUIClosePacket = 0x1_4e, // 334
   VoxelShapesPacket = 337
 }
 

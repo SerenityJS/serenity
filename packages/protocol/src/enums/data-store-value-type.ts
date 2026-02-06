@@ -1,7 +1,9 @@
 enum DataStoreValueType {
-  Double = 0,
+  None = 0,
   Boolean = 1,
-  String = 2
+  Number = 2,
+  String = 4,
+  Compound = 6
 }
 
 export { DataStoreValueType };

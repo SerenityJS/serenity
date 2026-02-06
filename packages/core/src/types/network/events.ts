@@ -442,6 +442,9 @@ interface NetworkEvents {
   [Packet.ClientboundDataDrivenUIShowScreenPacket]: [
     NetworkPacketEvent<ClientboundDataDrivenUIShowScreenPacket>
   ];
+  [Packet.ClientboundDataDrivenUIClosePacket]: [
+    NetworkPacketEvent<ClientboundDataDrivenUIShowScreenPacket>
+  ];
   [Packet.VoxelShapesPacket]: [NetworkPacketEvent<VoxelShapesPacket>];
 }
 

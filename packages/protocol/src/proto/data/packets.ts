@@ -364,6 +364,8 @@ const Packets = {
   [Packet.GraphicsOverrideParameter]: GraphicsOverrideParameterPacket, // 329
   [Packet.ClientboundDataStore]: ClientboundDataStorePacket, // 330
   [Packet.ClientboundDataDrivenUIShowScreenPacket]:
+    ClientboundDataDrivenUIShowScreenPacket, // 333,
+  [Packet.ClientboundDataDrivenUIClosePacket]:
     ClientboundDataDrivenUIShowScreenPacket, // 333
   [Packet.VoxelShapesPacket]: VoxelShapesPacket // 337
 };
