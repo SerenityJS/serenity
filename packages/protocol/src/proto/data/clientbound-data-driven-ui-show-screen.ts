@@ -14,10 +14,16 @@ class ClientboundDataDrivenUIShowScreenPacket extends DataPacket {
   public screenId!: string;
 
   /**
-   * Optional form ID to associate with the screen, used for tracking and interaction purposes.
+   * The form ID to associate with the screen, used for tracking and interaction purposes.
+   */
+  @Serialize(Uint32, { endian: Endianness.Little })
+  public formId?: number;
+
+  /**
+   * Optional data instance ID to associate with the screen.
    */
   @Serialize(Uint32, { optional: true, endian: Endianness.Little })
-  public formId?: number;
+  public dataInstanceId?: number;
 }
 
 export { ClientboundDataDrivenUIShowScreenPacket };
