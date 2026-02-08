@@ -1,4 +1,5 @@
-import { Proto } from "@serenityjs/raknet";
+import { Proto, Serialize } from "@serenityjs/raknet";
+import { VarString, Uint32, Endianness } from "@serenityjs/binarystream";
 
 import { Packet } from "../../enums";
 
@@ -9,26 +10,14 @@ class ClientboundDataDrivenUIShowScreenPacket extends DataPacket {
   /**
    * Identifier of the screen to be shown.
    */
+  @Serialize(VarString)
   public screenId!: string;
 
   /**
-   * TODO: investigate the structure of this data.
+   * Optional form ID to associate with the screen, used for tracking and interaction purposes.
    */
-  private data: Buffer = Buffer.from([0x00, 0x00, 0x00, 0x00, 0x00]);
-
-  public serialize(): Buffer {
-    this.writeVarInt(Packet.ClientboundDataDrivenUIShowScreenPacket);
-    this.writeVarString(this.screenId);
-    this.write(this.data);
-    return this.getBuffer();
-  }
-
-  public deserialize(): this {
-    this.screenId = this.readVarString();
-    const length = this.getBuffer().byteLength - this.offset;
-    this.data = this.read(length);
-    return this;
-  }
+  @Serialize(Uint32, { optional: true, endian: Endianness.Little })
+  public formId?: number;
 }
 
 export { ClientboundDataDrivenUIShowScreenPacket };
