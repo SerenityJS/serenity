@@ -11,7 +11,10 @@ class ClientboundDataDrivenUIShowScreenPacket extends DataPacket {
    */
   public screenId!: string;
 
-  public data!: Buffer;
+  /**
+   * TODO: investigate the structure of this data.
+   */
+  private data: Buffer = Buffer.from([0x00, 0x00, 0x00, 0x00, 0x00]);
 
   public serialize(): Buffer {
     this.writeVarInt(Packet.ClientboundDataDrivenUIShowScreenPacket);
