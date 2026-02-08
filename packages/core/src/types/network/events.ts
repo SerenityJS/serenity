@@ -174,7 +174,8 @@ import type {
   UpdateTradePacket,
   VoxelShapesPacket,
   ClientboundDataDrivenUIShowScreenPacket,
-  ClientboundDataStorePacket
+  ClientboundDataStorePacket,
+  ServerboundDataStorePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -436,9 +437,8 @@ interface NetworkEvents {
   [Packet.PlayerToggleCrafterRequest]: [
     NetworkPacketEvent<PlayerToggleCrafterRequestPacket>
   ];
-
   [Packet.ClientboundDataStore]: NetworkPacketEvent<ClientboundDataStorePacket>;
-
+  [Packet.ServerboundDataStore]: NetworkPacketEvent<ServerboundDataStorePacket>;
   [Packet.ClientboundDataDrivenUIShowScreenPacket]: [
     NetworkPacketEvent<ClientboundDataDrivenUIShowScreenPacket>
   ];

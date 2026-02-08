@@ -182,6 +182,7 @@ export * from "./update-subchunk-blocks";
 export * from "./update-soft-enum";
 export * from "./update-trade";
 export * from "./clientbound-data-store";
+export * from "./serverbound-data-store";
 export * from "./clientbound-data-driven-ui-show-screen";
 export * from "./clientbound-data-driven-ui-close-screen";
 export * from "./voxel-shapes-packet";

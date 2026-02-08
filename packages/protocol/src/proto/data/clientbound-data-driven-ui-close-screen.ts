@@ -1,4 +1,5 @@
-import { Proto } from "@serenityjs/raknet";
+import { Proto, Serialize } from "@serenityjs/raknet";
+import { VarInt } from "@serenityjs/binarystream";
 
 import { Packet } from "../../enums";
 
@@ -7,19 +8,10 @@ import { DataPacket } from "./data-packet";
 @Proto(Packet.ClientboundDataDrivenUIClosePacket)
 class ClientboundDataDrivenUIClosePacket extends DataPacket {
   /**
-   * Identifier of the screen to be shown.
+   * TODO: investigate what this field represents
    */
-  public screenId!: string;
-
-  public serialize(): Buffer {
-    this.writeVarInt(Packet.ClientboundDataDrivenUIClosePacket);
-    return this.getBuffer();
-  }
-
-  public deserialize(): this {
-    this.screenId = this.readVarString();
-    return this;
-  }
+  @Serialize(VarInt)
+  private data: number = 0;
 }
 
 export { ClientboundDataDrivenUIClosePacket };

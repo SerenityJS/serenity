@@ -181,6 +181,7 @@ enum Packet {
   ServerScriptDebugDrawer = 0x1_48, // 328
   ClientboundDataStore = 0x1_4a, // 330
   GraphicsOverrideParameter = 0x1_4b, // 331
+  ServerboundDataStore = 0x1_4c, // 332
   ClientboundDataDrivenUIShowScreenPacket = 0x1_4d, // 333
   ClientboundDataDrivenUIClosePacket = 0x1_4e, // 334
   VoxelShapesPacket = 337
