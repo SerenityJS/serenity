@@ -98,6 +98,8 @@ export enum EntityIdentifier {
   Fireball = "minecraft:fireball",
   ChestBoat = "minecraft:chest_boat",
   Boat = "minecraft:boat",
+  PaleOakBoat = "minecraft:pale_oak_boat",
+  PaleOakChestBoat = "minecraft:pale_oak_chest_boat",
   ShulkerBullet = "minecraft:shulker_bullet",
   XpBottle = "minecraft:xp_bottle",
   Tnt = "minecraft:tnt",

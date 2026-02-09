@@ -285,11 +285,6 @@ class InventoryTransactionHandler extends NetworkHandler {
 
             return;
           }
-          // Check if the player is in survival mode
-          // If so, decrement the stack
-          else if (player.getGamemode() === Gamemode.Survival)
-            stack.decrementStack();
-
           // Check if the block type exists and is not air
           if (useOptions.placingBlock.identifier === BlockIdentifier.Air)
             return; // If so, we skip the block placement
@@ -368,7 +363,14 @@ class InventoryTransactionHandler extends NetworkHandler {
             if (stack.container) stack.container.updateSlot(stack.getSlot());
 
             return;
-          } else return resultant.dimension.broadcast(sound); // If not, broadcast the sound
+          } else {
+            // Decrement the stack if the player is in survival mode
+            // This is done AFTER th e onPlace check to avoid losing items on canceled placements
+            if (player.getGamemode() === Gamemode.Survival)
+              stack.decrementStack();
+
+            return resultant.dimension.broadcast(sound);
+          }
         }
       }
 
