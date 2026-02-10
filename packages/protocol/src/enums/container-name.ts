@@ -62,7 +62,10 @@ enum ContainerName {
   CreativeOutput,
   SmithingTableTemplate,
   Crafter,
-  Dynamic
+  Dynamic,
+  RecipeFoodContainer,
+  RecipeBlocksContainer,
+  RecipeFurnaceItmesContainer
 }
 
 export { ContainerName };

@@ -4,7 +4,6 @@ import {
   Float32,
   Int16,
   Int32,
-  Int64,
   Uint64,
   Uint8,
   VarInt,
@@ -28,7 +27,8 @@ import {
   BlockPosition,
   GameRules,
   Experiments,
-  NetworkBlockTypeDefinition
+  NetworkBlockTypeDefinition,
+  ServerTelemetryData
 } from "../types";
 
 import { DataPacket } from "./data-packet";
@@ -73,7 +73,7 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public experimentsPreviouslyToggled!: boolean;
   @Serialize(Bool) public bonusChest!: boolean;
   @Serialize(Bool) public mapEnabled!: boolean;
-  @Serialize(Uint8) public permissionLevel!: PermissionLevel;
+  @Serialize(ZigZag) public permissionLevel!: PermissionLevel;
   @Serialize(Int32, { endian: Endianness.Little })
   public serverChunkTickRange!: number;
   @Serialize(Bool) public hasLockedBehaviorPack!: boolean;
@@ -97,17 +97,13 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public experimentalGameplayOverride!: boolean;
   @Serialize(Uint8) public chatRestrictionLevel!: number;
   @Serialize(Bool) public disablePlayerInteractions!: boolean;
-  @Serialize(VarString) public serverIdentfier!: string;
-  @Serialize(VarString) public worldIdentifier!: string;
-  @Serialize(VarString) public scenarioIdentifier!: string;
-  @Serialize(VarString) public ownerIdentifier!: string;
-  @Serialize(VarString) public levelId!: string;
-  @Serialize(VarString) public worldName!: string;
+  @Serialize(VarString) public levelIdentfier!: string;
+  @Serialize(VarString) public levelName!: string;
   @Serialize(VarString) public premiumWorldTemplateId!: string;
   @Serialize(Bool) public isTrial!: boolean;
   @Serialize(ZigZag) public rewindHistorySize!: number;
   @Serialize(Bool) public serverAuthoritativeBlockBreaking!: boolean;
-  @Serialize(Int64, { endian: Endianness.Little }) public currentTick!: bigint;
+  @Serialize(Uint64, { endian: Endianness.Little }) public currentTick!: bigint;
   @Serialize(ZigZag) public enchantmentSeed!: number;
 
   /**
@@ -126,6 +122,10 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public clientSideGeneration!: boolean;
   @Serialize(Bool) public blockNetworkIdsAreHashes!: boolean;
   @Serialize(Bool) public serverControlledSounds!: boolean;
+  @Serialize(Bool, { optional: true }) public containsServerJoinInfo!: boolean;
+
+  @Serialize(ServerTelemetryData)
+  public serverTelemetryData!: ServerTelemetryData;
 }
 
 export { StartGamePacket };

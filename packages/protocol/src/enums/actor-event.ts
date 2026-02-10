@@ -57,7 +57,8 @@ enum ActorEvent {
   ActorGrowUp = 76,
   VibrationDetected = 77,
   DrinkMilk = 78,
-  ShakeWetnessStop = 79
+  ShakeWetnessStop = 79,
+  KineticDamageDealt = 80
 }
 
 export { ActorEvent };

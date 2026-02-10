@@ -135,6 +135,9 @@ enum ActorDataId {
   EnterBedPositon = 133,
   SeatThirdPersonCameraRadius = 134,
   SeatCameraRelaxDistanceSmoothing = 135,
+  AimAssistPriorityPresetId = 136,
+  AimAssistPriorityCategoryId = 137,
+  AimAssistPriorityActorId = 138,
   Count
 }
 

@@ -157,3 +157,6 @@ export * from "./uuid";
 export * from "./vector2f";
 export * from "./vector3f";
 export * from "./vector3i";
+export * from "./server-telemetry-data";
+export * from "./serializable-cells";
+export * from "./serializable-voxel-shape";
