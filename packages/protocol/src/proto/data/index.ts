@@ -181,3 +181,4 @@ export * from "./update-player-game-type";
 export * from "./update-subchunk-blocks";
 export * from "./update-soft-enum";
 export * from "./update-trade";
+export * from "./voxel-shapes-packet";

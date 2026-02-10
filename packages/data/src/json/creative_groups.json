@@ -125,11 +125,6 @@
     "icon": "minecraft:air"
   },
   {
-    "category": 1,
-    "name": "itemGroup.name.element",
-    "icon": "minecraft:element_1"
-  },
-  {
     "category": 2,
     "name": "",
     "icon": "minecraft:air"
@@ -618,20 +613,5 @@
     "category": 4,
     "name": "",
     "icon": "minecraft:air"
-  },
-  {
-    "category": 4,
-    "name": "itemGroup.name.chemistrytable",
-    "icon": "minecraft:lab_table"
-  },
-  {
-    "category": 4,
-    "name": "itemGroup.name.compounds",
-    "icon": "minecraft:compound"
-  },
-  {
-    "category": 4,
-    "name": "itemGroup.name.products",
-    "icon": "minecraft:balloon"
   }
 ]

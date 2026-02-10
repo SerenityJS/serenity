@@ -40,6 +40,7 @@ enum Enchantment {
   WindBurst = 38,
   Density = 39,
   Breach = 40,
+  Lunge = 41,
   NumEnchantments,
   InvalidEnchantment
 }
