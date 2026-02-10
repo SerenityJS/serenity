@@ -475,17 +475,17 @@ class Pipeline {
   /**
    * Starts the plugins pipeline.
    */
-  public start(): void {
+  public async start(): Promise<void> {
     // Start up all the plugins
-    for (const plugin of this.plugins.values()) plugin.onStartUp(plugin);
+    for (const plugin of this.plugins.values()) await plugin.onStartUp(plugin);
   }
 
   /**
    * Stops the plugins pipeline.
    */
-  public stop(): void {
+  public async stop(): Promise<void> {
     // Shut down all the plugins
-    for (const plugin of this.plugins.values()) plugin.onShutDown(plugin);
+    for (const plugin of this.plugins.values()) await plugin.onShutDown(plugin);
   }
 
   /**
@@ -564,9 +564,9 @@ class Pipeline {
     return null;
   }
 
-  public reload(plugin: Plugin): void {
+  public async reload(plugin: Plugin): Promise<void> {
     // Shut down the plugin
-    plugin.onShutDown(plugin);
+    await plugin.onShutDown(plugin);
 
     // Remove the plugin from the plugins map
     this.plugins.delete(plugin.identifier);
@@ -615,7 +615,7 @@ class Pipeline {
           this.bindEvents(newPlugin);
 
           // Start up the plugin
-          newPlugin.onStartUp(newPlugin);
+          await newPlugin.onStartUp(newPlugin);
 
           // Break out of the switch statement
           break;
@@ -639,7 +639,7 @@ class Pipeline {
           this.bindEvents(newPlugin);
 
           // Start up the plugin
-          newPlugin.onStartUp(newPlugin);
+          await newPlugin.onStartUp(newPlugin);
 
           // Read the amount of resources from the stream
           const resources = stream.readVarInt();

@@ -4,8 +4,8 @@ import { Plugin } from "../plugin";
 
 interface PluginOnEvents {
   onInitialize?: (plugin: Plugin) => void;
-  onStartUp?: (plugin: Plugin) => void;
-  onShutDown?: (plugin: Plugin) => void;
+  onStartUp?: (plugin: Plugin) => Promise<void>;
+  onShutDown?: (plugin: Plugin) => Promise<void>;
   onWorldInitialize?: (event: Core.WorldInitializeSignal) => void;
   onWorldTick?: (event: Core.WorldTickSignal) => void;
   onChunkReady?: (event: Core.ChunkReadySignal) => void;
