@@ -166,3 +166,7 @@ export * from "./data-store-change-info";
 export * from "./data-store-removal";
 export * from "./data-store-change";
 export * from "./data-store-update";
+export * from "./server-join-info";
+export * from "./gathering-join-info";
+export * from "./presence-info";
+export * from "./store-entry-point-info";

@@ -28,7 +28,8 @@ import {
   GameRules,
   Experiments,
   NetworkBlockTypeDefinition,
-  ServerTelemetryData
+  ServerTelemetryData,
+  ServerJoinInfo
 } from "../types";
 
 import { DataPacket } from "./data-packet";
@@ -122,7 +123,9 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public clientSideGeneration!: boolean;
   @Serialize(Bool) public blockNetworkIdsAreHashes!: boolean;
   @Serialize(Bool) public serverControlledSounds!: boolean;
-  @Serialize(Bool, { optional: true }) public containsServerJoinInfo!: boolean;
+
+  @Serialize(ServerJoinInfo, { optional: true })
+  public containsServerJoinInfo!: ServerJoinInfo;
 
   @Serialize(ServerTelemetryData)
   public serverTelemetryData!: ServerTelemetryData;
