@@ -232,7 +232,11 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.clientSideGeneration = false;
         packet.blockNetworkIdsAreHashes = true;
         packet.serverControlledSounds = true;
-        packet.containsServerJoinInfo = false;
+        packet.containsServerJoinInfo = {
+          gatheringJoinInfo: null,
+          presenceInfo: null,
+          storeEntryPointInfo: null
+        };
         packet.serverTelemetryData = {
           serverId: "SerenityJS",
           scenarioId:

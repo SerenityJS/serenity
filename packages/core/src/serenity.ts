@@ -389,6 +389,9 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
     // Disconnect all players
     for (const player of this.players.values()) {
+      // Close all screens that the player has open
+      for (const screen of player.screens.values()) screen.close(player);
+
       // Get the default world from the serenity instance
       const world = this.getWorld(); // Default world
 
