@@ -6,7 +6,9 @@ import {
   CloseButtonElement,
   CloseButtonOptions,
   TextFieldElement,
-  TextFieldOptions
+  TextFieldOptions,
+  ToggleElement,
+  ToggleElementOptions
 } from "./elements";
 import { Observable } from "./observable";
 import { ObjectProperty, StringProperty } from "./properties";
@@ -110,6 +112,13 @@ class CustomForm extends DataDrivenScreen {
     return this;
   }
 
+  /**
+   * Add a text field to the custom form with the given label, text observable, and options.
+   * @param label The label to be displayed on the text field.
+   * @param text The observable that holds the value of the text field.
+   * @param options The options for configuring the text field.
+   * @returns The current instance of the CustomForm class to allow for method chaining.
+   */
   public textField(
     label: string | Observable<string>,
     text: Observable<string>,
@@ -120,6 +129,28 @@ class CustomForm extends DataDrivenScreen {
 
     // Add the text field element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
     this.layout.setProperty(textField as ObjectProperty);
+
+    // Return the current instance of the CustomForm class to allow for method chaining.
+    return this;
+  }
+
+  /**
+   * Add a toggle element to the custom form with the given label, toggled state, and options.
+   * @param label The label to be displayed on the toggle element.
+   * @param toggled The observable that holds the toggled state of the toggle element.
+   * @param options The options for configuring the toggle element.
+   * @returns The current instance of the CustomForm class to allow for method chaining.
+   */
+  public toggle(
+    label: string | Observable<string>,
+    toggled: Observable<boolean>,
+    options: ToggleElementOptions = {}
+  ): this {
+    // Create a new toggle element using the CustomForm as the parent object property.
+    const toggle = new ToggleElement(label, toggled, options, this.layout);
+
+    // Add the toggle element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
+    this.layout.setProperty(toggle as ObjectProperty);
 
     // Return the current instance of the CustomForm class to allow for method chaining.
     return this;

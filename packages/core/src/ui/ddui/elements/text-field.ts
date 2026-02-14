@@ -43,7 +43,8 @@ class TextFieldElement extends Element<string> {
       .setText(text)
       .setTextFieldVisible(options.visible ?? true)
       .setVisibility(options.visible ?? true)
-      .setDisabled(options.disabled ?? false);
+      .setDisabled(options.disabled ?? false)
+      .setDescription(options.description ?? "");
   }
 
   /**

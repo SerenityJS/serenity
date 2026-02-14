@@ -3,7 +3,7 @@ import { DataStorePropertyValueType } from "@serenityjs/protocol";
 import { DataDrivenProperty } from "./property";
 import { ObjectProperty } from "./object";
 
-class BooleanProperty extends DataDrivenProperty<boolean> {
+class BooleanProperty extends DataDrivenProperty<boolean, boolean> {
   /**
    * The type of the property, used for serialization and deserialization purposes.
    */
