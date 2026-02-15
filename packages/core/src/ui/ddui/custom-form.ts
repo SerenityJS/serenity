@@ -5,6 +5,8 @@ import {
   ButtonOptions,
   CloseButtonElement,
   CloseButtonOptions,
+  SliderElement,
+  SliderElementOptions,
   TextFieldElement,
   TextFieldOptions,
   ToggleElement,
@@ -151,6 +153,39 @@ class CustomForm extends DataDrivenScreen {
 
     // Add the toggle element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
     this.layout.setProperty(toggle as ObjectProperty);
+
+    // Return the current instance of the CustomForm class to allow for method chaining.
+    return this;
+  }
+
+  /**
+   * Add a slider element to the custom form with the given label, value observable, minimum value, maximum value, and options.
+   * @param label The label to be displayed on the slider element, which is a string value that represents the text shown on the slider, allowing users to understand its purpose and function within the user interface of the custom form.
+   * @param value The observable that holds the value of the slider element, which is a number that represents the current position of the slider within its defined range. The value can be updated dynamically based on user interactions with the slider, allowing for real-time feedback and adjustments to other elements or data in the form based on the selected slider value. The observable nature of the value allows for seamless integration with other reactive components in the form, enabling dynamic and interactive user interfaces.
+   * @param minValue The minimum value of the slider element, which is a number that represents the lower limit of the slider's range. The minimum value determines the lowest value that the slider can be set to when users interact with it in the user interface of the custom form. It is typically used in conjunction with the maximum value to define the range of values that the slider can represent, allowing users to select a specific value within that range by moving the slider handle. The minimum value can be updated dynamically based on specific conditions or user interactions, providing flexibility in how the slider behaves and interacts with other elements or data in the form.
+   * @param maxValue The maximum value of the slider element, which is a number that represents the upper limit of the slider's range. The maximum value determines the highest value that the slider can be set to when users interact with it in the user interface of the custom form. It is typically used in conjunction with the minimum value to define the range of values that the slider can represent, allowing users to select a specific value within that range by moving the slider handle. The maximum value can be updated dynamically based on specific conditions or user interactions, providing flexibility in how the slider behaves and interacts with other elements or data in the form.
+   * @param options The options for configuring the slider element, including the description of the slider element, whether the slider is disabled or not, whether the slider is visible or hidden in the user interface, and the amount by which the slider value changes when the user interacts with it.
+   * @returns The current instance of the CustomForm class to allow for method chaining.
+   */
+  public slider(
+    label: string | Observable<string>,
+    value: Observable<number>,
+    minValue: number,
+    maxValue: number,
+    options: SliderElementOptions = {}
+  ): this {
+    // Create a new slider element using the CustomForm as the parent object property.
+    const slider = new SliderElement(
+      label,
+      value,
+      minValue,
+      maxValue,
+      options,
+      this.layout
+    );
+
+    // Add the slider element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
+    this.layout.setProperty(slider as ObjectProperty);
 
     // Return the current instance of the CustomForm class to allow for method chaining.
     return this;

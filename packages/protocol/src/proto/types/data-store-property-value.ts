@@ -116,12 +116,12 @@ class DataStorePropertyValue extends DataType {
       }
 
       case DataStorePropertyValueType.Int64: {
-        stream.writeInt64(value.value as bigint, Endianness.Little);
+        stream.writeInt64(BigInt(value.value as bigint), Endianness.Little);
         break;
       }
 
       case DataStorePropertyValueType.String: {
-        stream.writeVarString(value.value as string);
+        stream.writeVarString(String(value.value as string));
         break;
       }
 
