@@ -280,14 +280,14 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         const status = new PlayStatusPacket();
         status.status = PlayStatus.PlayerSpawn;
 
-        // Not really sure what this is for, but its now required
+        // Not really sure what this is for, but its now required (1.26.10+)
         const voxels = new VoxelShapesPacket();
         voxels.shapes = [];
         voxels.names = [];
 
         // Send the packets to the player
         player.sendImmediate(
-          voxels,
+          // voxels,
           packet,
           status,
           actors,

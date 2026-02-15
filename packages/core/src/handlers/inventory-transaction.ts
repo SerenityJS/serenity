@@ -275,19 +275,16 @@ class InventoryTransactionHandler extends NetworkHandler {
           // Call the useOnBlock method for the item stack
           const useSuccess = stack.useOnBlock(player, useOptions);
 
-          // If the item use was canceled, increment the stack
+          // If the item use was canceled, revert the block and resync the inventory
           if (!useSuccess || useOptions.canceled || !useOptions.placingBlock) {
-            // Set the previous permutation of the resultant block
+            // Set the previous permutation of the resultant block§+_
             resultant.setPermutation(previousPermutation);
 
-            // Increment the stack count
-            return stack.incrementStack();
-          }
-          // Check if the player is in survival mode
-          // If so, decrement the stack
-          else if (player.getGamemode() === Gamemode.Survival)
-            stack.decrementStack();
+            // Resync the inventory slot to the client to correct the predicted stack count
+            if (stack.container) stack.container.updateSlot(stack.getSlot());
 
+            return;
+          }
           // Check if the block type exists and is not air
           if (useOptions.placingBlock.identifier === BlockIdentifier.Air)
             return; // If so, we skip the block placement
@@ -359,12 +356,21 @@ class InventoryTransactionHandler extends NetworkHandler {
 
           // Check if the block placement was canceled, revert the block
           if (options.cancel) {
-            // Increment the item stack
-            stack.incrementStack();
-
             // Revert the block to its previous state
-            return resultant.setPermutation(previousPermutation);
-          } else return resultant.dimension.broadcast(sound); // If not, broadcast the sound
+            resultant.setPermutation(previousPermutation);
+
+            // Resync the inventory slot to the client to correct the predicted stack count
+            if (stack.container) stack.container.updateSlot(stack.getSlot());
+
+            return;
+          } else {
+            // Decrement the stack if the player is in survival mode
+            // This is done AFTER th e onPlace check to avoid losing items on canceled placements
+            if (player.getGamemode() === Gamemode.Survival)
+              stack.decrementStack();
+
+            return resultant.dimension.broadcast(sound);
+          }
         }
       }
 

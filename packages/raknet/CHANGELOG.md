@@ -1,5 +1,16 @@
 # @serenityjs/raknet
 
+## 0.8.18
+
+### Patch Changes
+
+- [#254](https://github.com/SerenityJS/serenity/pull/254) [`1d42bb8`](https://github.com/SerenityJS/serenity/commit/1d42bb8816a1bbe7dc39c9bdb2798af83cbfd88b) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.18-beta
+
+- Updated dependencies [[`1d42bb8`](https://github.com/SerenityJS/serenity/commit/1d42bb8816a1bbe7dc39c9bdb2798af83cbfd88b)]:
+  - @serenityjs/emitter@0.8.18
+  - @serenityjs/logger@0.8.18
+  - @serenityjs/nbt@0.8.18
+
 ## 0.8.17
 
 ### Patch Changes
