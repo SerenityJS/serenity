@@ -22,7 +22,6 @@ import {
   Entity,
   EntityCollisionTrait,
   EntityGravityTrait,
-  EntityInventoryTrait,
   EntityItemStackTrait,
   EntityMovementTrait,
   EntityPhysicsTrait,
@@ -287,38 +286,6 @@ class Dimension {
             // Remove the trait from the entity
             entity.traits.delete(identifier);
           }
-
-        // Check if the entity has a inventory trait
-        if (entity.hasTrait(EntityInventoryTrait)) {
-          // Get the inventory trait from the entity
-          const { container } = entity.getTrait(EntityInventoryTrait);
-
-          // Iterate over all the items in the inventory
-          for (const item of container.storage) {
-            // Check if the item is null
-            if (!item) continue;
-
-            // Iterate over all the traits in the item
-            for (const trait of item.getAllTraits())
-              try {
-                // Tick the item trait
-                trait.onTick?.({ currentTick, deltaTick });
-
-                // Check if the trait should be randomly ticked
-                if (trait.shouldRandomTick(randomTickSpeed))
-                  trait.onRandomTick?.();
-              } catch (reason) {
-                // Log the error to the console
-                this.world.logger.error(
-                  `Failed to tick item trait "${trait.identifier}" for item "${item.type.identifier}" in dimension "${this.identifier}"`,
-                  reason
-                );
-
-                // Remove the trait from the item
-                item.removeTrait(trait.identifier);
-              }
-          }
-        }
       } else if (entity.isTicking) {
         // If the entity is not in simulation range, stop ticking it
         entity.isTicking = false;
