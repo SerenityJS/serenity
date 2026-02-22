@@ -19,6 +19,7 @@ const register = (world: World) => {
       registry.overload(
         {
           entity: EntityEnum,
+          facing: [TargetEnum, true],
           nameTag: [StringEnum, true],
           alwaysVisible: [BooleanEnum, true]
         },
@@ -53,7 +54,30 @@ const register = (world: World) => {
           }
 
           // Spawn the entity
-          entity.spawn();
+          const spawnedEntity = entity.spawn();
+
+          // Wait 2 seconds before setting the rotation to allow the entity to spawn
+          setTimeout(() => {
+            if (context.facing.result) {
+              // Get the target entity
+              const entities = context.facing.result as Array<Entity>;
+
+              // Check if there are any targets
+              if (entities.length === 0)
+                throw new Error("No targets matched the selector.");
+
+              // Get the first target
+              const target = entities[0];
+
+              if (!target) throw new Error("No targets matched the selector.");
+
+              // Get the movement trait
+              const movementTrait = spawnedEntity.getTrait(EntityMovementTrait);
+
+              // Set the rotation to look at the target
+              movementTrait.lookAt(target.position);
+            }
+          }, 2000);
 
           // Send the success message
           return {
@@ -124,6 +148,10 @@ const register = (world: World) => {
               movementTrait.lookAt(target.position);
             }
           }, 2000);
+
+          return {
+            message: `Successfully summoned entity at ${x}, ${y}, ${z}!`
+          };
         }
       );
     },
