@@ -1,27 +1,16 @@
-import { SoftEnum } from "./soft";
-
 import type { CommandArgumentPointer } from "../../execution-state";
+import { Enum } from "../enum";
 
-class CustomEnum extends SoftEnum {
+class CustomEnum extends Enum {
   /**
    * The type of the enum.
    */
   public static readonly identifier: string;
 
   /**
-   * The symbol of the enum.
-   */
-  public static readonly symbol = (this.type << 16) | 0x38;
-
-  /**
    * The options of the enum.
    */
   public static readonly options: Array<string> = [];
-
-  /**
-   * Whether the enum is strict to its options.
-   */
-  public static readonly strict: boolean = true;
 
   /**
    * The result of the enum.
