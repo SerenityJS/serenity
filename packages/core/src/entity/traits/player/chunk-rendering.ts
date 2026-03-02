@@ -76,9 +76,10 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     // Capture the current generation
     const gen = this.sendGeneration;
 
-    // Calculate the amount and batches
+    // Calculate the amount and batches - increased batch size for faster sending
     const amount = chunks.length;
-    const batches = Math.ceil(amount / this.viewDistance);
+    const batchSize = Math.max(this.viewDistance * 2, 40); // Double the batch size
+    const batches = Math.ceil(amount / batchSize);
 
     // Iterate over each batch
     for (let index = 0; index < batches; index++) {
@@ -89,8 +90,8 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       if (!this.entity.isAlive || dimension !== this.dimension) return;
 
       // Calculate the start and end indices for the batch
-      const start = index * this.viewDistance;
-      const end = Math.min(start + this.viewDistance, amount);
+      const start = index * batchSize;
+      const end = Math.min(start + batchSize, amount);
       const packets: Array<DataPacket> = [];
       const batch = chunks.slice(start, end);
 
@@ -161,10 +162,13 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       // Send all packets to the player
       this.player.send(...packets, update);
 
-      // Await the next tick before sending the next batch
-      await new Promise((resolve) =>
-        this.dimension.schedule(1, resolve as () => void)
-      );
+      // Only wait between batches if there are more batches to send
+      // This reduces unnecessary delays
+      if (index < batches - 1) {
+        await new Promise((resolve) =>
+          this.dimension.schedule(1, resolve as () => void)
+        );
+      }
 
       // Final cancel check after sending
       if (gen !== this.sendGeneration) return;
@@ -216,6 +220,9 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
     const d = Math.floor(distance ?? this.viewDistance);
     const offsets = this.getRadialOffsets(d);
 
+    // Collect all chunk requests first, then load in parallel
+    const chunkRequests: Array<{ x: number; z: number; hash: bigint }> = [];
+
     // Iterate over all chunks within the specified distance
     for (let i = 0; i < offsets.length; i += 2) {
       // Check if the generation has changed
@@ -229,13 +236,21 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
       // Already tracked or already queued to send
       if (this.chunks.has(hash) || this.pending.has(hash)) continue;
 
-      // Fetch the chunk asynchronously
-      const chunk = await this.player.dimension.getChunkAsync(x, z);
+      // Mark as pending immediately
+      this.pending.add(hash);
+      chunkRequests.push({ x, z, hash });
+    }
 
-      // Mark as pending so we don't re-queue it next tick
-      this.pending.add(chunk.hash);
+    // Load all chunks in parallel for much faster loading
+    const chunkPromises = chunkRequests.map(({ x, z }) =>
+      this.player.dimension.getChunkAsync(x, z)
+    );
 
-      // Add the chunk to the output array
+    const loadedChunks = await Promise.all(chunkPromises);
+
+    // Add all loaded chunks to the output array
+    for (const chunk of loadedChunks) {
+      if (gen !== this.sendGeneration) return;
       out.push(chunk);
     }
   }

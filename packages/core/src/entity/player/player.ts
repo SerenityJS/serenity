@@ -41,7 +41,7 @@ import {
   RawMessage,
   RawText
 } from "../../types";
-import { Dimension } from "../../world";
+import { Dimension, Chunk } from "../../world";
 import { EntityIdentifier } from "../../enums";
 import { Container } from "../../container";
 import {
@@ -697,6 +697,9 @@ class Player extends Entity {
     // Check if the dimension is the same as the current dimension
     if (this.dimension === dimension) return;
 
+    // Preload chunks in the target dimension before switching
+    void this.preloadChunksForDimension(dimension);
+
     // Despawn the player from the current dimension
     this.despawn({ changedDimensions: true });
 
@@ -737,6 +740,37 @@ class Player extends Entity {
       // Spawn the player in the new dimension
       this.spawn({ changedDimensions: false, initialSpawn: false });
     }
+  }
+
+  /**
+   * Preloads chunks in the target dimension before switching.
+   * This significantly reduces the initial loading time when changing dimensions.
+   * @param dimension The dimension to preload chunks for.
+   */
+  private async preloadChunksForDimension(dimension: Dimension): Promise<void> {
+    // Calculate the player's chunk position in the target dimension
+    const cx = this.position.x >> 4;
+    const cz = this.position.z >> 4;
+
+    // Get the chunk rendering trait to determine view distance
+    const trait = this.getTrait(PlayerChunkRenderingTrait);
+    const viewDistance = trait?.viewDistance ?? dimension.viewDistance;
+
+    // Preload chunks in a spiral pattern around the spawn point
+    const promises: Array<Promise<Chunk>> = [];
+    const maxPreload = Math.min(viewDistance, 8); // Limit preload to avoid blocking too long
+
+    for (let dx = -maxPreload; dx <= maxPreload; dx++) {
+      for (let dz = -maxPreload; dz <= maxPreload; dz++) {
+        const dist = Math.sqrt(dx * dx + dz * dz);
+        if (dist <= maxPreload) {
+          promises.push(dimension.getChunkAsync(cx + dx, cz + dz));
+        }
+      }
+    }
+
+    // Load all chunks in parallel
+    await Promise.all(promises);
   }
 
   /**

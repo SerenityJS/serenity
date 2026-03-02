@@ -505,20 +505,8 @@ class Dimension {
     // NOTE: Must add before fetching data to prevent re-entrancy issues
     this.hydratedChunks.add(hash);
 
-    // Iterate through all the block storages in the chunk
-    const blockStorages = chunk.getAllBlockStorages();
-    for (const storage of blockStorages) {
-      // Fetch the position of the block storage
-      const position = storage.getPosition();
-
-      // Create a new block instance using the block storage
-      const block = new Block(this, position, storage);
-
-      // Add the block to the block cache
-      this.blocks.set(BlockPosition.hash(block.position), block);
-    }
-
-    // Iterate through all the entity storages in the chunk
+    // Only hydrate entities immediately, blocks can be lazy loaded when accessed
+    // This significantly speeds up chunk loading for rendering
     const entities = chunk.getAllEntityStorages();
 
     // Iterate over all the entity storages in the chunk
@@ -533,6 +521,23 @@ class Dimension {
 
       // Spawn the entity in the dimension
       entity.spawn({ initialSpawn: false });
+    }
+
+    // Defer block hydration only hydrate blocks with storages (tile entities)
+    // Regular blocks don't need to be instantiated until accessed
+    const blockStorages = chunk.getAllBlockStorages();
+    if (blockStorages.length > 0) {
+      // Only hydrate blocks that have special data (tile entities)
+      for (const storage of blockStorages) {
+        // Fetch the position of the block storage
+        const position = storage.getPosition();
+
+        // Create a new block instance using the block storage
+        const block = new Block(this, position, storage);
+
+        // Add the block to the block cache
+        this.blocks.set(BlockPosition.hash(block.position), block);
+      }
     }
   }
 
@@ -982,8 +987,8 @@ class Dimension {
 
     const filteredEntities = options?.filterEntityId
       ? this.entities
-          .values()
-          .filter((entity) => entity.identifier === options?.filterEntityId)
+        .values()
+        .filter((entity) => entity.identifier === options?.filterEntityId)
       : this.entities.values();
 
     // Filter the entities based on the options
