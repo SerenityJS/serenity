@@ -1,10 +1,10 @@
 import { relative } from "path";
 
-import { World } from "@serenityjs/core";
+import { World, CommandRegistry } from "@serenityjs/core";
 
 import { Pipeline } from "../pipeline";
 
-import { PluginActionsEnum, PluginsEnum } from "./enum";
+import { PluginsEnum } from "./enum";
 
 const register = (world: World, pipeline: Pipeline) => {
   world.commandPalette.register(
@@ -14,19 +14,15 @@ const register = (world: World, pipeline: Pipeline) => {
       // Set the permissions of the command
       registry.permissions = ["serenity.operator"];
 
-      // Overload for listing the plugins
-      registry.overload(
-        {
-          action: PluginActionsEnum
-        },
-        ({ action }) => {
-          // Check if the action is list
-          if (action.result !== "list") return;
-
+      // Register the "list" subcommand
+      registry.registerSubCommand(
+        "list",
+        "List all loaded plugins",
+        () => {
           // Check if the pipeline has no plugins
           if (pipeline.plugins.size === 0)
             return {
-              message: "§cThere are current no plugins loaded on the server."
+              message: "§cThere are currently no plugins loaded on the server."
             };
 
           // Get the plugins from the pipeline
@@ -45,55 +41,90 @@ const register = (world: World, pipeline: Pipeline) => {
           return {
             message: `§7Active Plugins (${plugins.length}):§r ${message.join("§7,§r ")}`
           };
-        }
+        },
+        ["l"]
       );
 
-      registry.overload(
-        {
-          action: PluginActionsEnum,
-          plugin: PluginsEnum
-        },
-        ({ action, plugin }) => {
-          // Check if the action is reload
-          if (action.result !== "reload" && action.result !== "bundle") return;
-
-          // Get the plugin from the pipeline
-          const pluginInstance = pipeline.plugins.get(plugin.result as string);
-
-          // Check if the plugin is not found
-          if (!pluginInstance)
-            throw new Error(`Plugin ${plugin.result} is not found.`);
-
-          // Check if the action is reload
-          if (action.result === "reload") {
-            // Reload the plugin
-            pipeline.reload(pluginInstance);
-
-            // Send the message to the origin
-            return {
-              message: `§aSuccessfully reloaded §2${pluginInstance.identifier}§a.`
-            };
-          } else {
-            if (pluginInstance.isBundled)
-              // Check if the plugin is already bundled
-              throw new Error(
-                `Plugin ${pluginInstance.identifier} cannot be bundled, as it is already a bundled plugin.`
+      // Register the "reload" subcommand
+      registry.registerSubCommand(
+        "reload",
+        "Reload a specific plugin",
+        (subRegistry: CommandRegistry) => {
+          subRegistry.overload(
+            {
+              plugin: PluginsEnum
+            },
+            ({ plugin }) => {
+              // Get the plugin from the pipeline
+              const pluginInstance = pipeline.plugins.get(
+                plugin.result as string
               );
 
-            // Bundle the plugin
-            pipeline.bundle(pluginInstance);
+              // Check if the plugin is not found
+              if (!pluginInstance)
+                throw new Error(`Plugin ${plugin.result} is not found.`);
 
-            // Send the message to the origin
-            return {
-              message: `§aSuccessfully bundled §2${pluginInstance.identifier}§a, output file was placed at §7${relative(process.cwd(), pipeline.path)}§a.`
-            };
-          }
-        }
+              // Reload the plugin
+              pipeline.reload(pluginInstance);
+
+              // Send the message to the origin
+              return {
+                message: `§aSuccessfully reloaded §2${pluginInstance.identifier}§a.`
+              };
+            }
+          );
+        },
+        () => {
+          throw new Error("No overload matched the provided arguments.");
+        },
+        ["r"]
+      );
+
+      // Register the "bundle" subcommand
+      registry.registerSubCommand(
+        "bundle",
+        "Bundle a specific plugin",
+        (subRegistry: CommandRegistry) => {
+          subRegistry.overload(
+            {
+              plugin: PluginsEnum
+            },
+            ({ plugin }) => {
+              // Get the plugin from the pipeline
+              const pluginInstance = pipeline.plugins.get(
+                plugin.result as string
+              );
+
+              // Check if the plugin is not found
+              if (!pluginInstance)
+                throw new Error(`Plugin ${plugin.result} is not found.`);
+
+              // Check if the plugin is already bundled
+              if (pluginInstance.isBundled)
+                throw new Error(
+                  `Plugin ${pluginInstance.identifier} cannot be bundled, as it is already a bundled plugin.`
+                );
+
+              // Bundle the plugin
+              pipeline.bundle(pluginInstance);
+
+              // Send the message to the origin
+              return {
+                message: `§aSuccessfully bundled §2${pluginInstance.identifier}§a, output file was placed at §7${relative(process.cwd(), pipeline.path)}§a.`
+              };
+            }
+          );
+        },
+        () => {
+          throw new Error("No overload matched the provided arguments.");
+        },
+        ["b"]
       );
     },
     () => {
-      throw new Error("No overload matched the provided arguments.");
-    }
+      throw new Error("No subcommand matched the provided arguments.");
+    },
+    ["pl", "plugin"] // Command aliases
   );
 };
 
