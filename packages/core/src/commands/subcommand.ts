@@ -1,39 +1,39 @@
 import type { CommandRegistry } from "./registry";
 import type { CommandCallback } from "../types";
 
-class Command<T = unknown> {
+class SubCommand<T = unknown> {
   /**
-   * The name of the command.
+   * The name of the subcommand.
    */
   public readonly name: string;
 
   /**
-   * The description of the command.
+   * The description of the subcommand.
    */
   public readonly description: string;
 
   /**
-   * The aliases of the command.
+   * The aliases of the subcommand.
    */
   public readonly aliases: Array<string>;
 
   /**
-   * The registry of the command.
+   * The registry of the subcommand.
    */
   public readonly registry: CommandRegistry;
 
   /**
-   * The callback of the command.
+   * The callback of the subcommand.
    */
   public readonly callback: CommandCallback<T>;
 
   /**
-   * Creates a new command.
-   * @param name The name of the command.
-   * @param description The description of the command.
-   * @param aliases The aliases of the command.
-   * @param registry The registry of the command.
-   * @param callback The callback of the command.
+   * Creates a new subcommand.
+   * @param name The name of the subcommand.
+   * @param description The description of the subcommand.
+   * @param aliases The aliases of the subcommand.
+   * @param registry The registry of the subcommand.
+   * @param callback The callback of the subcommand.
    */
   public constructor(
     name: string,
@@ -42,8 +42,6 @@ class Command<T = unknown> {
     registry: CommandRegistry,
     callback: CommandCallback<T>
   ) {
-    // Assign the properties of the command
-
     this.name = name;
     this.description = description;
     this.aliases = aliases;
@@ -52,4 +50,4 @@ class Command<T = unknown> {
   }
 }
 
-export { Command };
+export { SubCommand };
