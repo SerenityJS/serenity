@@ -71,6 +71,10 @@ class Block {
    */
   private readonly traits = new Map<string, BlockTrait>();
 
+  private readonly chunk: Chunk;
+
+  private storage: BlockLevelStorage | null = null;
+
   /**
    * The dimension the block is in.
    */
@@ -268,15 +272,15 @@ class Block {
     this.serenity = dimension.world.serenity;
     this.dimension = dimension;
     this.position = position;
+    this.chunk = this.dimension.getChunk(position.x >> 4, position.z >> 4);
 
-    // Get the chunk the block is in
-    const chunk = this.getChunk();
-
-    // If a storage is provided, set it in the chunk
-    if (storage) chunk.setBlockStorage(position, storage, false);
+    if (storage) {
+      this.storage = storage;
+      this.chunk.setBlockStorage(position, storage, false);
+    }
 
     // Iterate over the traits of the block's storage and add them to the block
-    for (const identifier of this.getStorage().getTraits()) {
+    for (const identifier of this.peekStorage()?.getTraits() ?? []) {
       // Break if the block is air
       if (this.type.air) {
         // Log the skipping of the trait
@@ -360,12 +364,7 @@ class Block {
    * @returns The chunk the block is in.
    */
   public getChunk(): Chunk {
-    // Calculate the chunk coordinates.
-    const cx = this.position.x >> 4;
-    const cz = this.position.z >> 4;
-
-    // Get the chunk from the dimension.
-    return this.dimension.getChunk(cx, cz);
+    return this.chunk;
   }
 
   /**
@@ -423,12 +422,17 @@ class Block {
     permutation: BlockPermutation,
     storage?: BlockLevelStorage
   ): void {
+    const current = this.permutation;
+
     // Check if the type of the permutation has changed.
-    if (this.permutation.type !== permutation.type) {
+    if (current.type !== permutation.type) {
       // Clear the nbt, traits, and dynamic properties of the block.
-      this.getStorage().clear();
+      this.peekStorage()?.clear();
+      this.storage = null;
       this.traits.clear();
     }
+
+    if (storage) this.storage = storage;
 
     // Set the permutation of the block.
     this.dimension.setPermutation(
@@ -441,7 +445,7 @@ class Block {
     // Check if a level storage is provided.
     if (storage) {
       // Iterate over the traits of the block's storage and add them to the block
-      for (const identifier of this.getStorage().getTraits()) {
+      for (const identifier of storage.getTraits()) {
         // Check if the trait exists in the block palette.
         const traitType = this.world.blockPalette.getTrait(identifier);
 
@@ -470,13 +474,14 @@ class Block {
     }
 
     // Push the nbt data of the permutation to the block's nbt.
-    this.getStorage().push(...permutation.nbt.values());
+    if (permutation.nbt.size > 0) this.getStorage().push(...permutation.nbt.values());
 
     // Iterate over all the traits and apply them to the block
     for (const [, trait] of permutation.type.traits) this.addTrait(trait);
 
     // Check if the block should be cached.
-    if ((this.getStorage().size > 0 || this.traits.size > 0) && !this.isAir) {
+    const blockStorage = this.peekStorage();
+    if (((blockStorage?.size ?? 0) > 0 || this.traits.size > 0) && !permutation.type.air) {
       // Calculate the block hash using the position
       const hash = BlockPosition.hash(this.position);
 
@@ -494,7 +499,7 @@ class Block {
    * @returns Whether the block has the dynamic property.
    */
   public hasDynamicProperty(key: string): boolean {
-    return this.getStorage().hasDynamicProperty(key);
+    return this.peekStorage()?.hasDynamicProperty(key) ?? false;
   }
 
   /**
@@ -503,7 +508,7 @@ class Block {
    * @returns The dynamic property if it exists, otherwise null.
    */
   public getDynamicProperty<T extends JSONLikeValue>(key: string): T | null {
-    return this.getStorage().getDynamicProperty<T>(key);
+    return this.peekStorage()?.getDynamicProperty<T>(key) ?? null;
   }
 
   /**
@@ -511,7 +516,7 @@ class Block {
    * @param key The key of the dynamic to remove.
    */
   public removeDynamicProperty(key: string): void {
-    this.getStorage().removeDynamicProperty(key);
+    this.peekStorage()?.removeDynamicProperty(key);
   }
 
   /**
@@ -540,7 +545,7 @@ class Block {
    * @returns A map of all dynamic properties of the block.
    */
   public getAllDynamicProperties(): Array<[string, JSONLikeValue]> {
-    return this.getStorage().getDynamicProperties();
+    return this.peekStorage()?.getDynamicProperties() ?? [];
   }
 
   /**
@@ -681,29 +686,22 @@ class Block {
    * @returns The current level storage of the block.
    */
   public getStorage(): BlockLevelStorage {
-    // Get the chunk the block is in
-    const chunk = this.getChunk();
+    const existing = this.peekStorage();
+    if (existing) return existing;
 
-    // Prepare a variable to hold the block storage
-    let storage: BlockLevelStorage;
-
-    // Check if the chunk has a block storage for the block position
-    if (chunk.hasBlockStorage(this.position)) {
-      // Get the block storage from the chunk
-      storage = chunk.getBlockStorage(this.position) as BlockLevelStorage;
-    } else {
-      // Create a new block storage for the block
-      storage = new BlockLevelStorage(chunk);
-
-      // Set the position of the block storage
-      storage.setPosition(this.position);
-
-      // Set the new block storage in the chunk's block storage map
-      chunk.setBlockStorage(this.position, storage, false);
-    }
-
-    // Return the new block storage
+    const storage = new BlockLevelStorage(this.chunk);
+    storage.setPosition(this.position);
+    this.chunk.setBlockStorage(this.position, storage, false);
+    this.storage = storage;
     return storage;
+  }
+
+  public peekStorage(): BlockLevelStorage | null {
+    if (this.storage) return this.storage;
+
+    this.storage = this.chunk.getBlockStorage(this.position) as BlockLevelStorage | null;
+
+    return this.storage;
   }
 
   /**
@@ -712,7 +710,7 @@ class Block {
    * @returns Whether the tag entry exists or not.
    */
   public hasStorageEntry(name: string): boolean {
-    return this.getStorage().has(name);
+    return this.peekStorage()?.has(name) ?? false;
   }
 
   /**
@@ -721,7 +719,7 @@ class Block {
    * @returns The tag entry if it exists, otherwise null.
    */
   public getStorageEntry<T extends BaseTag>(name: string): T | null {
-    return this.getStorage().get<T>(name) ?? null;
+    return this.peekStorage()?.get<T>(name) ?? null;
   }
 
   /**
@@ -787,16 +785,16 @@ class Block {
    * Sends the current level storage to all players in the dimension.
    */
   public sendStorageUpdate(dirty = true): void {
-    // Check if the storage is empty
-    if (this.getStorage().size === 0) return;
+    const storage = this.peekStorage();
+    if (!storage || storage.size === 0) return;
 
     // Create a new BlockActorDataPacket
     const packet = new BlockActorDataPacket();
     packet.position = this.position;
-    packet.nbt = this.getStorage();
+    packet.nbt = storage;
 
     // Mark the storage as dirty if specified
-    if (dirty) this.getChunk().dirty = true;
+    if (dirty) this.chunk.dirty = true;
 
     // Send the packet to all players in the dimension
     this.dimension.broadcast(packet);

@@ -65,6 +65,8 @@ const DefaultDimensionProperties: DimensionProperties = {
 };
 
 class Dimension {
+  private static readonly MAX_DELTA_CHUNK_UPDATES = 64;
+
   /**
    * The serenity instance of the server.
    */
@@ -253,16 +255,19 @@ class Dimension {
     const randomTickGamerule =
       (this.world.gamerules?.randomTickSpeed as number) ?? 1;
     const randomTickSpeed = Math.max(1, Math.min(4096, randomTickGamerule));
+    const simulationRange = this.simulationDistance << 4;
+    const simulationRangeSquared = simulationRange * simulationRange;
 
     // Get all the player positions in the dimension.
     const playerPositions = players.map((player) => player.position);
 
     // Iterate over all the entities in the dimension
     for (const entity of this.getEntities()) {
-      // Check if there is a entity within the simulation distance to tick the entity
-      const inSimulationRange = playerPositions.some((player) => {
-        return player.distance(entity.position) <= this.simulationDistance << 4;
-      });
+      const inSimulationRange = this.isWithinSimulationRange(
+        entity.position,
+        playerPositions,
+        simulationRangeSquared
+      );
 
       // Tick the entity if it is in simulation range
       if (inSimulationRange) {
@@ -327,10 +332,11 @@ class Dimension {
 
     // Iterate over all the blocks in the dimension
     for (const [, block] of this.blocks) {
-      // Check if there is a player within the simulation distance to tick the block
-      const inSimulationRange = playerPositions.some((player) => {
-        return player.distance(block.position) <= this.simulationDistance << 4;
-      });
+      const inSimulationRange = this.isWithinSimulationRange(
+        block.position,
+        playerPositions,
+        simulationRangeSquared
+      );
 
       // Tick the block if it is in simulation range
       if (inSimulationRange) {
@@ -540,7 +546,9 @@ class Dimension {
    * Sets a chunk in the dimension.
    * @param chunk The chunk to set.
    */
-  public setChunk(chunk: Chunk): void {
+  public setChunk(chunk: Chunk, positions?: Array<BlockPosition>): void {
+    if (positions && this.sendChunkDeltaUpdates(chunk, positions)) return;
+
     // Iterate over all the players in the dimension
     for (const player of this.getPlayers()) {
       // Get the player's chunk rendering trait
@@ -552,6 +560,56 @@ class Dimension {
       // Send the chunk to the player
       trait.send(this, chunk);
     }
+  }
+
+  private isWithinSimulationRange(
+    position: IPosition,
+    playerPositions: Array<IPosition>,
+    simulationRangeSquared: number
+  ): boolean {
+    for (const playerPosition of playerPositions) {
+      const dx = playerPosition.x - position.x;
+      const dy = playerPosition.y - position.y;
+      const dz = playerPosition.z - position.z;
+
+      if (dx * dx + dy * dy + dz * dz <= simulationRangeSquared) return true;
+    }
+
+    return false;
+  }
+
+  private sendChunkDeltaUpdates(
+    chunk: Chunk,
+    positions: Array<BlockPosition>
+  ): boolean {
+    if (
+      positions.length === 0 ||
+      positions.length > Dimension.MAX_DELTA_CHUNK_UPDATES
+    )
+      return false;
+
+    const packets: Array<UpdateBlockPacket> = [];
+
+    for (const position of positions) {
+      const packet = new UpdateBlockPacket();
+      packet.networkBlockId = chunk.getPermutation(position).networkId;
+      packet.position = position;
+      packet.flags = UpdateBlockFlagsType.Network;
+      packet.layer = UpdateBlockLayerType.Normal;
+      packets.push(packet);
+    }
+
+    let watchers = 0;
+
+    for (const player of this.getPlayers()) {
+      const trait = player.getTrait(PlayerChunkRenderingTrait);
+      if (!trait.chunks.has(chunk.hash)) continue;
+
+      watchers++;
+      player.send(...packets);
+    }
+
+    return watchers > 0;
   }
 
   /**
@@ -731,20 +789,13 @@ class Dimension {
     // Return the block if it exists
     if (block) return block;
     else {
-      // Get the permutation from the chunk
-      const permutation = this.getPermutation(blockPosition);
+      const chunk = this.getChunk(blockPosition.x >> 4, blockPosition.z >> 4);
+      const storage = chunk.getBlockStorage(blockPosition) ?? undefined;
 
-      // Create a new block with the dimension, position, and permutation
-      const block = new Block(this, blockPosition);
-
-      // Push the permutation nbt to the block's nbt
-      block.pushStorageEntry(...permutation.nbt.values());
-
-      // Iterate over all the traits and apply them to the block
-      for (const [, trait] of permutation.type.traits) block.addTrait(trait);
+      const block = new Block(this, blockPosition, storage);
 
       // If the block has dynamic properties or traits, we will cache the block
-      if (block.getStorage().size > 0 || block.getAllTraits().length > 0)
+      if ((storage?.size ?? 0) > 0 || block.getAllTraits().length > 0)
         this.blocks.set(hash, block);
 
       // Return the block
@@ -806,8 +857,12 @@ class Dimension {
     // Convert the position to a block position
     const blockPosition = BlockPosition.from(position);
 
+    const cx = blockPosition.x >> 4;
+    const cz = blockPosition.z >> 4;
+    const chunk = this.getChunk(cx, cz);
+
     // Get the current permutation of the block
-    const current = this.getPermutation(blockPosition, layer);
+    const current = chunk.getPermutation(blockPosition, layer);
 
     // Create a new UpdateBlockPacket to broadcast the change.
     const packet = new UpdateBlockPacket();
@@ -833,13 +888,6 @@ class Dimension {
       // Broadcast the packet to the dimension.
       return this.broadcast(packet);
     }
-
-    // Convert the block position to a chunk position
-    const cx = blockPosition.x >> 4;
-    const cz = blockPosition.z >> 4;
-
-    // Get the chunk of the provided position
-    const chunk = this.getChunk(cx, cz);
 
     // Set the permutation of the block
     chunk.setPermutation(blockPosition, permutation, layer, true);
@@ -1050,7 +1098,7 @@ class Dimension {
     const maxZ = Math.max(from.z, to.z);
 
     // Hold the updated chunks
-    const updatedChunks = new Set<Chunk>();
+    const updatedChunks = new Map<Chunk, Array<BlockPosition>>();
 
     // Hold the amount of blocks that were filled
     let filledBlocks = 0;
@@ -1061,12 +1109,14 @@ class Dimension {
         for (let z = minZ; z <= maxZ; z++) {
           // Get the chunk of the block
           const chunk = this.getChunk(x >> 4, z >> 4);
+          const blockPosition = new BlockPosition(x, y, z);
 
           // Set the permutation of the block
-          chunk.setPermutation({ x, y, z }, permutation);
+          chunk.setPermutation(blockPosition, permutation);
 
-          // Add the chunk to the updated chunks
-          updatedChunks.add(chunk);
+          const positions = updatedChunks.get(chunk);
+          if (positions) positions.push(blockPosition);
+          else updatedChunks.set(chunk, [blockPosition]);
 
           // Set the chunk to dirty
           chunk.dirty = true;
@@ -1078,7 +1128,7 @@ class Dimension {
     }
 
     // Set the updated chunks
-    for (const chunk of updatedChunks) this.setChunk(chunk);
+    for (const [chunk, positions] of updatedChunks) this.setChunk(chunk, positions);
 
     // Return the amount of blocks that were filled
     return filledBlocks;
@@ -1302,7 +1352,7 @@ class Dimension {
     let index = 0; // Prepare an index to iterate over the blocks
 
     // Create a set to hold the dirty chunks
-    const dirtyChunks = new Set<Chunk>();
+    const dirtyChunks = new Map<Chunk, Array<BlockPosition>>();
 
     for (let x = 0; x < sx; x++) {
       for (let y = 0; y < sy; y++) {
@@ -1333,20 +1383,25 @@ class Dimension {
           const dx = x + position.x;
           const dy = y + position.y;
           const dz = z + position.z;
+          const blockPosition = new BlockPosition(dx, dy, dz);
 
           // Get the chunk of the block
           const chunk = this.getChunk(dx >> 4, dz >> 4);
 
           // Set the permutation of the block
           chunk.setPermutation(
-            { x: dx, y: dy, z: dz },
+            blockPosition,
             permutation,
             UpdateBlockLayerType.Normal,
             true
           );
 
           // Add the chunk to the updated chunks
-          if (markAsDirty && !dirtyChunks.has(chunk)) dirtyChunks.add(chunk);
+          if (markAsDirty) {
+            const positions = dirtyChunks.get(chunk);
+            if (positions) positions.push(blockPosition);
+            else dirtyChunks.set(chunk, [blockPosition]);
+          }
 
           // Increment the index
           index++;
@@ -1359,8 +1414,8 @@ class Dimension {
     }
 
     // Set the updated chunks
-    for (const chunk of dirtyChunks) {
-      this.setChunk(chunk); // Set the chunk in the dimension
+    for (const [chunk, positions] of dirtyChunks) {
+      this.setChunk(chunk, positions); // Set the chunk in the dimension
     }
   }
 
