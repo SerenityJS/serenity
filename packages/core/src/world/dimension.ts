@@ -529,34 +529,54 @@ class Dimension {
     }
   }
 
+  /**
+   * Whether a position is within the simulation range of any player in the dimension.
+   * @param position The position to check.
+   * @param playerPositions The positions of the players in the dimension.
+   * @param simulationRangeSquared The simulation range squared for distance checking.
+   * @returns Whether the position is within the simulation range of any player in the dimension.
+   */
   private isWithinSimulationRange(
     position: IPosition,
     playerPositions: Array<IPosition>,
     simulationRangeSquared: number
   ): boolean {
+    // Iterate over all the player positions in the dimension
     for (const playerPosition of playerPositions) {
+      // Calculate the distance squared between the position and the player position
       const dx = playerPosition.x - position.x;
       const dy = playerPosition.y - position.y;
       const dz = playerPosition.z - position.z;
 
+      // Check if the distance squared is less than or equal to the simulation range squared
       if (dx * dx + dy * dy + dz * dz <= simulationRangeSquared) return true;
     }
 
+    // Return false if the position is not within the simulation range of any player in the dimension
     return false;
   }
 
+  /**
+   * Sends chunk delta updates to players in the dimension for the specified block positions in the chunk.
+   * @param chunk The chunk for which to send delta updates.
+   * @param positions The block positions within the chunk that have been updated and require delta updates to be sent to players.
+   * @returns Whether any delta updates were sent to players in the dimension.
+   */
   private sendChunkDeltaUpdates(
     chunk: Chunk,
     positions: Array<BlockPosition>
   ): boolean {
+    // Check if the number of positions exceeds the maximum allowed for delta updates
     if (
       positions.length === 0 ||
       positions.length > Dimension.MAX_DELTA_CHUNK_UPDATES
     )
       return false;
 
+    // Create an array of UpdateBlockPackets for the specified positions in the chunk
     const packets: Array<UpdateBlockPacket> = [];
 
+    // Iterate over the specified block positions and create an UpdateBlockPacket for each position
     for (const position of positions) {
       const packet = new UpdateBlockPacket();
       packet.networkBlockId = chunk.getPermutation(position).networkId;
@@ -566,16 +586,21 @@ class Dimension {
       packets.push(packet);
     }
 
+    // Prepare a variable to track whether any updates were sent to players in the dimension
     let watchers = 0;
 
+    // Iterate over all the players in the dimension
     for (const player of this.getPlayers()) {
+      // Check if the player has the chunk being updated
       const trait = player.getTrait(PlayerChunkRenderingTrait);
       if (!trait.chunks.has(chunk.hash)) continue;
 
+      // Increment the watchers count and send the delta update packets to the player
       watchers++;
       player.send(...packets);
     }
 
+    // Return whether any updates were sent to players in the dimension
     return watchers > 0;
   }
 
@@ -1095,7 +1120,8 @@ class Dimension {
     }
 
     // Set the updated chunks
-    for (const [chunk, positions] of updatedChunks) this.setChunk(chunk, positions);
+    for (const [chunk, positions] of updatedChunks)
+      this.setChunk(chunk, positions);
 
     // Return the amount of blocks that were filled
     return filledBlocks;
