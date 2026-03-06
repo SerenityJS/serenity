@@ -32,6 +32,7 @@ import { TickSchedule } from "./schedule";
 import { Scoreboard } from "./scoreboard";
 import { Structure } from "./structure";
 import { DimensionProperties, WorldProperties } from "./types";
+import { WorldFeature } from "./features";
 
 class World extends Emitter<WorldEventSignals> {
   /**
@@ -100,6 +101,11 @@ class World extends Emitter<WorldEventSignals> {
   public readonly scoreboard = new Scoreboard(this);
 
   public readonly structures = new Map<string, Structure>();
+
+  /**
+   * The features of the world, mapped by their identifier.
+   */
+  private readonly features = new Map<string, WorldFeature>();
 
   /**
    * The current gamerules values of the world.
@@ -177,6 +183,20 @@ class World extends Emitter<WorldEventSignals> {
     // Only increment if the day light cycle is enabled
     if (this.gamerules.doDayLightCycle)
       this.dayTime = (this.dayTime + 1) % 24_000;
+
+    // Tick the features of the world
+    for (const [identifier, feature] of this.features) {
+      try {
+        // Tick the feature with the signal details
+        feature.onTick?.({
+          currentTick: this.currentTick,
+          deltaTick
+        });
+      } catch (reason) {
+        // Log that the feature failed to tick
+        this.logger.error(`Failed to tick feature ${identifier}`, reason);
+      }
+    }
 
     // Attempt to tick each dimension
     for (const [identifier, dimension] of this.dimensions) {
@@ -544,6 +564,132 @@ class World extends Emitter<WorldEventSignals> {
    */
   public removeStructure(identifier: string): void {
     this.structures.delete(identifier);
+  }
+
+  /**
+   * Gets all the features in the world.
+   * @returns An array of features in the world.
+   */
+  public getAllFeatures(): Array<WorldFeature> {
+    return Array.from(this.features.values());
+  }
+
+  /**
+   * Gets a feature by the constructor from the world
+   * @param feature The identifier or constructor of the feature
+   * @returns The feature, if found; otherwise, null
+   */
+  public getFeature<T extends typeof WorldFeature>(
+    feature: T
+  ): InstanceType<T> | null;
+
+  /**
+   * Gets a feature by the identifier from the world
+   * @param identifier The identifier of the feature
+   * @returns The feature, if found; otherwise, null
+   */
+  public getFeature(identifier: string): WorldFeature | null;
+
+  /**
+   * Gets a feature by the identifier or constructor from the world
+   * @param identifierOrConstructor The identifier or constructor of the feature
+   * @returns The feature, if found; otherwise, null
+   */
+  public getFeature(
+    identifierOrConstructor: string | typeof WorldFeature
+  ): WorldFeature | null {
+    // Get the feature instance by the identifier or constructor
+    const instance = this.features.get(
+      typeof identifierOrConstructor === "string"
+        ? identifierOrConstructor
+        : identifierOrConstructor.identifier
+    );
+
+    // Return the feature instance if it exists, otherwise return null
+    return instance ?? null;
+  }
+
+  /**
+   * Adds a feature to the world by the constructor or instance of the feature
+   * @param feature The constructor or instance of the feature to add
+   * @returns The added feature instance
+   */
+  public addFeature<T extends typeof WorldFeature>(
+    feature: T | WorldFeature
+  ): InstanceType<T> {
+    // Check if the feature already exists in the world
+    if (this.features.has(feature.identifier)) {
+      // Return the existing feature if it already exists
+      return this.features.get(feature.identifier) as InstanceType<T>;
+    }
+
+    // Attempt to add the feature to the world
+    try {
+      // Check if the feature is a constructor or an instance
+      if (feature instanceof WorldFeature) {
+        // Add the feature instance to the world
+        this.features.set(feature.identifier, feature);
+
+        // Call the onAdd method of the feature if it exists
+        feature.onAdd?.();
+
+        // Return the feature instance
+        return feature as InstanceType<T>;
+      } else {
+        // Create a new instance of the feature
+        const instance = new feature(this);
+
+        // Add the feature instance to the world
+        this.features.set(instance.identifier, instance);
+
+        // Call the onAdd method of the feature if it exists
+        instance.onAdd?.();
+
+        // Return the feature instance
+        return instance as InstanceType<T>;
+      }
+    } catch (reason) {
+      // Log that the feature failed to be added
+      this.logger.error(
+        `Failed to add feature with identifier ${feature.identifier}`,
+        reason
+      );
+
+      // Throw the error to be handled by the caller
+      throw reason;
+    }
+  }
+
+  /**
+   * Removes a feature from the world by the identifier or constructor of the features
+   * @param identifier  The identifier or constructor of the feature to remove
+   * @returns The removed feature instance, if it was removed; otherwise, null
+   */
+  public removeFeature(identifier: string | typeof WorldFeature): void {
+    // Find the feature instance by the identifier
+    const instance = this.features.get(
+      typeof identifier === "string" ? identifier : identifier.identifier
+    );
+
+    // Check if the feature instance exists
+    if (!instance) {
+      // Log that the feature does not exist
+      this.logger.error(
+        `Failed to remove feature with identifier ${identifier} as it does not exist`
+      );
+
+      // Return if the feature instance does not exist
+      return;
+    }
+
+    // Call the onRemove method of the feature if it exists
+    instance.onRemove?.();
+
+    // Remove the feature from the world
+    this.features.delete(instance.identifier);
+
+    // Log that the feature has been removed
+    this.logger.debug(`Removed feature: ${instance.identifier}`);
   }
 }
 
