@@ -157,39 +157,7 @@ class BlockPermutation {
     // Check if the block type exists.
     if (!type) return this.resolve(BlockIdentifier.Air) as BlockPermutation;
 
-    // Check if the state is not provided.
-    const permutation = type.permutations.find((permutation) => {
-      for (const key in state) {
-        // Get the value of the block state.
-        const value = (permutation.state as never)[key];
-
-        // Check if the value is a boolean
-        const bool = value === true || value === false ? true : false;
-
-        // Convert the state to a boolean if it is a boolean.
-        const query =
-          bool && (state[key] === 0 || state[key] === 1)
-            ? state[key] === 1
-            : state[key];
-
-        // Check if the block state matches
-        if (value !== query) {
-          return false;
-        }
-      }
-
-      // Return true if the block permutation matches.
-      return true;
-    });
-
-    // Check if the block permutation does not exist.
-    if (!permutation) {
-      // Return the default permutation if the state is not found.
-      return type.permutations[0] as BlockPermutation;
-    }
-
-    // Return the block permutation.
-    return permutation as BlockPermutation;
+    return type.getPermutation(state);
   }
 
   /**
@@ -228,7 +196,7 @@ class BlockPermutation {
     BlockPermutation.permutations.set(network, permutation);
 
     // Register the permutation in the block type.
-    type.permutations.push(permutation);
+    type.registerPermutation(permutation);
 
     // Assignt the properties of the block permutation.
     Object.assign(permutation.components, components);

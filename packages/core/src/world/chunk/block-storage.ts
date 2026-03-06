@@ -10,6 +10,10 @@ import { BlockPermutation } from "../../block";
  * Represents a block storage.
  */
 class BlockStorage {
+  public static readonly AIR = BlockPermutation.resolve(
+    BlockIdentifier.Air
+  ).networkId;
+
   /**
    * The maximum chunk size in the x direction.
    */
@@ -45,6 +49,8 @@ class BlockStorage {
    */
   public readonly blocks: Array<number>;
 
+  private readonly paletteIndices: Map<number, number>;
+
   /**
    * The air value of the storage.
    */
@@ -62,9 +68,7 @@ class BlockStorage {
     blocks?: Array<number>,
     size?: [number, number, number]
   ) {
-    // Find the air value.
-    const permutation = BlockPermutation.resolve(BlockIdentifier.Air);
-    this.air = permutation.networkId;
+    this.air = BlockStorage.AIR;
 
     // Calculate the size.
     this.size = size ?? [
@@ -78,6 +82,10 @@ class BlockStorage {
 
     // Create the palette with at least the air block.
     this.palette = palette ?? Array.from({ length: 1 }, () => this.air);
+    this.paletteIndices = new Map<number, number>();
+    for (let index = 0; index < this.palette.length; index++) {
+      this.paletteIndices.set(this.palette[index] as number, index);
+    }
 
     // Create the blocks array with the given size.
     this.blocks = blocks ?? Array.from({ length: totalSize }, () => 0);
@@ -119,10 +127,11 @@ class BlockStorage {
    */
   public setState(bx: number, by: number, bz: number, state: number): void {
     // Check if the state exists in the palette.
-    let paletteIndex = this.palette.indexOf(state);
+    let paletteIndex = this.paletteIndices.get(state) ?? -1;
     if (paletteIndex === -1) {
       // Add the state to the palette.
       paletteIndex = this.palette.push(state) - 1;
+      this.paletteIndices.set(state, paletteIndex);
     }
 
     // Set the block state.
