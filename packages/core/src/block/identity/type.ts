@@ -144,6 +144,10 @@ class BlockType {
    */
   public readonly permutations: Array<BlockPermutation> = [];
 
+  private readonly permutationStateIndex = new Map<string, BlockPermutation>();
+
+  private readonly booleanStates = new Set<string>();
+
   /**
    * The state values of the block type.
    */
@@ -234,16 +238,44 @@ class BlockType {
    * @param state The state of the block type.
    */
   public getPermutation(state?: BlockState): BlockPermutation {
-    // Iterate over the permutations.
-    for (const permutation of this.permutations) {
-      // Check if the permutation matches the state.
-      if (!state || permutation.matches(state as BlockState)) {
-        return permutation as BlockPermutation;
-      }
+    if (!state) return this.permutations[0] as BlockPermutation;
+
+    const cached = this.permutationStateIndex.get(this.getPermutationStateKey(state));
+    if (cached) return cached;
+
+    for (const permutation of this.permutations)
+      if (permutation.matches(state as BlockState)) return permutation as BlockPermutation;
+
+    return this.permutations[0] as BlockPermutation;
+  }
+
+  public registerPermutation(permutation: BlockPermutation): void {
+    this.permutations.push(permutation);
+
+    for (const [key, value] of Object.entries(permutation.state))
+      if (typeof value === "boolean") this.booleanStates.add(key);
+
+    this.permutationStateIndex.set(
+      this.getPermutationStateKey(permutation.state),
+      permutation
+    );
+  }
+
+  private getPermutationStateKey(state: BlockState): string {
+    const normalized: Array<[string, string | number | boolean]> = [];
+
+    for (const key of Object.keys(state).sort()) {
+      const value = state[key as keyof BlockState];
+
+      normalized.push([
+        key,
+        this.booleanStates.has(key) && (value === 0 || value === 1)
+          ? value === 1
+          : (value as string | number | boolean)
+      ]);
     }
 
-    // Return the default permutation if the state is not found.
-    return this.permutations[0] as BlockPermutation;
+    return JSON.stringify(normalized);
   }
 
   /**

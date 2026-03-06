@@ -75,8 +75,11 @@ class CommandExecutionState {
     // Get the name of the command from the split array.
     const name = this.split.shift();
 
-    // Find the command from the commands
-    this.command = commands.find((command) => command.name === name);
+    // Find the command from the commands (check both name and aliases)
+    this.command = commands.find(
+      (command) =>
+        command.name === name || command.aliases.includes(name as string)
+    );
     this.origin = origin;
   }
 
@@ -91,6 +94,111 @@ class CommandExecutionState {
       throw new TypeError(
         `Unknown command executed. Please make sure the command exists, and that you have permission to use it.`
       );
+    }
+
+    // Check if the first argument matches a subcommand
+    if (this.split.length > 0) {
+      const potentialSubcommand = this.split[0];
+      const subcommand = this.command.registry.subcommands.get(
+        potentialSubcommand as string
+      );
+
+      if (subcommand) {
+        // Remove the subcommand name from the split array
+        this.split.shift();
+
+        // Create a global context object with the origin.
+        const globalContext = { origin: this.origin } as CommandContext<
+          Record<string, unknown>
+        >;
+
+        // Iterate through the subcommand overloads and extract the arguments.
+        for (const [overload, callback] of subcommand.registry.overloads) {
+          // Create a new context object with the origin.
+          const context = { origin: this.origin } as CommandContext<
+            Record<string, Enum>
+          >;
+
+          // Create a new state object with the split array.
+          const state = new CommandArgumentPointer(this, this.split);
+
+          // Iterate through the overload keys and extract the arguments.
+          for (const key in overload) {
+            // Get the value of the key
+            const value = overload[key];
+
+            // Check if the value is null or undefined, if it is then we will continue to the next overload
+            if (!value) continue;
+
+            // Check if the value is an array, if it is then we will check if the argument is required.
+            if (Array.isArray(value)) {
+              // Get the enum and optional flag from the value.
+              const [type, optional] = value;
+
+              // Check if the argument is optional and if there are any arguments left.
+              if (!optional && state.offset >= state.arguments.length) {
+                throw new TypeError(`Argument ${key} is required.`);
+              }
+
+              // Extract the argument from the split array.
+              // We will pass the execution state to the extract method.
+              // This allows customs enums to extract the argument in various ways.
+              const value_ = type.extract(state as CommandArgumentPointer);
+
+              // Declare if the value is optional.
+              if (value_) value_.optional = optional;
+
+              // Add the value to the context object.
+              context[key] = value_ ?? type.default;
+            } else {
+              // Extract the argument from the split array.
+              // We will pass the execution state to the extract method.
+              // This allows customs enums to extract the argument in various ways.
+              const value_ = value.extract(state as CommandArgumentPointer);
+
+              // Declare that the enum value is not optional.
+              if (value_) value_.optional = false;
+
+              // Add the value to the context object.
+              context[key] = value_ ?? value.default;
+            }
+          }
+
+          // Add the context object to the global context object.
+          Object.assign(globalContext, context);
+
+          // Check if there are any arguments left in the split array.
+          // If there are, we will continue to the next overload.
+          if (state.offset < state.arguments.length) continue;
+
+          // Check that the length of the context object is the same as the overload object.
+          // We need to add 1 to compensate for the origin property.
+          if (Object.keys(context).length !== Object.keys(overload).length + 1)
+            continue;
+
+          // Iterate through the context object and try to validate the arguments.
+          for (const [_, value] of Object.entries(context)) {
+            // Check if the value is an instance of Enum.
+            if (!(value instanceof Enum)) continue;
+
+            // Get the result from the value.
+            const result = value.result;
+
+            // Check if the value is optional and if it is not valid.
+            if (value.optional && (result === null || result === undefined))
+              continue;
+
+            // Validate the value.
+            value.validate(true);
+          }
+
+          // Get the response from the callback.
+          return (callback(context) ?? {}) as CommandResponse;
+        }
+
+        // Call the subcommand callback with the global context object.
+        return (subcommand.callback(globalContext) ?? {}) as CommandResponse;
+      }
     }
 
     // Create a global context object with the origin.
