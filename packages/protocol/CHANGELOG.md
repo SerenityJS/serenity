@@ -1,5 +1,15 @@
 # @serenityjs/protocol
 
+## 0.8.19
+
+### Patch Changes
+
+- [#263](https://github.com/SerenityJS/serenity/pull/263) [`c03296f`](https://github.com/SerenityJS/serenity/commit/c03296fcacccc80ea2ffb31d4adf9d0dea05e07f) Thanks [@AnyBananaGAME](https://github.com/AnyBananaGAME)! - init v0.8.19-beta
+
+- Updated dependencies [[`c03296f`](https://github.com/SerenityJS/serenity/commit/c03296fcacccc80ea2ffb31d4adf9d0dea05e07f)]:
+  - @serenityjs/nbt@0.8.19
+  - @serenityjs/raknet@0.8.19
+
 ## 0.8.18
 
 ### Patch Changes
