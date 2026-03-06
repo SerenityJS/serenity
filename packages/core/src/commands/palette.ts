@@ -18,7 +18,9 @@ class CommandPalette {
    * @returns All the commands in the registry.
    */
   public getAll(): Array<Command> {
-    return [...this.commands.values()];
+    // Use a Set to deduplicate commands (since aliases point to the same command instance)
+    const uniqueCommands = new Set(this.commands.values());
+    return [...uniqueCommands];
   }
 
   /**
@@ -45,12 +47,14 @@ class CommandPalette {
    * @param name The name of the command.
    * @param description The description of the command.
    * @param callback The callback of the command.
+   * @param aliases The aliases of the command.
    * @returns The command that was registered.
    */
   public register<K = NonNullable<unknown>, T = CommandContext<K>>(
     name: string,
     description: string,
-    callback: CommandCallback<T>
+    callback: CommandCallback<T>,
+    aliases?: Array<string>
   ): Command<T>;
 
   /**
@@ -59,13 +63,15 @@ class CommandPalette {
    * @param description The description of the command.
    * @param registry The registry of the command.
    * @param callback The callback of the command.
+   * @param aliases The aliases of the command.
    * @returns The command that was registered.
    */
   public register<K = NonNullable<unknown>, T = CommandContext<K>>(
     name: string,
     description: string,
     registry: CommandRegistryCallback,
-    callback: CommandCallback<T>
+    callback: CommandCallback<T>,
+    aliases?: Array<string>
   ): Command<T>;
 
   /**
@@ -74,23 +80,32 @@ class CommandPalette {
    * @param description The description of the command.
    * @param registry The registry of the command.
    * @param callback The callback of the command.
+   * @param aliases The aliases of the command.
    * @returns The command that was registered.
    */
   public register<K = NonNullable<unknown>, T = CommandContext<K>>(
     name: string,
     description: string,
     registry: CommandRegistryCallback | CommandCallback<T>,
-    callback?: CommandCallback<T>
+    callback?: CommandCallback<T> | Array<string>,
+    aliases?: Array<string>
   ): Command<T> {
     // Create a new registry instance
     const regInstance = new CommandRegistry();
 
-    // Get the callback from the arguments
-    const execCallback = callback ?? (registry as CommandCallback<T>);
-
-    const regCallback = callback
+    // Determine if we have a registry callback or just an execution callback
+    const hasRegistryCallback = typeof callback === "function";
+    const execCallback = hasRegistryCallback
+      ? (callback as CommandCallback<T>)
+      : (registry as CommandCallback<T>);
+    const regCallback = hasRegistryCallback
       ? (registry as CommandRegistryCallback)
-      : () => {};
+      : () => { };
+    const cmdAliases = hasRegistryCallback
+      ? (aliases ?? [])
+      : Array.isArray(callback)
+        ? callback
+        : [];
 
     // Execute the registry callback
     regCallback(regInstance);
@@ -99,12 +114,18 @@ class CommandPalette {
     const command = new Command<T>(
       name,
       description,
+      cmdAliases,
       regInstance,
       execCallback
     );
 
-    // Set the command in the commands map
+    // Set the command in the commands map by name
     this.commands.set(name, command as Command<unknown>);
+
+    // Set the command in the commands map by all its aliases
+    for (const alias of cmdAliases) {
+      this.commands.set(alias, command as Command<unknown>);
+    }
 
     // Return the command
     return command;

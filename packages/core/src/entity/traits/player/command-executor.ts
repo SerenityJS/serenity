@@ -92,8 +92,162 @@ class PlayerCommandExecutorTrait extends PlayerTrait {
     // Holds all custom enums that are used in the commands
     packet.dynamicEnums = [];
 
+    // Holds all enum values (for hard enums)
+    packet.enumValues = [];
+
+    // Holds all hard enums
+    packet.enums = [];
+
+    // Map to track enum value indices
+    const enumValueMap = new Map<string, number>();
+
+    // Track which commands have alias enums
+    const commandAliasEnumMap = new Map<string, number>();
+
+    // First pass: Create alias enums for commands that have aliases
+    for (const command of this.availableCommands) {
+      if (command.aliases.length > 0) {
+        const aliasIndices: Array<number> = [];
+
+        // Add each alias to enumValues and track its index
+        for (const alias of command.aliases) {
+          if (!enumValueMap.has(alias)) {
+            const index = packet.enumValues.length;
+            packet.enumValues.push(alias);
+            enumValueMap.set(alias, index);
+          }
+          aliasIndices.push(enumValueMap.get(alias)!);
+        }
+
+        // Create the enum with the indices
+        const aliasEnumIndex = packet.enums.length;
+        packet.enums.push({
+          name: `${command.name}Aliases`,
+          values: aliasIndices
+        });
+        commandAliasEnumMap.set(command.name, aliasEnumIndex);
+      }
+    }
+
     // Map the commands to the packet property
     packet.commands = [...this.availableCommands].map((command) => {
+      const overloads = [];
+
+      // Handle subcommands first
+      if (command.registry.subcommands.size > 0) {
+        // Get unique subcommand names (not aliases)
+        const uniqueSubcommands = new Map<string, typeof command.registry.subcommands extends Map<string, infer V> ? V : never>();
+        for (const [key, subcommand] of command.registry.subcommands) {
+          if (subcommand.name === key) {
+            uniqueSubcommands.set(key, subcommand);
+          }
+        }
+
+        // Create overloads for each subcommand
+        for (const [subcommandName, subcommand] of uniqueSubcommands) {
+          // Create a unique enum for THIS specific subcommand including all its aliases
+          const subcommandValues = [subcommandName, ...subcommand.aliases];
+          const subcommandEnumIndex = packet.dynamicEnums.push({
+            name: subcommandName,
+            values: subcommandValues
+          }) - 1;
+
+          // If the subcommand has overloads, create combined overloads
+          if (subcommand.registry.overloads.size > 0) {
+            for (const [subOverload] of subcommand.registry.overloads) {
+              const parameters = [
+                // First parameter is the subcommand enum (with the subcommand name and aliases)
+                {
+                  symbol: (0x4_10 << 16) | subcommandEnumIndex,
+                  name: subcommandName,
+                  optional: false,
+                  options: 0
+                },
+                // Then add the subcommand's parameters
+                ...Object.entries(subOverload).map(([name, value]) => {
+                  const enm = Array.isArray(value) ? value[0] : value;
+                  const symbol =
+                    enm.type === SoftEnum.type
+                      ? (enm as typeof CustomEnum).options.length > 0
+                        ? (0x4_10 << 16) |
+                        (packet.dynamicEnums.push({
+                          name: enm.name,
+                          values: (enm as typeof CustomEnum).options
+                        }) -
+                          1)
+                        : enm.symbol
+                      : enm.symbol;
+
+                  const optional = Array.isArray(value) ? value[1] : false;
+                  name = optional ? name + "?" : name;
+
+                  return {
+                    symbol,
+                    name,
+                    optional,
+                    options: 0
+                  };
+                })
+              ];
+
+              overloads.push({
+                chaining: false,
+                parameters
+              });
+            }
+          } else {
+            // Subcommand has no parameters, just the subcommand name
+            overloads.push({
+              chaining: false,
+              parameters: [
+                {
+                  symbol: (0x4_10 << 16) | subcommandEnumIndex,
+                  name: subcommandName,
+                  optional: false,
+                  options: 0
+                }
+              ]
+            });
+          }
+        }
+      }
+
+      // Add regular overloads (if any)
+      for (const [overload] of command.registry.overloads) {
+        const parameters = Object.entries(overload).map(([name, value]) => {
+          const enm = Array.isArray(value) ? value[0] : value;
+          const symbol =
+            enm.type === SoftEnum.type
+              ? (enm as typeof CustomEnum).options.length > 0
+                ? (0x4_10 << 16) |
+                (packet.dynamicEnums.push({
+                  name: enm.name,
+                  values: (enm as typeof CustomEnum).options
+                }) -
+                  1)
+                : enm.symbol
+              : enm.symbol;
+
+          const optional = Array.isArray(value) ? value[1] : false;
+          name = optional ? name + "?" : name;
+
+          return {
+            symbol,
+            name,
+            optional,
+            options: 0
+          };
+        });
+
+        overloads.push({
+          chaining: false,
+          parameters
+        });
+      }
+
+      // Get the alias enum index if this command has aliases
+      const aliasEnumIndex = commandAliasEnumMap.get(command.name) ?? -1;
+
       // Map the command to the packet command
       return {
         name: command.name,
@@ -101,45 +255,8 @@ class PlayerCommandExecutorTrait extends PlayerTrait {
         permissionLevel: CommandPermissionLevel.Any,
         subcommands: [],
         flags: command.registry.debug ? 1 : 0,
-        alias: -1,
-        overloads: [...command.registry.overloads.keys()].map((overload) => {
-          // Iterate through the keys of the overload and extract the parameters.
-          const parameters = Object.entries(overload).map(([name, value]) => {
-            // Get the parameter constructor by checking if the value is an array.
-            const enm = Array.isArray(value) ? value[0] : value;
-
-            // Get the name of the parameter.
-            const symbol =
-              enm.type === SoftEnum.type
-                ? (enm as typeof CustomEnum).options.length > 0
-                  ? (0x4_10 << 16) |
-                    (packet.dynamicEnums.push({
-                      name: enm.name,
-                      values: (enm as typeof CustomEnum).options
-                    }) -
-                      1)
-                  : enm.symbol
-                : enm.symbol;
-
-            // Check if the parameter is optional.
-            const optional = Array.isArray(value) ? value[1] : false;
-
-            // Add the question mark to the name if the parameter is optional.
-            name = optional ? name + "?" : name;
-
-            return {
-              symbol,
-              name,
-              optional,
-              options: 0
-            };
-          });
-
-          return {
-            chaining: false,
-            parameters
-          };
-        })
+        alias: aliasEnumIndex,
+        overloads
       };
     });
 
@@ -147,8 +264,6 @@ class PlayerCommandExecutorTrait extends PlayerTrait {
     packet.chainedSubcommandValues = [];
     packet.subcommands = [];
     packet.enumConstraints = [];
-    packet.enumValues = [];
-    packet.enums = [];
     packet.postFixes = [];
 
     // Send the packet to the player
