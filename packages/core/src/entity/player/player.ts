@@ -238,6 +238,9 @@ class Player extends Entity {
     this.setNametag(this.username);
     this.setNametagAlwaysVisible(true);
 
+    // Players are persisted through the player provider entry, not chunk entity storage.
+    this.canBeSavedtoStorage = false;
+
     // Create a new abilities map for the player
     this.abilities = new PlayerAbilities(this);
 

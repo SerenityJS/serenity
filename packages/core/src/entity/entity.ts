@@ -205,6 +205,27 @@ class Entity {
    */
   public isTicking = true;
 
+  /**
+   * Whether the entity can be saved to storage or not. If false, the entity will not be saved to storage and will lose all data when it is despawned.
+   */
+  private saveToStorage = true;
+
+  public get canBeSavedtoStorage(): boolean {
+    return this.saveToStorage;
+  }
+
+  public set canBeSavedtoStorage(value: boolean) {
+    if (this.saveToStorage === value) return;
+
+    this.saveToStorage = value;
+
+    if (value) {
+      if (this.isAlive) this.storage.syncStoredChunk();
+    } else {
+      this.storage.detachFromStoredChunk();
+    }
+  }
+
   public get lastAttacker(): Entity | null {
     const currentTick = this.world.currentTick;
 
@@ -927,6 +948,9 @@ class Entity {
     // Add the entity to the dimension
     this.dimension.entities.set(this.uniqueId, this);
 
+    // Ensure the chunk storage reflects the current persistence mode.
+    this.storage.syncStoredChunk();
+
     // Set the entity as alive
     this.isAlive = true;
 
@@ -983,6 +1007,7 @@ class Entity {
     options = {
       hasDied: false,
       changedDimensions: false,
+      unloadingChunk: false,
       ...options
     };
 
@@ -1001,11 +1026,10 @@ class Entity {
     // Remove the entity from the dimension
     this.dimension.entities.delete(this.uniqueId);
 
-    // Get the chunk the entity is in
-    const chunk = this.getChunk();
-
-    // Remove the entity from the chunk
-    chunk.setEntityStorage(this.uniqueId, null);
+    // Remove persisted storage unless the entity is being unloaded and should stay in provider storage.
+    if (!(options.unloadingChunk && this.canBeSavedtoStorage)) {
+      this.storage.detachFromStoredChunk();
+    }
 
     // Trigger the entity onDespawn trait event
     for (const trait of this.traits.values()) {
