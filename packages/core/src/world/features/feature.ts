@@ -38,4 +38,4 @@ class Feature {
   public onRemove?(): void;
 }
 
-export { Feature };
+export { Feature, type FeatureOnTickDetails };

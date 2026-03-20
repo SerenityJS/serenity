@@ -24,7 +24,6 @@ import {
   EntityGravityTrait,
   EntityItemStackTrait,
   EntityMovementTrait,
-  EntityPhysicsTrait,
   EntityType,
   EntityXpOrbTrait,
   Player,
@@ -46,6 +45,7 @@ import {
   EntityQueryOptions,
   StructurePlaceOptions
 } from "./types";
+import { DimensionFeature, DimensionFeatures } from "./features";
 
 const DefaultDimensionProperties: DimensionProperties = {
   identifier: "overworld",
@@ -137,6 +137,11 @@ class Dimension {
   public readonly blocks = new Map<bigint, Block>();
 
   /**
+   * The features in the dimension.
+   */
+  private readonly features = new Map<string, DimensionFeature>();
+
+  /**
    * The amount of chunks that that will be rendered by the client.
    */
   public get viewDistance(): number {
@@ -226,6 +231,9 @@ class Dimension {
     // Assign the identifier and type
     this.identifier = this.properties.identifier;
     this.type = this.properties.type;
+
+    // Initialize features in the dimension
+    for (const feature of DimensionFeatures) this.addFeature(feature);
   }
 
   /**
@@ -249,6 +257,20 @@ class Dimension {
 
     // Get the current tick of the world
     const currentTick = this.world.currentTick;
+
+    // Tick the features of the world
+    for (const [identifier, feature] of this.features) {
+      try {
+        // Tick the feature with the signal details
+        feature.onTick?.({
+          currentTick,
+          deltaTick
+        });
+      } catch (reason) {
+        // Log that the feature failed to tick
+        this.world.logger.error(`Failed to tick feature ${identifier}`, reason);
+      }
+    }
 
     // Get random tick speed for calculating the chance of a random tick.
     const randomTickGamerule =
@@ -1147,7 +1169,6 @@ class Dimension {
 
     // As a Serenity standard, we will add the gravity, physics, movement traits to the entity
     entity.addTrait(EntityGravityTrait);
-    entity.addTrait(EntityPhysicsTrait);
     entity.addTrait(EntityMovementTrait);
     entity.addTrait(EntityCollisionTrait);
 
@@ -1186,7 +1207,6 @@ class Dimension {
 
     // Add gravity and physics traits to the entity
     entity.addTrait(EntityGravityTrait);
-    entity.addTrait(EntityPhysicsTrait);
     entity.addTrait(EntityMovementTrait);
     entity.addTrait(EntityCollisionTrait);
 
@@ -1218,7 +1238,6 @@ class Dimension {
 
     // Add gravity and physics traits to the entity
     entity.addTrait(EntityGravityTrait);
-    entity.addTrait(EntityPhysicsTrait);
     entity.addTrait(EntityMovementTrait);
     entity.addTrait(EntityCollisionTrait);
 
@@ -1298,7 +1317,7 @@ class Dimension {
     // Register the callback if it exists
     if (callback) schedule.on(callback);
 
-    // Add the schedule to the world
+    // Add the schedule to the dimension
     this.serenity.schedules.add(schedule);
 
     // Return the schedule
@@ -1443,6 +1462,132 @@ class Dimension {
     // Iterate over all the entities in the dimension
     for (const player of this.getPlayers())
       if (excludedPlayer !== player) player.send(...packets); // Send the packet to the player
+  }
+
+  /**
+   * Gets all the features in the dimension.s
+   * @returns An array of features in the dimension.s
+   */
+  public getAllFeatures(): Array<DimensionFeature> {
+    return Array.from(this.features.values());
+  }
+
+  /**
+   * Gets a feature by the constructor from the dimension
+   * @param feature The identifier or constructor of the feature
+   * @returns The feature, if found; otherwise, null
+   */
+  public getFeature<T extends typeof DimensionFeature>(
+    feature: T
+  ): InstanceType<T> | null;
+
+  /**
+   * Gets a feature by the identifier from the dimension
+   * @param identifier The identifier of the feature
+   * @returns The feature, if found; otherwise, null
+   */
+  public getFeature(identifier: string): DimensionFeature | null;
+
+  /**
+   * Gets a feature by the identifier or constructor from the dimension.
+   * @param identifierOrConstructor The identifier or constructor of the feature
+   * @returns The feature, if found; otherwise, null
+   */
+  public getFeature(
+    identifierOrConstructor: string | typeof DimensionFeature
+  ): DimensionFeature | null {
+    // Get the feature instance by the identifier or constructor
+    const instance = this.features.get(
+      typeof identifierOrConstructor === "string"
+        ? identifierOrConstructor
+        : identifierOrConstructor.identifier
+    );
+
+    // Return the feature instance if it exists, otherwise return null
+    return instance ?? null;
+  }
+
+  /**
+   * Adds a feature to the dimension by the constructor or instance of the feature
+   * @param feature The constructor or instance of the feature to add
+   * @returns The added feature instance
+   */
+  public addFeature<T extends typeof DimensionFeature>(
+    feature: T | DimensionFeature
+  ): InstanceType<T> {
+    // Check if the feature already exists in the world
+    if (this.features.has(feature.identifier)) {
+      // Return the existing feature if it already exists
+      return this.features.get(feature.identifier) as InstanceType<T>;
+    }
+
+    // Attempt to add the feature to the dimension
+    try {
+      // Check if the feature is a constructor or an instance
+      if (feature instanceof DimensionFeature) {
+        // Add the feature instance to the dimension
+        this.features.set(feature.identifier, feature);
+
+        // Call the onAdd method of the feature if it exists
+        feature.onAdd?.();
+
+        // Return the feature instance
+        return feature as InstanceType<T>;
+      } else {
+        // Create a new instance of the feature
+        const instance = new feature(this);
+
+        // Add the feature instance to the dimension
+        this.features.set(instance.identifier, instance);
+
+        // Call the onAdd method of the feature if it exists
+        instance.onAdd?.();
+
+        // Return the feature instance
+        return instance as InstanceType<T>;
+      }
+    } catch (reason) {
+      // Log that the feature failed to be added
+      this.world.logger.error(
+        `Failed to add feature with identifier ${feature.identifier}`,
+        reason
+      );
+
+      // Throw the error to be handled by the caller
+      throw reason;
+    }
+  }
+
+  /**
+   * Removes a feature from the dimension. by the identifier or constructor of the features
+   * @param identifier  The identifier or constructor of the feature to remove
+   * @returns The removed feature instance, if it was removed; otherwise, null
+   */
+  public removeFeature(identifier: string | typeof DimensionFeature): void {
+    // Find the feature instance by the identifier
+    const instance = this.features.get(
+      typeof identifier === "string" ? identifier : identifier.identifier
+    );
+
+    // Check if the feature instance exists
+    if (!instance) {
+      // Log that the feature does not exist
+      this.world.logger.error(
+        `Failed to remove feature with identifier ${identifier} as it does not exist`
+      );
+
+      // Return if the feature instance does not exist
+      return;
+    }
+
+    // Call the onRemove method of the feature if it exists
+    instance.onRemove?.();
+
+    // Remove the feature from the dimension.
+    this.features.delete(instance.identifier);
+
+    // Log that the feature has been removed
+    this.world.logger.debug(`Removed feature: ${instance.identifier}`);
   }
 }
 
