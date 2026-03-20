@@ -1558,12 +1558,15 @@ class Entity {
     const vz = Math.cos(headYawRad) * Math.cos(pitchRad);
 
     // Calculate the velocity of the entity based on the entity's rotation
-    const velocity = new Vector3f(vx, vy, vz).divide(2);
+    const velocity = new Vector3f(vx / 3, vy / 2, vz / 3);
+
+    // Calculate the y offset of the entity based on whether or not the entity is sneaking
+    const yOffset = this.isSneaking ? 0.75 : 1.15;
 
     // Spawn the entity in the dimension
     signal.itemStackEntity = this.dimension.spawnItem(
       itemStack,
-      new Vector3f(x, y + 1.25, z)
+      new Vector3f(x, y + yOffset, z)
     );
 
     // Set the velocity of the entity
