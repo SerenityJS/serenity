@@ -1,8 +1,8 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
-import { BlockPosition } from "./block-position";
 import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
 import { Vector3f } from "./vector3f";
+import { SignedBlockPosition } from "./signed-block-position";
 
 import type {
   BlockFace,
@@ -28,7 +28,7 @@ class ItemUseInventoryTransaction extends DataType {
   /**
    * The block position of the item use inventory transaction.
    */
-  public readonly blockPosition: BlockPosition;
+  public readonly blockPosition: SignedBlockPosition;
 
   /**
    * The block face of the item use inventory transaction.
@@ -66,6 +66,11 @@ class ItemUseInventoryTransaction extends DataType {
   public readonly clientPrediction: PredictedResult;
 
   /**
+   * The client cooldown state of the item use inventory transaction.
+   */
+  public readonly clientCooldownState: number;
+
+  /**
    * Creates an instance of ItemUseInventoryTransaction.
    *
    * @param type The type of the item use inventory transaction.
@@ -78,18 +83,20 @@ class ItemUseInventoryTransaction extends DataType {
    * @param clickPosition The click position of the item use inventory transaction.
    * @param networkBlockId The network block id of the item use inventory transaction.
    * @param clientPrediction The client prediction of the item use inventory transaction.
+   * @param clientCooldownState The client cooldown state of the item use inventory transaction.
    */
   public constructor(
     type: ItemUseInventoryTransactionType,
     triggerType: TriggerType,
-    blockPosition: BlockPosition,
+    blockPosition: SignedBlockPosition,
     face: BlockFace,
     slot: number,
     item: NetworkItemStackDescriptor,
     fromPosition: Vector3f,
     clickPosition: Vector3f,
     networkBlockId: number,
-    clientPrediction: PredictedResult
+    clientPrediction: PredictedResult,
+    clientCooldownState: number
   ) {
     super();
     this.type = type;
@@ -102,6 +109,7 @@ class ItemUseInventoryTransaction extends DataType {
     this.clickPosition = clickPosition;
     this.networkBlockId = networkBlockId;
     this.clientPrediction = clientPrediction;
+    this.clientCooldownState = clientCooldownState;
   }
 
   public static read(stream: BinaryStream): ItemUseInventoryTransaction {
@@ -112,7 +120,7 @@ class ItemUseInventoryTransaction extends DataType {
     const triggerType = stream.readVarInt() as TriggerType;
 
     // Read the block position of the item use inventory transaction
-    const blockPosition = BlockPosition.read(stream);
+    const blockPosition = SignedBlockPosition.read(stream);
 
     // Read the face of the item use inventory transaction
     const face = stream.readZigZag();
@@ -135,8 +143,11 @@ class ItemUseInventoryTransaction extends DataType {
     // Read the client prediction of the item use inventory transaction
     const clientPrediction = stream.readVarInt() as PredictedResult;
 
+    // Read the client cooldown state of the item use inventory transaction
+    const clientCooldownState = stream.readUint8();
+
     // Return the new instance of ItemUseInventoryTransaction
-    return new ItemUseInventoryTransaction(
+    return new this(
       type,
       triggerType,
       blockPosition,
@@ -146,7 +157,8 @@ class ItemUseInventoryTransaction extends DataType {
       fromPosition,
       clickPosition,
       networkBlockId,
-      clientPrediction
+      clientPrediction,
+      clientCooldownState
     );
   }
 
@@ -161,7 +173,7 @@ class ItemUseInventoryTransaction extends DataType {
     stream.writeVarInt(value.triggerType);
 
     // Write the block position of the item use inventory transaction
-    BlockPosition.write(stream, value.blockPosition);
+    SignedBlockPosition.write(stream, value.blockPosition);
 
     // Write the face of the item use inventory transaction
     stream.writeZigZag(value.face);
@@ -183,6 +195,9 @@ class ItemUseInventoryTransaction extends DataType {
 
     // Write whether the item use inventory transaction was successful
     stream.writeVarInt(value.clientPrediction);
+
+    // Write the client cooldown state of the item use inventory transaction
+    stream.writeUint8(value.clientCooldownState);
   }
 }
 
