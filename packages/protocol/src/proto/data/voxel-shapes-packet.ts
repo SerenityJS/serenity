@@ -1,13 +1,12 @@
 import { Proto, Serialize } from "@serenityjs/raknet";
-import {
-  VarInt,
-  VarString,
-  Uint16,
-  Endianness
-} from "@serenityjs/binarystream";
+import { Endianness, Uint16, VarInt } from "@serenityjs/binarystream";
 
 import { Packet } from "../../enums";
-import { SerializableVoxelShape, TypeArray } from "../types";
+import {
+  TypeArray,
+  SerializableVoxelShape,
+  SerializableVoxelRegistryHandle
+} from "../types";
 
 import { DataPacket } from "./data-packet";
 
@@ -19,10 +18,17 @@ class VoxelShapesPacket extends DataPacket {
   @Serialize(TypeArray(SerializableVoxelShape, VarInt))
   public shapes!: Array<SerializableVoxelShape>;
 
-  @Serialize(VarString) public hashString!: string;
+  /**
+   * Voxel shape registry names mapped to their shape indices
+   */
+  @Serialize(TypeArray(SerializableVoxelRegistryHandle, VarInt))
+  public names!: Array<SerializableVoxelRegistryHandle>;
 
+  /**
+   * TODO: investigate what this field does
+   */
   @Serialize(Uint16, { endian: Endianness.Little })
-  public registryHandle!: number;
+  private unknown = 0;
 }
 
 export { VoxelShapesPacket };

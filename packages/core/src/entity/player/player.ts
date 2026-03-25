@@ -69,6 +69,7 @@ import {
 } from "../traits";
 import { PlayerLevelStorage } from "../storage";
 import { PlayerSkin } from "../skin";
+import { DataDrivenScreen } from "../../ui/ddui/screen";
 
 import { ScreenDisplay } from "./screen-display";
 import { ClientSystemInfo } from "./system-info";
@@ -137,6 +138,8 @@ class Player extends Entity {
    * The pending forms of the player
    */
   public pendingForms: Map<number, FormParticipant<never>> = new Map();
+
+  public screens = new Map<string, DataDrivenScreen>();
 
   /**
    *

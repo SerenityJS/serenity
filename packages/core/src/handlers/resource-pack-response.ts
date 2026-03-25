@@ -232,7 +232,11 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.clientSideGeneration = false;
         packet.blockNetworkIdsAreHashes = true;
         packet.serverControlledSounds = true;
-        packet.containsServerJoinInfo = false;
+        packet.containsServerJoinInfo = {
+          gatheringJoinInfo: null,
+          presenceInfo: null,
+          storeEntryPointInfo: null
+        };
         packet.serverTelemetryData = {
           serverId: "SerenityJS",
           scenarioId:
@@ -279,8 +283,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         // Not really sure what this is for, but its now required (1.26.10+)
         const voxels = new VoxelShapesPacket();
         voxels.shapes = [];
-        voxels.hashString = "";
-        voxels.registryHandle = 0;
+        voxels.names = [];
 
         // Send the packets to the player
         player.sendImmediate(

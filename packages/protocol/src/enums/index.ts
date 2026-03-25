@@ -130,3 +130,5 @@ export * from "./code-builder-source-type";
 export * from "./command-origin-type";
 export * from "./text-variant-type";
 export * from "./subchunk-request-result";
+export * from "./data-store-property-value-type";
+export * from "./data-store-change-action";
