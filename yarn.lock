@@ -1785,17 +1785,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serenityjs/binarystream@npm:^3.0.10":
-  version: 3.0.10
-  resolution: "@serenityjs/binarystream@npm:3.0.10"
-  checksum: 10c0/94b684112c4c8e813dbe4057f8c8cefaa8c673e7532ca95a49c1aeeaddb27308486e3f6082500c0c38fa94dd591f1333db98f4b5c28da1a303be4f4cc2b92b7e
-  languageName: node
-  linkType: hard
-
 "@serenityjs/binarystream@npm:^3.0.8":
   version: 3.0.8
   resolution: "@serenityjs/binarystream@npm:3.0.8"
   checksum: 10c0/8785b11d0082bd10d9c358f3ca685dd9cf9e2828629b8a5b425461ebf85bc354f1b29cac222133c437c2b9909f5383ea7f55b515d7eefc15fcfdbafbfe969e77
+  languageName: node
+  linkType: hard
+
+"@serenityjs/binarystream@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@serenityjs/binarystream@npm:3.1.0"
+  checksum: 10c0/b833a451dfcc0c458abaca0198b3a427d1ee8b12d42a4deac2bb99933326eab77f9fa97d8bbad1b614c4f1f2f2b54d11361db2f903673eb12507c4c2a6f07fb3
   languageName: node
   linkType: hard
 
@@ -1805,7 +1805,7 @@ __metadata:
   dependencies:
     "@bedrock-apis/carolina-authentication": "npm:^1.0.0-beta.3"
     "@napi-rs/canvas": "npm:^0.1.80"
-    "@serenityjs/binarystream": "npm:^3.0.10"
+    "@serenityjs/binarystream": "npm:^3.1.0"
     "@serenityjs/data": "npm:*"
     "@serenityjs/emitter": "npm:*"
     "@serenityjs/internal-config": "npm:*"
@@ -1943,7 +1943,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/nbt@workspace:packages/nbt"
   dependencies:
-    "@serenityjs/binarystream": "npm:^3.0.10"
+    "@serenityjs/binarystream": "npm:^3.1.0"
     "@serenityjs/internal-config": "npm:*"
     "@swc/core": "npm:1.7.42"
     "@types/node": "npm:22.8.6"
@@ -1975,7 +1975,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/protocol@workspace:packages/protocol"
   dependencies:
-    "@serenityjs/binarystream": "npm:^3.0.10"
+    "@serenityjs/binarystream": "npm:^3.1.0"
     "@serenityjs/internal-config": "npm:*"
     "@serenityjs/nbt": "npm:*"
     "@serenityjs/raknet": "npm:*"
@@ -1991,7 +1991,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@serenityjs/raknet@workspace:packages/raknet"
   dependencies:
-    "@serenityjs/binarystream": "npm:^3.0.10"
+    "@serenityjs/binarystream": "npm:^3.1.0"
     "@serenityjs/emitter": "npm:*"
     "@serenityjs/internal-config": "npm:*"
     "@serenityjs/logger": "npm:*"

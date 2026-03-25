@@ -2,7 +2,7 @@
   "name": "@serenityjs/raknet",
   "author": "Serenity",
   "license": "MIT",
-  "version": "0.8.18",
+  "version": "0.8.19",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -27,7 +27,7 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@serenityjs/binarystream": "^3.0.10",
+    "@serenityjs/binarystream": "^3.1.0",
     "@serenityjs/emitter": "*",
     "@serenityjs/logger": "*",
     "@serenityjs/nbt": "*",
