@@ -21,31 +21,45 @@
     "components": []
   },
   {
-    "identifier": "minecraft:ice_bomb",
-    "components": []
-  },
-  {
-    "identifier": "minecraft:cat",
+    "identifier": "minecraft:goat",
     "components": [
       "minecraft:movement.jump",
       "minecraft:movement",
-      "minecraft:ageable",
-      "minecraft:healable",
       "minecraft:breathable",
       "minecraft:lava_movement",
-      "minecraft:tameable",
       "minecraft:health",
       "minecraft:leashable",
       "minecraft:navigation.walk",
       "minecraft:movement.basic",
       "minecraft:type_family",
       "minecraft:is_hidden_when_invisible",
-      "minecraft:rideable",
       "minecraft:underwater_movement",
-      "minecraft:can_climb",
-      "minecraft:is_baby",
-      "minecraft:variant"
+      "minecraft:can_climb"
     ]
+  },
+  {
+    "identifier": "editor:ruler_idle",
+    "components": [
+      "minecraft:movement",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:underwater_movement",
+      "minecraft:push_through"
+    ]
+  },
+  {
+    "identifier": "editor:location_pointer_selected",
+    "components": [
+      "minecraft:movement",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:underwater_movement",
+      "minecraft:push_through"
+    ]
+  },
+  {
+    "identifier": "minecraft:ice_bomb",
+    "components": []
   },
   {
     "identifier": "minecraft:bee",
@@ -66,7 +80,7 @@
     ]
   },
   {
-    "identifier": "minecraft:wolf",
+    "identifier": "minecraft:cat",
     "components": [
       "minecraft:movement.jump",
       "minecraft:movement",
@@ -82,224 +96,19 @@
       "minecraft:is_hidden_when_invisible",
       "minecraft:rideable",
       "minecraft:underwater_movement",
-      "minecraft:can_climb"
-    ]
-  },
-  {
-    "identifier": "minecraft:rabbit",
-    "components": [
-      "minecraft:movement",
-      "minecraft:ageable",
-      "minecraft:breathable",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:leashable",
-      "minecraft:navigation.walk",
-      "minecraft:type_family",
-      "minecraft:movement.skip",
-      "minecraft:is_hidden_when_invisible",
-      "minecraft:underwater_movement",
       "minecraft:can_climb",
-      "minecraft:is_baby",
+      "minecraft:scale",
       "minecraft:variant"
     ]
   },
   {
-    "identifier": "minecraft:pig",
+    "identifier": "editor:location_pointer_idle",
     "components": [
-      "minecraft:movement.jump",
-      "minecraft:movement",
-      "minecraft:breathable",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:leashable",
-      "minecraft:navigation.walk",
-      "minecraft:movement.basic",
-      "minecraft:type_family",
-      "minecraft:is_hidden_when_invisible",
-      "minecraft:rideable",
-      "minecraft:underwater_movement",
-      "minecraft:can_climb"
-    ]
-  },
-  {
-    "identifier": "minecraft:ocelot",
-    "components": [
-      "minecraft:movement.jump",
-      "minecraft:movement",
-      "minecraft:breathable",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:leashable",
-      "minecraft:navigation.walk",
-      "minecraft:movement.basic",
-      "minecraft:type_family",
-      "minecraft:is_hidden_when_invisible",
-      "minecraft:rideable",
-      "minecraft:underwater_movement",
-      "minecraft:can_climb"
-    ]
-  },
-  {
-    "identifier": "minecraft:blaze",
-    "components": [
-      "minecraft:movement.jump",
       "minecraft:movement",
       "minecraft:lava_movement",
       "minecraft:health",
-      "minecraft:fire_immune",
-      "minecraft:navigation.walk",
-      "minecraft:movement.basic",
-      "minecraft:type_family",
-      "minecraft:is_hidden_when_invisible",
       "minecraft:underwater_movement",
-      "minecraft:can_climb"
-    ]
-  },
-  {
-    "identifier": "minecraft:sheep",
-    "components": [
-      "minecraft:movement.jump",
-      "minecraft:movement",
-      "minecraft:color",
-      "minecraft:breathable",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:leashable",
-      "minecraft:navigation.walk",
-      "minecraft:movement.basic",
-      "minecraft:type_family",
-      "minecraft:is_hidden_when_invisible",
-      "minecraft:rideable",
-      "minecraft:underwater_movement",
-      "minecraft:can_climb",
-      "minecraft:is_dyeable"
-    ]
-  },
-  {
-    "identifier": "minecraft:mooshroom",
-    "components": [
-      "minecraft:movement.jump",
-      "minecraft:movement",
-      "minecraft:breathable",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:leashable",
-      "minecraft:navigation.walk",
-      "minecraft:movement.basic",
-      "minecraft:type_family",
-      "minecraft:is_hidden_when_invisible",
-      "minecraft:rideable",
-      "minecraft:underwater_movement",
-      "minecraft:can_climb",
-      "minecraft:mark_variant",
-      "minecraft:variant"
-    ]
-  },
-  {
-    "identifier": "minecraft:allay",
-    "components": [
-      "minecraft:movement.jump",
-      "minecraft:movement",
-      "minecraft:breathable",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:inventory",
-      "minecraft:leashable",
-      "minecraft:type_family",
-      "minecraft:is_hidden_when_invisible",
-      "minecraft:movement.hover",
-      "minecraft:navigation.hover",
-      "minecraft:underwater_movement",
-      "minecraft:can_fly",
-      "minecraft:flying_speed"
-    ]
-  },
-  {
-    "identifier": "minecraft:cow",
-    "components": [
-      "minecraft:movement.jump",
-      "minecraft:movement",
-      "minecraft:breathable",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:leashable",
-      "minecraft:navigation.walk",
-      "minecraft:movement.basic",
-      "minecraft:type_family",
-      "minecraft:is_hidden_when_invisible",
-      "minecraft:rideable",
-      "minecraft:underwater_movement",
-      "minecraft:can_climb"
-    ]
-  },
-  {
-    "identifier": "minecraft:zoglin",
-    "components": [
-      "minecraft:movement.jump",
-      "minecraft:movement",
-      "minecraft:breathable",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:fire_immune",
-      "minecraft:leashable",
-      "minecraft:navigation.walk",
-      "minecraft:movement.basic",
-      "minecraft:type_family",
-      "minecraft:is_hidden_when_invisible",
-      "minecraft:underwater_movement",
-      "minecraft:can_climb"
-    ]
-  },
-  {
-    "identifier": "minecraft:skeleton",
-    "components": [
-      "minecraft:movement.jump",
-      "minecraft:movement",
-      "minecraft:breathable",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:navigation.walk",
-      "minecraft:movement.basic",
-      "minecraft:type_family",
-      "minecraft:is_hidden_when_invisible",
-      "minecraft:underwater_movement",
-      "minecraft:can_climb"
-    ]
-  },
-  {
-    "identifier": "minecraft:chicken",
-    "components": [
-      "minecraft:movement.jump",
-      "minecraft:movement",
-      "minecraft:breathable",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:leashable",
-      "minecraft:navigation.walk",
-      "minecraft:movement.basic",
-      "minecraft:type_family",
-      "minecraft:is_hidden_when_invisible",
-      "minecraft:rideable",
-      "minecraft:underwater_movement",
-      "minecraft:can_climb"
-    ]
-  },
-  {
-    "identifier": "minecraft:polar_bear",
-    "components": [
-      "minecraft:movement.jump",
-      "minecraft:movement",
-      "minecraft:breathable",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:leashable",
-      "minecraft:navigation.walk",
-      "minecraft:movement.basic",
-      "minecraft:type_family",
-      "minecraft:is_hidden_when_invisible",
-      "minecraft:underwater_movement",
-      "minecraft:can_climb"
+      "minecraft:push_through"
     ]
   },
   {
@@ -310,33 +119,6 @@
       "minecraft:health",
       "minecraft:underwater_movement",
       "minecraft:push_through"
-    ]
-  },
-  {
-    "identifier": "editor:ruler_idle",
-    "components": [
-      "minecraft:movement",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:underwater_movement",
-      "minecraft:push_through"
-    ]
-  },
-  {
-    "identifier": "minecraft:goat",
-    "components": [
-      "minecraft:movement.jump",
-      "minecraft:movement",
-      "minecraft:breathable",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:leashable",
-      "minecraft:navigation.walk",
-      "minecraft:movement.basic",
-      "minecraft:type_family",
-      "minecraft:is_hidden_when_invisible",
-      "minecraft:underwater_movement",
-      "minecraft:can_climb"
     ]
   },
   {
@@ -377,26 +159,6 @@
       "minecraft:is_hidden_when_invisible",
       "minecraft:movement.glide",
       "minecraft:underwater_movement"
-    ]
-  },
-  {
-    "identifier": "editor:location_pointer_selected",
-    "components": [
-      "minecraft:movement",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:underwater_movement",
-      "minecraft:push_through"
-    ]
-  },
-  {
-    "identifier": "editor:location_pointer_idle",
-    "components": [
-      "minecraft:movement",
-      "minecraft:lava_movement",
-      "minecraft:health",
-      "minecraft:underwater_movement",
-      "minecraft:push_through"
     ]
   },
   {
@@ -518,17 +280,16 @@
       "minecraft:movement.jump",
       "minecraft:movement",
       "minecraft:healable",
-      "minecraft:tamemount",
       "minecraft:breathable",
       "minecraft:lava_movement",
       "minecraft:health",
-      "minecraft:leashable",
       "minecraft:navigation.walk",
       "minecraft:movement.basic",
       "minecraft:type_family",
       "minecraft:is_hidden_when_invisible",
-      "minecraft:rideable",
-      "minecraft:underwater_movement"
+      "minecraft:underwater_movement",
+      "minecraft:is_baby",
+      "minecraft:scale"
     ]
   },
   {
@@ -546,6 +307,98 @@
       "minecraft:rideable",
       "minecraft:underwater_movement",
       "minecraft:can_climb"
+    ]
+  },
+  {
+    "identifier": "minecraft:zoglin",
+    "components": [
+      "minecraft:movement.jump",
+      "minecraft:movement",
+      "minecraft:breathable",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:fire_immune",
+      "minecraft:leashable",
+      "minecraft:navigation.walk",
+      "minecraft:movement.basic",
+      "minecraft:type_family",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:underwater_movement",
+      "minecraft:can_climb"
+    ]
+  },
+  {
+    "identifier": "minecraft:skeleton",
+    "components": [
+      "minecraft:movement.jump",
+      "minecraft:movement",
+      "minecraft:breathable",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:navigation.walk",
+      "minecraft:movement.basic",
+      "minecraft:type_family",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:underwater_movement",
+      "minecraft:can_climb"
+    ]
+  },
+  {
+    "identifier": "minecraft:cow",
+    "components": [
+      "minecraft:movement.jump",
+      "minecraft:movement",
+      "minecraft:breathable",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:leashable",
+      "minecraft:navigation.walk",
+      "minecraft:movement.basic",
+      "minecraft:type_family",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:rideable",
+      "minecraft:underwater_movement",
+      "minecraft:can_climb"
+    ]
+  },
+  {
+    "identifier": "minecraft:wolf",
+    "components": [
+      "minecraft:movement.jump",
+      "minecraft:movement",
+      "minecraft:healable",
+      "minecraft:breathable",
+      "minecraft:lava_movement",
+      "minecraft:tameable",
+      "minecraft:health",
+      "minecraft:leashable",
+      "minecraft:navigation.walk",
+      "minecraft:movement.basic",
+      "minecraft:type_family",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:rideable",
+      "minecraft:underwater_movement",
+      "minecraft:can_climb"
+    ]
+  },
+  {
+    "identifier": "minecraft:rabbit",
+    "components": [
+      "minecraft:movement",
+      "minecraft:ageable",
+      "minecraft:breathable",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:leashable",
+      "minecraft:navigation.walk",
+      "minecraft:type_family",
+      "minecraft:movement.skip",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:underwater_movement",
+      "minecraft:can_climb",
+      "minecraft:is_baby",
+      "minecraft:scale",
+      "minecraft:variant"
     ]
   },
   {
@@ -614,9 +467,7 @@
       "minecraft:health",
       "minecraft:type_family",
       "minecraft:underwater_movement",
-      "minecraft:can_climb",
-      "minecraft:is_baby",
-      "minecraft:scale"
+      "minecraft:can_climb"
     ]
   },
   {
@@ -777,6 +628,61 @@
     ]
   },
   {
+    "identifier": "minecraft:sheep",
+    "components": [
+      "minecraft:movement.jump",
+      "minecraft:movement",
+      "minecraft:color",
+      "minecraft:breathable",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:leashable",
+      "minecraft:navigation.walk",
+      "minecraft:movement.basic",
+      "minecraft:type_family",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:rideable",
+      "minecraft:underwater_movement",
+      "minecraft:can_climb",
+      "minecraft:is_dyeable"
+    ]
+  },
+  {
+    "identifier": "minecraft:polar_bear",
+    "components": [
+      "minecraft:movement.jump",
+      "minecraft:movement",
+      "minecraft:breathable",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:leashable",
+      "minecraft:navigation.walk",
+      "minecraft:movement.basic",
+      "minecraft:type_family",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:underwater_movement",
+      "minecraft:can_climb"
+    ]
+  },
+  {
+    "identifier": "minecraft:chicken",
+    "components": [
+      "minecraft:movement.jump",
+      "minecraft:movement",
+      "minecraft:breathable",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:leashable",
+      "minecraft:navigation.walk",
+      "minecraft:movement.basic",
+      "minecraft:type_family",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:rideable",
+      "minecraft:underwater_movement",
+      "minecraft:can_climb"
+    ]
+  },
+  {
     "identifier": "minecraft:piglin",
     "components": [
       "minecraft:movement.jump",
@@ -827,6 +733,24 @@
     ]
   },
   {
+    "identifier": "minecraft:pig",
+    "components": [
+      "minecraft:movement.jump",
+      "minecraft:movement",
+      "minecraft:breathable",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:leashable",
+      "minecraft:navigation.walk",
+      "minecraft:movement.basic",
+      "minecraft:type_family",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:rideable",
+      "minecraft:underwater_movement",
+      "minecraft:can_climb"
+    ]
+  },
+  {
     "identifier": "minecraft:parched",
     "components": [
       "minecraft:movement.jump",
@@ -860,6 +784,41 @@
       "minecraft:can_climb",
       "minecraft:scale",
       "minecraft:variant"
+    ]
+  },
+  {
+    "identifier": "minecraft:blaze",
+    "components": [
+      "minecraft:movement.jump",
+      "minecraft:movement",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:fire_immune",
+      "minecraft:navigation.walk",
+      "minecraft:movement.basic",
+      "minecraft:type_family",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:underwater_movement",
+      "minecraft:can_climb"
+    ]
+  },
+  {
+    "identifier": "minecraft:ocelot",
+    "components": [
+      "minecraft:movement.jump",
+      "minecraft:movement",
+      "minecraft:breathable",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:leashable",
+      "minecraft:navigation.walk",
+      "minecraft:movement.basic",
+      "minecraft:type_family",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:rideable",
+      "minecraft:underwater_movement",
+      "minecraft:can_climb",
+      "minecraft:scale"
     ]
   },
   {
@@ -898,10 +857,47 @@
     ]
   },
   {
-    "identifier": "minecraft:arrow",
+    "identifier": "minecraft:mooshroom",
     "components": [
-      "minecraft:projectile"
+      "minecraft:movement.jump",
+      "minecraft:movement",
+      "minecraft:breathable",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:leashable",
+      "minecraft:navigation.walk",
+      "minecraft:movement.basic",
+      "minecraft:type_family",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:rideable",
+      "minecraft:underwater_movement",
+      "minecraft:can_climb",
+      "minecraft:mark_variant",
+      "minecraft:variant"
     ]
+  },
+  {
+    "identifier": "minecraft:allay",
+    "components": [
+      "minecraft:movement.jump",
+      "minecraft:movement",
+      "minecraft:breathable",
+      "minecraft:lava_movement",
+      "minecraft:health",
+      "minecraft:inventory",
+      "minecraft:leashable",
+      "minecraft:type_family",
+      "minecraft:is_hidden_when_invisible",
+      "minecraft:movement.hover",
+      "minecraft:navigation.hover",
+      "minecraft:underwater_movement",
+      "minecraft:can_fly",
+      "minecraft:flying_speed"
+    ]
+  },
+  {
+    "identifier": "minecraft:arrow",
+    "components": ["minecraft:projectile"]
   },
   {
     "identifier": "minecraft:llama",
@@ -1014,8 +1010,8 @@
     "components": [
       "minecraft:movement.jump",
       "minecraft:movement",
-      "minecraft:ageable",
       "minecraft:healable",
+      "minecraft:tamemount",
       "minecraft:breathable",
       "minecraft:lava_movement",
       "minecraft:health",
@@ -1024,9 +1020,8 @@
       "minecraft:movement.basic",
       "minecraft:type_family",
       "minecraft:is_hidden_when_invisible",
-      "minecraft:underwater_movement",
-      "minecraft:is_baby",
-      "minecraft:scale"
+      "minecraft:rideable",
+      "minecraft:underwater_movement"
     ]
   },
   {
@@ -1376,9 +1371,7 @@
   },
   {
     "identifier": "minecraft:egg",
-    "components": [
-      "minecraft:projectile"
-    ]
+    "components": ["minecraft:projectile"]
   },
   {
     "identifier": "minecraft:creaking",
@@ -1445,9 +1438,7 @@
   },
   {
     "identifier": "minecraft:ender_crystal",
-    "components": [
-      "minecraft:fire_immune"
-    ]
+    "components": ["minecraft:fire_immune"]
   },
   {
     "identifier": "minecraft:pillager",
@@ -1507,10 +1498,7 @@
   },
   {
     "identifier": "minecraft:wind_charge_projectile",
-    "components": [
-      "minecraft:type_family",
-      "minecraft:projectile"
-    ]
+    "components": ["minecraft:type_family", "minecraft:projectile"]
   },
   {
     "identifier": "minecraft:thrown_trident",
@@ -1720,9 +1708,7 @@
   },
   {
     "identifier": "minecraft:xp_orb",
-    "components": [
-      "minecraft:type_family"
-    ]
+    "components": ["minecraft:type_family"]
   },
   {
     "identifier": "minecraft:shulker_bullet",
@@ -1730,21 +1716,15 @@
   },
   {
     "identifier": "minecraft:xp_bottle",
-    "components": [
-      "minecraft:projectile"
-    ]
+    "components": ["minecraft:projectile"]
   },
   {
     "identifier": "minecraft:tnt",
-    "components": [
-      "minecraft:type_family"
-    ]
+    "components": ["minecraft:type_family"]
   },
   {
     "identifier": "minecraft:splash_potion",
-    "components": [
-      "minecraft:projectile"
-    ]
+    "components": ["minecraft:projectile"]
   },
   {
     "identifier": "minecraft:lingering_potion",
@@ -1752,9 +1732,7 @@
   },
   {
     "identifier": "minecraft:snowball",
-    "components": [
-      "minecraft:projectile"
-    ]
+    "components": ["minecraft:projectile"]
   },
   {
     "identifier": "minecraft:ender_pearl",
@@ -1772,9 +1750,7 @@
   },
   {
     "identifier": "minecraft:lightning_bolt",
-    "components": [
-      "minecraft:type_family"
-    ]
+    "components": ["minecraft:type_family"]
   },
   {
     "identifier": "minecraft:tripod_camera",
@@ -1782,10 +1758,7 @@
   },
   {
     "identifier": "minecraft:tnt_minecart",
-    "components": [
-      "minecraft:type_family",
-      "minecraft:is_stackable"
-    ]
+    "components": ["minecraft:type_family", "minecraft:is_stackable"]
   },
   {
     "identifier": "minecraft:hopper_minecart",
@@ -1805,10 +1778,7 @@
   },
   {
     "identifier": "minecraft:command_block_minecart",
-    "components": [
-      "minecraft:inventory",
-      "minecraft:type_family"
-    ]
+    "components": ["minecraft:inventory", "minecraft:type_family"]
   },
   {
     "identifier": "minecraft:chest_minecart",

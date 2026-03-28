@@ -12238,6 +12238,30 @@
     ]
   },
   {
+    "identifier": "minecraft:golden_dandelion",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      "AAA",
+      "ABA",
+      "AAA"
+    ],
+    "key": {
+      "A": {
+        "type": "minecraft:gold_nugget",
+        "metadata": 32767
+      },
+      "B": {
+        "type": "minecraft:dandelion",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      null
+    ]
+  },
+  {
     "identifier": "minecraft:golden_helmet",
     "priority": 0,
     "tag": "crafting_table",
@@ -16189,6 +16213,32 @@
       {
         "type": "minecraft:mud_bricks",
         "instance": "tQcEAAC35c/MDwoAAAAAAAAAAAAA"
+      }
+    ]
+  },
+  {
+    "identifier": "minecraft:name_tag",
+    "priority": 0,
+    "tag": "crafting_table",
+    "symmetrical": true,
+    "pattern": [
+      " A",
+      "B ",
+      ""
+    ],
+    "key": {
+      "A": {
+        "tag": "minecraft:metal_nuggets"
+      },
+      "B": {
+        "type": "minecraft:paper",
+        "metadata": 32767
+      }
+    },
+    "resultants": [
+      {
+        "type": "minecraft:name_tag",
+        "instance": "lgkBAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
