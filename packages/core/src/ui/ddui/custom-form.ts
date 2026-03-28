@@ -7,6 +7,8 @@ import {
   CloseButtonOptions,
   DividerElement,
   DividerElementOptions,
+  LabelElement,
+  LabelElementOptions,
   SliderElement,
   SliderElementOptions,
   TextFieldElement,
@@ -204,6 +206,26 @@ class CustomForm extends DataDrivenScreen {
 
     // Add the divider element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
     this.layout.setProperty(divider as ObjectProperty);
+
+    // Return the current instance of the CustomForm class to allow for method chaining.
+    return this;
+  }
+
+  /**
+   * Add a label element to the custom form with the given text and options.
+   * @param text The text to be displayed on the label element.
+   * @param options The options for configuring the label element, including whether the label is visible or hidden in the user interface of the custom form.
+   * @returns The current instance of the CustomForm class to allow for method chaining.
+   */
+  public label(
+    text: string | Observable<string>,
+    options: LabelElementOptions = {}
+  ): this {
+    // Create a new label element using the CustomForm as the parent object property.
+    const label = new LabelElement(text, options, this.layout);
+
+    // Add the label element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
+    this.layout.setProperty(label as ObjectProperty);
 
     // Return the current instance of the CustomForm class to allow for method chaining.
     return this;
