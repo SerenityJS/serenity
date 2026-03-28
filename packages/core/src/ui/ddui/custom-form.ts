@@ -5,6 +5,8 @@ import {
   ButtonOptions,
   CloseButtonElement,
   CloseButtonOptions,
+  DividerElement,
+  DividerElementOptions,
   SliderElement,
   SliderElementOptions,
   TextFieldElement,
@@ -186,6 +188,22 @@ class CustomForm extends DataDrivenScreen {
 
     // Add the slider element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
     this.layout.setProperty(slider as ObjectProperty);
+
+    // Return the current instance of the CustomForm class to allow for method chaining.
+    return this;
+  }
+
+  /**
+   * Add a divider element to the custom form with the given options.
+   * @param options The options for configuring the divider element, including whether the divider is visible or hidden in the user interface of the custom form. The visibility option allows for dynamic control over whether the divider is displayed to users, enabling more flexible and customizable form layouts based on specific conditions or user interactions. By providing options for configuring the divider element, developers can create more dynamic and interactive user interfaces within their custom forms, enhancing the overall user experience.
+   * @returns The current instance of the CustomForm class to allow for method chaining.
+   */
+  public divider(options: DividerElementOptions = {}): this {
+    // Create a new divider element using the CustomForm as the parent object property.
+    const divider = new DividerElement(options, this.layout);
+
+    // Add the divider element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
+    this.layout.setProperty(divider as ObjectProperty);
 
     // Return the current instance of the CustomForm class to allow for method chaining.
     return this;

@@ -6,3 +6,4 @@ export * from "./button";
 export * from "./text-field";
 export * from "./toggle";
 export * from "./slider";
+export * from "./divider";
