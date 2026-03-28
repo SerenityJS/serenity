@@ -8,3 +8,4 @@ export * from "./toggle";
 export * from "./slider";
 export * from "./divider";
 export * from "./label";
+export * from "./spacer";

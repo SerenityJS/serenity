@@ -11,6 +11,8 @@ import {
   LabelElementOptions,
   SliderElement,
   SliderElementOptions,
+  SpacerElement,
+  SpacerElementOptions,
   TextFieldElement,
   TextFieldOptions,
   ToggleElement,
@@ -226,6 +228,22 @@ class CustomForm extends DataDrivenScreen {
 
     // Add the label element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
     this.layout.setProperty(label as ObjectProperty);
+
+    // Return the current instance of the CustomForm class to allow for method chaining.
+    return this;
+  }
+
+  /**
+   * Add a spacer element to the custom form with the given options.
+   * @param options The options for configuring the spacer element, including whether the spacer is visible or hidden in the user interface of the custom form. The visibility option allows for dynamic control over whether the spacer is displayed to users, enabling more flexible and customizable form layouts based on specific conditions or user interactions. By providing options for configuring the spacer element, developers can create more dynamic and interactive user interfaces within their custom forms, enhancing the overall user experience.
+   * @returns The current instance of the CustomForm class to allow for method chaining.
+   */
+  public spacer(options: SpacerElementOptions = {}): this {
+    // Create a new spacer element using the CustomForm as the parent object property.
+    const spacer = new SpacerElement(options, this.layout);
+
+    // Add the spacer element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
+    this.layout.setProperty(spacer as ObjectProperty);
 
     // Return the current instance of the CustomForm class to allow for method chaining.
     return this;
