@@ -9,3 +9,4 @@ export * from "./slider";
 export * from "./divider";
 export * from "./label";
 export * from "./spacer";
+export * from "./dropdown";

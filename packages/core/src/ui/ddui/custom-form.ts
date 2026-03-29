@@ -7,6 +7,9 @@ import {
   CloseButtonOptions,
   DividerElement,
   DividerElementOptions,
+  DropdownElement,
+  DropdownElementItem,
+  DropdownElementOptions,
   LabelElement,
   LabelElementOptions,
   SliderElement,
@@ -244,6 +247,28 @@ class CustomForm extends DataDrivenScreen {
 
     // Add the spacer element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
     this.layout.setProperty(spacer as ObjectProperty);
+
+    // Return the current instance of the CustomForm class to allow for method chaining.
+    return this;
+  }
+
+  public dropdown(
+    label: string | Observable<string>,
+    value: Observable<number>,
+    items: Array<DropdownElementItem>,
+    options: DropdownElementOptions = {}
+  ): this {
+    // Create a new dropdown element using the CustomForm as the parent object property.
+    const dropdown = new DropdownElement(
+      label,
+      value,
+      items,
+      options,
+      this.layout
+    );
+
+    // Add the dropdown element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
+    this.layout.setProperty(dropdown as ObjectProperty);
 
     // Return the current instance of the CustomForm class to allow for method chaining.
     return this;

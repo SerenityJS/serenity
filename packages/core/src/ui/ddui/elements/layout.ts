@@ -9,8 +9,8 @@ class LayoutElement extends ObjectProperty {
    * Create a new layout element with the default name "layout", which serves as the container for organizing and structuring other elements within the user interface of a custom form.
    * The layout element allows for the arrangement and grouping of various UI components, enabling developers to create visually appealing and user-friendly interfaces for their custom forms.
    */
-  public constructor(parent: ObjectProperty | null = null) {
-    super("layout", parent);
+  public constructor(name?: string, parent: ObjectProperty | null = null) {
+    super(name ?? "layout", parent);
   }
 
   /**
