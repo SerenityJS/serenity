@@ -134,7 +134,6 @@ export * from "./script-debug-shape";
 export * from "./serialized-skin";
 export * from "./shaped-recipe";
 export * from "./shapeless-recipe";
-export * from "./signed-block-position";
 export * from "./skin-animation";
 export * from "./skin-image";
 export * from "./skin-persona-piece";

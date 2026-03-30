@@ -911,6 +911,16 @@
     ]
   },
   {
+    "identifier": "minecraft:multi_block_part",
+    "type": "int",
+    "values": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  {
     "identifier": "minecraft:vertical_half",
     "type": "string",
     "values": [

@@ -49,7 +49,7 @@ class ShapelessCraftingRecipe extends Recipe {
       // Add the resultants to the instance.
       for (const resultant of recipe.resultants) {
         // Check if the resultant is an ItemType.
-        if (resultant.type) {
+        if (resultant?.type) {
           // Create a buffer from the instance string.
           const buffer = Buffer.from(resultant.instance, "base64");
 

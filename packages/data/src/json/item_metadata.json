@@ -10017,6 +10017,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:golden_dandelion",
+    "networkId": -1091,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:element_14",
     "networkId": -25,
     "isComponentBased": false,

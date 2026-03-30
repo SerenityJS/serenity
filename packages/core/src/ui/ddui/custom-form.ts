@@ -5,8 +5,17 @@ import {
   ButtonOptions,
   CloseButtonElement,
   CloseButtonOptions,
+  DividerElement,
+  DividerElementOptions,
+  DropdownElement,
+  DropdownElementItem,
+  DropdownElementOptions,
+  LabelElement,
+  LabelElementOptions,
   SliderElement,
   SliderElementOptions,
+  SpacerElement,
+  SpacerElementOptions,
   TextFieldElement,
   TextFieldOptions,
   ToggleElement,
@@ -186,6 +195,80 @@ class CustomForm extends DataDrivenScreen {
 
     // Add the slider element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
     this.layout.setProperty(slider as ObjectProperty);
+
+    // Return the current instance of the CustomForm class to allow for method chaining.
+    return this;
+  }
+
+  /**
+   * Add a divider element to the custom form with the given options.
+   * @param options The options for configuring the divider element, including whether the divider is visible or hidden in the user interface of the custom form. The visibility option allows for dynamic control over whether the divider is displayed to users, enabling more flexible and customizable form layouts based on specific conditions or user interactions. By providing options for configuring the divider element, developers can create more dynamic and interactive user interfaces within their custom forms, enhancing the overall user experience.
+   * @returns The current instance of the CustomForm class to allow for method chaining.
+   */
+  public divider(options: DividerElementOptions = {}): this {
+    // Create a new divider element using the CustomForm as the parent object property.
+    const divider = new DividerElement(options, this.layout);
+
+    // Add the divider element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
+    this.layout.setProperty(divider as ObjectProperty);
+
+    // Return the current instance of the CustomForm class to allow for method chaining.
+    return this;
+  }
+
+  /**
+   * Add a label element to the custom form with the given text and options.
+   * @param text The text to be displayed on the label element.
+   * @param options The options for configuring the label element, including whether the label is visible or hidden in the user interface of the custom form.
+   * @returns The current instance of the CustomForm class to allow for method chaining.
+   */
+  public label(
+    text: string | Observable<string>,
+    options: LabelElementOptions = {}
+  ): this {
+    // Create a new label element using the CustomForm as the parent object property.
+    const label = new LabelElement(text, options, this.layout);
+
+    // Add the label element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
+    this.layout.setProperty(label as ObjectProperty);
+
+    // Return the current instance of the CustomForm class to allow for method chaining.
+    return this;
+  }
+
+  /**
+   * Add a spacer element to the custom form with the given options.
+   * @param options The options for configuring the spacer element, including whether the spacer is visible or hidden in the user interface of the custom form. The visibility option allows for dynamic control over whether the spacer is displayed to users, enabling more flexible and customizable form layouts based on specific conditions or user interactions. By providing options for configuring the spacer element, developers can create more dynamic and interactive user interfaces within their custom forms, enhancing the overall user experience.
+   * @returns The current instance of the CustomForm class to allow for method chaining.
+   */
+  public spacer(options: SpacerElementOptions = {}): this {
+    // Create a new spacer element using the CustomForm as the parent object property.
+    const spacer = new SpacerElement(options, this.layout);
+
+    // Add the spacer element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
+    this.layout.setProperty(spacer as ObjectProperty);
+
+    // Return the current instance of the CustomForm class to allow for method chaining.
+    return this;
+  }
+
+  public dropdown(
+    label: string | Observable<string>,
+    value: Observable<number>,
+    items: Array<DropdownElementItem>,
+    options: DropdownElementOptions = {}
+  ): this {
+    // Create a new dropdown element using the CustomForm as the parent object property.
+    const dropdown = new DropdownElement(
+      label,
+      value,
+      items,
+      options,
+      this.layout
+    );
+
+    // Add the dropdown element to the layout of the custom form, which will include it in the overall structure and arrangement of the form elements when the form is displayed.
+    this.layout.setProperty(dropdown as ObjectProperty);
 
     // Return the current instance of the CustomForm class to allow for method chaining.
     return this;

@@ -1,6 +1,6 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
-import { SignedBlockPosition } from "./signed-block-position";
+import { BlockPosition } from "./block-position";
 
 import type { BlockFace, PlayerActionType } from "../../enums";
 
@@ -13,7 +13,7 @@ class PlayerBlockActionData extends DataType {
   /**
    * The position of the block.
    */
-  public position: SignedBlockPosition;
+  public position: BlockPosition;
 
   /**
    * The face of the interacted block.
@@ -28,7 +28,7 @@ class PlayerBlockActionData extends DataType {
    */
   public constructor(
     type: PlayerActionType,
-    position: SignedBlockPosition,
+    position: BlockPosition,
     face: BlockFace
   ) {
     super();
@@ -42,7 +42,7 @@ class PlayerBlockActionData extends DataType {
     const type = stream.readZigZag() as PlayerActionType;
 
     // Read the position of the block
-    const position = SignedBlockPosition.read(stream);
+    const position = BlockPosition.read(stream);
 
     // Read the face of the interacted block
     const face = stream.readZigZag() as BlockFace;
@@ -59,7 +59,7 @@ class PlayerBlockActionData extends DataType {
     stream.writeZigZag(value.type);
 
     // Write the position of the block
-    SignedBlockPosition.write(stream, value.position);
+    BlockPosition.write(stream, value.position);
 
     // Write the face of the interacted block
     stream.writeZigZag(value.face);

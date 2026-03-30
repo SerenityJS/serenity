@@ -23,7 +23,7 @@ abstract class DataDrivenScreen extends ObjectProperty {
 
   private readonly viewers: Set<Player> = new Set();
 
-  protected readonly layout = new LayoutElement(this);
+  protected readonly layout = new LayoutElement("layout", this);
 
   public constructor() {
     super("");
