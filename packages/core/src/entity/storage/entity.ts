@@ -156,40 +156,7 @@ class EntityLevelStorage extends CompoundTag {
    * @param position The position to set as a Vector3f instance.
    */
   public setPosition(position: Vector3f): void {
-    // Check if there is a stored chunk
-    if (this.storedChunk) {
-      // Get the new chunk based on the position
-      const cx = Math.floor(position.x) >> 4;
-      const cz = Math.floor(position.z) >> 4;
-
-      // Get the chunk from the entity's dimension
-      const chunk = this.entity.dimension.getChunk(cx, cz);
-
-      // If the chunk is different from the stored chunk, update it
-      if (chunk && chunk !== this.storedChunk) {
-        // Remove the entity from the old chunk
-        this.storedChunk.setEntityStorage(this.entity.uniqueId, null);
-
-        // Update the stored chunk
-        this.storedChunk = chunk;
-
-        // Add the entity to the new chunk
-        this.storedChunk.setEntityStorage(this.entity.uniqueId, this);
-      }
-    } else {
-      // If there is no stored chunk, get the chunk based on the position
-      const cx = Math.floor(position.x) >> 4;
-      const cz = Math.floor(position.z) >> 4;
-
-      // Get the chunk from the entity's dimension
-      const chunk = this.entity.dimension.getChunk(cx, cz);
-
-      // If the chunk exists, store it and add the entity to it
-      if (chunk) {
-        this.storedChunk = chunk;
-        this.storedChunk.setEntityStorage(this.entity.uniqueId, this);
-      }
-    }
+    this.syncStoredChunk(position);
 
     // Create a new ListTag for the position
     const posTag = new ListTag<FloatTag>(
@@ -203,6 +170,51 @@ class EntityLevelStorage extends CompoundTag {
 
     // Set the Pos tag in the storage
     this.set("Pos", posTag);
+  }
+
+  /**
+   * Sync the entity storage with the chunk at the given position.
+   * Transient entities keep their chunk reference for cleanup, but are not inserted into provider storage.
+   */
+  public syncStoredChunk(position: Vector3f = this.getPosition()): void {
+    const cx = Math.floor(position.x) >> 4;
+    const cz = Math.floor(position.z) >> 4;
+    const chunk = this.entity.dimension.getChunk(cx, cz);
+
+    if (this.storedChunk && this.storedChunk !== chunk) {
+      if (this.storedChunk.hasEntityStorage(this.entity.uniqueId)) {
+        this.storedChunk.setEntityStorage(this.entity.uniqueId, null);
+      }
+
+      this.storedChunk = null;
+    }
+
+    if (!chunk) return;
+
+    this.storedChunk = chunk;
+
+    if (!this.entity.canBeSavedtoStorage) {
+      if (chunk.hasEntityStorage(this.entity.uniqueId)) {
+        chunk.setEntityStorage(this.entity.uniqueId, null);
+      }
+
+      return;
+    }
+
+    chunk.setEntityStorage(this.entity.uniqueId, this);
+  }
+
+  /**
+   * Remove the entity storage from the currently tracked chunk.
+   */
+  public detachFromStoredChunk(): void {
+    if (!this.storedChunk) return;
+
+    if (this.storedChunk.hasEntityStorage(this.entity.uniqueId)) {
+      this.storedChunk.setEntityStorage(this.entity.uniqueId, null);
+    }
+
+    this.storedChunk = null;
   }
 
   /**

@@ -733,8 +733,8 @@ class Dimension {
               `Despawning entity §u${entity.type.identifier}:${entity.uniqueId}§r from chunk at (§u${chunk.x}§r, §u${chunk.z}§r) in dimension §u${this.identifier}§r before unloading.`
             );
 
-            // Despawn the entity from the dimension
-            entity.despawn();
+            // Despawn the entity from the dimension while keeping persistent entities in chunk storage.
+            entity.despawn({ unloadingChunk: true });
           }
         }
 
