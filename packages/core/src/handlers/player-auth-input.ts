@@ -106,6 +106,11 @@ class PlayerAuthInputHandler extends NetworkHandler {
       packet.inputData.hasFlag(InputData.VerticalCollision) &&
       !packet.inputData.hasFlag(InputData.Jumping);
 
+    // Determine if the player is jumping
+    player.isJumping = packet.inputData.hasFlag(InputData.Jumping)
+      ? true
+      : false;
+
     // Create a new Rotation object from the packet data
     const rotation = new Rotation(
       packet.rotation.y,
@@ -420,6 +425,7 @@ class PlayerAuthInputHandler extends NetworkHandler {
         case InputData.StartJumping: {
           // Signal the player to jump
           for (const trait of player.traits.values()) trait.onJump?.();
+
           break;
         }
 
