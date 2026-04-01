@@ -113,6 +113,11 @@ class Player extends Entity {
   public readonly clientSystemInfo: ClientSystemInfo;
 
   /**
+   * Whether the entity is jumping or not.
+   */
+  public isJumping: boolean = false;
+
+  /**
    * The current skin of the player.
    */
   public readonly skin: PlayerSkin;
