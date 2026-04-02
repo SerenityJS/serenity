@@ -326,7 +326,13 @@ class Network extends Emitter<NetworkEvents> {
               : algorithm === CompressionMethod.Snappy
                 ? this.inflateSnappy(decrypted)
                 : decrypted;
-
+      if (inflated === null) {
+        // This case can occur when a custom protocol client sends a malformed compressed packet.
+        // This could also be used as an attempt to crash the server.
+        // I'm unsure if this should be a debug or warning log, but considering the log below ill go with warning.
+        this.logger.warn(`Unable to inflate packet from "§u${connection.rinfo.address}§r:§u${connection.rinfo.port}§r", Disconnecting the session.`);
+        return this.disconnectConnection(connection, "Invalid compressed packet", DisconnectReason.BadPacket);
+      }
       // Unframe the inflated buffer.
       // Buffers can contains multiple packets, so we need to unframe them.
       const frames = Framer.unframe(inflated);
@@ -445,8 +451,12 @@ class Network extends Emitter<NetworkEvents> {
    * @param buffer The zlib compressed buffer to inflate
    * @returns The inflated buffer
    */
-  public inflateZlib(buffer: Buffer): Buffer {
+  public inflateZlib(buffer: Buffer): Buffer | null {
+    try {
     return inflateRawSync(buffer);
+    } catch {
+      return null;
+    }
   }
 
   /**
