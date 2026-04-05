@@ -17,6 +17,8 @@ devapp/permissions.json
 devapp/resource_packs
 devapp/behavior_packs
 
+bds
+
 # Swap the comments on the following lines if you don't wish to use zero-installs
 # Documentation here: https://yarnpkg.com/features/zero-installs
 # !.yarn/cache

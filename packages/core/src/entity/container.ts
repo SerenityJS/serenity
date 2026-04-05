@@ -10,8 +10,8 @@ import {
 } from "@serenityjs/protocol";
 
 import { Container } from "../container";
-import { ItemStack } from "../item";
-import { PlayerOpenedContainerSignal } from "../events";
+import { ItemStack } from "../item/stack";
+import { PlayerOpenedContainerSignal } from "../events/player-opened-container";
 
 import { Entity } from "./entity";
 import { Player } from "./player";

@@ -27,7 +27,7 @@ import { ItemStack, ItemStackUseOnBlockOptions } from "../item";
 import { BlockIdentifier, EntityInteractMethod } from "../enums";
 import { PlayerPlaceBlockSignal, PlayerStopUsingItemSignal } from "../events";
 import { BlockPlacementOptions } from "../types";
-import { BlockLevelStorage } from "..";
+import { BlockChestTrait, BlockLevelStorage } from "..";
 
 class InventoryTransactionHandler extends NetworkHandler {
   public static readonly packet = Packet.InventoryTransaction;
@@ -364,6 +364,10 @@ class InventoryTransactionHandler extends NetworkHandler {
 
             return;
           } else {
+            if (resultant.hasTrait(BlockChestTrait)) {
+              resultant.getTrait(BlockChestTrait).pairAfterPlacement();
+            }
+
             // Decrement the stack if the player is in survival mode
             // This is done AFTER th e onPlace check to avoid losing items on canceled placements
             if (player.getGamemode() === Gamemode.Survival)

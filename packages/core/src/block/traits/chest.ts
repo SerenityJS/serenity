@@ -1,4 +1,5 @@
 import {
+  AbilityIndex,
   BlockEventPacket,
   BlockEventType,
   BlockPosition,
@@ -7,7 +8,12 @@ import {
 } from "@serenityjs/protocol";
 import { IntTag } from "@serenityjs/nbt";
 
-import { Block, BlockDestroyOptions, BlockInteractionOptions } from "../..";
+import {
+  Block,
+  BlockDestroyOptions,
+  BlockInteractionOptions,
+  BlockPlacementOptions
+} from "../..";
 import { BlockIdentifier } from "../../enums";
 
 import { BlockInventoryTrait } from "./inventory";
@@ -18,6 +24,45 @@ class BlockChestTrait extends BlockInventoryTrait {
     BlockIdentifier.Chest,
     BlockIdentifier.TrappedChest
   ];
+
+  public static shouldBePairParent(
+    current: BlockPosition,
+    other: BlockPosition,
+    direction: string
+  ): boolean {
+    switch (direction) {
+      case "north":
+        return current.x > other.x;
+      case "south":
+        return current.x < other.x;
+      case "east":
+        return current.z > other.z;
+      case "west":
+        return current.z < other.z;
+      default:
+        if (current.x !== other.x) {
+          return current.x < other.x;
+        }
+
+        return current.z < other.z;
+    }
+  }
+
+  public static getPairCandidates(
+    block: Block,
+    direction: string
+  ): Array<Block> {
+    switch (direction) {
+      case "north":
+      case "south":
+        return [block.east(), block.west()];
+      case "east":
+      case "west":
+        return [block.north(), block.south()];
+      default:
+        return [];
+    }
+  }
 
   public isPaired(): boolean {
     // Get the pairx and pairz storage entries
@@ -78,32 +123,87 @@ class BlockChestTrait extends BlockInventoryTrait {
     this.container.setSize(isParent ? 54 : 27);
   }
 
-  public onUpdate(source?: Block): void {
-    // If there is no source, return
-    if (!source || source === this.block) return;
+  public onPlace(_options?: BlockPlacementOptions): void {}
 
-    // Check that the blocks are adjacent.
-    if (this.block.position.y !== source.position.y) return;
+  public onUpdate(_source?: Block): void {
+    // Preserve saved pairing and only repair invalid state. Double chests
+    // should pair when placed, not opportunistically on later world updates.
+    if (!this.isPaired()) return;
 
-    if (source.hasTrait(BlockChestTrait) && !this.isPaired()) {
-      // Get the chest trait from the source block
-      const trait = source.getTrait(BlockChestTrait);
+    const pairedPos = this.getPaired();
+    if (!pairedPos) return this.clearPaired();
 
-      // If the source chest is paired, return
-      if (!trait || trait?.isPaired()) return;
+    const paired = this.dimension.getBlock(pairedPos);
+    if (!paired.hasTrait(BlockChestTrait)) return this.clearPaired();
 
-      // Verify that they are facing the same direction
-      const direction = this.block.getState("minecraft:cardinal_direction");
-      const sourceDirection = source.getState("minecraft:cardinal_direction");
-      if (direction !== sourceDirection) return;
+    const trait = paired.getTrait(BlockChestTrait);
+    if (!trait.isPaired()) return this.clearPaired();
 
-      // Set the pairing
-      this.setPaired(source.position);
+    const reciprocal = trait.getPaired();
+    if (!reciprocal || !reciprocal.equals(this.block.position)) {
+      return this.clearPaired();
+    }
+
+    const direction = this.block.getState("minecraft:cardinal_direction");
+    const sourceDirection = paired.getState("minecraft:cardinal_direction");
+    if (direction !== sourceDirection) {
+      this.clearPaired();
+      trait.clearPaired();
+      return;
+    }
+
+    const validPairPositions = BlockChestTrait.getPairCandidates(
+      this.block,
+      String(direction)
+    );
+    if (!validPairPositions.some((block) => block.position.equals(paired.position))) {
+      this.clearPaired();
+      trait.clearPaired();
+      return;
+    }
+  }
+
+  public pairAfterPlacement(): void {
+    if (this.isPaired()) {
+      const pairedPos = this.getPaired();
+      if (pairedPos) {
+        const paired = this.dimension.getBlock(pairedPos);
+        if (
+          paired.hasTrait(BlockChestTrait) &&
+          paired.getTrait(BlockChestTrait).getPaired()?.equals(this.block.position)
+        ) {
+          return;
+        }
+      }
+
+      this.clearPaired();
+    }
+
+    const direction = this.block.getState("minecraft:cardinal_direction");
+
+    for (const neighbor of BlockChestTrait.getPairCandidates(
+      this.block,
+      String(direction)
+    )) {
+      if (!neighbor.hasTrait(BlockChestTrait)) continue;
+
+      const trait = neighbor.getTrait(BlockChestTrait);
+      if (!trait || trait.isPaired()) continue;
+
+      const sourceDirection = neighbor.getState("minecraft:cardinal_direction");
+      if (direction !== sourceDirection) continue;
+
+      this.setPaired(neighbor.position);
       trait.setPaired(this.block.position);
 
-      // Set the parent/child relationship
-      this.setIsPairParent(true);
-      trait.setIsPairParent(false);
+      const isParent = BlockChestTrait.shouldBePairParent(
+        this.block.position,
+        neighbor.position,
+        String(direction)
+      );
+      this.setIsPairParent(isParent);
+      trait.setIsPairParent(!isParent);
+      return;
     }
   }
 
@@ -181,31 +281,25 @@ class BlockChestTrait extends BlockInventoryTrait {
     super.onBreak(options);
   }
 
-  public onInteract({ cancel, origin }: BlockInteractionOptions): void {
+  public onInteract(options: BlockInteractionOptions): void {
+    const { cancel, origin } = options;
     if (cancel || !origin) return;
 
     if (
-      this.isPaired() &&
-      this.getIsPairParent() &&
-      this.container.getSize() !== 54
+      origin.isSneaking ||
+      !origin.abilities.getAbility(AbilityIndex.OpenContainers)
     ) {
-      // Update the container size
-      this.container.setSize(54);
+      return;
     }
 
-    // Check if the chest is paired and this chest is the child
-    if (this.isPaired() && !this.getIsPairParent()) {
-      // Get the paired block from the dimension
-      const paired = this.dimension.getBlock(this.getPaired()!);
-
-      // Get the chest trait from the paired block
-      const trait = paired.getTrait(BlockChestTrait);
-
-      // Show the paired chest's container to the player
-      trait.onInteract({ cancel, origin });
-    } else {
-      super.onInteract({ cancel, origin });
+    const trait = this.getSharedContainerTrait();
+    if (trait.isPaired() && trait.container.getSize() !== 54) {
+      trait.container.setSize(54);
     }
+
+    // Open the canonical double chest container, but keep the clicked half as
+    // the window anchor so the client opens the correct block position.
+    trait.container.show(origin, this.block.position);
   }
 
   public onOpen(silent?: boolean): void {
@@ -236,28 +330,15 @@ class BlockChestTrait extends BlockInventoryTrait {
     // If silent is true, return
     if (silent) return;
 
-    // Create a new BlockEventPacket
-    const event = new BlockEventPacket();
-    event.position = this.block.position;
-    event.type = BlockEventType.ChangeState;
-    event.data = 1;
+    this.broadcastChestState(1, LevelSoundEvent.ChestOpen);
 
-    // Create a new LevelSoundEventPacket
-    const sound = new LevelSoundEventPacket();
-    sound.position = BlockPosition.toVector3f(this.block.position);
-    sound.event = LevelSoundEvent.ChestOpen;
-    sound.data = this.block.permutation.networkId;
-    sound.actorIdentifier = String();
-    sound.isBabyMob = false;
-    sound.isGlobal = false;
-    sound.uniqueActorId = -1n;
-
-    // Broadcast the packets to the dimension
-    this.dimension.broadcast(event, sound);
+    if (this.isPaired()) {
+      const paired = this.dimension.getBlock(this.getPaired()!);
+      this.broadcastChestState(1, LevelSoundEvent.ChestOpen, paired);
+    }
   }
 
   public onClose(silent?: boolean): void {
-    // Check if the chest is paired and is the parent
     if (this.isPaired() && this.getIsPairParent()) {
       // Get the paired block from the dimension
       const paired = this.dimension.getBlock(this.getPaired()!);
@@ -284,24 +365,47 @@ class BlockChestTrait extends BlockInventoryTrait {
     // If silent is true, return
     if (silent) return;
 
-    // Create a new BlockEventPacket
-    const event = new BlockEventPacket();
-    event.position = this.block.position;
-    event.type = BlockEventType.ChangeState;
-    event.data = 0;
+    this.broadcastChestState(0, LevelSoundEvent.ChestClosed);
 
-    // Create a new LevelSoundEventPacket
+    if (this.isPaired()) {
+      const paired = this.dimension.getBlock(this.getPaired()!);
+      this.broadcastChestState(0, LevelSoundEvent.ChestClosed, paired);
+    }
+  }
+
+  private broadcastChestState(
+    data: number,
+    soundEvent: LevelSoundEvent,
+    block: Block = this.block
+  ): void {
+    const event = new BlockEventPacket();
+    event.position = block.position;
+    event.type = BlockEventType.ChangeState;
+    event.data = data;
+
     const sound = new LevelSoundEventPacket();
-    sound.position = BlockPosition.toVector3f(this.block.position);
-    sound.event = LevelSoundEvent.ChestClosed;
-    sound.data = this.block.permutation.networkId;
+    sound.position = BlockPosition.toVector3f(block.position);
+    sound.event = soundEvent;
+    sound.data = block.permutation.networkId;
     sound.actorIdentifier = String();
     sound.isBabyMob = false;
     sound.isGlobal = false;
     sound.uniqueActorId = -1n;
 
-    // Broadcast the packets to the dimension
     this.dimension.broadcast(event, sound);
+  }
+
+  private getSharedContainerTrait(): BlockChestTrait {
+    if (!this.isPaired() || this.getIsPairParent()) return this;
+
+    const paired = this.getPaired();
+    if (!paired) return this;
+
+    const block = this.dimension.getBlock(paired);
+    if (!block.hasTrait(BlockChestTrait)) return this;
+
+    const trait = block.getTrait(BlockChestTrait);
+    return trait.getIsPairParent() ? trait : this;
   }
 }
 
