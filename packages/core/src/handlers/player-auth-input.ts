@@ -326,81 +326,80 @@ class PlayerAuthInputHandler extends NetworkHandler {
         // Handle when a player sneaks
         case InputData.StartSneaking:
         case InputData.StopSneaking: {
-          // Get the sneaking flag from the player
+          // Derive the target sneaking state from the input action instead of
+          // blindly toggling. The client can send explicit start/stop actions
+          // that must remain in sync with placement/interact rules.
           const sneaking =
             player.flags.getActorFlag(ActorFlag.Sneaking) ?? false;
+          const nextSneaking = action === InputData.StartSneaking;
 
-          // Check if the player is already sneaking
-          if (sneaking === true) {
-            // Signal the player to stop sneaking
-            for (const trait of player.traits.values())
-              trait.onStopSneaking?.();
-          } else {
-            // Signal the player to start sneaking
+          if (sneaking === nextSneaking) break;
+
+          if (nextSneaking) {
             for (const trait of player.traits.values())
               trait.onStartSneaking?.();
+          } else {
+            for (const trait of player.traits.values())
+              trait.onStopSneaking?.();
           }
 
-          // Set the sneaking flag based on the action
-          player.flags.setActorFlag(ActorFlag.Sneaking, !sneaking);
+          player.flags.setActorFlag(ActorFlag.Sneaking, nextSneaking);
           break;
         }
 
         // Handle when a player sprints
         case InputData.StartSprinting:
         case InputData.StopSprinting: {
-          // Get the sprinting flag from the player
           const sprinting =
             player.flags.getActorFlag(ActorFlag.Sprinting) ?? false;
+          const nextSprinting = action === InputData.StartSprinting;
 
-          // Check if the player is already sprinting
-          if (sprinting === true) {
-            // Signal the player to stop sprinting
-            for (const trait of player.traits.values())
-              trait.onStopSprinting?.();
-          } else {
-            // Signal the player to start sprinting
+          if (sprinting === nextSprinting) break;
+
+          if (nextSprinting) {
             for (const trait of player.traits.values())
               trait.onStartSprinting?.();
+          } else {
+            for (const trait of player.traits.values())
+              trait.onStopSprinting?.();
           }
 
-          // Set the sprinting flag based on the action
-          player.flags.setActorFlag(ActorFlag.Sprinting, !sprinting);
+          player.flags.setActorFlag(ActorFlag.Sprinting, nextSprinting);
           break;
         }
 
         // Handle then a player swims
         case InputData.StartSwimming:
         case InputData.StopSwimming: {
-          // Get the swimming flag from the player
           const swimming =
             player.flags.getActorFlag(ActorFlag.Swimming) ?? false;
+          const nextSwimming = action === InputData.StartSwimming;
 
-          // Set the swimming flag based on the action
-          player.flags.setActorFlag(ActorFlag.Swimming, !swimming);
+          if (swimming === nextSwimming) break;
+          player.flags.setActorFlag(ActorFlag.Swimming, nextSwimming);
           break;
         }
 
         // Handle when a player crawls
         case InputData.StartCrawling:
         case InputData.StopCrawling: {
-          // Get the crawling flag from the player
           const crawling =
             player.flags.getActorFlag(ActorFlag.Crawling) ?? false;
+          const nextCrawling = action === InputData.StartCrawling;
 
-          // Set the crawling flag based on the action
-          player.flags.setActorFlag(ActorFlag.Crawling, !crawling);
+          if (crawling === nextCrawling) break;
+          player.flags.setActorFlag(ActorFlag.Crawling, nextCrawling);
           break;
         }
 
         // Handle when a player is gliding
         case InputData.StartGliding:
         case InputData.StopGliding: {
-          // Get the gliding flag from the player
           const gliding = player.flags.getActorFlag(ActorFlag.Gliding) ?? false;
+          const nextGliding = action === InputData.StartGliding;
 
-          // Set the gliding flag based on the action
-          player.flags.setActorFlag(ActorFlag.Gliding, !gliding);
+          if (gliding === nextGliding) break;
+          player.flags.setActorFlag(ActorFlag.Gliding, nextGliding);
           break;
         }
 
