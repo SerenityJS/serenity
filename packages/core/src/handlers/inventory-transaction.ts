@@ -365,7 +365,7 @@ class InventoryTransactionHandler extends NetworkHandler {
             return;
           } else {
             if (resultant.hasTrait(BlockChestTrait)) {
-              resultant.getTrait(BlockChestTrait).pairAfterPlacement();
+              resultant.getTrait(BlockChestTrait).pair();
             }
 
             // Decrement the stack if the player is in survival mode

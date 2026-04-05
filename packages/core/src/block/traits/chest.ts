@@ -25,43 +25,35 @@ class BlockChestTrait extends BlockInventoryTrait {
     BlockIdentifier.TrappedChest
   ];
 
+  private static readonly pairAxis = {
+    north: "x",
+    south: "x",
+    east: "z",
+    west: "z"
+  } as const;
+
   public static shouldBePairParent(
     current: BlockPosition,
     other: BlockPosition,
     direction: string
   ): boolean {
-    switch (direction) {
-      case "north":
-        return current.x > other.x;
-      case "south":
-        return current.x < other.x;
-      case "east":
-        return current.z > other.z;
-      case "west":
-        return current.z < other.z;
-      default:
-        if (current.x !== other.x) {
-          return current.x < other.x;
-        }
+    const axis = this.pairAxis[direction as keyof typeof this.pairAxis];
+    if (!axis) return current.x !== other.x ? current.x < other.x : current.z < other.z;
 
-        return current.z < other.z;
-    }
+    return direction === "north" || direction === "east"
+      ? current[axis] > other[axis]
+      : current[axis] < other[axis];
   }
 
   public static getPairCandidates(
     block: Block,
     direction: string
   ): Array<Block> {
-    switch (direction) {
-      case "north":
-      case "south":
-        return [block.east(), block.west()];
-      case "east":
-      case "west":
-        return [block.north(), block.south()];
-      default:
-        return [];
-    }
+    return this.pairAxis[direction as keyof typeof this.pairAxis] === "x"
+      ? [block.east(), block.west()]
+      : this.pairAxis[direction as keyof typeof this.pairAxis] === "z"
+        ? [block.north(), block.south()]
+        : [];
   }
 
   public isPaired(): boolean {
@@ -163,21 +155,9 @@ class BlockChestTrait extends BlockInventoryTrait {
     }
   }
 
-  public pairAfterPlacement(): void {
-    if (this.isPaired()) {
-      const pairedPos = this.getPaired();
-      if (pairedPos) {
-        const paired = this.dimension.getBlock(pairedPos);
-        if (
-          paired.hasTrait(BlockChestTrait) &&
-          paired.getTrait(BlockChestTrait).getPaired()?.equals(this.block.position)
-        ) {
-          return;
-        }
-      }
-
-      this.clearPaired();
-    }
+  public pair(): void {
+    if (this.hasValidPair()) return;
+    if (this.isPaired()) this.clearPaired();
 
     const direction = this.block.getState("minecraft:cardinal_direction");
 
@@ -406,6 +386,17 @@ class BlockChestTrait extends BlockInventoryTrait {
 
     const trait = block.getTrait(BlockChestTrait);
     return trait.getIsPairParent() ? trait : this;
+  }
+
+  private hasValidPair(): boolean {
+    const pairedPos = this.getPaired();
+    if (!pairedPos) return false;
+
+    const paired = this.dimension.getBlock(pairedPos);
+    return (
+      paired.hasTrait(BlockChestTrait) &&
+      paired.getTrait(BlockChestTrait).getPaired()?.equals(this.block.position) === true
+    );
   }
 }
 
