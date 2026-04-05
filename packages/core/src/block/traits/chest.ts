@@ -310,11 +310,11 @@ class BlockChestTrait extends BlockInventoryTrait {
     // If silent is true, return
     if (silent) return;
 
-    this.broadcastChestState(1, LevelSoundEvent.ChestOpen);
+    this.broadcastState(1, LevelSoundEvent.ChestOpen);
 
     if (this.isPaired()) {
       const paired = this.dimension.getBlock(this.getPaired()!);
-      this.broadcastChestState(1, LevelSoundEvent.ChestOpen, paired);
+      this.broadcastState(1, LevelSoundEvent.ChestOpen, paired);
     }
   }
 
@@ -345,15 +345,15 @@ class BlockChestTrait extends BlockInventoryTrait {
     // If silent is true, return
     if (silent) return;
 
-    this.broadcastChestState(0, LevelSoundEvent.ChestClosed);
+    this.broadcastState(0, LevelSoundEvent.ChestClosed);
 
     if (this.isPaired()) {
       const paired = this.dimension.getBlock(this.getPaired()!);
-      this.broadcastChestState(0, LevelSoundEvent.ChestClosed, paired);
+      this.broadcastState(0, LevelSoundEvent.ChestClosed, paired);
     }
   }
 
-  private broadcastChestState(
+  private broadcastState(
     data: number,
     soundEvent: LevelSoundEvent,
     block: Block = this.block
