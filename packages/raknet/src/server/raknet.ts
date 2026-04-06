@@ -230,7 +230,10 @@ class Server extends Emitter<RaknetEvents> {
       for (const connection of this.connections) connection.disconnect();
 
       // Clear the interval
-      if (this.interval) this.interval = null;
+      if (this.interval) {
+        clearTimeout(this.interval);
+        this.interval = null;
+      }
 
       // Close the socket
       this.socket.close();

@@ -378,9 +378,6 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    * Stops the server and closes all connections
    */
   public async stop(): Promise<void> {
-    // Close the console interface
-    this.console.interface.close();
-
     // Emit the server shutdown event
     await this.emitAsync(ServerEvent.Stop, 0 as never);
 
@@ -409,11 +406,14 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     }
 
     // Shutdown all world providers
-    for (const world of this.worlds.values()) void world.provider.onShutdown();
+    for (const world of this.worlds.values()) await world.provider.onShutdown();
 
     // Write the permissions to the permissions path
     if (typeof this.properties.permissions === "string")
       this.writePermissions(this.properties.permissions);
+
+    // Close the console interface
+    this.console.close();
   }
 
   /**

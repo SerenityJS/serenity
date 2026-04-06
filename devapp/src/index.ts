@@ -17,4 +17,6 @@ new Pipeline(serenity, { path: "./plugins" });
 serenity.registerProvider(LevelDBProvider, { path: "./worlds" });
 
 // Start the server
-serenity.start();
+serenity.start().then(() => { }).catch((error) => {
+  serenity.logger.error("Failed to start SerenityJS server:", error);
+});
