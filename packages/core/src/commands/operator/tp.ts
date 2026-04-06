@@ -31,7 +31,7 @@ const register = (world: World) => {
           const position = context.position.result as Vector3f;
 
           // Teleport the entity to the new location
-          origin.teleport(position);
+          void origin.teleport(position);
         }
       );
 
@@ -57,7 +57,7 @@ const register = (world: World) => {
           // Loop through all the targets
           for (const target of targets) {
             // Teleport the entity to the new location
-            target.teleport(other.position, other.dimension);
+            void target.teleport(other.position, other.dimension);
           }
         }
       );
@@ -78,12 +78,12 @@ const register = (world: World) => {
           // Loop through all the targets
           for (const target of targets) {
             // Teleport the entity to the new location
-            target.teleport(position);
+            void target.teleport(position);
           }
         }
       );
     },
-    () => {}
+    () => { }
   );
 };
 

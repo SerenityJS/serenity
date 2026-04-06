@@ -813,6 +813,9 @@ class LevelDBProvider extends WorldProvider {
       return;
     }
 
+    // Get the spawn world identifier from serenity properties
+    const spawnWorldIdentifier = serenity.properties.spawnWorldIdentifier || "default";
+
     // Iterate over the world entries in the directory.
     for (const directory of directories) {
       // Get the path for the world.
@@ -883,8 +886,19 @@ class LevelDBProvider extends WorldProvider {
         }
       }
 
+      // Determine if this is the spawn world
+      const isSpawnWorld = directory.name === spawnWorldIdentifier;
+
       // Register the world with the serenity instance.
-      serenity.registerWorld(world);
+      // Only load (run onStartup) for the spawn world, others are lazy loaded
+      serenity.registerWorld(world, !isSpawnWorld);
+
+      // Log whether the world was loaded or registered for lazy loading
+      if (isSpawnWorld) {
+        serenity.logger.info(`Loaded spawn world: ${directory.name}`);
+      } else {
+        serenity.logger.debug(`Registered world for lazy loading: ${directory.name}`);
+      }
     }
   }
 

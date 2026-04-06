@@ -714,7 +714,7 @@ class Entity {
     this.rotation.set(rotation);
 
     // Update the position of the entity
-    return this.teleport(this.position);
+    return void this.teleport(this.position);
   }
 
   /**
@@ -1293,7 +1293,7 @@ class Entity {
    * @param position The position to teleport the entity to.
    * @param dimension The dimension to teleport the entity to; optional.
    */
-  public teleport(position: Vector3f, dimension?: Dimension): void {
+  public async teleport(position: Vector3f, dimension?: Dimension): Promise<void> {
     // Iterate over the traits of the entity
     for (const [identifier, trait] of this.traits) {
       // Attempt to trigger the onTeleport trait event
@@ -1320,7 +1320,7 @@ class Entity {
     this.position = position;
 
     // Check if a dimension was provided
-    if (dimension) this.changeDimension(dimension);
+    if (dimension) await this.changeDimension(dimension);
 
     // Create a new MoveActorDeltaPacket
     const packet = new MoveActorDeltaPacket();

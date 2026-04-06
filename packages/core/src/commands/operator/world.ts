@@ -56,7 +56,7 @@ const register = (world: World) => {
             position.z += 0.5;
 
             // Change the world of the target
-            target.teleport(position, dimension);
+            void target.teleport(position, dimension);
 
             // Append the message
             message.push(
@@ -69,7 +69,7 @@ const register = (world: World) => {
         }
       );
     },
-    () => {}
+    () => { }
   );
 };
 

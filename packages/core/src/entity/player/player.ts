@@ -612,7 +612,7 @@ class Player extends Entity {
 
     // Teleport the player to their position
     // This fixes an issue where the player is sometimes stuck in the ground
-    this.teleport(this.position, this.dimension);
+    void this.teleport(this.position, this.dimension);
 
     // Return the player
     return this;
@@ -659,9 +659,9 @@ class Player extends Entity {
    * @param position The position to teleport the player to.
    * @param dimension The dimension to teleport the player to.
    */
-  public teleport(position: Vector3f, dimension?: Dimension): void {
+  public async teleport(position: Vector3f, dimension?: Dimension): Promise<void> {
     // Call the parent method to teleport the player
-    super.teleport(position, dimension);
+    await super.teleport(position, dimension);
 
     // Prepare the ridden runtime id
     let riddenRuntimeId = 0n;
@@ -704,9 +704,18 @@ class Player extends Entity {
    * Changes the dimension of the player.
    * @param dimension The dimension to change the player to.
    */
-  public changeDimension(dimension: Dimension): void {
+  public async changeDimension(dimension: Dimension): Promise<void> {
     // Check if the dimension is the same as the current dimension
     if (this.dimension === dimension) return;
+
+    // Check if the target world is loaded, if not load it
+    const targetWorld = dimension.world;
+    if (!this.serenity.isWorldLoaded(targetWorld.identifier)) {
+      this.world.logger.info(
+        `Auto-loading world ${targetWorld.identifier} for player ${this.username}`
+      );
+      await this.serenity.loadWorld(targetWorld.identifier);
+    }
 
     // Despawn the player from the current dimension
     this.despawn({ changedDimensions: true });
