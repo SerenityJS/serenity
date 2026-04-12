@@ -22,6 +22,7 @@ import { Structure } from "../../structure";
 import { BlockLevelStorage } from "../../../block";
 import { WorldProvider } from "../provider";
 import { DimensionProperties, WorldProperties } from "../../types";
+import { ServerState } from "../../../enums";
 
 import { LevelDBKeyBuilder } from "./key-builder";
 
@@ -87,8 +88,8 @@ class LevelDBProvider extends WorldProvider {
 
       // Check if the dimension has a generator with a worker.
       if (dimension.generator.worker) {
-        // Terminate the worker thread.
-        dimension.generator.worker.terminate();
+        // Terminate the worker thread and wait for it to finish.
+        await dimension.generator.worker.terminate();
       }
     }
 
@@ -105,8 +106,8 @@ class LevelDBProvider extends WorldProvider {
     // Save all the world data.
     await this.onSave();
 
-    // Close the database connection.
-    this.db.close();
+    // Close the database connection and wait for it to finish.
+    await this.db.close();
   }
 
   public async onStartup(): Promise<void> {
@@ -116,6 +117,13 @@ class LevelDBProvider extends WorldProvider {
     // Create a new method to hold the pregeneration logic.
     const pregenerate = async () => {
       for (const [, dimension] of this.world.dimensions) {
+        // Check if the server is shutting down, if so abort pregeneration
+        const serverState = this.world.serenity.state;
+        if (serverState === ServerState.ShuttingDown) {
+          this.world.logger.info("Aborting chunk pregeneration due to server shutdown.");
+          return;
+        }
+
         // Fetch pregeneration options.
         const pregeneration = dimension.properties.chunkPregeneration ?? [];
 
@@ -124,6 +132,13 @@ class LevelDBProvider extends WorldProvider {
 
         // Iterate through each pregeneration option.
         for (const { start, end, memoryLock } of pregeneration) {
+          // Check if the server is shutting down during pregeneration
+          const serverState = this.world.serenity.state;
+          if (serverState === ServerState.ShuttingDown) {
+            this.world.logger.info("Aborting chunk pregeneration due to server shutdown.");
+            return;
+          }
+
           // Mask to chunk coordinates.
           const sx = start[0] >> 4;
           const sz = start[1] >> 4;
@@ -132,6 +147,13 @@ class LevelDBProvider extends WorldProvider {
 
           // Iterate through each chunk in the area.
           for (let x = sx; x <= ex; x++) {
+            // Check if the server is shutting down during chunk generation
+            const serverState = this.world.serenity.state;
+            if (serverState === ServerState.ShuttingDown) {
+              this.world.logger.info("Aborting chunk pregeneration due to server shutdown.");
+              return;
+            }
+
             for (let z = sz; z <= ez; z++) {
               // Create a new chunk and read it.
               let chunk = new Chunk(x, z, dimension.type);
@@ -791,6 +813,9 @@ class LevelDBProvider extends WorldProvider {
       return;
     }
 
+    // Get the spawn world identifier from serenity properties
+    const spawnWorldIdentifier = serenity.properties.spawnWorldIdentifier || "default";
+
     // Iterate over the world entries in the directory.
     for (const directory of directories) {
       // Get the path for the world.
@@ -861,8 +886,19 @@ class LevelDBProvider extends WorldProvider {
         }
       }
 
+      // Determine if this is the spawn world
+      const isSpawnWorld = directory.name === spawnWorldIdentifier;
+
       // Register the world with the serenity instance.
-      serenity.registerWorld(world);
+      // Only load (run onStartup) for the spawn world, others are lazy loaded
+      serenity.registerWorld(world, !isSpawnWorld);
+
+      // Log whether the world was loaded or registered for lazy loading
+      if (isSpawnWorld) {
+        serenity.logger.info(`Loaded spawn world: ${directory.name}`);
+      } else {
+        serenity.logger.debug(`Registered world for lazy loading: ${directory.name}`);
+      }
     }
   }
 

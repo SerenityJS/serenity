@@ -1,15 +1,15 @@
-import { Player } from "../../entity";
+import type { Player } from "../../entity/player";
 import { BlockIdentifier } from "../../enums";
 import { Trait } from "../../trait";
-import { Block } from "../block";
-import { Container } from "../../container";
-import {
+import type { Container } from "../../container";
+import type {
   BlockDestroyOptions,
   BlockInteractionOptions,
   BlockPlacementOptions,
   JSONLikeObject
 } from "../../types";
-import { Dimension } from "../../world";
+import type { Dimension } from "../../world/dimension";
+import type { Block } from "../block";
 
 import type { BlockTypeComponent } from "../identity";
 

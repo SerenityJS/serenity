@@ -27,7 +27,7 @@ import { ItemStack, ItemStackUseOnBlockOptions } from "../item";
 import { BlockIdentifier, EntityInteractMethod } from "../enums";
 import { PlayerPlaceBlockSignal, PlayerStopUsingItemSignal } from "../events";
 import { BlockPlacementOptions } from "../types";
-import { BlockLevelStorage } from "..";
+import { BlockChestTrait, BlockLevelStorage } from "..";
 
 class InventoryTransactionHandler extends NetworkHandler {
   public static readonly packet = Packet.InventoryTransaction;
@@ -232,7 +232,7 @@ class InventoryTransactionHandler extends NetworkHandler {
 
         // Check if the client prediction failed to place the block
         if (
-          !placingBlock || // If not placing a block, we use the item on the block
+          !results.placingBlock || // If not placing a block, we use the item on the block
           transaction.clientPrediction === PredictedResult.Failure
         ) {
           // Verify that the item stack exists
@@ -364,6 +364,10 @@ class InventoryTransactionHandler extends NetworkHandler {
 
             return;
           } else {
+            if (resultant.hasTrait(BlockChestTrait)) {
+              resultant.getTrait(BlockChestTrait).pair();
+            }
+
             // Decrement the stack if the player is in survival mode
             // This is done AFTER th e onPlace check to avoid losing items on canceled placements
             if (player.getGamemode() === Gamemode.Survival)
@@ -376,6 +380,19 @@ class InventoryTransactionHandler extends NetworkHandler {
 
       // Handles when an item is used
       case ItemUseInventoryTransactionType.Use: {
+        const interacting = dimension.getBlock(transaction.blockPosition);
+
+        const results = interacting.interact({
+          origin: player,
+          clickedPosition: transaction.clickPosition,
+          clickedFace: transaction.face,
+          placingBlock: false
+        });
+
+        if (results.cancel || player.openedContainer) {
+          return;
+        }
+
         // Get the players held item stack
         const stack = player.getHeldItem() as ItemStack;
 

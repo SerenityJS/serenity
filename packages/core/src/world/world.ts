@@ -226,7 +226,7 @@ class World extends Emitter<WorldEventSignals> {
       this.currentTick % (BigInt(this.properties.saveInterval) * 1200n) === 0n
     ) {
       // Save the world via the provider
-      this.provider.onSave();
+      void this.provider.onSave();
     }
   }
 

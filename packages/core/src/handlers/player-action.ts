@@ -61,7 +61,7 @@ class PlayerActionHandler extends NetworkHandler {
         const vector = new Vector3f(x, y, z);
 
         // Teleport the player back to the spawn point
-        return player.teleport(vector);
+        return void player.teleport(vector);
       }
     }
   }
