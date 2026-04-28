@@ -1,8 +1,8 @@
 import { Rotation, Vector3f } from "@serenityjs/protocol";
 
-import { BooleanEnum, EntityEnum, PositionEnum, StringEnum, TargetEnum } from "../enums";
-import { Entity, EntityMovementTrait } from "../../entity";
+import { Entity } from "../../entity";
 import { EntityIdentifier } from "../../enums";
+import { BooleanEnum, EntityEnum, PositionEnum, StringEnum, TargetEnum } from "../enums";
 
 import type { World } from "../../world";
 
@@ -38,10 +38,12 @@ const register = (world: World) => {
           // Get the position of the entity
           const { x, y, z } = context.origin.position.floor();
 
+          const entityLocation = new Vector3f(x, y, z);
+
           // Spawn the entity at the specified location
           const entity = context.origin.dimension.spawnEntity(
             identifier,
-            new Vector3f(x, y, z),
+            entityLocation,
             false
           );
 
@@ -53,31 +55,20 @@ const register = (world: World) => {
             );
           }
 
+          if (context.facing.result) {
+            const entities = context.facing.result as Array<Entity>;
+
+            if (entities.length === 0)
+              throw new Error("No targets matched the selector.");
+
+            const target = entities[0];
+            if (!target) throw new Error("No targets matched the selector.");
+
+            entity.setRotation(calculateRotationToFace(entityLocation, target.position));
+          }
+
           // Spawn the entity
-          const spawnedEntity = entity.spawn();
-
-          // Wait 2 seconds before setting the rotation to allow the entity to spawn
-          setTimeout(() => {
-            if (context.facing.result) {
-              // Get the target entity
-              const entities = context.facing.result as Array<Entity>;
-
-              // Check if there are any targets
-              if (entities.length === 0)
-                throw new Error("No targets matched the selector.");
-
-              // Get the first target
-              const target = entities[0];
-
-              if (!target) throw new Error("No targets matched the selector.");
-
-              // Get the movement trait
-              const movementTrait = spawnedEntity.getTrait(EntityMovementTrait);
-
-              // Set the rotation to look at the target
-              movementTrait.lookAt(target.position);
-            }
-          }, 2000);
+          entity.spawn();
 
           // Send the success message
           return {
@@ -108,10 +99,12 @@ const register = (world: World) => {
               ? context.origin.dimension
               : context.origin;
 
+          const entityLocation = new Vector3f(x, y, z);
+
           // Summon the entity at the specified location
           const entity = dimension.spawnEntity(
             identifier,
-            new Vector3f(x, y, z),
+            entityLocation,
             false
           );
 
@@ -123,31 +116,20 @@ const register = (world: World) => {
             );
           }
 
+          if (context.facing.result) {
+            const entities = context.facing.result as Array<Entity>;
+
+            if (entities.length === 0)
+              throw new Error("No targets matched the selector.");
+
+            const target = entities[0];
+            if (!target) throw new Error("No targets matched the selector.");
+
+            entity.setRotation(calculateRotationToFace(entityLocation, target.position));
+          }
+
           // Spawn the entity
-          const spawnedEntity = entity.spawn();
-
-          // Wait 2 seconds before setting the rotation to allow the entity to spawn
-          setTimeout(() => {
-            if (context.facing.result) {
-              // Get the target entity
-              const entities = context.facing.result as Array<Entity>;
-
-              // Check if there are any targets
-              if (entities.length === 0)
-                throw new Error("No targets matched the selector.");
-
-              // Get the first target
-              const target = entities[0];
-
-              if (!target) throw new Error("No targets matched the selector.");
-
-              // Get the movement trait
-              const movementTrait = spawnedEntity.getTrait(EntityMovementTrait);
-
-              // Set the rotation to look at the target
-              movementTrait.lookAt(target.position);
-            }
-          }, 2000);
+          entity.spawn();
 
           return {
             message: `Successfully summoned entity at ${x}, ${y}, ${z}!`
@@ -160,3 +142,19 @@ const register = (world: World) => {
 };
 
 export default register;
+
+/**
+ * Computes a Rotation (yaw/pitch) for an entity at `from` to face toward `to`.
+ */
+function calculateRotationToFace(from: Vector3f, to: Vector3f): Rotation {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  const dz = to.z - from.z;
+
+  const horizontalDist = Math.sqrt(dx * dx + dz * dz);
+
+  const yaw = (Math.atan2(-dx, dz) * (180 / Math.PI)) % 360;
+  const pitch = Math.atan2(-dy, horizontalDist) * (180 / Math.PI);
+
+  return new Rotation(yaw, pitch, yaw);
+}
