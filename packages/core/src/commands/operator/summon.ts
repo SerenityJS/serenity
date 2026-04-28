@@ -38,6 +38,7 @@ const register = (world: World) => {
           // Get the position of the entity
           const { x, y, z } = context.origin.position.floor();
 
+          //  Convert the position to a vector
           const entityLocation = new Vector3f(x, y, z);
 
           // Spawn the entity at the specified location
@@ -55,15 +56,20 @@ const register = (world: World) => {
             );
           }
 
+
+          // // Check if the facing argument was provided
           if (context.facing.result) {
             const entities = context.facing.result as Array<Entity>;
 
+            // Check if there are no targets
             if (entities.length === 0)
               throw new Error("No targets matched the selector.");
 
+            // Get the first target
             const target = entities[0];
             if (!target) throw new Error("No targets matched the selector.");
 
+            // Calculate the rotation to face the target
             entity.setRotation(calculateRotationToFace(entityLocation, target.position));
           }
 
@@ -116,15 +122,19 @@ const register = (world: World) => {
             );
           }
 
+          // // Check if the facing argument was provided
           if (context.facing.result) {
             const entities = context.facing.result as Array<Entity>;
 
+            // Check if there are no targets
             if (entities.length === 0)
               throw new Error("No targets matched the selector.");
 
+            // Get the first target
             const target = entities[0];
             if (!target) throw new Error("No targets matched the selector.");
 
+            // Calculate the rotation to face the target
             entity.setRotation(calculateRotationToFace(entityLocation, target.position));
           }
 
@@ -144,17 +154,20 @@ const register = (world: World) => {
 export default register;
 
 /**
- * Computes a Rotation (yaw/pitch) for an entity at `from` to face toward `to`.
+ * Calculates the rotation to face a target
  */
 function calculateRotationToFace(from: Vector3f, to: Vector3f): Rotation {
   const dx = to.x - from.x;
   const dy = to.y - from.y;
   const dz = to.z - from.z;
 
+  // Calculate the horizontal distance
   const horizontalDist = Math.sqrt(dx * dx + dz * dz);
 
+  // Calculate the yaw and pitch
   const yaw = (Math.atan2(-dx, dz) * (180 / Math.PI)) % 360;
   const pitch = Math.atan2(-dy, horizontalDist) * (180 / Math.PI);
 
+  // Return the rotation
   return new Rotation(yaw, pitch, yaw);
 }
