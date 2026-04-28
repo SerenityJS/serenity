@@ -523,6 +523,8 @@ class Dimension {
       if (!identifier || identifier.valueOf() === EntityIdentifier.Player)
         continue;
 
+      // Check if the entity type exists, if not - skip
+      if (!this.world.entityPalette.getType(identifier.valueOf())) continue;
       // Create a new entity instance using the entity storage
       const entity = new Entity(this, identifier.valueOf(), { storage });
 
