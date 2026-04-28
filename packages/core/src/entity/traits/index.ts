@@ -6,7 +6,6 @@ export * from "./collision";
 export * from "./air-supply";
 export * from "./inventory";
 export * from "./item-stack";
-export * from "./physics";
 export * from "./effects";
 export * from "./visibility";
 export * from "./equipment";

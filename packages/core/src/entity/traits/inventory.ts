@@ -16,6 +16,7 @@ import { ItemStackKeepOnDieTrait, ItemStack } from "../../item";
 import { EntityDeathOptions, EntityInventoryTraitOptions } from "../../types";
 import { Container } from "../../container";
 import { Player } from "../player";
+import { TraitOnTickDetails } from "../../trait";
 
 import { EntityTrait } from "./trait";
 
@@ -115,7 +116,7 @@ class EntityInventoryTrait extends EntityTrait {
    */
   public onClose(): void {}
 
-  public onTick(): void {
+  public onTick({ currentTick, deltaTick }: TraitOnTickDetails): void {
     // Check if the container has occupants and the entity is not opened
     if (!this.opened && this.container.getAllOccupants().length > 0) {
       // Set the enity state to open
@@ -132,6 +133,39 @@ class EntityInventoryTrait extends EntityTrait {
 
       // Call the onClose method
       this.onClose();
+    }
+
+    // Iterate over all the items in the inventory
+    for (const item of this.container.storage) {
+      // Check if the item is null
+      if (!item) continue;
+
+      // Iterate over all the traits in the item
+      for (const trait of item.getAllTraits())
+        try {
+          // Tick the item trait
+          trait.onTick?.({ currentTick, deltaTick });
+
+          // Get random tick speed for calculating the chance of a random tick.
+          const randomTickGamerule =
+            (this.dimension.world.gamerules?.randomTickSpeed as number) ?? 1;
+          const randomTickSpeed = Math.max(
+            1,
+            Math.min(4096, randomTickGamerule)
+          );
+
+          // Check if the trait should be randomly ticked
+          if (trait.shouldRandomTick(randomTickSpeed)) trait.onRandomTick?.();
+        } catch (reason) {
+          // Log the error to the console
+          this.dimension.world.logger.error(
+            `Failed to tick item trait "${trait.identifier}" for item "${item.type.identifier}" in dimension "${this.identifier}"`,
+            reason
+          );
+
+          // Remove the trait from the item
+          item.removeTrait(trait.identifier);
+        }
     }
   }
 

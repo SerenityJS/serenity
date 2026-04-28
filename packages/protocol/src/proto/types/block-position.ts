@@ -221,26 +221,19 @@ class BlockPosition extends DataType implements IPosition {
   }
 
   public static read(stream: BinaryStream): BlockPosition {
-    // Reads a x, y, z float from the stream
+    // Reads a x, y, z signed varint from the stream
     const x = stream.readZigZag();
-    let y = stream.readVarInt(); // WHY MOJANK
+    const y = stream.readZigZag();
     const z = stream.readZigZag();
 
-    // For some reason, the y value is signed, so we need to convert it to an unsigned value.
-    // -1 starts at 4294967295 and goes down to 0
-    y = 4_294_967_295 - 64 >= y ? y : y - 4_294_967_296;
-
-    // Returns the x, y, z float
-    return new BlockPosition(x, y, z);
+    // Returns the x, y, z
+    return new this(x, y, z);
   }
 
   public static write(stream: BinaryStream, value: BlockPosition): void {
-    // Converts the y value to an unsigned value
-    const y = value.y < 0 ? 4_294_967_296 + value.y : value.y;
-
-    // Writes a x, y, z float to the stream
+    // Writes the x, y, z as signed varints to the stream
     stream.writeZigZag(value.x);
-    stream.writeVarInt(y);
+    stream.writeZigZag(value.y);
     stream.writeZigZag(value.z);
   }
 

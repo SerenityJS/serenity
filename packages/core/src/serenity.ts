@@ -252,7 +252,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   /**
    * Starts the server and begins listening for incoming connections
    */
-  public start(): void {
+  public async start(): Promise<void> {
     // Start the raknet server
     this.network.raknet.start(false);
 
@@ -366,7 +366,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     tick();
 
     // Emit the server startup event
-    this.emit(ServerEvent.Start, 0 as never);
+    await this.emitAsync(ServerEvent.Start, 0 as never);
 
     // Log that the server is now running
     this.logger.info(
@@ -377,18 +377,21 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   /**
    * Stops the server and closes all connections
    */
-  public stop(): void {
+  public async stop(): Promise<void> {
     // Close the console interface
     this.console.interface.close();
 
     // Emit the server shutdown event
-    this.emit(ServerEvent.Stop, 0 as never);
+    await this.emitAsync(ServerEvent.Stop, 0 as never);
 
     // Set the server state as shutting
     this.state = ServerState.ShuttingDown;
 
     // Disconnect all players
     for (const player of this.players.values()) {
+      // Close all screens that the player has open
+      for (const screen of player.screens.values()) screen.close(player);
+
       // Get the default world from the serenity instance
       const world = this.getWorld(); // Default world
 

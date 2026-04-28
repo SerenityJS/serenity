@@ -22,10 +22,8 @@ import {
   Entity,
   EntityCollisionTrait,
   EntityGravityTrait,
-  EntityInventoryTrait,
   EntityItemStackTrait,
   EntityMovementTrait,
-  EntityPhysicsTrait,
   EntityType,
   EntityXpOrbTrait,
   Player,
@@ -47,6 +45,7 @@ import {
   EntityQueryOptions,
   StructurePlaceOptions
 } from "./types";
+import { DimensionFeature, DimensionFeatures } from "./features";
 
 const DefaultDimensionProperties: DimensionProperties = {
   identifier: "overworld",
@@ -65,6 +64,8 @@ const DefaultDimensionProperties: DimensionProperties = {
 };
 
 class Dimension {
+  private static readonly MAX_DELTA_CHUNK_UPDATES = 64;
+
   /**
    * The serenity instance of the server.
    */
@@ -134,6 +135,11 @@ class Dimension {
    * The blocks in the dimension that contain data.
    */
   public readonly blocks = new Map<bigint, Block>();
+
+  /**
+   * The features in the dimension.
+   */
+  private readonly features = new Map<string, DimensionFeature>();
 
   /**
    * The amount of chunks that that will be rendered by the client.
@@ -225,6 +231,9 @@ class Dimension {
     // Assign the identifier and type
     this.identifier = this.properties.identifier;
     this.type = this.properties.type;
+
+    // Initialize features in the dimension
+    for (const feature of DimensionFeatures) this.addFeature(feature);
   }
 
   /**
@@ -249,20 +258,37 @@ class Dimension {
     // Get the current tick of the world
     const currentTick = this.world.currentTick;
 
+    // Tick the features of the world
+    for (const [identifier, feature] of this.features) {
+      try {
+        // Tick the feature with the signal details
+        feature.onTick?.({
+          currentTick,
+          deltaTick
+        });
+      } catch (reason) {
+        // Log that the feature failed to tick
+        this.world.logger.error(`Failed to tick feature ${identifier}`, reason);
+      }
+    }
+
     // Get random tick speed for calculating the chance of a random tick.
     const randomTickGamerule =
       (this.world.gamerules?.randomTickSpeed as number) ?? 1;
     const randomTickSpeed = Math.max(1, Math.min(4096, randomTickGamerule));
+    const simulationRange = this.simulationDistance << 4;
+    const simulationRangeSquared = simulationRange * simulationRange;
 
     // Get all the player positions in the dimension.
     const playerPositions = players.map((player) => player.position);
 
     // Iterate over all the entities in the dimension
     for (const entity of this.getEntities()) {
-      // Check if there is a entity within the simulation distance to tick the entity
-      const inSimulationRange = playerPositions.some((player) => {
-        return player.distance(entity.position) <= this.simulationDistance << 4;
-      });
+      const inSimulationRange = this.isWithinSimulationRange(
+        entity.position,
+        playerPositions,
+        simulationRangeSquared
+      );
 
       // Tick the entity if it is in simulation range
       if (inSimulationRange) {
@@ -287,38 +313,6 @@ class Dimension {
             // Remove the trait from the entity
             entity.traits.delete(identifier);
           }
-
-        // Check if the entity has a inventory trait
-        if (entity.hasTrait(EntityInventoryTrait)) {
-          // Get the inventory trait from the entity
-          const { container } = entity.getTrait(EntityInventoryTrait);
-
-          // Iterate over all the items in the inventory
-          for (const item of container.storage) {
-            // Check if the item is null
-            if (!item) continue;
-
-            // Iterate over all the traits in the item
-            for (const trait of item.getAllTraits())
-              try {
-                // Tick the item trait
-                trait.onTick?.({ currentTick, deltaTick });
-
-                // Check if the trait should be randomly ticked
-                if (trait.shouldRandomTick(randomTickSpeed))
-                  trait.onRandomTick?.();
-              } catch (reason) {
-                // Log the error to the console
-                this.world.logger.error(
-                  `Failed to tick item trait "${trait.identifier}" for item "${item.type.identifier}" in dimension "${this.identifier}"`,
-                  reason
-                );
-
-                // Remove the trait from the item
-                item.removeTrait(trait.identifier);
-              }
-          }
-        }
       } else if (entity.isTicking) {
         // If the entity is not in simulation range, stop ticking it
         entity.isTicking = false;
@@ -327,10 +321,11 @@ class Dimension {
 
     // Iterate over all the blocks in the dimension
     for (const [, block] of this.blocks) {
-      // Check if there is a player within the simulation distance to tick the block
-      const inSimulationRange = playerPositions.some((player) => {
-        return player.distance(block.position) <= this.simulationDistance << 4;
-      });
+      const inSimulationRange = this.isWithinSimulationRange(
+        block.position,
+        playerPositions,
+        simulationRangeSquared
+      );
 
       // Tick the block if it is in simulation range
       if (inSimulationRange) {
@@ -542,7 +537,9 @@ class Dimension {
    * Sets a chunk in the dimension.
    * @param chunk The chunk to set.
    */
-  public setChunk(chunk: Chunk): void {
+  public setChunk(chunk: Chunk, positions?: Array<BlockPosition>): void {
+    if (positions && this.sendChunkDeltaUpdates(chunk, positions)) return;
+
     // Iterate over all the players in the dimension
     for (const player of this.getPlayers()) {
       // Get the player's chunk rendering trait
@@ -554,6 +551,81 @@ class Dimension {
       // Send the chunk to the player
       trait.send(this, chunk);
     }
+  }
+
+  /**
+   * Whether a position is within the simulation range of any player in the dimension.
+   * @param position The position to check.
+   * @param playerPositions The positions of the players in the dimension.
+   * @param simulationRangeSquared The simulation range squared for distance checking.
+   * @returns Whether the position is within the simulation range of any player in the dimension.
+   */
+  private isWithinSimulationRange(
+    position: IPosition,
+    playerPositions: Array<IPosition>,
+    simulationRangeSquared: number
+  ): boolean {
+    // Iterate over all the player positions in the dimension
+    for (const playerPosition of playerPositions) {
+      // Calculate the distance squared between the position and the player position
+      const dx = playerPosition.x - position.x;
+      const dy = playerPosition.y - position.y;
+      const dz = playerPosition.z - position.z;
+
+      // Check if the distance squared is less than or equal to the simulation range squared
+      if (dx * dx + dy * dy + dz * dz <= simulationRangeSquared) return true;
+    }
+
+    // Return false if the position is not within the simulation range of any player in the dimension
+    return false;
+  }
+
+  /**
+   * Sends chunk delta updates to players in the dimension for the specified block positions in the chunk.
+   * @param chunk The chunk for which to send delta updates.
+   * @param positions The block positions within the chunk that have been updated and require delta updates to be sent to players.
+   * @returns Whether any delta updates were sent to players in the dimension.
+   */
+  private sendChunkDeltaUpdates(
+    chunk: Chunk,
+    positions: Array<BlockPosition>
+  ): boolean {
+    // Check if the number of positions exceeds the maximum allowed for delta updates
+    if (
+      positions.length === 0 ||
+      positions.length > Dimension.MAX_DELTA_CHUNK_UPDATES
+    )
+      return false;
+
+    // Create an array of UpdateBlockPackets for the specified positions in the chunk
+    const packets: Array<UpdateBlockPacket> = [];
+
+    // Iterate over the specified block positions and create an UpdateBlockPacket for each position
+    for (const position of positions) {
+      const packet = new UpdateBlockPacket();
+      packet.networkBlockId = chunk.getPermutation(position).networkId;
+      packet.position = position;
+      packet.flags = UpdateBlockFlagsType.Network;
+      packet.layer = UpdateBlockLayerType.Normal;
+      packets.push(packet);
+    }
+
+    // Prepare a variable to track whether any updates were sent to players in the dimension
+    let watchers = 0;
+
+    // Iterate over all the players in the dimension
+    for (const player of this.getPlayers()) {
+      // Check if the player has the chunk being updated
+      const trait = player.getTrait(PlayerChunkRenderingTrait);
+      if (!trait.chunks.has(chunk.hash)) continue;
+
+      // Increment the watchers count and send the delta update packets to the player
+      watchers++;
+      player.send(...packets);
+    }
+
+    // Return whether any updates were sent to players in the dimension
+    return watchers > 0;
   }
 
   /**
@@ -663,8 +735,8 @@ class Dimension {
               `Despawning entity §u${entity.type.identifier}:${entity.uniqueId}§r from chunk at (§u${chunk.x}§r, §u${chunk.z}§r) in dimension §u${this.identifier}§r before unloading.`
             );
 
-            // Despawn the entity from the dimension
-            entity.despawn();
+            // Despawn the entity from the dimension while keeping persistent entities in chunk storage.
+            entity.despawn({ unloadingChunk: true });
           }
         }
 
@@ -733,20 +805,13 @@ class Dimension {
     // Return the block if it exists
     if (block) return block;
     else {
-      // Get the permutation from the chunk
-      const permutation = this.getPermutation(blockPosition);
+      const chunk = this.getChunk(blockPosition.x >> 4, blockPosition.z >> 4);
+      const storage = chunk.getBlockStorage(blockPosition) ?? undefined;
 
-      // Create a new block with the dimension, position, and permutation
-      const block = new Block(this, blockPosition);
-
-      // Push the permutation nbt to the block's nbt
-      block.pushStorageEntry(...permutation.nbt.values());
-
-      // Iterate over all the traits and apply them to the block
-      for (const [, trait] of permutation.type.traits) block.addTrait(trait);
+      const block = new Block(this, blockPosition, storage);
 
       // If the block has dynamic properties or traits, we will cache the block
-      if (block.getStorage().size > 0 || block.getAllTraits().length > 0)
+      if ((storage?.size ?? 0) > 0 || block.getAllTraits().length > 0)
         this.blocks.set(hash, block);
 
       // Return the block
@@ -808,8 +873,12 @@ class Dimension {
     // Convert the position to a block position
     const blockPosition = BlockPosition.from(position);
 
+    const cx = blockPosition.x >> 4;
+    const cz = blockPosition.z >> 4;
+    const chunk = this.getChunk(cx, cz);
+
     // Get the current permutation of the block
-    const current = this.getPermutation(blockPosition, layer);
+    const current = chunk.getPermutation(blockPosition, layer);
 
     // Create a new UpdateBlockPacket to broadcast the change.
     const packet = new UpdateBlockPacket();
@@ -835,13 +904,6 @@ class Dimension {
       // Broadcast the packet to the dimension.
       return this.broadcast(packet);
     }
-
-    // Convert the block position to a chunk position
-    const cx = blockPosition.x >> 4;
-    const cz = blockPosition.z >> 4;
-
-    // Get the chunk of the provided position
-    const chunk = this.getChunk(cx, cz);
 
     // Set the permutation of the block
     chunk.setPermutation(blockPosition, permutation, layer, true);
@@ -1052,7 +1114,7 @@ class Dimension {
     const maxZ = Math.max(from.z, to.z);
 
     // Hold the updated chunks
-    const updatedChunks = new Set<Chunk>();
+    const updatedChunks = new Map<Chunk, Array<BlockPosition>>();
 
     // Hold the amount of blocks that were filled
     let filledBlocks = 0;
@@ -1063,12 +1125,14 @@ class Dimension {
         for (let z = minZ; z <= maxZ; z++) {
           // Get the chunk of the block
           const chunk = this.getChunk(x >> 4, z >> 4);
+          const blockPosition = new BlockPosition(x, y, z);
 
           // Set the permutation of the block
-          chunk.setPermutation({ x, y, z }, permutation);
+          chunk.setPermutation(blockPosition, permutation);
 
-          // Add the chunk to the updated chunks
-          updatedChunks.add(chunk);
+          const positions = updatedChunks.get(chunk);
+          if (positions) positions.push(blockPosition);
+          else updatedChunks.set(chunk, [blockPosition]);
 
           // Set the chunk to dirty
           chunk.dirty = true;
@@ -1080,7 +1144,8 @@ class Dimension {
     }
 
     // Set the updated chunks
-    for (const chunk of updatedChunks) this.setChunk(chunk);
+    for (const [chunk, positions] of updatedChunks)
+      this.setChunk(chunk, positions);
 
     // Return the amount of blocks that were filled
     return filledBlocks;
@@ -1106,7 +1171,6 @@ class Dimension {
 
     // As a Serenity standard, we will add the gravity, physics, movement traits to the entity
     entity.addTrait(EntityGravityTrait);
-    entity.addTrait(EntityPhysicsTrait);
     entity.addTrait(EntityMovementTrait);
     entity.addTrait(EntityCollisionTrait);
 
@@ -1145,7 +1209,6 @@ class Dimension {
 
     // Add gravity and physics traits to the entity
     entity.addTrait(EntityGravityTrait);
-    entity.addTrait(EntityPhysicsTrait);
     entity.addTrait(EntityMovementTrait);
     entity.addTrait(EntityCollisionTrait);
 
@@ -1177,7 +1240,6 @@ class Dimension {
 
     // Add gravity and physics traits to the entity
     entity.addTrait(EntityGravityTrait);
-    entity.addTrait(EntityPhysicsTrait);
     entity.addTrait(EntityMovementTrait);
     entity.addTrait(EntityCollisionTrait);
 
@@ -1257,7 +1319,7 @@ class Dimension {
     // Register the callback if it exists
     if (callback) schedule.on(callback);
 
-    // Add the schedule to the world
+    // Add the schedule to the dimension
     this.serenity.schedules.add(schedule);
 
     // Return the schedule
@@ -1304,7 +1366,7 @@ class Dimension {
     let index = 0; // Prepare an index to iterate over the blocks
 
     // Create a set to hold the dirty chunks
-    const dirtyChunks = new Set<Chunk>();
+    const dirtyChunks = new Map<Chunk, Array<BlockPosition>>();
 
     for (let x = 0; x < sx; x++) {
       for (let y = 0; y < sy; y++) {
@@ -1335,20 +1397,25 @@ class Dimension {
           const dx = x + position.x;
           const dy = y + position.y;
           const dz = z + position.z;
+          const blockPosition = new BlockPosition(dx, dy, dz);
 
           // Get the chunk of the block
           const chunk = this.getChunk(dx >> 4, dz >> 4);
 
           // Set the permutation of the block
           chunk.setPermutation(
-            { x: dx, y: dy, z: dz },
+            blockPosition,
             permutation,
             UpdateBlockLayerType.Normal,
             true
           );
 
           // Add the chunk to the updated chunks
-          if (markAsDirty && !dirtyChunks.has(chunk)) dirtyChunks.add(chunk);
+          if (markAsDirty) {
+            const positions = dirtyChunks.get(chunk);
+            if (positions) positions.push(blockPosition);
+            else dirtyChunks.set(chunk, [blockPosition]);
+          }
 
           // Increment the index
           index++;
@@ -1361,8 +1428,8 @@ class Dimension {
     }
 
     // Set the updated chunks
-    for (const chunk of dirtyChunks) {
-      this.setChunk(chunk); // Set the chunk in the dimension
+    for (const [chunk, positions] of dirtyChunks) {
+      this.setChunk(chunk, positions); // Set the chunk in the dimension
     }
   }
 
@@ -1397,6 +1464,132 @@ class Dimension {
     // Iterate over all the entities in the dimension
     for (const player of this.getPlayers())
       if (excludedPlayer !== player) player.send(...packets); // Send the packet to the player
+  }
+
+  /**
+   * Gets all the features in the dimension.s
+   * @returns An array of features in the dimension.s
+   */
+  public getAllFeatures(): Array<DimensionFeature> {
+    return Array.from(this.features.values());
+  }
+
+  /**
+   * Gets a feature by the constructor from the dimension
+   * @param feature The identifier or constructor of the feature
+   * @returns The feature, if found; otherwise, null
+   */
+  public getFeature<T extends typeof DimensionFeature>(
+    feature: T
+  ): InstanceType<T> | null;
+
+  /**
+   * Gets a feature by the identifier from the dimension
+   * @param identifier The identifier of the feature
+   * @returns The feature, if found; otherwise, null
+   */
+  public getFeature(identifier: string): DimensionFeature | null;
+
+  /**
+   * Gets a feature by the identifier or constructor from the dimension.
+   * @param identifierOrConstructor The identifier or constructor of the feature
+   * @returns The feature, if found; otherwise, null
+   */
+  public getFeature(
+    identifierOrConstructor: string | typeof DimensionFeature
+  ): DimensionFeature | null {
+    // Get the feature instance by the identifier or constructor
+    const instance = this.features.get(
+      typeof identifierOrConstructor === "string"
+        ? identifierOrConstructor
+        : identifierOrConstructor.identifier
+    );
+
+    // Return the feature instance if it exists, otherwise return null
+    return instance ?? null;
+  }
+
+  /**
+   * Adds a feature to the dimension by the constructor or instance of the feature
+   * @param feature The constructor or instance of the feature to add
+   * @returns The added feature instance
+   */
+  public addFeature<T extends typeof DimensionFeature>(
+    feature: T | DimensionFeature
+  ): InstanceType<T> {
+    // Check if the feature already exists in the world
+    if (this.features.has(feature.identifier)) {
+      // Return the existing feature if it already exists
+      return this.features.get(feature.identifier) as InstanceType<T>;
+    }
+
+    // Attempt to add the feature to the dimension
+    try {
+      // Check if the feature is a constructor or an instance
+      if (feature instanceof DimensionFeature) {
+        // Add the feature instance to the dimension
+        this.features.set(feature.identifier, feature);
+
+        // Call the onAdd method of the feature if it exists
+        feature.onAdd?.();
+
+        // Return the feature instance
+        return feature as InstanceType<T>;
+      } else {
+        // Create a new instance of the feature
+        const instance = new feature(this);
+
+        // Add the feature instance to the dimension
+        this.features.set(instance.identifier, instance);
+
+        // Call the onAdd method of the feature if it exists
+        instance.onAdd?.();
+
+        // Return the feature instance
+        return instance as InstanceType<T>;
+      }
+    } catch (reason) {
+      // Log that the feature failed to be added
+      this.world.logger.error(
+        `Failed to add feature with identifier ${feature.identifier}`,
+        reason
+      );
+
+      // Throw the error to be handled by the caller
+      throw reason;
+    }
+  }
+
+  /**
+   * Removes a feature from the dimension. by the identifier or constructor of the features
+   * @param identifier  The identifier or constructor of the feature to remove
+   * @returns The removed feature instance, if it was removed; otherwise, null
+   */
+  public removeFeature(identifier: string | typeof DimensionFeature): void {
+    // Find the feature instance by the identifier
+    const instance = this.features.get(
+      typeof identifier === "string" ? identifier : identifier.identifier
+    );
+
+    // Check if the feature instance exists
+    if (!instance) {
+      // Log that the feature does not exist
+      this.world.logger.error(
+        `Failed to remove feature with identifier ${identifier} as it does not exist`
+      );
+
+      // Return if the feature instance does not exist
+      return;
+    }
+
+    // Call the onRemove method of the feature if it exists
+    instance.onRemove?.();
+
+    // Remove the feature from the dimension.
+    this.features.delete(instance.identifier);
+
+    // Log that the feature has been removed
+    this.world.logger.debug(`Removed feature: ${instance.identifier}`);
   }
 }
 

@@ -86,11 +86,9 @@ export class SubChunk {
    * @returns The block state.
    */
   public getState(bx: number, by: number, bz: number, layer: number): number {
-    // Get the storage.
-    const storage = this.getLayer(layer);
+    const storage = this.layers[layer];
 
-    // Get the block state.
-    return storage.getState(bx, by, bz);
+    return storage ? storage.getState(bx, by, bz) : BlockStorage.AIR;
   }
 
   /**

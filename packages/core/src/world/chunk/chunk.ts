@@ -12,6 +12,7 @@ import { BlockLevelStorage, BlockPermutation } from "../../block";
 import { BiomeType } from "../../biome";
 
 import { SubChunk } from "./sub-chunk";
+import { BlockStorage } from "./block-storage";
 import { BiomeStorage } from "./biome-storage";
 
 /**
@@ -126,6 +127,18 @@ export class Chunk {
     this.subchunks = subchunks ?? new Array<SubChunk>(Chunk.MAX_SUB_CHUNKS);
   }
 
+  private peekSubChunk(index: number): SubChunk | null {
+    let offset = 0;
+
+    if (this.type === DimensionType.Overworld) offset = 4;
+
+    const resolved = index + offset;
+
+    if (resolved < 0 || resolved >= Chunk.MAX_SUB_CHUNKS) return null;
+
+    return this.subchunks[resolved] ?? null;
+  }
+
   /**
    * Get the permutation at the given X, Y and Z coordinates.
    * @param position The position.
@@ -135,8 +148,10 @@ export class Chunk {
     // Correct the Y level for the overworld.
     const { x, y, z } = position;
 
-    // Get the sub chunk.
-    const subchunk = this.getSubChunk(y >> 4);
+    const subchunk = this.peekSubChunk(y >> 4);
+
+    if (!subchunk)
+      return BlockPermutation.permutations.get(BlockStorage.AIR) as BlockPermutation;
 
     // Get the block state.
     const state = subchunk.getState(x & 0xf, y & 0xf, z & 0xf, layer); // 0 = Solids, 1 = Liquids or Logged
@@ -185,8 +200,9 @@ export class Chunk {
     // Get the x, y and z coordinates from the position.
     const { x, y, z } = position;
 
-    // Get the sub chunk.
-    const subchunk = this.getSubChunk(y >> 4);
+    const subchunk = this.peekSubChunk(y >> 4);
+
+    if (!subchunk) return BiomeType.types.get(0)!;
 
     // Fetch the biome from the biome storage.
     const biomeId = subchunk.getBiome(x & 0xf, y & 0xf, z & 0xf);

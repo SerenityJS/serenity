@@ -100,6 +100,7 @@ class LoginHandler extends NetworkHandler {
         "There are no worlds registered within the server process.",
         DisconnectReason.WorldCorruption
       );
+
     // Get the default dimension, and check if it is undefined.
     // If so, then disconnect the player.
     const dimension = world.getDimension();
@@ -109,6 +110,7 @@ class LoginHandler extends NetworkHandler {
         "There are no dimensions registered within the world instance.",
         DisconnectReason.WorldCorruption
       );
+
     // Create a new ClientSystemInfo instance.
     const clientSystemInfo = new ClientSystemInfo(
       clientData.DeviceId,

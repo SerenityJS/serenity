@@ -181,6 +181,10 @@ import { AgentAnimationPacket } from "./agent-animation";
 import { PlayerToggleCrafterRequestPacket } from "./player-toggle-crafter-request";
 import { CodeBuilderSourcePacket } from "./code-builder-source";
 import { VoxelShapesPacket } from "./voxel-shapes-packet";
+import { ClientboundDataDrivenUIShowScreenPacket } from "./clientbound-data-driven-ui-show-screen";
+import { ClientboundDataStorePacket } from "./clientbound-data-store";
+import { ClientboundDataDrivenUIClosePacket } from "./clientbound-data-driven-ui-close-screen";
+import { ServerboundDataStorePacket } from "./serverbound-data-store";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -360,6 +364,12 @@ const Packets = {
   [Packet.PlayerUpdateEntityOverrides]: PlayerUpdateEntityOverridesPacket, // 325
   [Packet.ServerScriptDebugDrawer]: ServerScriptDebugDrawerPacket, // 328
   [Packet.GraphicsOverrideParameter]: GraphicsOverrideParameterPacket, // 329
+  [Packet.ClientboundDataStore]: ClientboundDataStorePacket, // 330
+  [Packet.ServerboundDataStore]: ServerboundDataStorePacket, // 332
+  [Packet.ClientboundDataDrivenUIShowScreenPacket]:
+    ClientboundDataDrivenUIShowScreenPacket, // 333,
+  [Packet.ClientboundDataDrivenUIClosePacket]:
+    ClientboundDataDrivenUIClosePacket, // 334
   [Packet.VoxelShapesPacket]: VoxelShapesPacket // 337
 };
 

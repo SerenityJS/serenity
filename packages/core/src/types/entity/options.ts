@@ -58,6 +58,11 @@ interface EntityDespawnOptions {
    * If the player is disconnecting from the server.
    */
   disconnected?: boolean;
+
+  /**
+   * If the entity is despawning because its chunk is being unloaded.
+   */
+  unloadingChunk?: boolean;
 }
 
 interface EntityDeathOptions {

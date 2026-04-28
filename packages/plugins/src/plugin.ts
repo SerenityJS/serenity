@@ -200,7 +200,7 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
    * Called when the plugin is started up.
    * @param plugin The plugin instance that was started up. (this)
    */
-  public onStartUp(_plugin: Plugin): void {
+  public async onStartUp(_plugin: Plugin): Promise<void> {
     // Override this method in your plugin
   }
 
@@ -208,7 +208,7 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
    * Called when the plugin is shut down.
    * @param plugin The plugin instance that was shut down. (this)
    */
-  public onShutDown(_plugin: Plugin): void {
+  public async onShutDown(_plugin: Plugin): Promise<void> {
     // Override this method in your plugin
   }
 

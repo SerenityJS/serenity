@@ -1,5 +1,6 @@
 export * from "./enums";
 export * from "./command";
+export * from "./subcommand";
 export * from "./palette";
 export * from "./execution-state";
 export * from "./registry";

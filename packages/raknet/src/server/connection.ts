@@ -56,19 +56,35 @@ class Connection {
   protected readonly receivedFrameSequences = new Set<number>();
   protected readonly lostFrameSequences = new Set<number>();
   protected readonly inputHighestSequenceIndex: Array<number>;
-  protected readonly fragmentsQueue: Map<number, Map<number, Frame>> =
-    new Map();
+
+  // Fragment reassembly queue (splitId -> group)
+  protected readonly fragmentsQueue: Map<
+    number,
+    { createdAt: number; total: number; parts: Map<number, Frame> }
+  > = new Map();
 
   protected readonly inputOrderIndex: Array<number>;
   protected inputOrderingQueue: Map<number, Map<number, Frame>> = new Map();
   protected lastInputSequence = -1;
 
+  // Tracks frameset sequences we've already processed (to ignore duplicates safely)
+  // We keep a bounded window to avoid unbounded memory growth.
+  protected readonly processedFrameSequences = new Set<number>();
+  protected readonly processedFrameSequencesFifo: Array<number> = [];
+
   // Outputs
   protected readonly outputOrderIndex: Array<number>;
   protected readonly outputSequenceIndex: Array<number>;
 
-  protected outputFrames = new Set<Frame>();
-  protected outputBackup = new Map<number, Array<Frame>>();
+  // Output queue (Array is faster + deterministic ordering vs Set + slicing)
+  protected outputFrames: Array<Frame> = [];
+  protected queuedBytes = DGRAM_HEADER_SIZE;
+
+  // Backup for retransmit (sequence -> entry)
+  protected outputBackup = new Map<
+    number,
+    { frames: Array<Frame>; sentAt: number; retries: number }
+  >();
 
   protected outputSequence = 0;
 
@@ -90,6 +106,15 @@ class Connection {
    * The timestamp when the last ACK-tracked packet was sent
    */
   public ackTimeStamp: number = 0;
+
+  // Tunables / safety caps
+  private static readonly STALE_MS = 15_000;
+  private static readonly FRAGMENT_TTL_MS = 10_000;
+  private static readonly MAX_PROCESSED_FRAMESETS = 1024;
+  private static readonly MAX_NACK_RANGE = 1024;
+  private static readonly BACKUP_TTL_MS = 30_000;
+  private static readonly MAX_BACKUP_RETRIES = 20;
+  private static readonly MAX_INFLIGHT_BACKUP = 4096;
 
   /**
    * Creates a new connection
@@ -126,8 +151,10 @@ class Connection {
    * Ticks the connection
    */
   public tick(): void {
+    const now = Date.now();
+
     // Check if the client is stale
-    if (this.lastUpdate + 15_000 < Date.now()) {
+    if (this.lastUpdate + Connection.STALE_MS < now) {
       // Log a warning message for stale connections
       this.server.logger.warn(
         `Detected stale connection from §c${this.rinfo.address}§r:§c${this.rinfo.port}§r, disconnecting...`
@@ -144,16 +171,45 @@ class Connection {
     )
       return;
 
+    // Cleanup: drop stale fragment groups (prevents memory leak if fragments never complete)
+    if (this.fragmentsQueue.size > 0) {
+      for (const [splitId, group] of this.fragmentsQueue) {
+        if (group.createdAt + Connection.FRAGMENT_TTL_MS < now) {
+          this.fragmentsQueue.delete(splitId);
+        }
+      }
+    }
+
+    // Cleanup: drop very old backup entries (and optionally disconnect if constantly failing)
+    if (this.outputBackup.size > 0) {
+      // Hard cap inflight backups to avoid memory blowups from malicious/buggy peers.
+      if (this.outputBackup.size > Connection.MAX_INFLIGHT_BACKUP) {
+        this.server.logger.warn(
+          `Too many inflight framesets (${this.outputBackup.size}) for ${this.rinfo.address}:${this.rinfo.port}, disconnecting...`
+        );
+        return this.disconnect();
+      }
+
+      for (const [seq, entry] of this.outputBackup) {
+        // If it's very old and has been retried too much, consider it dead.
+        if (
+          now - entry.sentAt > Connection.BACKUP_TTL_MS ||
+          entry.retries > Connection.MAX_BACKUP_RETRIES
+        ) {
+          this.outputBackup.delete(seq);
+        }
+      }
+    }
+
     // Check if we have received any ACKs or NACKs
     // Check if we have received any packets to send an ACK for
     if (this.receivedFrameSequences.size > 0) {
       // Create a new ACK instance
       const ack = new Ack();
-      ack.sequences = [...this.receivedFrameSequences];
+      ack.sequences = Array.from(this.receivedFrameSequences);
 
-      // Delete the sequences from the received frame sequences
-      for (const sequence of this.receivedFrameSequences)
-        this.receivedFrameSequences.delete(sequence);
+      // Clear the sequences from the received frame sequences
+      this.receivedFrameSequences.clear();
 
       // Send the ACK to the remote client
       this.server.send(ack.serialize(), this.rinfo);
@@ -162,18 +218,17 @@ class Connection {
     // Check if we have any lost packets to send a NACK for
     if (this.lostFrameSequences.size > 0) {
       const nack = new Nack();
-      nack.sequences = [...this.lostFrameSequences];
+      nack.sequences = Array.from(this.lostFrameSequences);
 
-      // Delete the sequences from the lost frame sequences
-      for (const sequence of this.lostFrameSequences)
-        this.lostFrameSequences.delete(sequence);
+      // Clear the sequences from the lost frame sequences
+      this.lostFrameSequences.clear();
 
       // Send the NACK to the remote client
       this.server.send(nack.serialize(), this.rinfo);
     }
 
     // Send the output queue
-    return this.sendQueue(this.outputFrames.size);
+    return this.sendQueue(this.outputFrames.length);
   }
 
   /**
@@ -392,7 +447,7 @@ class Connection {
           `Received ack for unknown sequence ${sequence} from ${this.rinfo.address}:${this.rinfo.port}.`
         );
 
-      // Remove the ack from the set
+      // Remove the ack from the map
       this.outputBackup.delete(sequence);
     }
   }
@@ -407,24 +462,27 @@ class Connection {
 
     // Iterate over the sequences in the nack packet
     for (const sequence of nack.sequences) {
-      // Check if this is the sequence we're tracking for ping calculation
-      if (this.lastAckId !== null && sequence === this.lastAckId) {
-        const roundTripTime = Date.now() - this.ackTimeStamp;
-        this.ping = Math.round(roundTripTime);
+      const entry = this.outputBackup.get(sequence);
+      if (!entry) continue;
 
-        // Reset ping tracking
-        this.lastAckId = null;
-        this.ackTimeStamp = 0;
-      }
+      // NOTE:
+      // Resends must NOT call sendFrame(), because sendFrame() mutates
+      // reliable/order/sequence indices and may re-fragment.
+      // We must resend the exact frames that were originally in this frameset.
+      entry.retries++;
+      entry.sentAt = Date.now();
+      this.resendFrames(entry.frames);
+    }
+  }
 
-      // Get the frames from the output backup
-      const frames = this.outputBackup.get(sequence) ?? [];
-
-      // Iterate over the frames
-      for (const frame of frames) {
-        // Send the frame to the connection
-        this.sendFrame(frame, Priority.Immediate);
-      }
+  /**
+   * Resends already-constructed frames without mutating any indices.
+   * (Do NOT call sendFrame here)
+   */
+  private resendFrames(frames: Array<Frame>): void {
+    for (const frame of frames) {
+      // Queue exactly as-is
+      this.queueFrame(frame, Priority.Immediate);
     }
   }
 
@@ -436,54 +494,53 @@ class Connection {
     // Create a new FrameSet instance and deserialize the buffer
     const frameset = new FrameSet(buffer).deserialize();
 
+    // Always ACK what we actually received (RakNet-style behavior)
+    // (ACK is sent on next tick)
+    this.receivedFrameSequences.add(frameset.sequence);
+
     // Checks if the sequence of the frameset has already been recieved
-    if (this.receivedFrameSequences.has(frameset.sequence)) {
+    // NOTE: Duplicates are normal on UDP. Do NOT treat as an error.
+    if (this.processedFrameSequences.has(frameset.sequence)) {
       // Log a debug message for duplicate framesets
       this.server.logger.debug(
         `Received duplicate frameset ${frameset.sequence} from ${this.rinfo.address}:${this.rinfo.port}!`
       );
+      return;
+    }
 
-      return void this.server.emit(
-        "error",
-        new Error(
-          `Recieved duplicate frameset ${frameset.sequence} from ${this.rinfo.address}:${this.rinfo.port}!`
-        )
+    // Checks if the sequence is out of order (older than what we've advanced past)
+    // NOTE: Out-of-order is normal on UDP. We ACK it (above) but do not process it.
+    if (frameset.sequence <= this.lastInputSequence) {
+      this.server.logger.debug(
+        `Received out of order frameset ${frameset.sequence} from ${this.rinfo.address}:${this.rinfo.port}!`
       );
+      return;
+    }
+
+    // Mark this frameset as processed (bounded window)
+    this.processedFrameSequences.add(frameset.sequence);
+    this.processedFrameSequencesFifo.push(frameset.sequence);
+    if (
+      this.processedFrameSequencesFifo.length >
+      Connection.MAX_PROCESSED_FRAMESETS
+    ) {
+      const old = this.processedFrameSequencesFifo.shift();
+      if (old !== undefined) this.processedFrameSequences.delete(old);
     }
 
     // Removes the sequence from the lost frame sequences
     this.lostFrameSequences.delete(frameset.sequence);
 
-    // Checks if the sequence is out of order
-    if (
-      frameset.sequence < this.lastInputSequence ||
-      frameset.sequence === this.lastInputSequence
-    ) {
-      // Log a debug message for out of order framesets
-      this.server.logger.debug(
-        `Received out of order frameset ${frameset.sequence} from ${this.rinfo.address}:${this.rinfo.port}!`
-      );
-
-      return void this.server.emit(
-        "error",
-        new Error(
-          `Recieved out of order frameset ${frameset.sequence} from ${this.rinfo.address}:${this.rinfo.port}!`
-        )
-      );
-    }
-
-    // Adds the sequence to the recieved frame sequences, Ack will be sent on next tick
-    this.receivedFrameSequences.add(frameset.sequence);
-
     // Checks if there are any missings framesets,
     // in the range of the last input sequence and the current sequence
     // add the missing frame sequences to the lost queue
     if (frameset.sequence - this.lastInputSequence > 1) {
-      for (
-        let index = this.lastInputSequence + 1;
-        index < frameset.sequence;
-        index++
-      )
+      const start = this.lastInputSequence + 1;
+      const end = Math.min(
+        frameset.sequence,
+        start + Connection.MAX_NACK_RANGE
+      );
+      for (let index = start; index < end; index++)
         this.lostFrameSequences.add(index);
     }
 
@@ -511,17 +568,12 @@ class Connection {
           (this.inputHighestSequenceIndex[frame.orderChannel] as number) ||
         frame.orderIndex < (this.inputOrderIndex[frame.orderChannel] as number)
       ) {
-        // Log a debug message for out of order frames
+        // Sequenced packets can arrive out of order; typically you just drop older ones.
+        // Keeping the debug log, but not emitting a hard error.
         this.server.logger.debug(
-          `Recieved out of order frame ${frame.sequenceIndex} from ${this.rinfo.address}:${this.rinfo.port}!`
+          `Recieved out of order sequenced frame ${frame.sequenceIndex} from ${this.rinfo.address}:${this.rinfo.port}!`
         );
-
-        return void this.server.emit(
-          "error",
-          new Error(
-            `Recieved out of order frame ${frame.sequenceIndex} from ${this.rinfo.address}:${this.rinfo.port}!`
-          )
-        );
+        return;
       }
 
       // Set the new highest sequence index
@@ -567,6 +619,9 @@ class Connection {
 
         // Add the frame to the queue
         unordered.set(frame.orderIndex, frame);
+      } else {
+        // Older ordered frame; ignore.
+        return;
       }
     } else {
       // Handle the packet, no need to format it
@@ -579,24 +634,22 @@ class Connection {
    * @param frame The frame
    */
   protected handleFragment(frame: Frame): void {
-    // Check if we already have the fragment id
-    if (this.fragmentsQueue.has(frame.splitId)) {
-      const fragment = this.fragmentsQueue.get(frame.splitId);
+    // Split groups can be dropped on timeout in tick()
+    const now = Date.now();
+    const existing = this.fragmentsQueue.get(frame.splitId);
 
-      // Check if the fragment is null
-      if (!fragment) return;
-
+    if (existing) {
       // Set the split frame to the fragment
-      fragment.set(frame.splitIndex, frame);
+      existing.parts.set(frame.splitIndex, frame);
 
       // Check if we have all the fragments
       // Then we can rebuild the packet
-      if (fragment.size === frame.splitSize) {
+      if (existing.parts.size === frame.splitSize) {
         const stream = new BinaryStream();
         // Loop through the fragments and write them to the stream
-        for (let index = 0; index < fragment.size; index++) {
+        for (let index = 0; index < frame.splitSize; index++) {
           // Get the split frame from the fragment
-          const sframe = fragment.get(index) as Frame;
+          const sframe = existing.parts.get(index) as Frame;
 
           // Write the payload to the stream
           stream.write(sframe.payload);
@@ -618,13 +671,18 @@ class Connection {
         // Send the new frame to the handleFrame function
         return this.handleFrame(nframe);
       }
-    } else {
-      // Add the fragment id to the queue
-      this.fragmentsQueue.set(
-        frame.splitId,
-        new Map([[frame.splitIndex, frame]])
-      );
+
+      // Refresh created time lightly (optional): keep first timestamp to enforce TTL
+      // existing.createdAt = existing.createdAt;
+      return;
     }
+
+    // Add the fragment id to the queue
+    this.fragmentsQueue.set(frame.splitId, {
+      createdAt: now,
+      total: frame.splitSize,
+      parts: new Map([[frame.splitIndex, frame]])
+    });
   }
 
   /**
@@ -650,16 +708,18 @@ class Connection {
     }
 
     // Split packet if bigger than MTU size
+    // NOTE: 36 is legacy/heuristic overhead. Ideally compute worst-case header sizes.
     const maxSize = this.mtu - 36;
     const splitSize = Math.ceil(frame.payload.byteLength / maxSize);
 
     // Increment the reliable index
+    // NOTE: If your Frame encoding expects 24-bit indices, wrap here:
+    // this.outputReliableIndex = (this.outputReliableIndex + 1) & 0x00ffffff;
     frame.reliableIndex = this.outputReliableIndex++;
 
     // Check if the frame is bigger than the MTU
     if (frame.payload.byteLength > maxSize) {
       // Create a new buffer from the payload and generate a fragment id
-      // const buffer = Buffer.from(frame.payload);
       const splitId = this.outputsplitIndex++ % 65_536;
 
       // Loop through the buffer and split it into fragments based on the MTU size
@@ -694,18 +754,18 @@ class Connection {
    * @param priority The priority
    */
   private queueFrame(frame: Frame, priority: Priority): void {
-    let length = DGRAM_HEADER_SIZE;
-
-    // Add the length of the frame to the length
-    for (const frame of this.outputFrames) length += frame.getByteLength();
+    const frameBytes = frame.getByteLength();
+    const maxBytes = this.mtu - DGRAM_MTU_OVERHEAD;
 
     // Check if the frame is bigger than the MTU, if so, send the queue
-    if (length + frame.getByteLength() > this.mtu - DGRAM_MTU_OVERHEAD)
+    if (this.queuedBytes + frameBytes > maxBytes) {
       // Send the queue as upcoming frames will be too big
-      this.sendQueue(this.outputFrames.size);
+      this.sendQueue(this.outputFrames.length);
+    }
 
     // Add the frame to the queue
-    this.outputFrames.add(frame);
+    this.outputFrames.push(frame);
+    this.queuedBytes += frameBytes;
 
     // If the priority is immediate, send the queue
     if (priority === Priority.Immediate) return this.sendQueue(1);
@@ -716,17 +776,25 @@ class Connection {
    */
   public sendQueue(amount: number): void {
     // Check if the queue is empty
-    if (this.outputFrames.size === 0) return;
+    if (this.outputFrames.length === 0) return;
+
+    // Clamp amount
+    if (amount <= 0) return;
+    if (amount > this.outputFrames.length) amount = this.outputFrames.length;
 
     // Create a new frame set
     const frameset = new FrameSet();
 
     // Assign the frame set properties
     frameset.sequence = this.outputSequence++;
-    frameset.frames = [...this.outputFrames].slice(0, amount);
+    frameset.frames = this.outputFrames.slice(0, amount);
 
-    // Add the frame set to the backup map
-    this.outputBackup.set(frameset.sequence, frameset.frames);
+    // Add the frame set to the backup map (for retransmission)
+    this.outputBackup.set(frameset.sequence, {
+      frames: frameset.frames,
+      sentAt: Date.now(),
+      retries: 0
+    });
 
     // Track this sequence for ping calculation if we're not already tracking one
     if (this.lastAckId === null) {
@@ -734,8 +802,16 @@ class Connection {
       this.ackTimeStamp = Date.now();
     }
 
-    // Remove the frames from the queue
-    for (const frame of frameset.frames) this.outputFrames.delete(frame);
+    // Remove the frames from the queue and update queuedBytes
+    // (We subtract removed sizes and keep the queue compact)
+    let removedBytes = 0;
+    for (const frame of frameset.frames) removedBytes += frame.getByteLength();
+
+    this.outputFrames.splice(0, amount);
+    this.queuedBytes = Math.max(
+      DGRAM_HEADER_SIZE,
+      this.queuedBytes - removedBytes
+    );
 
     // Send the frame set to the remote client
     return this.server.send(frameset.serialize(), this.rinfo);

@@ -1,5 +1,27 @@
 # @serenityjs/raknet
 
+## 0.8.20
+
+### Patch Changes
+
+- [`7b7bb14`](https://github.com/SerenityJS/serenity/commit/7b7bb14c512c33b40d3eda4718c16b7048e28019) Thanks [@PMK744](https://github.com/PMK744)! - init v0.8.20-beta
+
+- Updated dependencies [[`7b7bb14`](https://github.com/SerenityJS/serenity/commit/7b7bb14c512c33b40d3eda4718c16b7048e28019)]:
+  - @serenityjs/emitter@0.8.20
+  - @serenityjs/logger@0.8.20
+  - @serenityjs/nbt@0.8.20
+
+## 0.8.19
+
+### Patch Changes
+
+- [#263](https://github.com/SerenityJS/serenity/pull/263) [`c03296f`](https://github.com/SerenityJS/serenity/commit/c03296fcacccc80ea2ffb31d4adf9d0dea05e07f) Thanks [@AnyBananaGAME](https://github.com/AnyBananaGAME)! - init v0.8.19-beta
+
+- Updated dependencies [[`c03296f`](https://github.com/SerenityJS/serenity/commit/c03296fcacccc80ea2ffb31d4adf9d0dea05e07f)]:
+  - @serenityjs/emitter@0.8.19
+  - @serenityjs/logger@0.8.19
+  - @serenityjs/nbt@0.8.19
+
 ## 0.8.18
 
 ### Patch Changes

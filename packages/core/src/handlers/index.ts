@@ -30,6 +30,7 @@ import { SetDifficultyHander } from "./set-difficulty";
 import { SetPlayerGameTypeHander } from "./set-player-game-type";
 import { BlockActorDataHandler } from "./block-actor-data";
 import { StructureBlockUpdateHander } from "./structure-block-update";
+import { ServerboundDataStoreHandler } from "./serverbound-data-store";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -63,7 +64,8 @@ const Handlers = [
   SetDifficultyHander,
   SetPlayerGameTypeHander,
   BlockActorDataHandler,
-  StructureBlockUpdateHander
+  StructureBlockUpdateHander,
+  ServerboundDataStoreHandler
 ];
 
 export { Handlers };

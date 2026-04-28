@@ -172,7 +172,10 @@ import type {
   UpdateSoftEnumPacket,
   UpdateSubchunkBlocksPacket,
   UpdateTradePacket,
-  VoxelShapesPacket
+  VoxelShapesPacket,
+  ClientboundDataDrivenUIShowScreenPacket,
+  ClientboundDataStorePacket,
+  ServerboundDataStorePacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -433,6 +436,14 @@ interface NetworkEvents {
   [Packet.AgentAnimation]: [NetworkPacketEvent<DataPacket>];
   [Packet.PlayerToggleCrafterRequest]: [
     NetworkPacketEvent<PlayerToggleCrafterRequestPacket>
+  ];
+  [Packet.ClientboundDataStore]: NetworkPacketEvent<ClientboundDataStorePacket>;
+  [Packet.ServerboundDataStore]: NetworkPacketEvent<ServerboundDataStorePacket>;
+  [Packet.ClientboundDataDrivenUIShowScreenPacket]: [
+    NetworkPacketEvent<ClientboundDataDrivenUIShowScreenPacket>
+  ];
+  [Packet.ClientboundDataDrivenUIClosePacket]: [
+    NetworkPacketEvent<ClientboundDataDrivenUIShowScreenPacket>
   ];
   [Packet.VoxelShapesPacket]: [NetworkPacketEvent<VoxelShapesPacket>];
 }

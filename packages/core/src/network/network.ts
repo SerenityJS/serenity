@@ -326,7 +326,13 @@ class Network extends Emitter<NetworkEvents> {
               : algorithm === CompressionMethod.Snappy
                 ? this.inflateSnappy(decrypted)
                 : decrypted;
-
+      if (inflated === null) {
+        // This case can occur when a custom protocol client sends a malformed compressed packet.
+        // This could also be used as an attempt to crash the server.
+        // I'm unsure if this should be a debug or warning log, but considering the log below ill go with warning.
+        this.logger.warn(`Unable to inflate packet from "§u${connection.rinfo.address}§r:§u${connection.rinfo.port}§r", Disconnecting the session.`);
+        return this.disconnectConnection(connection, "Invalid compressed packet", DisconnectReason.BadPacket);
+      }
       // Unframe the inflated buffer.
       // Buffers can contains multiple packets, so we need to unframe them.
       const frames = Framer.unframe(inflated);
@@ -445,8 +451,12 @@ class Network extends Emitter<NetworkEvents> {
    * @param buffer The zlib compressed buffer to inflate
    * @returns The inflated buffer
    */
-  public inflateZlib(buffer: Buffer): Buffer {
+  public inflateZlib(buffer: Buffer): Buffer | null {
+    try {
     return inflateRawSync(buffer);
+    } catch {
+      return null;
+    }
   }
 
   /**
@@ -483,7 +493,10 @@ class Network extends Emitter<NetworkEvents> {
 
     // Iterate over all the packets that are being sent, and attempt to serialize them
     // We will also emit the packet event to through the network event emitter
-    for (const packet of packets) {
+    for (let i = 0; i < packets.length; i++) {
+      const packet = packets[i]!;
+      const id = packet.getId() as Packet;
+
       // Create a new packet event for the packet
       const event = {
         bound: NetworkBound.Client,
@@ -492,7 +505,7 @@ class Network extends Emitter<NetworkEvents> {
       };
 
       // Emit the packet event to the registered handlers
-      const network = this.emit(packet.getId() as Packet, event);
+      const network = this.emit(id, event);
       const all = this.emit("all", event);
 
       // Check if the packet was cancelled by an external listener
@@ -500,7 +513,7 @@ class Network extends Emitter<NetworkEvents> {
       if (!network || !all) {
         // Log a debug message if the packet was cancelled by an external listener
         this.logger.debug(
-          `Packet sent with id ${Packet[packet.getId()] ?? packet.getId()} was cancelled by an external listener.`
+          `Packet sent with id ${Packet[id] ?? id} was cancelled by an external listener.`
         );
 
         // Skip the packet if it was cancelled by an external listener
@@ -514,36 +527,48 @@ class Network extends Emitter<NetworkEvents> {
       } catch (reason) {
         // Log the serialization error if the packet could not be serialized
         this.logger.error(
-          `Failed to serialize packet with id ${Packet[packet.getId()] ?? packet.getId()}`,
+          `Failed to serialize packet with id ${Packet[id] ?? id}`,
           reason
         );
       }
     }
 
+    // If nothing survived filtering / serialization, do nothing
+    if (data.length === 0) return;
+
     // Frame the data buffers into a singular buffer
     const framed = Framer.frame(...data);
 
     // Depending on the size of the framed buffer, we will compress it
-    const deflated =
-      framed.byteLength > this.properties.compressionThreshold &&
-      properties.compression
-        ? Buffer.concat([
-            Buffer.from([this.properties.compressionMethod]),
-            this.deflateZlib(framed)
-          ])
-        : properties.compression
-          ? Buffer.concat([Buffer.from([CompressionMethod.None]), framed])
-          : framed;
+    let compressed: Buffer;
+    if (properties.compression) {
+      if (framed.byteLength > this.properties.compressionThreshold) {
+        const deflated = this.deflateZlib(framed);
+        // [methodByte][deflated]
+        compressed = Buffer.allocUnsafe(1 + deflated.byteLength);
+        compressed[0] = this.properties.compressionMethod;
+        deflated.copy(compressed, 1);
+      } else {
+        // [None][framed]
+        compressed = Buffer.allocUnsafe(1 + framed.byteLength);
+        compressed[0] = CompressionMethod.None;
+        framed.copy(compressed, 1);
+      }
+    } else {
+      compressed = framed;
+    }
 
     // We will then check if encryption is enabled for the session.
     // If so, we will encrypt the deflated payload.
     // If not, we will just use the deflated payload.
     // NOTE: Encryption is not implemented yet. So we will just use the deflated payload for now.
     // TODO: Implement encryption for the session.
-    const encrypted = properties.encryption ? deflated : deflated;
+    const encrypted = properties.encryption ? compressed : compressed;
 
-    // We will then construct the final payload with the game header and the encrypted compressed payload.
-    const payload = Buffer.concat([Buffer.from([0xfe]), encrypted]);
+    // Build final payload in one allocation: [0xfe][encrypted]
+    const payload = Buffer.allocUnsafe(1 + encrypted.byteLength);
+    payload[0] = 0xfe;
+    encrypted.copy(payload, 1);
 
     // Finally we will assemble a new frame with the payload.
     // The frame contains the reliability and priority of the packet.

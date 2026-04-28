@@ -69,6 +69,7 @@ import {
 } from "../traits";
 import { PlayerLevelStorage } from "../storage";
 import { PlayerSkin } from "../skin";
+import { DataDrivenScreen } from "../../ui/ddui/screen";
 
 import { ScreenDisplay } from "./screen-display";
 import { ClientSystemInfo } from "./system-info";
@@ -112,6 +113,11 @@ class Player extends Entity {
   public readonly clientSystemInfo: ClientSystemInfo;
 
   /**
+   * Whether the entity is jumping or not.
+   */
+  public isJumping: boolean = false;
+
+  /**
    * The current skin of the player.
    */
   public readonly skin: PlayerSkin;
@@ -137,6 +143,8 @@ class Player extends Entity {
    * The pending forms of the player
    */
   public pendingForms: Map<number, FormParticipant<never>> = new Map();
+
+  public screens = new Map<string, DataDrivenScreen>();
 
   /**
    *
@@ -237,6 +245,9 @@ class Player extends Entity {
     // Set the player's nametag to always be visible by default
     this.setNametag(this.username);
     this.setNametagAlwaysVisible(true);
+
+    // Players are persisted through the player provider entry, not chunk entity storage.
+    this.canBeSavedtoStorage = false;
 
     // Create a new abilities map for the player
     this.abilities = new PlayerAbilities(this);
