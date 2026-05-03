@@ -1,5 +1,5 @@
-import { Container } from "../container";
-import { Player } from "../entity";
+import type { Container } from "../container";
+import type { Player } from "../entity/player";
 import { WorldEvent } from "../enums";
 
 import { EventSignal } from "./event-signal";

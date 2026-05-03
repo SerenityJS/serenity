@@ -7,13 +7,13 @@ import {
 import { CompoundTag, IntTag, ListTag } from "@serenityjs/nbt";
 
 import { BlockContainer } from "../container";
-import { Block } from "../block";
-import {
+import type { Block } from "../block";
+import type {
   BlockDestroyOptions,
   BlockInteractionOptions,
   BlockInventoryTraitOptions
 } from "../../types";
-import { ItemStack } from "../../item";
+import { ItemStack } from "../../item/stack";
 
 import { BlockTrait } from "./trait";
 
@@ -42,7 +42,7 @@ class BlockInventoryTrait extends BlockTrait {
     this.container = new BlockContainer(
       block,
       options?.type ?? ContainerType.Container,
-      27
+      options?.size ?? 27
     );
   }
 
@@ -144,6 +144,35 @@ class BlockInventoryTrait extends BlockTrait {
    * Called when the state of the inventory is set to close.
    */
   public onClose(_silent?: boolean): void {
+    // Create a new items list tag
+    const items = new ListTag<CompoundTag>();
+
+    // Iterate over the container slots
+    for (let i = 0; i < this.container.getSize(); i++) {
+      // Get the item stack at the index
+      const itemStack = this.container.getItem(i);
+
+      // Check if the item is null
+      if (!itemStack) continue;
+
+      // Get the item stack level storage
+      const storage = itemStack.getStorage();
+
+      // Create a new int tag for the slot
+      storage.add(new IntTag(i, "Slot"));
+
+      // Add the item stack storage to the items list tag
+      items.push(storage);
+    }
+
+    // Add the items to the items list tag
+    this.block.setStorageEntry("Items", items);
+  }
+
+  public onContainerUpdate(container: BlockContainer): void {
+    // Check if the container is not the inventory container
+    if (container !== this.container) return;
+
     // Create a new items list tag
     const items = new ListTag<CompoundTag>();
 

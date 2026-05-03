@@ -132,7 +132,7 @@ class EntityItemStackTrait extends EntityTrait {
    */
   public pickup(player: Player): void {
     // Teleport the item to the player
-    this.entity.teleport(player.position);
+    void this.entity.teleport(player.position);
 
     // Set the player as the target
     this.target = player;

@@ -32,7 +32,12 @@ function Worker(generator: typeof TerrainGenerator) {
         throw new Error("Worker can only be initialized in a worker thread");
 
       // Create a new worker thread
-      return new WorkerThread(worker.path, { workerData: properties });
+      const workerThread = new WorkerThread(worker.path, { workerData: properties });
+
+      // Unref the worker so it doesn't keep the process alive
+      workerThread.unref();
+
+      return workerThread;
     };
 
     // Check if we are in the worker thread

@@ -24,6 +24,7 @@ import {
 } from "../events";
 import { ItemStack } from "../item";
 import { NetworkHandler } from "../network";
+import { Container } from "..";
 
 class ItemStackRequestHandler extends NetworkHandler {
   public static readonly packet = Packet.ItemStackRequest;
@@ -209,6 +210,12 @@ class ItemStackRequestHandler extends NetworkHandler {
       return null;
     }
 
+    // Reject invalid placements and restore the source item before returning.
+    if (!this.canPlaceItem(destination, destinationSlot, item)) {
+      source.addItem(item);
+      return null;
+    }
+
     // Get the destination item stack.
     const destinationStack = destination.getItem(destinationSlot);
 
@@ -234,6 +241,41 @@ class ItemStackRequestHandler extends NetworkHandler {
         updatedDestinationStack
       )
     ];
+  }
+
+  private canPlaceItem(
+    container: Container | null,
+    slot: number,
+    item: ItemStack
+  ): boolean {
+    if (!container) return false;
+    if (!this.canAccessSlot(container, slot)) return false;
+
+    const existingItem = container.getItem(slot);
+    if (!existingItem) return true;
+    if (!existingItem.equals(item)) return false;
+
+    return existingItem.getStackSize() + item.getStackSize() <= existingItem.maxStackSize;
+  }
+
+  private canSwapItems(
+    source: Container | null,
+    sourceSlot: number,
+    destination: Container | null,
+    destinationSlot: number
+  ): boolean {
+    if (!source || !destination) return false;
+    if (!this.canAccessSlot(source, sourceSlot)) return false;
+    if (!this.canAccessSlot(destination, destinationSlot)) return false;
+
+    return source.getItem(sourceSlot) !== null;
+  }
+
+  private canAccessSlot(
+    container: Container | null,
+    slot: number
+  ): boolean {
+    return !!container && slot >= 0 && slot < container.getSize();
   }
 
   private handleSwapAction(
@@ -269,6 +311,10 @@ class ItemStackRequestHandler extends NetworkHandler {
       -1
     );
     if (!signal.emit()) return null;
+
+    if (!this.canSwapItems(source, sourceSlot, destination, destinationSlot)) {
+      return null;
+    }
 
     // Swap the items in the source and destination containers.
     source.swapItems(sourceSlot, destinationSlot, destination);

@@ -1,4 +1,5 @@
 import {
+  ContainerName,
   ContainerClosePacket,
   ContainerId,
   ContainerType,
@@ -8,11 +9,11 @@ import {
   NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
 
-import { ItemStack } from "./item";
-import { EntityContainer, type Player } from "./entity";
+import { ItemStack } from "./item/stack";
+import type { Player } from "./entity/player";
 import { ItemIdentifier } from "./enums";
-
-import { BlockContainer } from ".";
+import type { BlockContainer } from "./block/container";
+import type { EntityContainer } from "./entity/container";
 
 /**
  * Represents a container.
@@ -72,7 +73,7 @@ class Container {
    * @returns Whether the container is an entity container.
    */
   public isEntityContainer(): this is EntityContainer {
-    return this instanceof EntityContainer;
+    return "entity" in this;
   }
 
   /**
@@ -80,7 +81,7 @@ class Container {
    * @returns Whether the container is a block container.
    */
   public isBlockContainer(): this is BlockContainer {
-    return this instanceof BlockContainer;
+    return "block" in this;
   }
 
   /**
@@ -361,6 +362,8 @@ class Container {
     packet.item = itemStack
       ? ItemStack.toNetworkStack(itemStack)
       : new NetworkItemStackDescriptor(0);
+    // Vanilla/BDS on proto-v944 sends identifier 0 here for these inventory
+    // sync packets, even for hopper windows. Match that behavior exactly.
     packet.fullContainerName = new FullContainerName(0, 0);
     packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
 
@@ -395,6 +398,8 @@ class Container {
     const packet = new InventoryContentPacket();
 
     // Set the properties of the packet.
+    // Vanilla/BDS on proto-v944 sends identifier 0 here for these inventory
+    // sync packets, even for hopper windows. Match that behavior exactly.
     packet.fullContainerName = new FullContainerName(0, 0);
     packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
 

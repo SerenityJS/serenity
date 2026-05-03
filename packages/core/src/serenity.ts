@@ -73,6 +73,11 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   public readonly worlds = new Map<string, World>();
 
   /**
+   * Track which worlds are fully loaded (chunks pregenerated, ready for players)
+   */
+  private readonly loadedWorlds = new Set<string>();
+
+  /**
    * The registered providers and properties that are available to the server
    */
   public readonly providers = new Map<
@@ -378,9 +383,6 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    * Stops the server and closes all connections
    */
   public async stop(): Promise<void> {
-    // Close the console interface
-    this.console.interface.close();
-
     // Emit the server shutdown event
     await this.emitAsync(ServerEvent.Stop, 0 as never);
 
@@ -409,11 +411,14 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     }
 
     // Shutdown all world providers
-    for (const world of this.worlds.values()) void world.provider.onShutdown();
+    for (const world of this.worlds.values()) await world.provider.onShutdown();
 
     // Write the permissions to the permissions path
     if (typeof this.properties.permissions === "string")
       this.writePermissions(this.properties.permissions);
+
+    // Close the console interface
+    this.console.close();
   }
 
   /**
@@ -524,9 +529,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   /**
    * Registers a world with the server
    * @param world The world to register
+   * @param skipStartup Whether to skip calling onStartup (for lazy loading)
    * @returns Whether the world was successfully registered or not
    */
-  public registerWorld(world: World): boolean {
+  public registerWorld(world: World, skipStartup = false): boolean {
     // Check if the world is already registered
     if (this.worlds.has(world.identifier)) {
       // Log that the world is already registered
@@ -542,8 +548,11 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     // Log that the world has been registered
     this.logger.debug(`Registered world: ${world.identifier}`);
 
-    // Call the onStartup method of the world provider
-    void world.provider.onStartup();
+    // Call the onStartup method of the world provider unless skipped
+    if (!skipStartup) {
+      void world.provider.onStartup();
+      this.loadedWorlds.add(world.identifier);
+    }
 
     // Add the world to the worlds enum
     WorldEnum.options.push(world.identifier);
@@ -571,6 +580,9 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     // Call the onShutdown method of the world provider
     void world.provider.onShutdown();
 
+    // Remove from loaded worlds set
+    this.loadedWorlds.delete(world.identifier);
+
     // Remove all listeners of the world provider.
     world.removeAll();
 
@@ -584,6 +596,96 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     this.logger.debug(`Unregistered world: ${world.identifier}`);
 
     return true;
+  }
+
+  /**
+   * Loads a world (runs onStartup, pregeneration, etc.)
+   * @param identifier The identifier of the world to load
+   * @returns Whether the world was successfully loaded
+   */
+  public async loadWorld(identifier: string): Promise<boolean> {
+    // Get the world from the registered worlds
+    const world = this.worlds.get(identifier);
+
+    // Check if the world exists
+    if (!world) {
+      this.logger.error(`Cannot load world: ${identifier} is not registered`);
+      return false;
+    }
+
+    // Check if the world is already loaded
+    if (this.loadedWorlds.has(identifier)) {
+      this.logger.debug(`World ${identifier} is already loaded`);
+      return true;
+    }
+
+    // Log that the world is being loaded
+    this.logger.info(`Loading world: ${identifier}`);
+
+    // Call the onStartup method of the world provider
+    await world.provider.onStartup();
+
+    // Mark the world as loaded
+    this.loadedWorlds.add(identifier);
+
+    // Log that the world has been loaded
+    this.logger.info(`World ${identifier} loaded successfully`);
+
+    return true;
+  }
+
+  /**
+   * Unloads a world (runs onShutdown, clears chunks, etc.)
+   * @param identifier The identifier of the world to unload
+   * @param force Whether to force unload even if players are in the world
+   * @returns Whether the world was successfully unloaded
+   */
+  public async unloadWorld(identifier: string, force = false): Promise<boolean> {
+    // Get the world from the registered worlds
+    const world = this.worlds.get(identifier);
+
+    // Check if the world exists
+    if (!world) {
+      this.logger.error(`Cannot unload world: ${identifier} is not registered`);
+      return false;
+    }
+
+    // Check if the world is loaded
+    if (!this.loadedWorlds.has(identifier)) {
+      this.logger.debug(`World ${identifier} is already unloaded`);
+      return true;
+    }
+
+    // Check if there are players in the world
+    if (!force && world.getPlayers().length > 0) {
+      this.logger.error(
+        `Cannot unload world ${identifier}: players are still in the world. Use force=true to override.`
+      );
+      return false;
+    }
+
+    // Log that the world is being unloaded
+    this.logger.info(`Unloading world: ${identifier}`);
+
+    // Call the onShutdown method of the world provider
+    await world.provider.onShutdown();
+
+    // Mark the world as unloaded
+    this.loadedWorlds.delete(identifier);
+
+    // Log that the world has been unloaded
+    this.logger.info(`World ${identifier} unloaded successfully`);
+
+    return true;
+  }
+
+  /**
+   * Checks if a world is loaded
+   * @param identifier The identifier of the world to check
+   * @returns Whether the world is loaded
+   */
+  public isWorldLoaded(identifier: string): boolean {
+    return this.loadedWorlds.has(identifier);
   }
 
   /**

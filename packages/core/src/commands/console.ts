@@ -13,6 +13,8 @@ class ConsoleInterface {
     terminal: true
   });
 
+  private onLineHandler = this.onLine.bind(this);
+
   public constructor(serenity: Serenity) {
     this.serenity = serenity;
 
@@ -22,9 +24,25 @@ class ConsoleInterface {
     }
     stdin.resume();
 
-    this.interface.on("line", this.onLine.bind(this));
+    this.interface.on("line", this.onLineHandler);
 
     this.interface.setPrompt("> ");
+  }
+
+  public close(): void {
+    // Remove all listeners
+    this.interface.removeAllListeners();
+
+    // Close the interface
+    this.interface.close();
+
+    // Pause stdin
+    stdin.pause();
+
+    // Reset raw mode if TTY
+    if (stdin instanceof ReadStream && stdin.isTTY) {
+      stdin.setRawMode(false);
+    }
   }
 
   protected async onLine(line: string): Promise<void> {
