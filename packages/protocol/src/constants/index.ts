@@ -1,8 +1,8 @@
 // Contains the current protocol version and Minecraft version
 
-const PROTOCOL_VERSION = 944;
-const COMPATIBLE_PROTOCOL_VERSIONS = new Set<number>([944, PROTOCOL_VERSION]);
-const MINECRAFT_SEM_VERSION: [number, number, number] = [1, 26, 10];
+const PROTOCOL_VERSION = 975;
+const COMPATIBLE_PROTOCOL_VERSIONS = new Set<number>([975, PROTOCOL_VERSION]);
+const MINECRAFT_SEM_VERSION: [number, number, number] = [1, 26, 20];
 const MINECRAFT_VERSION = MINECRAFT_SEM_VERSION.join(".");
 const MINECRAFT_TICK_SPEED = 50;
 
