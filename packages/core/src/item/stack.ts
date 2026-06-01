@@ -3,7 +3,8 @@ import {
   CompletedUsingItemPacket,
   ItemUseMethod,
   NetworkItemInstanceDescriptor,
-  NetworkItemStackDescriptor
+  NetworkItemStackDescriptor,
+  NetworkItemStackDescriptorCereal
 } from "@serenityjs/protocol";
 
 import { Container } from "../container";
@@ -914,6 +915,20 @@ class ItemStack {
     // Return the item stack descriptor.
     return {
       ...instance,
+      itemStackId: item.networkStackId
+    };
+  }
+
+  public static toNetworkStackCereal(
+    item: ItemStack
+  ): NetworkItemStackDescriptorCereal {
+    // Get network item instance descriptor.
+    const instance = ItemStack.toNetworkInstance(item);
+
+    // Return the item stack descriptor.
+    return {
+      ...instance,
+      itemStackVariant: 0, // Default variant, as we do not have variants implemented yet.
       itemStackId: item.networkStackId
     };
   }

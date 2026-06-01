@@ -2,11 +2,8 @@ import { VarInt } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { Packet, type ContainerId } from "../../enums";
-import {
-  FullContainerName,
-  ItemStacks,
-  NetworkItemStackDescriptor
-} from "../types";
+import { FullContainerName, NetworkItemStackDescriptor } from "../types";
+import { ItemStacks } from "../types/item-stacks";
 
 import { DataPacket } from "./data-packet";
 

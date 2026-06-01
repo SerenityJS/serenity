@@ -39,19 +39,20 @@
     "identifier": "minecraft:stripped_pale_oak_wood",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:honeycomb",
+    "identifier": "minecraft:sculk_catalyst",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:sculk_catalyst",
+    "identifier": "minecraft:honeycomb",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -70,7 +71,9 @@
   },
   {
     "identifier": "minecraft:blue_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -82,14 +85,8 @@
   },
   {
     "identifier": "minecraft:waxed_cut_copper",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:camel_spawn_egg",
     "tags": [
-      "minecraft:spawn_egg"
+      "minecraft:sulfur_cube_archetype_slow_flat"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -108,21 +105,15 @@
   },
   {
     "identifier": "minecraft:shroomlight",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_sliding"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:resin_brick_wall",
     "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:jungle_planks",
-    "tags": [
-      "minecraft:planks"
-    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -135,6 +126,15 @@
     "maxAmount": 16
   },
   {
+    "identifier": "minecraft:jungle_planks",
+    "tags": [
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:trial_spawner",
     "tags": [],
     "stackable": true,
@@ -144,7 +144,8 @@
     "identifier": "minecraft:stripped_jungle_wood",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -176,13 +177,7 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:closed_eyeblossom",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:waxed_weathered_copper_chain",
+    "identifier": "minecraft:mud_brick_stairs",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -196,7 +191,13 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:mud_brick_stairs",
+    "identifier": "minecraft:closed_eyeblossom",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:waxed_weathered_copper_chain",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -227,7 +228,9 @@
   },
   {
     "identifier": "minecraft:waxed_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -235,7 +238,8 @@
     "identifier": "minecraft:white_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -270,7 +274,9 @@
   },
   {
     "identifier": "minecraft:ancient_debris",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -283,7 +289,8 @@
   {
     "identifier": "minecraft:dark_oak_planks",
     "tags": [
-      "minecraft:planks"
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -296,14 +303,17 @@
   },
   {
     "identifier": "minecraft:white_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:cherry_planks",
     "tags": [
-      "minecraft:planks"
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -333,10 +343,9 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:stripped_dark_oak_log",
+    "identifier": "minecraft:black_terracotta",
     "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -345,20 +354,17 @@
     "identifier": "minecraft:crimson_hyphae",
     "tags": [
       "minecraft:crimson_stems",
-      "minecraft:logs"
+      "minecraft:logs",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:black_terracotta",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:red_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -421,6 +427,14 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:shulker_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:cobbled_deepslate_stairs",
     "tags": [],
     "stackable": true,
@@ -433,22 +447,18 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:shulker_spawn_egg",
+    "identifier": "minecraft:oxidized_copper_bulb",
     "tags": [
-      "minecraft:spawn_egg"
+      "minecraft:sulfur_cube_archetype_slow_flat"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:oxidized_copper_bulb",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:waxed_oxidized_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -461,14 +471,17 @@
   {
     "identifier": "minecraft:mangrove_planks",
     "tags": [
-      "minecraft:planks"
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:brown_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -488,13 +501,17 @@
   },
   {
     "identifier": "minecraft:pink_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:carved_pumpkin",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -513,25 +530,29 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:oak_planks",
+    "identifier": "minecraft:dark_oak_log",
     "tags": [
-      "minecraft:planks"
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:dark_oak_log",
+    "identifier": "minecraft:oak_planks",
     "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:redstone_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -570,7 +591,8 @@
   {
     "identifier": "minecraft:birch_planks",
     "tags": [
-      "minecraft:planks"
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -589,7 +611,9 @@
   },
   {
     "identifier": "minecraft:tube_coral_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -602,8 +626,15 @@
   {
     "identifier": "minecraft:acacia_planks",
     "tags": [
-      "minecraft:planks"
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_gray_stained_glass_pane",
+    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -628,12 +659,6 @@
   },
   {
     "identifier": "minecraft:blackstone_slab",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:light_gray_stained_glass_pane",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -688,7 +713,9 @@
   },
   {
     "identifier": "minecraft:purple_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -708,7 +735,9 @@
   },
   {
     "identifier": "minecraft:iron_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -720,13 +749,17 @@
   },
   {
     "identifier": "minecraft:moss_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:red_nether_brick",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -747,7 +780,8 @@
   {
     "identifier": "minecraft:spruce_planks",
     "tags": [
-      "minecraft:planks"
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -766,7 +800,9 @@
   },
   {
     "identifier": "minecraft:slime",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -792,24 +828,14 @@
   },
   {
     "identifier": "minecraft:pearlescent_froglight",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:orange_dye",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:budding_amethyst",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:pink_tulip",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -822,7 +848,9 @@
   },
   {
     "identifier": "minecraft:gravel",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -836,7 +864,9 @@
   },
   {
     "identifier": "minecraft:light_blue_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -860,13 +890,17 @@
   },
   {
     "identifier": "minecraft:packed_mud",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:polished_granite",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -878,7 +912,17 @@
   },
   {
     "identifier": "minecraft:oxidized_cut_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:polished_cinnabar",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -910,7 +954,9 @@
   },
   {
     "identifier": "minecraft:netherrack",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -930,7 +976,8 @@
     "identifier": "minecraft:warped_stem",
     "tags": [
       "minecraft:warped_stems",
-      "minecraft:logs"
+      "minecraft:logs",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -938,7 +985,8 @@
   {
     "identifier": "minecraft:warped_planks",
     "tags": [
-      "minecraft:planks"
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -965,10 +1013,28 @@
     "identifier": "minecraft:magenta_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:rabbit_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:turtle_helmet",
+    "tags": [
+      "minecraft:is_armor",
+      "minecraft:trimmable_armors"
+    ],
+    "stackable": false,
+    "maxAmount": 1
   },
   {
     "identifier": "minecraft:cyan_stained_glass_pane",
@@ -999,17 +1065,10 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:rabbit_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:soul_soil",
     "tags": [
-      "minecraft:soul_fire_base_blocks"
+      "minecraft:soul_fire_base_blocks",
+      "minecraft:sulfur_cube_archetype_high_resistance"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -1071,6 +1130,223 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:mossy_stone_brick_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:oak_chest_boat",
+    "tags": [
+      "minecraft:boat",
+      "minecraft:boats"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:birch_wood",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:pale_oak_planks",
+    "tags": [
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:dark_prismarine_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:prismarine_bricks_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:bamboo_fence",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:polished_cinnabar_wall",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:bamboo_mosaic_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:trapped_chest",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:waxed_copper_bars",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:mushroom_stem",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_sliding"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:brick_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:end_stone_brick_wall",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:quartz_bricks",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:mangrove_log",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:mangrove_logs",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:firefly_bush",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:iron_trapdoor",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:mangrove_button",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:sulfur_brick_wall",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:purple_concrete_powder",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:bamboo_planks",
+    "tags": [
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:lime_stained_glass_pane",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_block_7",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:waxed_oxidized_copper_chain",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:bamboo_mosaic",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:nether_brick_fence",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:black_stained_glass_pane",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:chiseled_tuff_bricks",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:crimson_planks",
+    "tags": [
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:birch_button",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:light_block_9",
     "tags": [],
     "stackable": true,
@@ -1102,7 +1378,9 @@
   },
   {
     "identifier": "minecraft:lapis_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1117,172 +1395,6 @@
     "tags": [
       "minecraft:spawn_egg"
     ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:mossy_stone_brick_slab",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:oak_chest_boat",
-    "tags": [
-      "minecraft:boat",
-      "minecraft:boats"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:birch_wood",
-    "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:pale_oak_planks",
-    "tags": [
-      "minecraft:planks"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:trapped_chest",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:waxed_copper_bars",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:mushroom_stem",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:brick_slab",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:end_stone_brick_wall",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:quartz_bricks",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:mangrove_log",
-    "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn",
-      "minecraft:mangrove_logs"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:firefly_bush",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:iron_trapdoor",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:mangrove_button",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:purple_concrete_powder",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:bamboo_planks",
-    "tags": [
-      "minecraft:planks"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:lime_stained_glass_pane",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:light_block_7",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:waxed_oxidized_copper_chain",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:bamboo_mosaic",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:black_stained_glass_pane",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:nether_brick_fence",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:chiseled_tuff_bricks",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:crimson_planks",
-    "tags": [
-      "minecraft:planks"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:birch_button",
-    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1366,15 +1478,8 @@
   },
   {
     "identifier": "minecraft:white_terracotta",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:stripped_pale_oak_log",
     "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -1393,7 +1498,9 @@
   },
   {
     "identifier": "minecraft:exposed_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1421,6 +1528,22 @@
     ],
     "stackable": false,
     "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:acacia_wood",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:sulfur_wall",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
   },
   {
     "identifier": "minecraft:element_41",
@@ -1462,7 +1585,9 @@
   },
   {
     "identifier": "minecraft:redstone_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1493,6 +1618,20 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:muddy_mangrove_roots",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cinnabar_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:diamond_horse_armor",
     "tags": [
       "minecraft:horse_armor",
@@ -1512,7 +1651,9 @@
   },
   {
     "identifier": "minecraft:mud",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1584,6 +1725,12 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:cinnabar_brick_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:light_weighted_pressure_plate",
     "tags": [],
     "stackable": true,
@@ -1597,7 +1744,9 @@
   },
   {
     "identifier": "minecraft:weathered_cut_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1637,7 +1786,9 @@
   },
   {
     "identifier": "minecraft:tuff",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1703,30 +1854,6 @@
     "maxAmount": 1
   },
   {
-    "identifier": "minecraft:dark_prismarine_slab",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:prismarine_bricks_stairs",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:bamboo_fence",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:bamboo_mosaic_slab",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:beef",
     "tags": [
       "minecraft:is_food",
@@ -1748,7 +1875,9 @@
   },
   {
     "identifier": "minecraft:grass_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1796,7 +1925,9 @@
   },
   {
     "identifier": "minecraft:light_gray_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1814,7 +1945,9 @@
   },
   {
     "identifier": "minecraft:dead_tube_coral_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1844,7 +1977,9 @@
   },
   {
     "identifier": "minecraft:red_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1856,7 +1991,9 @@
   },
   {
     "identifier": "minecraft:bone_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1922,7 +2059,8 @@
     "identifier": "minecraft:light_blue_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -1935,7 +2073,9 @@
   },
   {
     "identifier": "minecraft:black_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -1991,14 +2131,17 @@
   },
   {
     "identifier": "minecraft:light_blue_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:cracked_stone_bricks",
     "tags": [
-      "minecraft:stone_bricks"
+      "minecraft:stone_bricks",
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -2017,13 +2160,17 @@
   },
   {
     "identifier": "minecraft:polished_deepslate",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:exposed_cut_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2042,19 +2189,13 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:mossy_stone_brick_wall",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:snowball",
     "tags": [],
     "stackable": true,
     "maxAmount": 16
   },
   {
-    "identifier": "minecraft:deepslate_emerald_ore",
+    "identifier": "minecraft:mossy_stone_brick_wall",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -2063,7 +2204,16 @@
     "identifier": "minecraft:stripped_crimson_stem",
     "tags": [
       "minecraft:crimson_stems",
-      "minecraft:logs"
+      "minecraft:logs",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:deepslate_emerald_ore",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -2076,13 +2226,17 @@
   },
   {
     "identifier": "minecraft:light_blue_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:nether_wart_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_sliding"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2118,7 +2272,8 @@
   {
     "identifier": "minecraft:soul_sand",
     "tags": [
-      "minecraft:soul_fire_base_blocks"
+      "minecraft:soul_fire_base_blocks",
+      "minecraft:sulfur_cube_archetype_high_resistance"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -2131,6 +2286,12 @@
   },
   {
     "identifier": "minecraft:brick_wall",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:exposed_copper_bars",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -2149,6 +2310,14 @@
   },
   {
     "identifier": "minecraft:deepslate_redstone_ore",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:polished_sulfur_stairs",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -2180,6 +2349,12 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:sulfur_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:shears",
     "tags": [
       "minecraft:is_shears"
@@ -2195,12 +2370,6 @@
   },
   {
     "identifier": "minecraft:element_3",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:exposed_copper_bars",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -2271,7 +2440,9 @@
   },
   {
     "identifier": "minecraft:prismarine_bricks",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2385,7 +2556,9 @@
   },
   {
     "identifier": "minecraft:purple_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2415,7 +2588,9 @@
   },
   {
     "identifier": "minecraft:mossy_cobblestone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2455,7 +2630,8 @@
     "identifier": "minecraft:stripped_spruce_wood",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -2471,6 +2647,30 @@
     "tags": [],
     "stackable": false,
     "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:rail",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:soul_lantern",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:golden_dandelion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:acacia_trapdoor",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
   },
   {
     "identifier": "minecraft:brain_coral_fan",
@@ -2500,13 +2700,17 @@
   },
   {
     "identifier": "minecraft:waxed_weathered_chiseled_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:iron_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2540,7 +2744,9 @@
   },
   {
     "identifier": "minecraft:red_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2593,35 +2799,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:oxidized_copper_grate",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:jungle_log",
-    "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:beetroot_soup",
-    "tags": [
-      "minecraft:is_food"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:cherry_fence_gate",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:cherry_chest_boat",
     "tags": [
       "minecraft:boat",
@@ -2662,7 +2839,108 @@
   },
   {
     "identifier": "minecraft:black_glazed_terracotta",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:basalt",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:pale_oak_boat",
+    "tags": [
+      "minecraft:boat",
+      "minecraft:boats"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:element_79",
     "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:warped_fence_gate",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:diorite_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:element_97",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:polished_sulfur_wall",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:red_nether_brick_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:crimson_fence",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cinnabar_brick_wall",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cinnabar_wall",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:pink_carpet",
+    "tags": [
+      "minecraft:vibration_damper"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:green_dye",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:guster_banner_pattern",
+    "tags": [],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:brown_carpet",
+    "tags": [
+      "minecraft:vibration_damper"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2713,36 +2991,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:polished_tuff_stairs",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:light_blue_concrete",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:mangrove_fence_gate",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:tuff_brick_slab",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:rose_bush",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:spruce_fence",
     "tags": [],
     "stackable": true,
@@ -2778,7 +3026,8 @@
     "identifier": "minecraft:birch_log",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -2787,7 +3036,8 @@
     "identifier": "minecraft:cobbled_deepslate",
     "tags": [
       "minecraft:stone_crafting_materials",
-      "minecraft:stone_tool_materials"
+      "minecraft:stone_tool_materials",
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -2808,7 +3058,9 @@
   },
   {
     "identifier": "minecraft:raw_gold_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2854,7 +3106,9 @@
   },
   {
     "identifier": "minecraft:copper_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2897,7 +3151,9 @@
   },
   {
     "identifier": "minecraft:waxed_exposed_cut_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2912,12 +3168,6 @@
     "maxAmount": 1
   },
   {
-    "identifier": "minecraft:waxed_oxidized_cut_copper_slab",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:diamond_helmet",
     "tags": [
       "minecraft:is_armor",
@@ -2929,6 +3179,24 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:waxed_oxidized_cut_copper_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:rose_bush",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:tuff_brick_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:cod_spawn_egg",
     "tags": [
       "minecraft:spawn_egg"
@@ -2937,8 +3205,16 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:netherite_block",
+    "identifier": "minecraft:polished_cinnabar_stairs",
     "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:netherite_block",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2956,7 +3232,9 @@
   },
   {
     "identifier": "minecraft:dirt_with_roots",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -2964,7 +3242,8 @@
     "identifier": "minecraft:stripped_cherry_log",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -2986,6 +3265,12 @@
     "tags": [],
     "stackable": true,
     "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:sulfur_cube_bucket",
+    "tags": [],
+    "stackable": false,
+    "maxAmount": 1
   },
   {
     "identifier": "minecraft:exposed_cut_copper_slab",
@@ -3026,18 +3311,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:crimson_fence",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:red_nether_brick_stairs",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:warped_fence",
     "tags": [],
     "stackable": true,
@@ -3047,8 +3320,59 @@
     "identifier": "minecraft:stripped_jungle_log",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:polished_tuff_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_blue_concrete",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:mangrove_fence_gate",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:jungle_log",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:oxidized_copper_grate",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:beetroot_soup",
+    "tags": [
+      "minecraft:is_food"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:cherry_fence_gate",
+    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3060,7 +3384,9 @@
   },
   {
     "identifier": "minecraft:deepslate_copper_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3084,7 +3410,9 @@
   },
   {
     "identifier": "minecraft:smooth_red_sandstone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3132,33 +3460,6 @@
     ],
     "stackable": false,
     "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:pale_oak_boat",
-    "tags": [
-      "minecraft:boat",
-      "minecraft:boats"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:basalt",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:element_79",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:warped_fence_gate",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
   },
   {
     "identifier": "minecraft:iron_nugget",
@@ -3253,6 +3554,40 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:hard_cyan_stained_glass_pane",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:glow_ink_sac",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:bundle",
+    "tags": [],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:iron_sword",
+    "tags": [
+      "minecraft:is_sword",
+      "minecraft:is_tool",
+      "minecraft:iron_tier"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:sulfur_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:sentry_armor_trim_smithing_template",
     "tags": [
       "minecraft:trim_templates"
@@ -3290,7 +3625,9 @@
   },
   {
     "identifier": "minecraft:diorite",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3298,6 +3635,20 @@
     "identifier": "minecraft:jungle_door",
     "tags": [
       "minecraft:door"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_block_0",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:sulfur",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -3322,7 +3673,9 @@
   },
   {
     "identifier": "minecraft:gray_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3333,25 +3686,19 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:deepslate",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:stripped_oak_wood",
+    "identifier": "minecraft:stripped_crimson_hyphae",
     "tags": [
+      "minecraft:crimson_stems",
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:stripped_crimson_hyphae",
+    "identifier": "minecraft:green_concrete",
     "tags": [
-      "minecraft:crimson_stems",
-      "minecraft:logs"
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -3364,12 +3711,6 @@
     ],
     "stackable": true,
     "maxAmount": 16
-  },
-  {
-    "identifier": "minecraft:green_concrete",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
   },
   {
     "identifier": "minecraft:ice_bomb",
@@ -3423,30 +3764,22 @@
   },
   {
     "identifier": "minecraft:chiseled_resin_bricks",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:cracked_polished_blackstone_bricks",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:allium",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:polished_andesite_stairs",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:acacia_stairs",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -3463,6 +3796,18 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:polished_andesite_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:acacia_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:birch_leaves",
     "tags": [],
     "stackable": true,
@@ -3470,13 +3815,17 @@
   },
   {
     "identifier": "minecraft:silver_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:magenta_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3488,13 +3837,17 @@
   },
   {
     "identifier": "minecraft:waxed_weathered_copper_bulb",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:verdant_froglight",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3536,7 +3889,9 @@
   },
   {
     "identifier": "minecraft:blue_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3544,7 +3899,8 @@
     "identifier": "minecraft:pale_oak_wood",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -3565,7 +3921,9 @@
   },
   {
     "identifier": "minecraft:nether_gold_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3624,7 +3982,9 @@
   },
   {
     "identifier": "minecraft:mycelium",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_sliding"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3677,35 +4037,8 @@
   {
     "identifier": "minecraft:red_sand",
     "tags": [
-      "minecraft:sand"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:pink_carpet",
-    "tags": [
-      "minecraft:vibration_damper"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:green_dye",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:guster_banner_pattern",
-    "tags": [],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:brown_carpet",
-    "tags": [
-      "minecraft:vibration_damper"
+      "minecraft:sand",
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -3720,7 +4053,9 @@
   },
   {
     "identifier": "minecraft:red_mushroom_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_sliding"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3733,6 +4068,14 @@
   {
     "identifier": "minecraft:bowl",
     "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cinnabar",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3772,7 +4115,9 @@
   },
   {
     "identifier": "minecraft:pumpkin",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3785,8 +4130,10 @@
     "maxAmount": 1
   },
   {
-    "identifier": "minecraft:bamboo_stairs",
-    "tags": [],
+    "identifier": "minecraft:weathered_copper",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3805,7 +4152,7 @@
     "maxAmount": 1
   },
   {
-    "identifier": "minecraft:weathered_copper",
+    "identifier": "minecraft:bamboo_stairs",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -3870,7 +4217,17 @@
   },
   {
     "identifier": "minecraft:end_bricks",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:scrape_pottery_sherd",
+    "tags": [
+      "minecraft:decorated_pot_sherds"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3882,7 +4239,9 @@
   },
   {
     "identifier": "minecraft:crimson_nylium",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -3896,34 +4255,6 @@
     "identifier": "minecraft:danger_pottery_sherd",
     "tags": [
       "minecraft:decorated_pot_sherds"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:element_32",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:squid_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:waxed_exposed_copper_trapdoor",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:waxed_copper_door",
-    "tags": [
-      "minecraft:door"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -3960,9 +4291,29 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:scrape_pottery_sherd",
+    "identifier": "minecraft:element_32",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:squid_spawn_egg",
     "tags": [
-      "minecraft:decorated_pot_sherds"
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_trapdoor",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:waxed_copper_door",
+    "tags": [
+      "minecraft:door"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -4004,6 +4355,12 @@
     "maxAmount": 16
   },
   {
+    "identifier": "minecraft:hard_lime_stained_glass_pane",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:spruce_sign",
     "tags": [
       "minecraft:sign"
@@ -4027,19 +4384,9 @@
   },
   {
     "identifier": "minecraft:lime_glazed_terracotta",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:crimson_shelf",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:element_30",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4061,7 +4408,8 @@
     "identifier": "minecraft:stripped_warped_stem",
     "tags": [
       "minecraft:warped_stems",
-      "minecraft:logs"
+      "minecraft:logs",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -4088,28 +4436,17 @@
   },
   {
     "identifier": "minecraft:cut_red_sandstone",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:polished_blackstone_button",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:stripped_birch_wood",
     "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:smooth_sandstone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4126,18 +4463,6 @@
     "tags": [
       "minecraft:decorated_pot_sherds"
     ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:diorite_stairs",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:element_97",
-    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4177,13 +4502,17 @@
   },
   {
     "identifier": "minecraft:sea_lantern",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:dead_horn_coral_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4196,6 +4525,23 @@
   {
     "identifier": "minecraft:dead_horn_coral_fan",
     "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:jungle_hanging_sign",
+    "tags": [
+      "minecraft:sign",
+      "minecraft:hanging_sign"
+    ],
+    "stackable": true,
+    "maxAmount": 16
+  },
+  {
+    "identifier": "minecraft:blue_concrete_powder",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4216,7 +4562,9 @@
   },
   {
     "identifier": "minecraft:gilded_blackstone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4239,7 +4587,9 @@
   },
   {
     "identifier": "minecraft:gold_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4283,7 +4633,9 @@
   },
   {
     "identifier": "minecraft:green_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4333,7 +4685,9 @@
   },
   {
     "identifier": "minecraft:green_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4351,7 +4705,9 @@
   },
   {
     "identifier": "minecraft:blue_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4410,18 +4766,10 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:copper_chestplate",
-    "tags": [
-      "minecraft:is_armor",
-      "minecraft:copper_tier",
-      "minecraft:trimmable_armors"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
     "identifier": "minecraft:resin_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4455,19 +4803,25 @@
   },
   {
     "identifier": "minecraft:pink_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:cracked_deepslate_bricks",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:brown_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4475,14 +4829,17 @@
     "identifier": "minecraft:light_gray_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:melon_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4490,7 +4847,8 @@
     "identifier": "minecraft:red_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -4525,7 +4883,8 @@
     "identifier": "minecraft:cobblestone",
     "tags": [
       "minecraft:stone_crafting_materials",
-      "minecraft:stone_tool_materials"
+      "minecraft:stone_tool_materials",
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -4552,13 +4911,17 @@
   },
   {
     "identifier": "minecraft:calcite",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:gray_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4582,7 +4945,9 @@
   },
   {
     "identifier": "minecraft:andesite",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4606,7 +4971,9 @@
   },
   {
     "identifier": "minecraft:chiseled_nether_bricks",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4648,7 +5015,9 @@
   },
   {
     "identifier": "minecraft:pink_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4662,13 +5031,17 @@
   },
   {
     "identifier": "minecraft:brown_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:yellow_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4694,7 +5067,9 @@
   },
   {
     "identifier": "minecraft:waxed_oxidized_copper_bulb",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4708,7 +5083,8 @@
     "identifier": "minecraft:blackstone",
     "tags": [
       "minecraft:stone_crafting_materials",
-      "minecraft:stone_tool_materials"
+      "minecraft:stone_tool_materials",
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -4737,7 +5113,9 @@
   },
   {
     "identifier": "minecraft:cracked_nether_bricks",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4781,7 +5159,9 @@
   },
   {
     "identifier": "minecraft:cut_sandstone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4854,7 +5234,9 @@
   },
   {
     "identifier": "minecraft:waxed_copper_bulb",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4877,13 +5259,17 @@
   },
   {
     "identifier": "minecraft:exposed_copper_bulb",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:diamond_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4895,7 +5281,9 @@
   },
   {
     "identifier": "minecraft:weathered_copper_bulb",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -4914,6 +5302,16 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:stripped_acacia_wood",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:element_16",
     "tags": [],
     "stackable": true,
@@ -4921,15 +5319,8 @@
   },
   {
     "identifier": "minecraft:waxed_exposed_copper",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:stripped_acacia_wood",
     "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:sulfur_cube_archetype_slow_flat"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -4972,7 +5363,92 @@
     "identifier": "minecraft:lime_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:sulfur_brick_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:granite",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:resin_clump",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:pumpkin_seeds",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:element_53",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:dried_kelp",
+    "tags": [
+      "minecraft:is_food"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:element_103",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:deepslate_tile_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:stick",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:element_58",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:slime_ball",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:tube_coral",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:sulfur_cube_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -4985,7 +5461,9 @@
   },
   {
     "identifier": "minecraft:copper_bulb",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5060,7 +5538,9 @@
   },
   {
     "identifier": "minecraft:chiseled_sandstone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5073,8 +5553,16 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:quartz_ore",
+    "identifier": "minecraft:sulfur_brick_slab",
     "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:quartz_ore",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5086,7 +5574,9 @@
   },
   {
     "identifier": "minecraft:snow",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_sliding"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5098,7 +5588,9 @@
   },
   {
     "identifier": "minecraft:resin_bricks",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5114,7 +5606,8 @@
     "identifier": "minecraft:brown_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -5123,14 +5616,17 @@
     "identifier": "minecraft:pink_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:gold_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5138,14 +5634,17 @@
     "identifier": "minecraft:stripped_oak_log",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:blue_ice",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_sliding"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5159,7 +5658,9 @@
   },
   {
     "identifier": "minecraft:hay_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5195,7 +5696,9 @@
   },
   {
     "identifier": "minecraft:black_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5208,6 +5711,12 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:potent_sulfur",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:vine",
     "tags": [],
     "stackable": true,
@@ -5215,6 +5724,20 @@
   },
   {
     "identifier": "minecraft:waxed_oxidized_chiseled_copper",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:farmland",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cinnabar_slab",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -5224,12 +5747,6 @@
     "tags": [
       "minecraft:spawn_egg"
     ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:farmland",
-    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5247,7 +5764,9 @@
   },
   {
     "identifier": "minecraft:chiseled_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5261,13 +5780,17 @@
   },
   {
     "identifier": "minecraft:waxed_weathered_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:chiseled_quartz_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5291,13 +5814,17 @@
   },
   {
     "identifier": "minecraft:deepslate_bricks",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:bamboo_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5309,7 +5836,9 @@
   },
   {
     "identifier": "minecraft:gray_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5323,13 +5852,17 @@
   },
   {
     "identifier": "minecraft:smooth_basalt",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:yellow_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5364,19 +5897,13 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:resin_clump",
+    "identifier": "minecraft:crimson_shelf",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:pumpkin_seeds",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:element_53",
+    "identifier": "minecraft:element_30",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -5395,13 +5922,17 @@
   },
   {
     "identifier": "minecraft:waxed_oxidized_cut_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:gray_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5437,7 +5968,9 @@
   },
   {
     "identifier": "minecraft:yellow_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5480,24 +6013,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:light_block_12",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:brown_candle",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:acacia_trapdoor",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:cut_sandstone_slab",
     "tags": [],
     "stackable": true,
@@ -5530,18 +6045,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:structure_block",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:tinted_glass",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:mangrove_trapdoor",
     "tags": [],
     "stackable": true,
@@ -5555,24 +6058,6 @@
   },
   {
     "identifier": "minecraft:element_42",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:warped_wart_block",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:element_4",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:element_24",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -5619,13 +6104,17 @@
   },
   {
     "identifier": "minecraft:polished_diorite",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:cyan_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5637,19 +6126,25 @@
   },
   {
     "identifier": "minecraft:packed_ice",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_sliding"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:smooth_quartz",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:purple_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5667,6 +6162,12 @@
     ],
     "stackable": true,
     "maxAmount": 16
+  },
+  {
+    "identifier": "minecraft:polished_cinnabar_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
   },
   {
     "identifier": "minecraft:weathered_copper_bars",
@@ -5688,7 +6189,9 @@
   },
   {
     "identifier": "minecraft:waxed_exposed_chiseled_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5706,7 +6209,9 @@
   },
   {
     "identifier": "minecraft:chiseled_polished_blackstone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5715,37 +6220,6 @@
     "tags": [],
     "stackable": true,
     "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:dark_oak_chest_boat",
-    "tags": [
-      "minecraft:boat",
-      "minecraft:boats"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:copper_block",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:wither_rose",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:leather_helmet",
-    "tags": [
-      "minecraft:is_armor",
-      "minecraft:leather_tier",
-      "minecraft:trimmable_armors"
-    ],
-    "stackable": false,
-    "maxAmount": 1
   },
   {
     "identifier": "minecraft:splash_potion",
@@ -5773,7 +6247,9 @@
   },
   {
     "identifier": "minecraft:deepslate_diamond_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5790,7 +6266,7 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:oxidized_chiseled_copper",
+    "identifier": "minecraft:waxed_oxidized_copper_grate",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -5806,8 +6282,10 @@
     "maxAmount": 1
   },
   {
-    "identifier": "minecraft:waxed_oxidized_copper_grate",
-    "tags": [],
+    "identifier": "minecraft:oxidized_chiseled_copper",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5839,7 +6317,9 @@
   },
   {
     "identifier": "minecraft:coal_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5871,7 +6351,9 @@
   },
   {
     "identifier": "minecraft:green_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5895,7 +6377,9 @@
   },
   {
     "identifier": "minecraft:polished_andesite",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5944,7 +6428,9 @@
   },
   {
     "identifier": "minecraft:polished_blackstone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -5956,6 +6442,32 @@
   },
   {
     "identifier": "minecraft:honey_block",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:structure_block",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:tinted_glass",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:budding_amethyst",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:pink_tulip",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -5999,7 +6511,9 @@
   },
   {
     "identifier": "minecraft:podzol",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6011,6 +6525,18 @@
   },
   {
     "identifier": "minecraft:white_stained_glass_pane",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_block_12",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:brown_candle",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -6040,8 +6566,28 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:stripped_oak_wood",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:deepslate",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:oxidized_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6059,7 +6605,8 @@
   {
     "identifier": "minecraft:stone_bricks",
     "tags": [
-      "minecraft:stone_bricks"
+      "minecraft:stone_bricks",
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -6106,7 +6653,9 @@
   },
   {
     "identifier": "minecraft:magenta_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6118,7 +6667,9 @@
   },
   {
     "identifier": "minecraft:orange_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6138,7 +6689,9 @@
   },
   {
     "identifier": "minecraft:pink_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6156,7 +6709,9 @@
   },
   {
     "identifier": "minecraft:brown_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6168,7 +6723,9 @@
   },
   {
     "identifier": "minecraft:orange_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6241,20 +6798,9 @@
   {
     "identifier": "minecraft:chiseled_stone_bricks",
     "tags": [
-      "minecraft:stone_bricks"
+      "minecraft:stone_bricks",
+      "minecraft:sulfur_cube_archetype_regular"
     ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:hard_cyan_stained_glass_pane",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:glow_ink_sac",
-    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6274,13 +6820,25 @@
   },
   {
     "identifier": "minecraft:emerald_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:parched_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:brick_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6298,7 +6856,9 @@
   },
   {
     "identifier": "minecraft:smooth_stone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6337,7 +6897,9 @@
   },
   {
     "identifier": "minecraft:white_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6360,14 +6922,6 @@
   {
     "identifier": "minecraft:magenta_dye",
     "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:charcoal",
-    "tags": [
-      "minecraft:coals"
-    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6428,16 +6982,16 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:sculk_sensor",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:bamboo_slab",
     "tags": [
       "minecraft:wooden_slabs"
     ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:sculk_sensor",
+    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6467,7 +7021,9 @@
   },
   {
     "identifier": "minecraft:lime_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6529,7 +7085,9 @@
   },
   {
     "identifier": "minecraft:dripstone_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6569,20 +7127,25 @@
     "identifier": "minecraft:jungle_wood",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:warped_nylium",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:horn_coral_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6620,7 +7183,9 @@
   },
   {
     "identifier": "minecraft:cyan_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6659,12 +7224,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:deepslate_tile_slab",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:tuff_slab",
     "tags": [],
     "stackable": true,
@@ -6672,7 +7231,9 @@
   },
   {
     "identifier": "minecraft:quartz_pillar",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6738,7 +7299,9 @@
   },
   {
     "identifier": "minecraft:emerald_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6762,7 +7325,9 @@
   },
   {
     "identifier": "minecraft:fire_coral_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6786,12 +7351,32 @@
   },
   {
     "identifier": "minecraft:lime_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:resin_brick_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:polished_sulfur_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:flower_pot",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cinnabar_brick_slab",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -6832,7 +7417,9 @@
   },
   {
     "identifier": "minecraft:dark_prismarine",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6845,26 +7432,17 @@
   {
     "identifier": "minecraft:mossy_stone_bricks",
     "tags": [
-      "minecraft:stone_bricks"
+      "minecraft:stone_bricks",
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:polished_blackstone_bricks",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:element_5",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:element_25",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6890,13 +7468,17 @@
   },
   {
     "identifier": "minecraft:deepslate_tiles",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:cracked_deepslate_tiles",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6911,7 +7493,9 @@
   },
   {
     "identifier": "minecraft:tuff_bricks",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6935,19 +7519,25 @@
   },
   {
     "identifier": "minecraft:chiseled_deepslate",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:orange_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:chiseled_tuff",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6967,7 +7557,9 @@
   },
   {
     "identifier": "minecraft:obsidian",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -6995,13 +7587,34 @@
   },
   {
     "identifier": "minecraft:chiseled_red_sandstone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:dried_kelp_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:dark_oak_chest_boat",
+    "tags": [
+      "minecraft:boat",
+      "minecraft:boats"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:copper_block",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7025,27 +7638,17 @@
   },
   {
     "identifier": "minecraft:magenta_concrete",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:dried_kelp",
     "tags": [
-      "minecraft:is_food"
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:element_103",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:cut_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7063,7 +7666,9 @@
   },
   {
     "identifier": "minecraft:waxed_weathered_cut_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7071,20 +7676,25 @@
     "identifier": "minecraft:oak_log",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:exposed_chiseled_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:weathered_chiseled_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7096,7 +7706,9 @@
   },
   {
     "identifier": "minecraft:waxed_chiseled_copper",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7113,6 +7725,14 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:deepslate_coal_ore",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:copper_helmet",
     "tags": [
       "minecraft:is_armor",
@@ -7121,12 +7741,6 @@
     ],
     "stackable": false,
     "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:deepslate_coal_ore",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
   },
   {
     "identifier": "minecraft:diamond_nautilus_armor",
@@ -7139,7 +7753,9 @@
   },
   {
     "identifier": "minecraft:waxed_exposed_copper_bulb",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7164,12 +7780,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:element_35",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:short_grass",
     "tags": [],
     "stackable": true,
@@ -7177,22 +7787,23 @@
   },
   {
     "identifier": "minecraft:lapis_block",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:element_35",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:jungle_hanging_sign",
+    "identifier": "minecraft:chiseled_sulfur",
     "tags": [
-      "minecraft:sign",
-      "minecraft:hanging_sign"
+      "minecraft:sulfur_cube_archetype_regular"
     ],
-    "stackable": true,
-    "maxAmount": 16
-  },
-  {
-    "identifier": "minecraft:blue_concrete_powder",
-    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7206,7 +7817,9 @@
   },
   {
     "identifier": "minecraft:raw_copper_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7224,7 +7837,9 @@
   },
   {
     "identifier": "minecraft:raw_iron_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7246,7 +7861,8 @@
     "identifier": "minecraft:spruce_wood",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -7313,7 +7929,9 @@
   },
   {
     "identifier": "minecraft:hardened_clay",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7325,7 +7943,9 @@
   },
   {
     "identifier": "minecraft:honeycomb_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_sticky"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7337,7 +7957,9 @@
   },
   {
     "identifier": "minecraft:nether_brick",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7351,7 +7973,9 @@
   },
   {
     "identifier": "minecraft:purpur_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7397,7 +8021,9 @@
   },
   {
     "identifier": "minecraft:amethyst_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7405,7 +8031,8 @@
     "identifier": "minecraft:gray_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -7414,16 +8041,8 @@
     "identifier": "minecraft:black_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:stripped_birch_log",
-    "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -7440,7 +8059,8 @@
     "identifier": "minecraft:orange_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -7449,7 +8069,8 @@
     "identifier": "minecraft:yellow_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -7466,7 +8087,8 @@
     "identifier": "minecraft:green_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -7481,7 +8103,8 @@
     "identifier": "minecraft:cyan_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -7497,7 +8120,9 @@
   },
   {
     "identifier": "minecraft:magenta_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7513,7 +8138,8 @@
     "identifier": "minecraft:blue_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -7534,7 +8160,8 @@
     "identifier": "minecraft:purple_wool",
     "tags": [
       "minecraft:vibration_damper",
-      "minecraft:wool"
+      "minecraft:wool",
+      "minecraft:sulfur_cube_archetype_light"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -7597,13 +8224,17 @@
   },
   {
     "identifier": "minecraft:light_gray_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:red_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7623,13 +8254,17 @@
   },
   {
     "identifier": "minecraft:cyan_concrete_powder",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:light_gray_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7641,13 +8276,17 @@
   },
   {
     "identifier": "minecraft:yellow_concrete",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:mud_bricks",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7663,13 +8302,17 @@
   },
   {
     "identifier": "minecraft:orange_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:lime_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7693,13 +8336,17 @@
   },
   {
     "identifier": "minecraft:cyan_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:white_glazed_terracotta",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7737,14 +8384,8 @@
   },
   {
     "identifier": "minecraft:purpur_pillar",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:explorer_pottery_sherd",
     "tags": [
-      "minecraft:decorated_pot_sherds"
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -7759,7 +8400,21 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:flower_pot",
+    "identifier": "minecraft:explorer_pottery_sherd",
+    "tags": [
+      "minecraft:decorated_pot_sherds"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:element_24",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:element_4",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -7778,6 +8433,18 @@
   },
   {
     "identifier": "minecraft:respawn_anchor",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:element_25",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:element_5",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -7845,10 +8512,19 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:warped_wart_block",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_sliding"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:oak_wood",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -7877,15 +8553,6 @@
   {
     "identifier": "minecraft:element_36",
     "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:acacia_wood",
-    "tags": [
-      "minecraft:logs",
-      "minecraft:logs_that_burn"
-    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7932,7 +8599,9 @@
   },
   {
     "identifier": "minecraft:coarse_dirt",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -7970,18 +8639,6 @@
   },
   {
     "identifier": "minecraft:element_57",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:stick",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:element_58",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -8109,6 +8766,14 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:sulfur_bricks",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:cooked_beef",
     "tags": [
       "minecraft:is_food",
@@ -8206,7 +8871,9 @@
   },
   {
     "identifier": "minecraft:clay",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -8218,7 +8885,9 @@
   },
   {
     "identifier": "minecraft:diamond_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -8232,7 +8901,9 @@
   },
   {
     "identifier": "minecraft:coal_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -8265,19 +8936,25 @@
   },
   {
     "identifier": "minecraft:deepslate_iron_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:deepslate_gold_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:deepslate_lapis_ore",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -8285,7 +8962,8 @@
     "identifier": "minecraft:stripped_spruce_log",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8301,23 +8979,12 @@
     "maxAmount": 1
   },
   {
-    "identifier": "minecraft:granite",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:stripped_acacia_log",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:polished_tuff",
-    "tags": [],
     "stackable": true,
     "maxAmount": 64
   },
@@ -8326,7 +8993,16 @@
     "tags": [
       "minecraft:logs",
       "minecraft:logs_that_burn",
-      "minecraft:mangrove_logs"
+      "minecraft:mangrove_logs",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:polished_tuff",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8365,7 +9041,9 @@
   },
   {
     "identifier": "minecraft:polished_basalt",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -8379,7 +9057,8 @@
     "identifier": "minecraft:spruce_log",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8394,10 +9073,28 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:charcoal",
+    "tags": [
+      "minecraft:coals"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:gray_bundle",
     "tags": [],
     "stackable": false,
     "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:stripped_birch_log",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
   },
   {
     "identifier": "minecraft:chest_minecart",
@@ -8411,7 +9108,8 @@
     "identifier": "minecraft:acacia_log",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8426,7 +9124,8 @@
     "identifier": "minecraft:warped_hyphae",
     "tags": [
       "minecraft:warped_stems",
-      "minecraft:logs"
+      "minecraft:logs",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8454,11 +9153,22 @@
     "maxAmount": 64
   },
   {
+    "identifier": "minecraft:stripped_dark_oak_log",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:mangrove_wood",
     "tags": [
       "minecraft:logs",
       "minecraft:logs_that_burn",
-      "minecraft:mangrove_logs"
+      "minecraft:mangrove_logs",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8475,7 +9185,8 @@
     "identifier": "minecraft:cherry_log",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8484,7 +9195,18 @@
     "identifier": "minecraft:pale_oak_log",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:stripped_pale_oak_log",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8493,7 +9215,32 @@
     "identifier": "minecraft:crimson_stem",
     "tags": [
       "minecraft:crimson_stems",
-      "minecraft:logs"
+      "minecraft:logs",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:camel_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:polished_blackstone_button",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:stripped_birch_wood",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8532,7 +9279,8 @@
     "identifier": "minecraft:dark_oak_wood",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8574,7 +9322,8 @@
     "identifier": "minecraft:stripped_dark_oak_wood",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8584,7 +9333,8 @@
     "tags": [
       "minecraft:logs",
       "minecraft:logs_that_burn",
-      "minecraft:mangrove_logs"
+      "minecraft:mangrove_logs",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8610,7 +9360,8 @@
     "identifier": "minecraft:cherry_wood",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8619,7 +9370,8 @@
     "identifier": "minecraft:stripped_cherry_wood",
     "tags": [
       "minecraft:logs",
-      "minecraft:logs_that_burn"
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -8628,14 +9380,17 @@
     "identifier": "minecraft:stripped_warped_hyphae",
     "tags": [
       "minecraft:warped_stems",
-      "minecraft:logs"
+      "minecraft:logs",
+      "minecraft:sulfur_cube_archetype_bouncy"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:stripped_bamboo_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -8713,7 +9468,9 @@
   },
   {
     "identifier": "minecraft:wet_sponge",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -8925,18 +9682,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:slime_ball",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:tube_coral",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:dead_fire_coral",
     "tags": [],
     "stackable": true,
@@ -8944,13 +9689,17 @@
   },
   {
     "identifier": "minecraft:crying_obsidian",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:ochre_froglight",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -9060,6 +9809,22 @@
     "maxAmount": 1
   },
   {
+    "identifier": "minecraft:leather_helmet",
+    "tags": [
+      "minecraft:is_armor",
+      "minecraft:leather_tier",
+      "minecraft:trimmable_armors"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:wither_rose",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
     "identifier": "minecraft:ender_eye",
     "tags": [],
     "stackable": true,
@@ -9110,7 +9875,9 @@
   },
   {
     "identifier": "minecraft:dead_brain_coral_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -9172,7 +9939,9 @@
   },
   {
     "identifier": "minecraft:ice",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_sliding"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -9190,12 +9959,6 @@
   },
   {
     "identifier": "minecraft:snow_layer",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:light_block_0",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -9219,13 +9982,9 @@
   },
   {
     "identifier": "minecraft:pale_moss_block",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:muddy_mangrove_roots",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -9261,22 +10020,6 @@
     "tags": [],
     "stackable": true,
     "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:bundle",
-    "tags": [],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
-    "identifier": "minecraft:iron_sword",
-    "tags": [
-      "minecraft:is_sword",
-      "minecraft:is_tool",
-      "minecraft:iron_tier"
-    ],
-    "stackable": false,
-    "maxAmount": 1
   },
   {
     "identifier": "minecraft:medium_amethyst_bud",
@@ -9378,7 +10121,9 @@
   },
   {
     "identifier": "minecraft:brown_mushroom_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_slow_sliding"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -9479,14 +10224,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:ocelot_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:pink_harness",
     "tags": [
       "minecraft:harness"
@@ -9496,7 +10233,17 @@
   },
   {
     "identifier": "minecraft:reinforced_deepslate",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:ocelot_spawn_egg",
+    "tags": [
+      "minecraft:spawn_egg"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -9569,14 +10316,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:parched_spawn_egg",
-    "tags": [
-      "minecraft:spawn_egg"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:copper_nugget",
     "tags": [
       "minecraft:metal_nuggets"
@@ -9596,7 +10335,9 @@
   },
   {
     "identifier": "minecraft:sculk",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -9754,25 +10495,33 @@
   },
   {
     "identifier": "minecraft:bedrock",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:dirt",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:magma",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:end_stone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -9786,25 +10535,103 @@
   },
   {
     "identifier": "minecraft:brain_coral_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:bubble_coral_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:dead_bubble_coral_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:dead_fire_coral_block",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:polished_sulfur",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:heart_pottery_sherd",
+    "tags": [
+      "minecraft:decorated_pot_sherds"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:bell",
     "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:golden_rail",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:waxed_exposed_copper_golem_statue",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_block_3",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:chiseled_cinnabar",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:nether_star",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:brown_harness",
+    "tags": [
+      "minecraft:harness"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:cinnabar_bricks",
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -9829,6 +10656,16 @@
     "tags": [
       "minecraft:is_armor",
       "minecraft:leather_tier",
+      "minecraft:trimmable_armors"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:copper_chestplate",
+    "tags": [
+      "minecraft:is_armor",
+      "minecraft:copper_tier",
       "minecraft:trimmable_armors"
     ],
     "stackable": false,
@@ -10150,20 +10987,6 @@
     "maxAmount": 1
   },
   {
-    "identifier": "minecraft:nether_star",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:brown_harness",
-    "tags": [
-      "minecraft:harness"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
     "identifier": "minecraft:yellow_harness",
     "tags": [
       "minecraft:harness"
@@ -10286,15 +11109,6 @@
     "maxAmount": 1
   },
   {
-    "identifier": "minecraft:turtle_helmet",
-    "tags": [
-      "minecraft:is_armor",
-      "minecraft:trimmable_armors"
-    ],
-    "stackable": false,
-    "maxAmount": 1
-  },
-  {
     "identifier": "minecraft:totem_of_undying",
     "tags": [],
     "stackable": false,
@@ -10308,18 +11122,6 @@
   },
   {
     "identifier": "minecraft:torch",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:rail",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:soul_lantern",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -10565,18 +11367,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:golden_rail",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:waxed_exposed_copper_golem_statue",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:music_disc_chirp",
     "tags": [
       "minecraft:music_disc"
@@ -10616,7 +11406,9 @@
   },
   {
     "identifier": "minecraft:glowstone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
@@ -10737,20 +11529,6 @@
   },
   {
     "identifier": "minecraft:waxed_lightning_rod",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:heart_pottery_sherd",
-    "tags": [
-      "minecraft:decorated_pot_sherds"
-    ],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
-    "identifier": "minecraft:bell",
     "tags": [],
     "stackable": true,
     "maxAmount": 64
@@ -11140,12 +11918,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:hard_lime_stained_glass_pane",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:glow_stick",
     "tags": [],
     "stackable": false,
@@ -11176,12 +11948,6 @@
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:light_block_3",
-    "tags": [],
-    "stackable": true,
-    "maxAmount": 64
-  },
-  {
     "identifier": "minecraft:light_block_6",
     "tags": [],
     "stackable": true,
@@ -11195,20 +11961,25 @@
   },
   {
     "identifier": "minecraft:stone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:sponge",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_fast_flat"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:sand",
     "tags": [
-      "minecraft:sand"
+      "minecraft:sand",
+      "minecraft:sulfur_cube_archetype_regular"
     ],
     "stackable": true,
     "maxAmount": 64
@@ -11221,25 +11992,33 @@
   },
   {
     "identifier": "minecraft:red_sandstone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:sandstone",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:quartz_block",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },
   {
     "identifier": "minecraft:prismarine",
-    "tags": [],
+    "tags": [
+      "minecraft:sulfur_cube_archetype_regular"
+    ],
     "stackable": true,
     "maxAmount": 64
   },

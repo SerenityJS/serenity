@@ -58,11 +58,6 @@ abstract class DataDrivenScreen extends ObjectProperty {
     player.send(close);
   }
 
-  public debug(): void {
-    // @ts-ignore
-    console.log(this.toJson().layout.value);
-  }
-
   /**
    * Get all the viewers currently viewing the screen.
    * @returns The viewers as an array of Player instances.

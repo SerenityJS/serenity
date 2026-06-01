@@ -287,7 +287,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
 
         // Send the packets to the player
         player.sendImmediate(
-          // voxels,
+          voxels,
           packet,
           status,
           actors,

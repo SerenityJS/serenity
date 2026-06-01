@@ -210,12 +210,6 @@ class ItemStackRequestHandler extends NetworkHandler {
       return null;
     }
 
-    // Reject invalid placements and restore the source item before returning.
-    if (!this.canPlaceItem(destination, destinationSlot, item)) {
-      source.addItem(item);
-      return null;
-    }
-
     // Get the destination item stack.
     const destinationStack = destination.getItem(destinationSlot);
 
@@ -255,7 +249,10 @@ class ItemStackRequestHandler extends NetworkHandler {
     if (!existingItem) return true;
     if (!existingItem.equals(item)) return false;
 
-    return existingItem.getStackSize() + item.getStackSize() <= existingItem.maxStackSize;
+    return (
+      existingItem.getStackSize() + item.getStackSize() <=
+      existingItem.maxStackSize
+    );
   }
 
   private canSwapItems(
@@ -271,10 +268,7 @@ class ItemStackRequestHandler extends NetworkHandler {
     return source.getItem(sourceSlot) !== null;
   }
 
-  private canAccessSlot(
-    container: Container | null,
-    slot: number
-  ): boolean {
+  private canAccessSlot(container: Container | null, slot: number): boolean {
     return !!container && slot >= 0 && slot < container.getSize();
   }
 

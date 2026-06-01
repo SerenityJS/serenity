@@ -3030,6 +3030,20 @@
     ]
   },
   {
+    "identifier": "minecraft:chiseled_cinnabar",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
     "identifier": "minecraft:chiseled_copper",
     "components": [
       "minecraft:movable",
@@ -3160,6 +3174,20 @@
     "states": []
   },
   {
+    "identifier": "minecraft:chiseled_sulfur",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
     "identifier": "minecraft:chiseled_tuff",
     "components": [
       "minecraft:movable",
@@ -3216,6 +3244,174 @@
     "liquid": false,
     "solid": false,
     "states": []
+  },
+  {
+    "identifier": "minecraft:cinnabar",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:cinnabar_brick_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:cinnabar_brick_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:cinnabar_brick_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:cornerable_stairs",
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "upside_down_bit",
+      "weirdo_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:cinnabar_brick_wall",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "wall_connection_type_east",
+      "wall_connection_type_north",
+      "wall_connection_type_south",
+      "wall_connection_type_west",
+      "wall_post_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:cinnabar_bricks",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:cinnabar_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:cinnabar_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:cinnabar_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:cornerable_stairs",
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "upside_down_bit",
+      "weirdo_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:cinnabar_wall",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "wall_connection_type_east",
+      "wall_connection_type_north",
+      "wall_connection_type_south",
+      "wall_connection_type_west",
+      "wall_post_bit"
+    ]
   },
   {
     "identifier": "minecraft:clay",
@@ -13867,6 +14063,90 @@
     ]
   },
   {
+    "identifier": "minecraft:polished_cinnabar",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:polished_cinnabar_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:polished_cinnabar_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:polished_cinnabar_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:cornerable_stairs",
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "upside_down_bit",
+      "weirdo_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:polished_cinnabar_wall",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "wall_connection_type_east",
+      "wall_connection_type_north",
+      "wall_connection_type_south",
+      "wall_connection_type_west",
+      "wall_post_bit"
+    ]
+  },
+  {
     "identifier": "minecraft:polished_deepslate",
     "components": [
       "minecraft:movable",
@@ -14081,6 +14361,90 @@
     ]
   },
   {
+    "identifier": "minecraft:polished_sulfur",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:polished_sulfur_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:polished_sulfur_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:polished_sulfur_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:cornerable_stairs",
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "upside_down_bit",
+      "weirdo_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:polished_sulfur_wall",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "wall_connection_type_east",
+      "wall_connection_type_north",
+      "wall_connection_type_south",
+      "wall_connection_type_west",
+      "wall_post_bit"
+    ]
+  },
+  {
     "identifier": "minecraft:polished_tuff",
     "components": [
       "minecraft:movable",
@@ -14207,6 +14571,20 @@
     "states": [
       "growth"
     ]
+  },
+  {
+    "identifier": "minecraft:potent_sulfur",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
   },
   {
     "identifier": "minecraft:powder_snow",
@@ -17262,6 +17640,174 @@
     "liquid": false,
     "solid": false,
     "states": []
+  },
+  {
+    "identifier": "minecraft:sulfur",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:sulfur_brick_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:sulfur_brick_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:sulfur_brick_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:cornerable_stairs",
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "upside_down_bit",
+      "weirdo_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:sulfur_brick_wall",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "wall_connection_type_east",
+      "wall_connection_type_north",
+      "wall_connection_type_south",
+      "wall_connection_type_west",
+      "wall_post_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:sulfur_bricks",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:sulfur_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:sulfur_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:sulfur_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:cornerable_stairs",
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "upside_down_bit",
+      "weirdo_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:sulfur_wall",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "wall_connection_type_east",
+      "wall_connection_type_north",
+      "wall_connection_type_south",
+      "wall_connection_type_west",
+      "wall_post_bit"
+    ]
   },
   {
     "identifier": "minecraft:sunflower",

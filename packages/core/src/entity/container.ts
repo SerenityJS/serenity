@@ -5,7 +5,6 @@ import {
   ContainerType,
   FullContainerName,
   InventoryContentPacket,
-  InventorySlotPacket,
   NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
 
@@ -52,7 +51,7 @@ class EntityContainer extends Container {
     super.clearSlot(slot);
 
     // Update the slot for the player
-    if (this.entity.isPlayer()) this.updateSlot(slot);
+    if (this.entity.isPlayer()) this.update();
   }
 
   public clear(): void {
@@ -61,47 +60,6 @@ class EntityContainer extends Container {
 
     // Update the container for the player
     if (this.entity.isPlayer()) this.update();
-  }
-
-  public updateSlot(slot: number): void {
-    // Call the original updateSlot method
-    super.updateSlot(slot);
-
-    // Check if the entity is a player
-    if (this.entity.isPlayer()) {
-      // Create a new InventorySlotPacket.
-      const packet = new InventorySlotPacket();
-      const itemStack = this.storage.at(slot);
-
-      // Set properties of the packet.
-      packet.slot = slot;
-      packet.item = itemStack
-        ? ItemStack.toNetworkStack(itemStack)
-        : new NetworkItemStackDescriptor(0);
-      packet.fullContainerName = new FullContainerName(0, 0);
-      packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
-      packet.containerId = this.identifier ?? ContainerId.None;
-
-      // Send the packet to the player.
-      this.entity.send(packet);
-    }
-
-    // Call the onContainerUpdate method for the block traits
-    for (const trait of this.entity.traits.values()) {
-      try {
-        // Call the trait method
-        trait.onContainerUpdate?.(this);
-      } catch (reason) {
-        // Log the error to the console
-        this.entity.world.logger.error(
-          `Failed to trigger onContainerUpdate trait event for entity "${this.entity.type.identifier}:${this.entity.uniqueId}" in dimension "${this.entity.dimension.identifier}"`,
-          reason
-        );
-
-        // Remove the trait from the entity
-        this.entity.traits.delete(trait.identifier);
-      }
-    }
   }
 
   public update(): void {

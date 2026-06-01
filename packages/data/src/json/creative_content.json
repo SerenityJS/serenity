@@ -3081,7 +3081,7 @@
   },
   {
     "type": "minecraft:glow_berries",
-    "instance": "lA0BAAAACgAAAAAAAAAAAAA=",
+    "instance": "mA0BAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 35
   },
   {
@@ -7016,27 +7016,27 @@
   },
   {
     "type": "minecraft:music_disc_creator",
-    "instance": "9AwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 97
-  },
-  {
-    "type": "minecraft:music_disc_creator_music_box",
-    "instance": "9gwBAAAACgAAAAAAAAAAAAA=",
-    "groupIndex": 97
-  },
-  {
-    "type": "minecraft:music_disc_precipice",
     "instance": "+AwBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 97
   },
   {
-    "type": "minecraft:music_disc_tears",
+    "type": "minecraft:music_disc_creator_music_box",
     "instance": "+gwBAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 97
   },
   {
-    "type": "minecraft:music_disc_lava_chicken",
+    "type": "minecraft:music_disc_precipice",
     "instance": "/AwBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 97
+  },
+  {
+    "type": "minecraft:music_disc_tears",
+    "instance": "/gwBAAAACgAAAAAAAAAAAAA=",
+    "groupIndex": 97
+  },
+  {
+    "type": "minecraft:music_disc_lava_chicken",
+    "instance": "gA0BAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 97
   },
   {
@@ -7621,7 +7621,7 @@
   },
   {
     "type": "minecraft:end_crystal",
-    "instance": "kg0BAAAACgAAAAAAAAAAAAA=",
+    "instance": "lg0BAAAACgAAAAAAAAAAAAA=",
     "groupIndex": 104
   },
   {

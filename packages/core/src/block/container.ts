@@ -10,6 +10,7 @@ import { Container } from "../container";
 import { ItemStack } from "../item/stack";
 import { Player } from "../entity/player";
 import { PlayerOpenedContainerSignal } from "../events/player-opened-container";
+
 import type { Block } from "./block";
 
 class BlockContainer extends Container {
@@ -42,14 +43,6 @@ class BlockContainer extends Container {
     this.notifyTraits();
   }
 
-  public updateSlot(slot: number): void {
-    // Call the original updateSlot method
-    super.updateSlot(slot);
-
-    // Call the onContainerUpdate method for the block traits
-    this.notifyTraits();
-  }
-
   private notifyTraits(): void {
     // Call the onContainerUpdate method for the block traits
     for (const trait of this.block.getAllTraits()) {
@@ -70,7 +63,10 @@ class BlockContainer extends Container {
     }
   }
 
-  public show(player: Player, position: IPosition = this.block.position): number {
+  public show(
+    player: Player,
+    position: IPosition = this.block.position
+  ): number {
     // Create a new PlayerOpenedContainerSignal
     const signal = new PlayerOpenedContainerSignal(player, this);
 
@@ -86,9 +82,10 @@ class BlockContainer extends Container {
     // Assign the properties
     packet.identifier = identifier;
     packet.type = this.type;
-    packet.position = position instanceof BlockPosition
-      ? position
-      : new BlockPosition(position.x, position.y, position.z);
+    packet.position =
+      position instanceof BlockPosition
+        ? position
+        : new BlockPosition(position.x, position.y, position.z);
     // Vanilla/BDS uses -1 for block container windows, including hoppers.
     packet.uniqueId = -1n;
 
@@ -103,10 +100,11 @@ class BlockContainer extends Container {
     // on the next tick once the container is definitely open. dunno why its done like this here but i aint rewriting all that
     if (this.type !== ContainerType.Container) {
       this.block.dimension.schedule(1).on(() => {
-        if (!this.getAllOccupants().some(([occupant]) => occupant === player)) return;
+        if (!this.getAllOccupants().some(([occupant]) => occupant === player))
+          return;
 
         for (let slot = 0; slot < this.getSize(); slot++) {
-          this.updateSlot(slot);
+          this.update();
         }
       });
     }

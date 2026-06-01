@@ -160,6 +160,7 @@ class EntityItemStackTrait extends EntityTrait {
     packet.event = ActorEvent.UpdateStackSize;
     packet.data = this.itemStack.getStackSize();
     packet.actorRuntimeId = this.entity.runtimeId;
+    packet.firedAt = this.entity.position;
 
     // Broadcast the packet to the dimension
     this.entity.dimension.broadcast(packet);
@@ -180,6 +181,7 @@ class EntityItemStackTrait extends EntityTrait {
     packet.event = ActorEvent.UpdateStackSize;
     packet.data = this.itemStack.getStackSize();
     packet.actorRuntimeId = this.entity.runtimeId;
+    packet.firedAt = this.entity.position;
 
     // Broadcast the packet to the dimension
     this.entity.dimension.broadcast(packet);

@@ -110,6 +110,11 @@ class InventorySource extends DataType {
         break;
       }
 
+      // If the type is 3 (CreativeInventory) then return
+      case InventorySourceType.CreativeInventory: {
+        break;
+      }
+
       //If the type has not been implemented yet, throw an error
       default: {
         throw new Error(

@@ -1293,7 +1293,10 @@ class Entity {
    * @param position The position to teleport the entity to.
    * @param dimension The dimension to teleport the entity to; optional.
    */
-  public async teleport(position: Vector3f, dimension?: Dimension): Promise<void> {
+  public async teleport(
+    position: Vector3f,
+    dimension?: Dimension
+  ): Promise<void> {
     // Iterate over the traits of the entity
     for (const [identifier, trait] of this.traits) {
       // Attempt to trigger the onTeleport trait event
@@ -1537,7 +1540,7 @@ class Entity {
     // Check if the signal was cancelled
     if (!signal.emit() || options.cancelled) {
       // Update the item stack
-      itemStack.container?.updateSlot(itemStack.getSlot());
+      itemStack.container?.update();
 
       // Check if the container is a cursor & if the entity is a player
       if (this.isPlayer()) {

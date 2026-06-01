@@ -1,17 +1,16 @@
 import {
-  ContainerName,
   ContainerClosePacket,
   ContainerId,
   ContainerType,
   FullContainerName,
   InventoryContentPacket,
-  InventorySlotPacket,
   NetworkItemStackDescriptor
 } from "@serenityjs/protocol";
 
 import { ItemStack } from "./item/stack";
-import type { Player } from "./entity/player";
 import { ItemIdentifier } from "./enums";
+
+import type { Player } from "./entity/player";
 import type { BlockContainer } from "./block/container";
 import type { EntityContainer } from "./entity/container";
 
@@ -144,7 +143,7 @@ class Container {
     item.container = this;
 
     // Update the container for all occupants
-    this.updateSlot(slot);
+    this.update();
   }
 
   /**
@@ -291,7 +290,7 @@ class Container {
       newItem.addTrait(trait.clone(newItem));
 
     // Update the slot for all occupants.
-    this.updateSlot(slot);
+    this.update();
 
     // Clone the NBT tags of the item.
     for (const tag of item.getStorage().getStackNbt().values()) {
@@ -345,36 +344,7 @@ class Container {
 
     // Check if the entity is a player, if so, return.
     if (this.occupants.size === 0) return;
-    this.updateSlot(slot);
-  }
-
-  /**
-   * Updates a slot in the container for all the occupants.
-   * @param slot The slot to be updated.
-   */
-  public updateSlot(slot: number): void {
-    // Create a new InventorySlotPacket.
-    const packet = new InventorySlotPacket();
-    const itemStack = this.storage.at(slot);
-
-    // Set properties of the packet.
-    packet.slot = slot;
-    packet.item = itemStack
-      ? ItemStack.toNetworkStack(itemStack)
-      : new NetworkItemStackDescriptor(0);
-    // Vanilla/BDS on proto-v944 sends identifier 0 here for these inventory
-    // sync packets, even for hopper windows. Match that behavior exactly.
-    packet.fullContainerName = new FullContainerName(0, 0);
-    packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
-
-    // Iterate over the occupants and send the packet.
-    for (const [player, identifier] of this.occupants) {
-      // Set the container id of the packet.
-      packet.containerId = identifier;
-
-      // Send the packet to the player.
-      player.send(packet);
-    }
+    this.update();
   }
 
   /**

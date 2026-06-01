@@ -23,6 +23,9 @@ class LevelSoundEventPacket extends DataPacket {
   @Serialize(Bool) public isGlobal!: boolean;
   @Serialize(Int64, { endian: Endianness.Little })
   public uniqueActorId!: bigint;
+
+  @Serialize(Vector3f, { optional: true })
+  public firedAt?: Vector3f;
 }
 
 export { LevelSoundEventPacket };

@@ -4,7 +4,7 @@ import {
   ContainerId,
   ContainerType,
   MobEquipmentPacket,
-  NetworkItemStackDescriptor,
+  NetworkItemStackDescriptorCereal,
   Vector3f
 } from "@serenityjs/protocol";
 import { CompoundTag, IntTag, ListTag } from "@serenityjs/nbt";
@@ -89,8 +89,8 @@ class EntityInventoryTrait extends EntityTrait {
 
     // Create a new item descriptor from the held item
     const itemDescriptor = heldItem
-      ? ItemStack.toNetworkStack(heldItem)
-      : new NetworkItemStackDescriptor(0);
+      ? ItemStack.toNetworkStackCereal(heldItem)
+      : new NetworkItemStackDescriptorCereal(0);
 
     // Assign the packet properties
     packet.runtimeEntityId = this.entity.runtimeId;

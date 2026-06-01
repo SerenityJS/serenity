@@ -45,6 +45,7 @@ class EntityHealthTrait extends EntityAttributeTrait {
     packet.actorRuntimeId = this.entity.runtimeId;
     packet.event = ActorEvent.Hurt;
     packet.data = signal.cause ?? ActorDamageCause.None;
+    packet.firedAt = this.entity.position;
 
     // Broadcast the packet to all players
     this.entity.dimension.broadcast(packet);

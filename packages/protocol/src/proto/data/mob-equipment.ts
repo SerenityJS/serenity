@@ -2,15 +2,15 @@ import { Int8, Uint8, VarLong } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { type ContainerId, Packet } from "../../enums";
-import { NetworkItemStackDescriptor } from "../types";
+import { NetworkItemStackDescriptorCereal } from "../types";
 
 import { DataPacket } from "./data-packet";
 
 @Proto(Packet.MobEquipment)
 class MobEquipmentPacket extends DataPacket {
   @Serialize(VarLong) public runtimeEntityId!: bigint;
-  @Serialize(NetworkItemStackDescriptor)
-  public item!: NetworkItemStackDescriptor;
+  @Serialize(NetworkItemStackDescriptorCereal)
+  public item!: NetworkItemStackDescriptorCereal;
 
   @Serialize(Uint8) public slot!: number;
   @Serialize(Uint8) public selectedSlot!: number;

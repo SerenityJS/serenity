@@ -1,5 +1,10 @@
 import { Proto, Serialize } from "@serenityjs/raknet";
-import { Endianness, Float32, VarString } from "@serenityjs/binarystream";
+import {
+  Endianness,
+  Float32,
+  VarString,
+  Uint64
+} from "@serenityjs/binarystream";
 
 import { Packet } from "../../enums";
 import { BlockPosition } from "../types";
@@ -12,6 +17,9 @@ class PlaySoundPacket extends DataPacket {
   @Serialize(BlockPosition) public position!: BlockPosition;
   @Serialize(Float32, { endian: Endianness.Little }) public volume!: number;
   @Serialize(Float32, { endian: Endianness.Little }) public pitch!: number;
+
+  @Serialize(Uint64, { endian: Endianness.Little, optional: true })
+  public serverSoundHandle?: bigint;
 }
 
 export { PlaySoundPacket };

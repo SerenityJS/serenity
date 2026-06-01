@@ -106,7 +106,7 @@
   },
   {
     "identifier": "minecraft:wooden_slab",
-    "networkId": 812,
+    "networkId": 814,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -278,6 +278,13 @@
     "isComponentBased": true,
     "itemVersion": 1,
     "properties": "CgAACgoAY29tcG9uZW50cwoPAGl0ZW1fcHJvcGVydGllcwEOAGFsbG93X29mZl9oYW5kAAEXAGNhbl9kZXN0cm95X2luX2NyZWF0aXZlAQMRAGNyZWF0aXZlX2NhdGVnb3J5AwAAAAgOAGNyZWF0aXZlX2dyb3VwAAADBgBkYW1hZ2UAAAAACBAAZW5jaGFudGFibGVfc2xvdAQAbm9uZQMRAGVuY2hhbnRhYmxlX3ZhbHVlAAAAAAEEAGZvaWwAAwsAZnJhbWVfY291bnQBAAAAAQ0AaGFuZF9lcXVpcHBlZAABEgBoaWRkZW5faW5fY29tbWFuZHMCAQ4AbGlxdWlkX2NsaXBwZWQAAw4AbWF4X3N0YWNrX3NpemUBAAAACg4AbWluZWNyYWZ0Omljb24KCAB0ZXh0dXJlcwgQAGJ1bmRsZV9vcGVuX2JhY2sWAGJ1bmRsZV9ibGFja19vcGVuX2JhY2sIEQBidW5kbGVfb3Blbl9mcm9udBcAYnVuZGxlX2JsYWNrX29wZW5fZnJvbnQIBwBkZWZhdWx0DABidW5kbGVfYmxhY2sAAAUMAG1pbmluZ19zcGVlZAAAgD8BDgBzaG91bGRfZGVzcGF3bgEBDwBzdGFja2VkX2J5X2RhdGEAAw0AdXNlX2FuaW1hdGlvbgAAAAADDAB1c2VfZHVyYXRpb24AAAAAAAkJAGl0ZW1fdGFncwEAAAAAChwAbWluZWNyYWZ0OmJ1bmRsZV9pbnRlcmFjdGlvbgMSAG51bV92aWV3YWJsZV9zbG90cwwAAAAAChgAbWluZWNyYWZ0Om1heF9zdGFja19zaXplAQUAdmFsdWUBAAoWAG1pbmVjcmFmdDpzdG9yYWdlX2l0ZW0BGgBhbGxvd19uZXN0ZWRfc3RvcmFnZV9pdGVtcwEJDQBhbGxvd2VkX2l0ZW1zAQAAAAAJDABiYW5uZWRfaXRlbXMKAgAAAAgEAG5hbWUVAG1pbmVjcmFmdDpzaHVsa2VyX2JveAAIBABuYW1lHABtaW5lY3JhZnQ6dW5keWVkX3NodWxrZXJfYm94AAMJAG1heF9zbG90c0AAAAAACh4AbWluZWNyYWZ0OnN0b3JhZ2Vfd2VpZ2h0X2xpbWl0AxAAbWF4X3dlaWdodF9saW1pdEAAAAAACiEAbWluZWNyYWZ0OnN0b3JhZ2Vfd2VpZ2h0X21vZGlmaWVyAxYAd2VpZ2h0X2luX3N0b3JhZ2VfaXRlbQQAAAAAAAA="
+  },
+  {
+    "identifier": "minecraft:cinnabar_slab",
+    "networkId": -1110,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
   },
   {
     "identifier": "minecraft:item.mangrove_door",
@@ -1001,6 +1008,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:chiseled_cinnabar",
+    "networkId": -1124,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:iron_sword",
     "networkId": 338,
     "isComponentBased": false,
@@ -1038,6 +1052,13 @@
   {
     "identifier": "minecraft:green_harness",
     "networkId": 761,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:cinnabar_bricks",
+    "networkId": -1119,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -1435,6 +1456,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:cinnabar_brick_stairs",
+    "networkId": -1122,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:chiseled_copper",
     "networkId": -760,
     "isComponentBased": false,
@@ -1792,6 +1820,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:music_disc_creator_music_box",
+    "networkId": 829,
+    "isComponentBased": true,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:nautilus_shell",
     "networkId": 609,
     "isComponentBased": false,
@@ -1802,13 +1837,6 @@
     "identifier": "minecraft:wooden_shovel",
     "networkId": 340,
     "isComponentBased": false,
-    "itemVersion": 2,
-    "properties": "CgAAAA=="
-  },
-  {
-    "identifier": "minecraft:music_disc_creator_music_box",
-    "networkId": 827,
-    "isComponentBased": true,
     "itemVersion": 2,
     "properties": "CgAAAA=="
   },
@@ -1905,7 +1933,7 @@
   },
   {
     "identifier": "minecraft:planks",
-    "networkId": 815,
+    "networkId": 817,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -1926,7 +1954,7 @@
   },
   {
     "identifier": "minecraft:stained_glass_pane",
-    "networkId": 823,
+    "networkId": 825,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -2156,6 +2184,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:cinnabar_double_slab",
+    "networkId": -1111,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:elytra",
     "networkId": 603,
     "isComponentBased": false,
@@ -2193,6 +2228,13 @@
   {
     "identifier": "minecraft:golden_axe",
     "networkId": 357,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:sulfur_cube_spawn_egg",
+    "networkId": 793,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -2284,6 +2326,13 @@
   {
     "identifier": "minecraft:brown_terracotta",
     "networkId": -735,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:cinnabar_wall",
+    "networkId": -1113,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -2382,6 +2431,13 @@
   {
     "identifier": "minecraft:leather_leggings",
     "networkId": 369,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:sulfur_slab",
+    "networkId": -1093,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -2640,7 +2696,7 @@
   },
   {
     "identifier": "minecraft:carpet",
-    "networkId": 794,
+    "networkId": 796,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -2842,6 +2898,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:polished_cinnabar_wall",
+    "networkId": -1118,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:tropical_fish_bucket",
     "networkId": 398,
     "isComponentBased": false,
@@ -3019,6 +3082,13 @@
   {
     "identifier": "minecraft:dead_fire_coral_wall_fan",
     "networkId": -909,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:sulfur_bricks",
+    "networkId": -1102,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -3248,6 +3318,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:sulfur_cube_bucket",
+    "networkId": 794,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:magenta_shulker_box",
     "networkId": -614,
     "isComponentBased": false,
@@ -3284,7 +3361,7 @@
   },
   {
     "identifier": "minecraft:coral",
-    "networkId": 816,
+    "networkId": 818,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -3367,6 +3444,20 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:sulfur_brick_stairs",
+    "networkId": -1105,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:sulfur_wall",
+    "networkId": -1096,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:clock",
     "networkId": 425,
     "isComponentBased": false,
@@ -3431,7 +3522,7 @@
   },
   {
     "identifier": "minecraft:shulker_box",
-    "networkId": 824,
+    "networkId": 826,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -3598,6 +3689,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:sulfur_brick_double_slab",
+    "networkId": -1104,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:blaze_rod",
     "networkId": 455,
     "isComponentBased": false,
@@ -3739,7 +3837,7 @@
   },
   {
     "identifier": "minecraft:stained_glass",
-    "networkId": 822,
+    "networkId": 824,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -3843,15 +3941,15 @@
     "properties": "CgAAAA=="
   },
   {
-    "identifier": "minecraft:ink_sac",
-    "networkId": 445,
+    "identifier": "minecraft:compound_creator",
+    "networkId": 238,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
   },
   {
-    "identifier": "minecraft:compound_creator",
-    "networkId": 238,
+    "identifier": "minecraft:ink_sac",
+    "networkId": 445,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -4215,7 +4313,7 @@
   },
   {
     "identifier": "minecraft:colored_torch_rg",
-    "networkId": 834,
+    "networkId": 836,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -4453,7 +4551,7 @@
   },
   {
     "identifier": "minecraft:double_plant",
-    "networkId": 814,
+    "networkId": 816,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -4732,15 +4830,15 @@
     "properties": "CgAAAA=="
   },
   {
-    "identifier": "minecraft:phantom_spawn_egg",
-    "networkId": 520,
+    "identifier": "minecraft:element_constructor",
+    "networkId": -987,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
   },
   {
-    "identifier": "minecraft:element_constructor",
-    "networkId": -987,
+    "identifier": "minecraft:phantom_spawn_egg",
+    "networkId": 520,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -4956,6 +5054,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:polished_sulfur_slab",
+    "networkId": -1098,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:orange_candle_cake",
     "networkId": -431,
     "isComponentBased": false,
@@ -5013,7 +5118,7 @@
   },
   {
     "identifier": "minecraft:double_stone_block_slab3",
-    "networkId": 805,
+    "networkId": 807,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -5230,7 +5335,7 @@
   },
   {
     "identifier": "minecraft:colored_torch_bp",
-    "networkId": 835,
+    "networkId": 837,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -5601,7 +5706,7 @@
   },
   {
     "identifier": "minecraft:coral_fan_dead",
-    "networkId": 808,
+    "networkId": 810,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -5664,7 +5769,7 @@
   },
   {
     "identifier": "minecraft:monster_egg",
-    "networkId": 819,
+    "networkId": 821,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -5734,7 +5839,7 @@
   },
   {
     "identifier": "minecraft:boat",
-    "networkId": 837,
+    "networkId": 839,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -5944,7 +6049,7 @@
   },
   {
     "identifier": "minecraft:concrete",
-    "networkId": 820,
+    "networkId": 822,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -6490,7 +6595,7 @@
   },
   {
     "identifier": "minecraft:double_stone_block_slab",
-    "networkId": 803,
+    "networkId": 805,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -6784,7 +6889,7 @@
   },
   {
     "identifier": "minecraft:wool",
-    "networkId": 793,
+    "networkId": 795,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -6939,6 +7044,13 @@
   {
     "identifier": "minecraft:white_terracotta",
     "networkId": 159,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:polished_cinnabar_stairs",
+    "networkId": -1117,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -7176,7 +7288,7 @@
   },
   {
     "identifier": "minecraft:stone_block_slab4",
-    "networkId": 802,
+    "networkId": 804,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -7246,7 +7358,7 @@
   },
   {
     "identifier": "minecraft:double_stone_block_slab2",
-    "networkId": 804,
+    "networkId": 806,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -7526,7 +7638,7 @@
   },
   {
     "identifier": "minecraft:double_stone_block_slab4",
-    "networkId": 806,
+    "networkId": 808,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -7625,6 +7737,55 @@
   {
     "identifier": "minecraft:golden_nautilus_armor",
     "networkId": 789,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:andesite_slab",
+    "networkId": -893,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:bubble_coral",
+    "networkId": -582,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:hard_black_stained_glass_pane",
+    "networkId": -672,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:sulfur_brick_slab",
+    "networkId": -1103,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:element_67",
+    "networkId": -78,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:polished_cinnabar_slab",
+    "networkId": -1115,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:cinnabar_brick_slab",
+    "networkId": -1120,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -7798,6 +7959,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:polished_sulfur",
+    "networkId": -1097,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:light_gray_carpet",
     "networkId": -604,
     "isComponentBased": false,
@@ -7827,7 +7995,7 @@
   },
   {
     "identifier": "minecraft:log",
-    "networkId": 795,
+    "networkId": 797,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -7869,7 +8037,7 @@
   },
   {
     "identifier": "minecraft:fence",
-    "networkId": 796,
+    "networkId": 798,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -7925,7 +8093,7 @@
   },
   {
     "identifier": "minecraft:stonebrick",
-    "networkId": 797,
+    "networkId": 799,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -8002,7 +8170,7 @@
   },
   {
     "identifier": "minecraft:coral_block",
-    "networkId": 798,
+    "networkId": 800,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -8030,14 +8198,14 @@
   },
   {
     "identifier": "minecraft:stone_block_slab",
-    "networkId": 799,
+    "networkId": 801,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
   },
   {
     "identifier": "minecraft:leaves",
-    "networkId": 810,
+    "networkId": 812,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -8072,14 +8240,14 @@
   },
   {
     "identifier": "minecraft:stone_block_slab2",
-    "networkId": 800,
+    "networkId": 802,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
   },
   {
     "identifier": "minecraft:leaves2",
-    "networkId": 811,
+    "networkId": 813,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -8108,20 +8276,6 @@
   {
     "identifier": "minecraft:polished_andesite_slab",
     "networkId": -892,
-    "isComponentBased": false,
-    "itemVersion": 2,
-    "properties": "CgAAAA=="
-  },
-  {
-    "identifier": "minecraft:andesite_slab",
-    "networkId": -893,
-    "isComponentBased": false,
-    "itemVersion": 2,
-    "properties": "CgAAAA=="
-  },
-  {
-    "identifier": "minecraft:bubble_coral",
-    "networkId": -582,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -8177,7 +8331,7 @@
   },
   {
     "identifier": "minecraft:stone_block_slab3",
-    "networkId": 801,
+    "networkId": 803,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -8316,6 +8470,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:chiseled_sulfur",
+    "networkId": -1107,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:dead_fire_coral",
     "networkId": -588,
     "isComponentBased": false,
@@ -8408,7 +8569,7 @@
   },
   {
     "identifier": "minecraft:coral_fan",
-    "networkId": 807,
+    "networkId": 809,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -8464,7 +8625,7 @@
   },
   {
     "identifier": "minecraft:sapling",
-    "networkId": 809,
+    "networkId": 811,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -8631,6 +8792,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:polished_sulfur_double_slab",
+    "networkId": -1099,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:large_fern",
     "networkId": -865,
     "isComponentBased": false,
@@ -8639,7 +8807,7 @@
   },
   {
     "identifier": "minecraft:red_flower",
-    "networkId": 813,
+    "networkId": 815,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -8842,7 +9010,7 @@
   },
   {
     "identifier": "minecraft:tallgrass",
-    "networkId": 817,
+    "networkId": 819,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -8877,7 +9045,7 @@
   },
   {
     "identifier": "minecraft:log2",
-    "networkId": 818,
+    "networkId": 820,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -9044,13 +9212,6 @@
     "properties": "CgAAAA=="
   },
   {
-    "identifier": "minecraft:music_disc_lava_chicken",
-    "networkId": 830,
-    "isComponentBased": true,
-    "itemVersion": 2,
-    "properties": "CgAAAA=="
-  },
-  {
     "identifier": "minecraft:spruce_trapdoor",
     "networkId": -149,
     "isComponentBased": false,
@@ -9093,6 +9254,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:sulfur",
+    "networkId": -1092,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:red_concrete_powder",
     "networkId": -722,
     "isComponentBased": false,
@@ -9108,7 +9276,7 @@
   },
   {
     "identifier": "minecraft:concrete_powder",
-    "networkId": 821,
+    "networkId": 823,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -9171,7 +9339,7 @@
   },
   {
     "identifier": "minecraft:wood",
-    "networkId": 825,
+    "networkId": 827,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -9241,7 +9409,7 @@
   },
   {
     "identifier": "minecraft:light_block",
-    "networkId": 836,
+    "networkId": 838,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -9255,7 +9423,7 @@
   },
   {
     "identifier": "minecraft:end_crystal",
-    "networkId": 841,
+    "networkId": 843,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -9443,6 +9611,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:music_disc_creator",
+    "networkId": 828,
+    "isComponentBased": true,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:stripped_dark_oak_wood",
     "networkId": -824,
     "isComponentBased": false,
@@ -9450,22 +9625,22 @@
     "properties": "CgAAAA=="
   },
   {
-    "identifier": "minecraft:music_disc_creator",
-    "networkId": 826,
-    "isComponentBased": true,
-    "itemVersion": 2,
-    "properties": "CgAAAA=="
-  },
-  {
     "identifier": "minecraft:music_disc_precipice",
-    "networkId": 828,
+    "networkId": 830,
     "isComponentBased": true,
     "itemVersion": 2,
     "properties": "CgAAAA=="
   },
   {
     "identifier": "minecraft:music_disc_tears",
-    "networkId": 829,
+    "networkId": 831,
+    "isComponentBased": true,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:music_disc_lava_chicken",
+    "networkId": 832,
     "isComponentBased": true,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -9486,7 +9661,7 @@
   },
   {
     "identifier": "minecraft:chemistry_table",
-    "networkId": 831,
+    "networkId": 833,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -9548,6 +9723,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:potent_sulfur",
+    "networkId": -1108,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:hard_light_gray_stained_glass",
     "networkId": -695,
     "isComponentBased": false,
@@ -9598,7 +9780,7 @@
   },
   {
     "identifier": "minecraft:hard_stained_glass",
-    "networkId": 832,
+    "networkId": 834,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -9681,15 +9863,8 @@
     "properties": "CgAAAA=="
   },
   {
-    "identifier": "minecraft:hard_black_stained_glass_pane",
-    "networkId": -672,
-    "isComponentBased": false,
-    "itemVersion": 2,
-    "properties": "CgAAAA=="
-  },
-  {
     "identifier": "minecraft:hard_stained_glass_pane",
-    "networkId": 833,
+    "networkId": 835,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -9865,6 +10040,13 @@
   {
     "identifier": "minecraft:crimson_slab",
     "networkId": -264,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:polished_sulfur_wall",
+    "networkId": -1101,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -10290,13 +10472,6 @@
     "properties": "CgAAAA=="
   },
   {
-    "identifier": "minecraft:element_67",
-    "networkId": -78,
-    "isComponentBased": false,
-    "itemVersion": 2,
-    "properties": "CgAAAA=="
-  },
-  {
     "identifier": "minecraft:element_70",
     "networkId": -81,
     "isComponentBased": false,
@@ -10641,28 +10816,28 @@
   },
   {
     "identifier": "minecraft:dye",
-    "networkId": 838,
-    "isComponentBased": false,
-    "itemVersion": 2,
-    "properties": "CgAAAA=="
-  },
-  {
-    "identifier": "minecraft:banner_pattern",
-    "networkId": 839,
-    "isComponentBased": false,
-    "itemVersion": 2,
-    "properties": "CgAAAA=="
-  },
-  {
-    "identifier": "minecraft:spawn_egg",
     "networkId": 840,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
   },
   {
-    "identifier": "minecraft:glow_berries",
+    "identifier": "minecraft:banner_pattern",
+    "networkId": 841,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:spawn_egg",
     "networkId": 842,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:glow_berries",
+    "networkId": 844,
     "isComponentBased": false,
     "itemVersion": 0,
     "properties": "CgAACgoAY29tcG9uZW50cwoOAG1pbmVjcmFmdDpmb29kAQ4AY2FuX2Fsd2F5c19lYXQAAw0AY29vbGRvd25fdGltZQAAAAAIDQBjb29sZG93bl90eXBlAAADCQBudXRyaXRpb24CAAAAAw0Ab25fdXNlX2FjdGlvbv////8JDABvbl91c2VfcmFuZ2UFAwAAAAAAAEEAAABBAAAAQQUTAHNhdHVyYXRpb25fbW9kaWZpZXKamZk+CBEAdXNpbmdfY29udmVydHNfdG8AAAAKDgBtaW5lY3JhZnQ6c2VlZAgLAGNyb3BfcmVzdWx0FABtaW5lY3JhZnQ6Y2F2ZV92aW5lcwkIAHBsYW50X2F0CAIAAAAKAGNhdmVfdmluZXMcAGNhdmVfdmluZXNfaGVhZF93aXRoX2JlcnJpZXMBGgBwbGFudF9hdF9hbnlfc29saWRfc3VyZmFjZQEIDQBwbGFudF9hdF9mYWNlBABkb3duAAMWAG1pbmVjcmFmdDp1c2VfZHVyYXRpb24gAAAAAAA="
@@ -11732,6 +11907,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:sulfur_stairs",
+    "networkId": -1095,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:acacia_button",
     "networkId": -140,
     "isComponentBased": false,
@@ -11865,6 +12047,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:polished_sulfur_stairs",
+    "networkId": -1100,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:waxed_weathered_copper_grate",
     "networkId": -774,
     "isComponentBased": false,
@@ -11944,6 +12133,20 @@
   {
     "identifier": "minecraft:chorus_flower",
     "networkId": 200,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:cinnabar_brick_double_slab",
+    "networkId": -1121,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:polished_cinnabar_double_slab",
+    "networkId": -1116,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -12341,6 +12544,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:sulfur_double_slab",
+    "networkId": -1094,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:chorus_plant",
     "networkId": 240,
     "isComponentBased": false,
@@ -12642,6 +12852,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:cinnabar",
+    "networkId": -1109,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:tuff_brick_stairs",
     "networkId": -757,
     "isComponentBased": false,
@@ -12768,6 +12985,13 @@
     "properties": "CgAAAA=="
   },
   {
+    "identifier": "minecraft:cinnabar_stairs",
+    "networkId": -1112,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
     "identifier": "minecraft:weathered_copper_trapdoor",
     "networkId": -794,
     "isComponentBased": false,
@@ -12861,6 +13085,13 @@
   {
     "identifier": "minecraft:bamboo_wall_sign",
     "networkId": -519,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:sulfur_brick_wall",
+    "networkId": -1106,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -12994,6 +13225,13 @@
   {
     "identifier": "minecraft:cherry_wood",
     "networkId": -546,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:polished_cinnabar",
+    "networkId": -1114,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="
@@ -13190,6 +13428,13 @@
   {
     "identifier": "minecraft:tuff_double_slab",
     "networkId": -745,
+    "isComponentBased": false,
+    "itemVersion": 2,
+    "properties": "CgAAAA=="
+  },
+  {
+    "identifier": "minecraft:cinnabar_brick_wall",
+    "networkId": -1123,
     "isComponentBased": false,
     "itemVersion": 2,
     "properties": "CgAAAA=="

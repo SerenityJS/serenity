@@ -217,7 +217,7 @@ class InventoryTransactionHandler extends NetworkHandler {
         // Check if the interaction was canceled and the player is placing a block
         if (results.cancel || player.openedContainer) {
           // Update the item stack to reflect the interaction
-          if (stack) stack.container?.updateSlot(stack.getSlot());
+          if (stack) stack.container?.update();
 
           // Create a new UpdateBlockPacket to revert the block state
           const packet = new UpdateBlockPacket();
@@ -281,7 +281,7 @@ class InventoryTransactionHandler extends NetworkHandler {
             resultant.setPermutation(previousPermutation);
 
             // Resync the inventory slot to the client to correct the predicted stack count
-            if (stack.container) stack.container.updateSlot(stack.getSlot());
+            if (stack.container) stack.container.update();
 
             return;
           }
@@ -360,7 +360,7 @@ class InventoryTransactionHandler extends NetworkHandler {
             resultant.setPermutation(previousPermutation);
 
             // Resync the inventory slot to the client to correct the predicted stack count
-            if (stack.container) stack.container.updateSlot(stack.getSlot());
+            if (stack.container) stack.container.update();
 
             return;
           } else {

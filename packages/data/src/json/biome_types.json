@@ -1,26 +1,5 @@
 [
   {
-    "identifier": "minecraft:cold_taiga_mutated",
-    "networkId": 158,
-    "temperature": -0.5,
-    "downfall": 0.4000000059604645,
-    "snowFoilage": 0,
-    "depth": 0.30000001192092896,
-    "scale": 0.4000000059604645,
-    "waterColor": -1524605309,
-    "canPrecipitate": true,
-    "tags": [
-      "animal",
-      "cold",
-      "forest",
-      "monster",
-      "mutated",
-      "taiga",
-      "overworld_generation",
-      "spawns_cold_variant_farm_animals"
-    ]
-  },
-  {
     "identifier": "minecraft:ocean",
     "networkId": 0,
     "temperature": 0.5,
@@ -36,6 +15,43 @@
       "overworld",
       "fast_fishing",
       "high_seas"
+    ]
+  },
+  {
+    "identifier": "minecraft:plains",
+    "networkId": 1,
+    "temperature": 0.800000011920929,
+    "downfall": 0.4000000059604645,
+    "snowFoilage": 0,
+    "depth": 0.125,
+    "scale": 0.05000000074505806,
+    "waterColor": -1522225163,
+    "canPrecipitate": true,
+    "tags": [
+      "animal",
+      "monster",
+      "overworld",
+      "plains",
+      "bee_habitat"
+    ]
+  },
+  {
+    "identifier": "minecraft:desert",
+    "networkId": 2,
+    "temperature": 2,
+    "downfall": 0,
+    "snowFoilage": 0,
+    "depth": 0.125,
+    "scale": 0.05000000074505806,
+    "waterColor": -1523407464,
+    "canPrecipitate": false,
+    "tags": [
+      "desert",
+      "monster",
+      "overworld",
+      "spawns_gold_rabbits",
+      "spawns_warm_variant_farm_animals",
+      "spawns_warm_variant_frogs"
     ]
   },
   {
@@ -57,20 +73,20 @@
     ]
   },
   {
-    "identifier": "minecraft:plains",
-    "networkId": 1,
-    "temperature": 0.800000011920929,
-    "downfall": 0.4000000059604645,
+    "identifier": "minecraft:forest",
+    "networkId": 4,
+    "temperature": 0.699999988079071,
+    "downfall": 0.800000011920929,
     "snowFoilage": 0,
-    "depth": 0.125,
-    "scale": 0.05000000074505806,
-    "waterColor": -1522225163,
+    "depth": 0.10000000149011612,
+    "scale": 0.20000000298023224,
+    "waterColor": -1524721678,
     "canPrecipitate": true,
     "tags": [
       "animal",
+      "forest",
       "monster",
       "overworld",
-      "plains",
       "bee_habitat"
     ]
   },
@@ -95,45 +111,6 @@
     ]
   },
   {
-    "identifier": "minecraft:deep_ocean",
-    "networkId": 24,
-    "temperature": 0.5,
-    "downfall": 0.5,
-    "snowFoilage": 0,
-    "depth": -1.7999999523162842,
-    "scale": 0.10000000149011612,
-    "waterColor": -1525184556,
-    "canPrecipitate": true,
-    "tags": [
-      "deep",
-      "monster",
-      "ocean",
-      "overworld",
-      "spawns_warm_variant_farm_animals",
-      "fast_fishing",
-      "high_seas"
-    ]
-  },
-  {
-    "identifier": "minecraft:desert",
-    "networkId": 2,
-    "temperature": 2,
-    "downfall": 0,
-    "snowFoilage": 0,
-    "depth": 0.125,
-    "scale": 0.05000000074505806,
-    "waterColor": -1523407464,
-    "canPrecipitate": false,
-    "tags": [
-      "desert",
-      "monster",
-      "overworld",
-      "spawns_gold_rabbits",
-      "spawns_warm_variant_farm_animals",
-      "spawns_warm_variant_frogs"
-    ]
-  },
-  {
     "identifier": "minecraft:swampland",
     "networkId": 6,
     "temperature": 0.800000011920929,
@@ -154,24 +131,6 @@
     ]
   },
   {
-    "identifier": "minecraft:forest",
-    "networkId": 4,
-    "temperature": 0.699999988079071,
-    "downfall": 0.800000011920929,
-    "snowFoilage": 0,
-    "depth": 0.10000000149011612,
-    "scale": 0.20000000298023224,
-    "waterColor": -1524721678,
-    "canPrecipitate": true,
-    "tags": [
-      "animal",
-      "forest",
-      "monster",
-      "overworld",
-      "bee_habitat"
-    ]
-  },
-  {
     "identifier": "minecraft:river",
     "networkId": 7,
     "temperature": 0.5,
@@ -187,28 +146,6 @@
       "spawns_reduced_water_ambient_mobs",
       "spawns_river_mobs",
       "river"
-    ]
-  },
-  {
-    "identifier": "minecraft:mesa_plateau",
-    "networkId": 39,
-    "temperature": 2,
-    "downfall": 0,
-    "snowFoilage": 0,
-    "depth": 1.5,
-    "scale": 0.02500000037252903,
-    "waterColor": -1521123170,
-    "canPrecipitate": false,
-    "tags": [
-      "animal",
-      "mesa",
-      "monster",
-      "overworld",
-      "plateau",
-      "rare",
-      "spawns_mesa_mobs",
-      "spawns_warm_variant_farm_animals",
-      "surface_mineshaft"
     ]
   },
   {
@@ -247,27 +184,6 @@
       "the_end",
       "spawns_cold_variant_farm_animals",
       "spawns_cold_variant_frogs"
-    ]
-  },
-  {
-    "identifier": "minecraft:deep_cold_ocean",
-    "networkId": 45,
-    "temperature": 0.5,
-    "downfall": 0.5,
-    "snowFoilage": 0,
-    "depth": -1.7999999523162842,
-    "scale": 0.10000000149011612,
-    "waterColor": -1524596535,
-    "canPrecipitate": true,
-    "tags": [
-      "cold",
-      "deep",
-      "monster",
-      "ocean",
-      "overworld",
-      "spawns_cold_variant_farm_animals",
-      "fast_fishing",
-      "high_seas"
     ]
   },
   {
@@ -371,26 +287,6 @@
     ]
   },
   {
-    "identifier": "minecraft:taiga_mutated",
-    "networkId": 133,
-    "temperature": 0.25,
-    "downfall": 0.800000011920929,
-    "snowFoilage": 0,
-    "depth": 0.20000000298023224,
-    "scale": 0.4000000059604645,
-    "waterColor": -1524733054,
-    "canPrecipitate": true,
-    "tags": [
-      "animal",
-      "forest",
-      "monster",
-      "mutated",
-      "taiga",
-      "overworld_generation",
-      "spawns_cold_variant_farm_animals"
-    ]
-  },
-  {
     "identifier": "minecraft:mushroom_island_shore",
     "networkId": 15,
     "temperature": 0.8999999761581421,
@@ -408,25 +304,6 @@
     ]
   },
   {
-    "identifier": "minecraft:jungle_mutated",
-    "networkId": 149,
-    "temperature": 0.949999988079071,
-    "downfall": 0.8999999761581421,
-    "snowFoilage": 0,
-    "depth": 0.20000000298023224,
-    "scale": 0.4000000059604645,
-    "waterColor": -1524916520,
-    "canPrecipitate": true,
-    "tags": [
-      "animal",
-      "jungle",
-      "monster",
-      "mutated",
-      "overworld_generation",
-      "spawns_warm_variant_farm_animals"
-    ]
-  },
-  {
     "identifier": "minecraft:beach",
     "networkId": 16,
     "temperature": 0.800000011920929,
@@ -441,27 +318,6 @@
       "monster",
       "overworld",
       "warm"
-    ]
-  },
-  {
-    "identifier": "minecraft:birch_forest_mutated",
-    "networkId": 155,
-    "temperature": 0.6000000238418579,
-    "downfall": 0.6000000238418579,
-    "snowFoilage": 0,
-    "depth": 0.20000000298023224,
-    "scale": 0.4000000059604645,
-    "waterColor": -1526302770,
-    "canPrecipitate": true,
-    "tags": [
-      "animal",
-      "birch",
-      "forest",
-      "monster",
-      "mutated",
-      "bee_habitat",
-      "overworld_generation",
-      "has_structure_trail_ruins"
     ]
   },
   {
@@ -484,26 +340,6 @@
     ]
   },
   {
-    "identifier": "minecraft:birch_forest_hills_mutated",
-    "networkId": 156,
-    "temperature": 0.699999988079071,
-    "downfall": 0.800000011920929,
-    "snowFoilage": 0,
-    "depth": 0.550000011920929,
-    "scale": 0.5,
-    "waterColor": -1526041404,
-    "canPrecipitate": true,
-    "tags": [
-      "animal",
-      "birch",
-      "forest",
-      "hills",
-      "monster",
-      "mutated",
-      "overworld_generation"
-    ]
-  },
-  {
     "identifier": "minecraft:forest_hills",
     "networkId": 18,
     "temperature": 0.699999988079071,
@@ -523,25 +359,6 @@
     ]
   },
   {
-    "identifier": "minecraft:roofed_forest_mutated",
-    "networkId": 157,
-    "temperature": 0.699999988079071,
-    "downfall": 0.800000011920929,
-    "snowFoilage": 0,
-    "depth": 0.20000000298023224,
-    "scale": 0.4000000059604645,
-    "waterColor": -1522832175,
-    "canPrecipitate": true,
-    "tags": [
-      "animal",
-      "forest",
-      "monster",
-      "mutated",
-      "roofed",
-      "overworld_generation"
-    ]
-  },
-  {
     "identifier": "minecraft:taiga_hills",
     "networkId": 19,
     "temperature": 0.25,
@@ -558,28 +375,6 @@
       "overworld",
       "forest",
       "taiga",
-      "spawns_cold_variant_farm_animals"
-    ]
-  },
-  {
-    "identifier": "minecraft:redwood_taiga_mutated",
-    "networkId": 160,
-    "temperature": 0.25,
-    "downfall": 0.800000011920929,
-    "snowFoilage": 0,
-    "depth": 0.20000000298023224,
-    "scale": 0.20000000298023224,
-    "waterColor": -1523749513,
-    "canPrecipitate": true,
-    "tags": [
-      "animal",
-      "forest",
-      "mega",
-      "monster",
-      "mutated",
-      "overworld",
-      "taiga",
-      "has_structure_trail_ruins",
       "spawns_cold_variant_farm_animals"
     ]
   },
@@ -662,6 +457,26 @@
       "overworld",
       "spawns_jungle_mobs",
       "spawns_warm_variant_farm_animals"
+    ]
+  },
+  {
+    "identifier": "minecraft:deep_ocean",
+    "networkId": 24,
+    "temperature": 0.5,
+    "downfall": 0.5,
+    "snowFoilage": 0,
+    "depth": -1.7999999523162842,
+    "scale": 0.10000000149011612,
+    "waterColor": -1525184556,
+    "canPrecipitate": true,
+    "tags": [
+      "deep",
+      "monster",
+      "ocean",
+      "overworld",
+      "spawns_warm_variant_farm_animals",
+      "fast_fishing",
+      "high_seas"
     ]
   },
   {
@@ -950,6 +765,28 @@
     ]
   },
   {
+    "identifier": "minecraft:mesa_plateau",
+    "networkId": 39,
+    "temperature": 2,
+    "downfall": 0,
+    "snowFoilage": 0,
+    "depth": 1.5,
+    "scale": 0.02500000037252903,
+    "waterColor": -1521123170,
+    "canPrecipitate": false,
+    "tags": [
+      "animal",
+      "mesa",
+      "monster",
+      "overworld",
+      "plateau",
+      "rare",
+      "spawns_mesa_mobs",
+      "spawns_warm_variant_farm_animals",
+      "surface_mineshaft"
+    ]
+  },
+  {
     "identifier": "minecraft:warm_ocean",
     "networkId": 40,
     "temperature": 0.5,
@@ -1044,6 +881,27 @@
     "canPrecipitate": true,
     "tags": [
       "cold",
+      "monster",
+      "ocean",
+      "overworld",
+      "spawns_cold_variant_farm_animals",
+      "fast_fishing",
+      "high_seas"
+    ]
+  },
+  {
+    "identifier": "minecraft:deep_cold_ocean",
+    "networkId": 45,
+    "temperature": 0.5,
+    "downfall": 0.5,
+    "snowFoilage": 0,
+    "depth": -1.7999999523162842,
+    "scale": 0.10000000149011612,
+    "waterColor": -1524596535,
+    "canPrecipitate": true,
+    "tags": [
+      "cold",
+      "deep",
       "monster",
       "ocean",
       "overworld",
@@ -1217,6 +1075,26 @@
     ]
   },
   {
+    "identifier": "minecraft:taiga_mutated",
+    "networkId": 133,
+    "temperature": 0.25,
+    "downfall": 0.800000011920929,
+    "snowFoilage": 0,
+    "depth": 0.20000000298023224,
+    "scale": 0.4000000059604645,
+    "waterColor": -1524733054,
+    "canPrecipitate": true,
+    "tags": [
+      "animal",
+      "forest",
+      "monster",
+      "mutated",
+      "taiga",
+      "overworld_generation",
+      "spawns_cold_variant_farm_animals"
+    ]
+  },
+  {
     "identifier": "minecraft:swampland_mutated",
     "networkId": 134,
     "temperature": 0.800000011920929,
@@ -1259,6 +1137,25 @@
     ]
   },
   {
+    "identifier": "minecraft:jungle_mutated",
+    "networkId": 149,
+    "temperature": 0.949999988079071,
+    "downfall": 0.8999999761581421,
+    "snowFoilage": 0,
+    "depth": 0.20000000298023224,
+    "scale": 0.4000000059604645,
+    "waterColor": -1524916520,
+    "canPrecipitate": true,
+    "tags": [
+      "animal",
+      "jungle",
+      "monster",
+      "mutated",
+      "overworld_generation",
+      "spawns_warm_variant_farm_animals"
+    ]
+  },
+  {
     "identifier": "minecraft:jungle_edge_mutated",
     "networkId": 151,
     "temperature": 0.949999988079071,
@@ -1277,6 +1174,109 @@
       "overworld_generation",
       "spawns_jungle_mobs",
       "spawns_warm_variant_farm_animals"
+    ]
+  },
+  {
+    "identifier": "minecraft:birch_forest_mutated",
+    "networkId": 155,
+    "temperature": 0.6000000238418579,
+    "downfall": 0.6000000238418579,
+    "snowFoilage": 0,
+    "depth": 0.20000000298023224,
+    "scale": 0.4000000059604645,
+    "waterColor": -1526302770,
+    "canPrecipitate": true,
+    "tags": [
+      "animal",
+      "birch",
+      "forest",
+      "monster",
+      "mutated",
+      "bee_habitat",
+      "overworld_generation",
+      "has_structure_trail_ruins"
+    ]
+  },
+  {
+    "identifier": "minecraft:birch_forest_hills_mutated",
+    "networkId": 156,
+    "temperature": 0.699999988079071,
+    "downfall": 0.800000011920929,
+    "snowFoilage": 0,
+    "depth": 0.550000011920929,
+    "scale": 0.5,
+    "waterColor": -1526041404,
+    "canPrecipitate": true,
+    "tags": [
+      "animal",
+      "birch",
+      "forest",
+      "hills",
+      "monster",
+      "mutated",
+      "overworld_generation"
+    ]
+  },
+  {
+    "identifier": "minecraft:roofed_forest_mutated",
+    "networkId": 157,
+    "temperature": 0.699999988079071,
+    "downfall": 0.800000011920929,
+    "snowFoilage": 0,
+    "depth": 0.20000000298023224,
+    "scale": 0.4000000059604645,
+    "waterColor": -1522832175,
+    "canPrecipitate": true,
+    "tags": [
+      "animal",
+      "forest",
+      "monster",
+      "mutated",
+      "roofed",
+      "overworld_generation"
+    ]
+  },
+  {
+    "identifier": "minecraft:cold_taiga_mutated",
+    "networkId": 158,
+    "temperature": -0.5,
+    "downfall": 0.4000000059604645,
+    "snowFoilage": 0,
+    "depth": 0.30000001192092896,
+    "scale": 0.4000000059604645,
+    "waterColor": -1524605309,
+    "canPrecipitate": true,
+    "tags": [
+      "animal",
+      "cold",
+      "forest",
+      "monster",
+      "mutated",
+      "taiga",
+      "overworld_generation",
+      "spawns_cold_variant_farm_animals"
+    ]
+  },
+  {
+    "identifier": "minecraft:redwood_taiga_mutated",
+    "networkId": 160,
+    "temperature": 0.25,
+    "downfall": 0.800000011920929,
+    "snowFoilage": 0,
+    "depth": 0.20000000298023224,
+    "scale": 0.20000000298023224,
+    "waterColor": -1523749513,
+    "canPrecipitate": true,
+    "tags": [
+      "animal",
+      "forest",
+      "mega",
+      "monster",
+      "mutated",
+      "overworld",
+      "taiga",
+      "has_structure_trail_ruins",
+      "spawns_cold_variant_farm_animals"
     ]
   },
   {

@@ -11473,7 +11473,7 @@
     "resultants": [
       {
         "type": "minecraft:end_crystal",
-        "instance": "kg0BAAAACgAAAAAAAAAAAAA="
+        "instance": "lg0BAAAACgAAAAAAAAAAAAA="
       }
     ]
   },
@@ -12258,7 +12258,10 @@
       }
     },
     "resultants": [
-      null
+      {
+        "type": "minecraft:golden_dandelion",
+        "instance": "hREBAADNvtTTBQoAAAAAAAAAAAAA"
+      }
     ]
   },
   {

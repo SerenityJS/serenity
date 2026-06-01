@@ -1,7 +1,7 @@
 import {
   ContainerId,
   MobEquipmentPacket,
-  NetworkItemStackDescriptor,
+  NetworkItemStackDescriptorCereal,
   Packet
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
@@ -86,8 +86,8 @@ class MobEquipmentHandler extends NetworkHandler {
     update.containerId = ContainerId.Inventory;
     update.item =
       item === null
-        ? new NetworkItemStackDescriptor(0)
-        : ItemStack.toNetworkStack(item);
+        ? new NetworkItemStackDescriptorCereal(0)
+        : ItemStack.toNetworkStackCereal(item);
 
     // Broadcast the packet to all players, except the player in context
     player.dimension.broadcastExcept(player, update);
