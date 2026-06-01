@@ -2,7 +2,10 @@
   "name": "@serenityjs/internal-config",
   "version": "0.8.20",
   "private": true,
-  "repository": "https://github.com/SerenityJS/serenity/tree/main/packages/internal-config",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SerenityJS/serenity.git#main"
+  },
   "files": [
     "eslint",
     "tsup",

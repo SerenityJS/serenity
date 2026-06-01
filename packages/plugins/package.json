@@ -6,7 +6,10 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "repository": "https://github.com/SerenityJS/serenity/tree/main/packages/plugins",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SerenityJS/serenity.git#main"
+  },
   "files": [
     "app/**",
     "dist/**",
