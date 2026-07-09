@@ -115,6 +115,7 @@ enum Packet {
   LevelEventGeneric = 0x7c, // 124
   ClientCacheStatus = 0x81, // 129
   OnScreenTextureAnimation = 0x82, // 130
+  ClientCacheBlobStatus = 0x87, // 135
   Emote = 0x8a, // 138
   CompletedUsingItem = 0x8e, // 142
   NetworkSettings = 0x8f, // 143
@@ -184,7 +185,13 @@ enum Packet {
   ServerboundDataStore = 0x1_4c, // 332
   ClientboundDataDrivenUIShowScreenPacket = 0x1_4d, // 333
   ClientboundDataDrivenUIClosePacket = 0x1_4e, // 334
-  VoxelShapesPacket = 337
+  VoxelShapesPacket = 337,
+  ClientBoundAttributeLayerSync = 345,
+  ServerStoreInfo = 346,
+  ServerPresenceInfo = 347,
+  ClientboundUpdateSoundData = 348,
+  SendPartyDestinationCookie = 349,
+  PartyDestinationCookieResponse = 350
 }
 
 export { Packet };
