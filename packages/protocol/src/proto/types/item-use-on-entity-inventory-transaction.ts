@@ -72,7 +72,7 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
     const actorRuntimeId = stream.readVarLong();
 
     // Read the type of the item use on entity inventory transaction
-    const type = stream.readVarInt() as ItemUseOnEntityInventoryTransactionType;
+    const type = stream.readZigZag() as ItemUseOnEntityInventoryTransactionType;
 
     // Read the slot of the item use on entity inventory transaction
     const slot = stream.readZigZag();
@@ -105,7 +105,7 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
     stream.writeVarLong(value.actorRuntimeId);
 
     // Write the type of the item use on entity inventory transaction
-    stream.writeVarInt(value.type);
+    stream.writeZigZag(value.type);
 
     // Write the slot of the item use on entity inventory transaction
     stream.writeZigZag(value.slot);

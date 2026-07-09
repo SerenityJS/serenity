@@ -114,7 +114,7 @@ class ItemUseInventoryTransaction extends DataType {
 
   public static read(stream: BinaryStream): ItemUseInventoryTransaction {
     // Read the type of the item use inventory transaction
-    const type = stream.readVarInt() as ItemUseInventoryTransactionType;
+    const type = stream.readZigZag() as ItemUseInventoryTransactionType;
 
     // Read the trigger type of the item use inventory transaction
     const triggerType = stream.readUint8() as TriggerType;
