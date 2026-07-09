@@ -27,10 +27,13 @@ import { CameraShakePacket } from "./camera-shake";
 import { ChangeDimensionPacket } from "./change-dimension";
 import { ChunkRadiusUpdatePacket } from "./chunk-radius-update";
 import { ClientBoundDebugRendererPacket } from "./client-bound-debug-renderer";
+import { ClientBoundAttributeLayerSyncPacket } from "./client-bound-attribute-layer-sync";
 import { ClientBoundMapItemDataPacket } from "./client-bound-map-item-data";
+import { ClientCacheBlobStatusPacket } from "./client-cache-blob-status";
 import { ClientCacheStatusPacket } from "./client-cache-status";
 import { ClientToServerHandshakePacket } from "./client-to-server-handshake";
 import { ClientboundCloseFormPacket } from "./clientbound-close-form";
+import { ClientboundUpdateSoundDataPacket } from "./clientbound-update-sound-data";
 import { CommandBlockUpdatePacket } from "./command-block-update";
 import { CommandOutputPacket } from "./command-output";
 import { CommandRequestPacket } from "./command-request";
@@ -85,6 +88,7 @@ import { NpcRequestPacket } from "./npc-request";
 import { OnScreenTextureAnimationPacket } from "./on-screen-texture-animation";
 import { OpenSignPacket } from "./open-sign";
 import { PacketViolationWarningPacket } from "./packet-violation-warning";
+import { PartyDestinationCookieResponsePacket } from "./party-destination-cookie-response";
 import { PhotoTransferPacket } from "./photo-transfer";
 import { PlaySoundPacket } from "./play-sound";
 import { PlayStatusPacket } from "./play-status";
@@ -118,6 +122,8 @@ import { ServerSettingsRequestPacket } from "./server-settings-request";
 import { ServerSettingsResponsePacket } from "./server-settings-response";
 import { ServerToClientHandshakePacket } from "./server-to-client-handshake";
 import { ServerboundDiagnosticsPacket } from "./serverbound-diagnostics";
+import { ServerPresenceInfoPacket } from "./server-presence-info";
+import { ServerStoreInfoPacket } from "./server-store-info";
 import { SetActorDataPacket } from "./set-actor-data";
 import { SetActorLinkPacket } from "./set-actor-link";
 import { SetActorMotionPacket } from "./set-actor-motion";
@@ -185,6 +191,7 @@ import { ClientboundDataDrivenUIShowScreenPacket } from "./clientbound-data-driv
 import { ClientboundDataStorePacket } from "./clientbound-data-store";
 import { ClientboundDataDrivenUIClosePacket } from "./clientbound-data-driven-ui-close-screen";
 import { ServerboundDataStorePacket } from "./serverbound-data-store";
+import { SendPartyDestinationCookiePacket } from "./send-party-destination-cookie";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -300,6 +307,7 @@ const Packets = {
   [Packet.LevelEventGeneric]: LevelEventGenericPacket, // 124
   [Packet.ClientCacheStatus]: ClientCacheStatusPacket, // 129
   [Packet.OnScreenTextureAnimation]: OnScreenTextureAnimationPacket, // 130
+  [Packet.ClientCacheBlobStatus]: ClientCacheBlobStatusPacket, // 135
   [Packet.Emote]: EmotePacket, // 138
   [Packet.CompletedUsingItem]: CompletedUsingItemPacket, // 142
   [Packet.NetworkSettings]: NetworkSettingsPacket, // 143
@@ -370,7 +378,14 @@ const Packets = {
     ClientboundDataDrivenUIShowScreenPacket, // 333,
   [Packet.ClientboundDataDrivenUIClosePacket]:
     ClientboundDataDrivenUIClosePacket, // 334
-  [Packet.VoxelShapesPacket]: VoxelShapesPacket // 337
+  [Packet.VoxelShapesPacket]: VoxelShapesPacket, // 337
+  [Packet.ClientBoundAttributeLayerSync]: ClientBoundAttributeLayerSyncPacket, // 345
+  [Packet.ServerStoreInfo]: ServerStoreInfoPacket, // 346
+  [Packet.ServerPresenceInfo]: ServerPresenceInfoPacket, // 347
+  [Packet.ClientboundUpdateSoundData]: ClientboundUpdateSoundDataPacket, // 348
+  [Packet.SendPartyDestinationCookie]: SendPartyDestinationCookiePacket, // 349
+  [Packet.PartyDestinationCookieResponse]:
+    PartyDestinationCookieResponsePacket // 350
 };
 
 export { Packets };

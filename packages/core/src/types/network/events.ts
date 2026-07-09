@@ -25,8 +25,11 @@ import type {
   ChangeMobPropertyPacket,
   ChunkRadiusUpdatePacket,
   ClientBoundDebugRendererPacket,
+  ClientBoundAttributeLayerSyncPacket,
   ClientBoundMapItemDataPacket,
+  ClientCacheBlobStatusPacket,
   ClientCacheStatusPacket,
+  ClientboundUpdateSoundDataPacket,
   ClientToServerHandshakePacket,
   ClientboundCloseFormPacket,
   CodeBuilderSourcePacket,
@@ -90,6 +93,7 @@ import type {
   OpenSignPacket,
   Packet,
   PacketViolationWarningPacket,
+  PartyDestinationCookieResponsePacket,
   PhotoTransferPacket,
   PlaySoundPacket,
   PlayStatusPacket,
@@ -121,6 +125,8 @@ import type {
   ServerScriptDebugDrawerPacket,
   ServerSettingsRequestPacket,
   ServerSettingsResponsePacket,
+  ServerPresenceInfoPacket,
+  ServerStoreInfoPacket,
   ServerToClientHandshakePacket,
   ServerboundDiagnosticsPacket,
   ServerboundLoadingScreenPacketPacket,
@@ -142,6 +148,7 @@ import type {
   SetSpawnPositionPacket,
   SetTimePacket,
   SetTitlePacket,
+  SendPartyDestinationCookiePacket,
   SimpleEventPacket,
   ShowCreditsPacket,
   ShowProfilePacket,
@@ -446,6 +453,23 @@ interface NetworkEvents {
     NetworkPacketEvent<ClientboundDataDrivenUIShowScreenPacket>
   ];
   [Packet.VoxelShapesPacket]: [NetworkPacketEvent<VoxelShapesPacket>];
+  [Packet.ClientCacheBlobStatus]: [
+    NetworkPacketEvent<ClientCacheBlobStatusPacket>
+  ];
+  [Packet.ClientBoundAttributeLayerSync]: [
+    NetworkPacketEvent<ClientBoundAttributeLayerSyncPacket>
+  ];
+  [Packet.ServerStoreInfo]: [NetworkPacketEvent<ServerStoreInfoPacket>];
+  [Packet.ServerPresenceInfo]: [NetworkPacketEvent<ServerPresenceInfoPacket>];
+  [Packet.ClientboundUpdateSoundData]: [
+    NetworkPacketEvent<ClientboundUpdateSoundDataPacket>
+  ];
+  [Packet.SendPartyDestinationCookie]: [
+    NetworkPacketEvent<SendPartyDestinationCookiePacket>
+  ];
+  [Packet.PartyDestinationCookieResponse]: [
+    NetworkPacketEvent<PartyDestinationCookieResponsePacket>
+  ];
 }
 
 export { NetworkEvents };
