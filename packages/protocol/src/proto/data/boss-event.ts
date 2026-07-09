@@ -1,5 +1,5 @@
 import {
-  VarInt,
+  Uint8,
   ZigZong,
   VarString,
   Float32,
@@ -20,12 +20,12 @@ import { DataPacket } from "./data-packet";
 class BossEventPacket extends DataPacket {
   @Serialize(ZigZong) public targetUniqueId!: bigint;
   @Serialize(ZigZong) public playerUniqueId!: bigint;
-  @Serialize(VarInt) public type!: BossEventUpdateType;
+  @Serialize(Uint8) public type!: BossEventUpdateType;
   @Serialize(VarString) public title!: string;
   @Serialize(VarString) public filteredTitle!: string;
   @Serialize(Float32, { endian: Endianness.Little }) public percent!: number;
-  @Serialize(VarInt) public color!: BossEventColor;
-  @Serialize(VarInt) public overlay!: BossEventOverlay;
+  @Serialize(Uint8) public color!: BossEventColor;
+  @Serialize(Uint8) public overlay!: BossEventOverlay;
 }
 
 export { BossEventPacket };
