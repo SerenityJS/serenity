@@ -10,6 +10,7 @@ import {
   ItemUseInventoryTransactionType,
   ItemUseMethod,
   ItemUseOnEntityInventoryTransaction,
+  ItemUseOnEntityInventoryTransactionType,
   LevelSoundEvent,
   LevelSoundEventPacket,
   Packet,
@@ -39,6 +40,8 @@ class InventoryTransactionHandler extends NetworkHandler {
     // Get the player from the connection
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
+
+    console.log(packet);
 
     // Check if the packet has a transaction
     // There should always be a transaction, but we can never be too sure...
@@ -452,7 +455,10 @@ class InventoryTransactionHandler extends NetworkHandler {
     if (!entity) return;
 
     // Get the entity interact method
-    const method = transaction.type as unknown as EntityInteractMethod;
+    const method =
+      transaction.type === ItemUseOnEntityInventoryTransactionType.Interact
+        ? EntityInteractMethod.Interact
+        : EntityInteractMethod.Attack;
 
     // Call the onInteract method for the entity
     entity.interact(player, method);
