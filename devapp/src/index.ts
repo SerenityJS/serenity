@@ -22,12 +22,12 @@ serenity.start().catch((reason) => {
   serenity.logger.error("Failed to start SerenityJS server:", reason);
 });
 
-serenity.network.on("all", ({ bound, packet }) => {
-  if (bound !== NetworkBound.Client) return;
+// serenity.network.on("all", ({ bound, packet }) => {
+//   if (bound !== NetworkBound.Client) return;
 
-  if (packet.getId() === Packet.LevelChunk) return;
-  if (packet.getId() === Packet.NetworkChunkPublisherUpdate) return;
-  if (packet.getId() === Packet.BossEvent) return;
+//   if (packet.getId() === Packet.LevelChunk) return;
+//   if (packet.getId() === Packet.NetworkChunkPublisherUpdate) return;
+//   if (packet.getId() === Packet.BossEvent) return;
 
-  console.log(`sending packet ${Packet[packet.getId()]} to client`);
-});
+//   console.log(`sending packet ${Packet[packet.getId()]} to client`);
+// });
