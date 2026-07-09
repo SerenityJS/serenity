@@ -1,5 +1,7 @@
 enum MovementEffectType {
-  GlideBoost
+  GlideBoost,
+  DolphinBoost,
+  GeyserBoost
 }
 
 export { MovementEffectType };
