@@ -1,34 +1,50 @@
-import { Endianness, Uint32, ZigZag } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
+import { Endianness } from "@serenityjs/binarystream";
+import { Proto } from "@serenityjs/raknet";
 
 import { DimensionType, Packet } from "../../enums";
-import {
-  TypeArray,
-  SubChunkPosition,
-  SubChunkRequestPositionOffset
-} from "../types";
+import { SubChunkPosition, SubChunkRequestPositionOffset } from "../types";
 
 import { DataPacket } from "./data-packet";
 
 @Proto(Packet.SubChunkRequest)
 export class SubChunkRequestPacket extends DataPacket {
-  /**
-   * The dimension of the subchunk request.
-   */
-  @Serialize(ZigZag)
   public dimension!: DimensionType;
-
-  /**
-   * The position of the subchunk request.
-   */
-  @Serialize(SubChunkPosition)
+  public offsets!: Array<SubChunkRequestPositionOffset>;
   public position!: SubChunkPosition;
 
-  /**
-   * The offsets of the subchunk request.
-   */
-  @Serialize(TypeArray(SubChunkRequestPositionOffset, Uint32), {
-    endian: Endianness.Little
-  })
-  public offsets!: Array<SubChunkRequestPositionOffset>;
+  public override serialize(): Buffer {
+    this.writeVarInt(Packet.SubChunkRequest);
+    this.writeZigZag(this.dimension);
+    this.writeVarInt(this.offsets.length);
+
+    for (const offset of this.offsets) {
+      SubChunkRequestPositionOffset.write(this, offset);
+    }
+
+    this.writeInt32(this.position.x, Endianness.Little);
+    this.writeInt32(this.position.y, Endianness.Little);
+    this.writeInt32(this.position.z, Endianness.Little);
+
+    return this.getBuffer();
+  }
+
+  public override deserialize(): this {
+    this.readVarInt();
+    this.dimension = this.readZigZag();
+
+    const offsetCount = this.readVarInt();
+    this.offsets = [];
+
+    for (let i = 0; i < offsetCount; i++) {
+      this.offsets.push(SubChunkRequestPositionOffset.read(this));
+    }
+
+    this.position = new SubChunkPosition(
+      this.readInt32(Endianness.Little),
+      this.readInt32(Endianness.Little),
+      this.readInt32(Endianness.Little)
+    );
+
+    return this;
+  }
 }
