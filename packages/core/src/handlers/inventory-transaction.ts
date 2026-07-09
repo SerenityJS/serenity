@@ -41,8 +41,6 @@ class InventoryTransactionHandler extends NetworkHandler {
     const player = this.serenity.getPlayerByConnection(connection);
     if (!player) return connection.disconnect();
 
-    console.log(packet);
-
     // Check if the packet has a transaction
     // There should always be a transaction, but we can never be too sure...
     if (!packet.transaction) return;
