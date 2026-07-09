@@ -1,7 +1,14 @@
 import { Proto, Serialize } from "@serenityjs/raknet";
-import { Endianness, Float32 } from "@serenityjs/binarystream";
+import { Endianness, Float32, VarInt } from "@serenityjs/binarystream";
 
 import { Packet } from "../../enums";
+import {
+  EntityDiagnosticTimingInfo,
+  MemoryCategoryCounter,
+  SystemDiagnosticTimingInfo,
+  TypeArray,
+  WhiskerScopeDataSummary
+} from "../types";
 
 import { DataPacket } from "./data-packet";
 
@@ -22,6 +29,14 @@ class ServerboundDiagnosticsPacket extends DataPacket {
   public remainderTimePercent!: number;
   @Serialize(Float32, { endian: Endianness.Little })
   public unaccountedTimePercent!: number;
+  @Serialize(TypeArray(MemoryCategoryCounter, VarInt))
+  public memoryCategoryValues!: Array<MemoryCategoryCounter>;
+  @Serialize(TypeArray(EntityDiagnosticTimingInfo, VarInt))
+  public entityDiagnostics!: Array<EntityDiagnosticTimingInfo>;
+  @Serialize(TypeArray(SystemDiagnosticTimingInfo, VarInt))
+  public systemDiagnostics!: Array<SystemDiagnosticTimingInfo>;
+  @Serialize(TypeArray(WhiskerScopeDataSummary, VarInt))
+  public whiskerScopes!: Array<WhiskerScopeDataSummary>;
 }
 
 export { ServerboundDiagnosticsPacket };
