@@ -107,11 +107,11 @@ class PlayerEntityRenderingTrait extends PlayerTrait {
         // Assign the packet properties
         armor = new MobArmorEquipmentPacket();
         armor.runtimeId = entity.runtimeId;
-        armor.helmet = ItemStack.toNetworkStack(head);
-        armor.chestplate = ItemStack.toNetworkStack(chest);
-        armor.leggings = ItemStack.toNetworkStack(legs);
-        armor.boots = ItemStack.toNetworkStack(feet);
-        armor.body = ItemStack.toNetworkStack(ItemStack.empty());
+        armor.helmet = ItemStack.toNetworkStackCereal(head);
+        armor.chestplate = ItemStack.toNetworkStackCereal(chest);
+        armor.leggings = ItemStack.toNetworkStackCereal(legs);
+        armor.boots = ItemStack.toNetworkStackCereal(feet);
+        armor.body = ItemStack.toNetworkStackCereal(ItemStack.empty());
       }
     }
 

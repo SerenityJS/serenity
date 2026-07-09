@@ -1,6 +1,6 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
-import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
+import { NetworkItemStackDescriptorCereal } from "./network-item-stack-descriptor-cereal";
 import { Vector3f } from "./vector3f";
 
 import type { ItemUseOnEntityInventoryTransactionType } from "../../enums";
@@ -27,7 +27,7 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
   /**
    * The item of the item use on entity inventory transaction.
    */
-  public readonly item: NetworkItemStackDescriptor;
+  public readonly item: NetworkItemStackDescriptorCereal;
 
   /**
    * The from position of the item use on entity inventory transaction.
@@ -52,7 +52,7 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
     actorRuntimeId: bigint,
     type: ItemUseOnEntityInventoryTransactionType,
     slot: number,
-    item: NetworkItemStackDescriptor,
+    item: NetworkItemStackDescriptorCereal,
     fromPosition: Vector3f,
     clickPosition: Vector3f
   ) {
@@ -78,7 +78,7 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
     const slot = stream.readZigZag();
 
     // Read the item of the item use on entity inventory transaction
-    const item = NetworkItemStackDescriptor.read(stream);
+    const item = NetworkItemStackDescriptorCereal.read(stream);
 
     // Read the from position of the item use on entity inventory transaction
     const fromPosition = Vector3f.read(stream);
@@ -111,7 +111,7 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
     stream.writeZigZag(value.slot);
 
     // Write the item of the item use on entity inventory transaction
-    NetworkItemStackDescriptor.write(stream, value.item);
+    NetworkItemStackDescriptorCereal.write(stream, value.item);
 
     // Write the from position of the item use on entity inventory transaction
     Vector3f.write(stream, value.fromPosition);

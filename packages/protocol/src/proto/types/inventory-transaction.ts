@@ -60,22 +60,16 @@ class InventoryTransaction extends DataType {
   }
 
   public static read(stream: BinaryStream): InventoryTransaction {
-    // if (!stream.readBool()) {
-    //   throw new Error(
-    //     "optional bool for transactionType should always be true, but was false"
-    //   );
-    // }
+    if (!stream.readBool()) {
+      throw new Error("Inventory transaction type presence marker missing.");
+    }
 
-    // Read the type of the inventory transaction
     const type = stream.readVarInt() as ComplexInventoryTransaction;
 
-    // if (!stream.readBool()) {
-    //   throw new Error(
-    //     "optional bool for data should always be true, but was false"
-    //   );
-    // }
+    if (!stream.readBool()) {
+      throw new Error("Inventory transaction actions presence marker missing.");
+    }
 
-    // Read the amount of actions
     const amount = stream.readVarInt();
 
     // Prepare the actions of the inventory transaction
@@ -136,10 +130,10 @@ class InventoryTransaction extends DataType {
   }
 
   public static write(stream: BinaryStream, value: InventoryTransaction): void {
-    // Write the type of the inventory transaction
+    stream.writeBool(true);
     stream.writeVarInt(value.type);
 
-    // Write the amount of actions
+    stream.writeBool(true);
     stream.writeVarInt(value.actions.length);
 
     // Iterate through the actions

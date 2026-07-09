@@ -42,85 +42,59 @@ class InventorySource extends DataType {
   }
 
   public static read(stream: BinaryStream): InventorySource {
-    // Read the type of the inventory source
     const type = stream.readVarInt();
 
-    // Initialize the containerId and bitFlags variables
     let containerId: ContainerId | null = null;
     let bitFlags: number | null = null;
-    // Switch the type of the inventory source
-    switch (type) {
-      // If the type is 0 (ContainerInventory) then read the containerId
-      case InventorySourceType.ContainerInventory: {
-        containerId = stream.readVarInt();
-        break;
-      }
 
-      // If the type is 2 (GlobalInteraction) then read the bitFlags
-      case InventorySourceType.WorldInteraction: {
-        bitFlags = stream.readVarInt();
-        break;
-      }
-
-      case InventorySourceType.CreativeInventory: {
-        break;
-      }
-
-      //If the type has not been implemented yet, throw an error
-      default: {
-        throw new Error(
-          `Unknown/not implemented inventory source type: ${type}`
-        );
-      }
+    if (!stream.readBool()) {
+      throw new Error("Inventory source container presence marker missing.");
     }
 
-    // Return the new InventorySource instance
+    if (stream.readBool()) {
+      containerId = stream.readInt8();
+    }
+
+    if (!stream.readBool()) {
+      throw new Error("Inventory source flags presence marker missing.");
+    }
+
+    if (stream.readBool()) {
+      bitFlags = stream.readVarInt();
+    }
+
     return new InventorySource(type, containerId, bitFlags);
   }
 
   public static write(stream: BinaryStream, value: InventorySource): void {
-    // Write the type of the inventory source
     stream.writeVarInt(value.type);
 
-    // Switch the type of the inventory source
-    switch (value.type) {
-      // If the type is 0 (ContainerInventory) then write the containerId
-      case InventorySourceType.ContainerInventory: {
-        // Check if the containerId is null
-        if (value.containerId === null) {
-          throw new Error(
-            "ContainerInventory type must have a containerId value"
-          );
-        }
+    stream.writeBool(true);
 
-        // Write the containerId value
-        stream.writeVarInt(value.containerId);
-        break;
+    const hasContainerId =
+      value.type === InventorySourceType.ContainerInventory ||
+      value.type === InventorySourceType.NonImplementedFeatureTODO;
+    stream.writeBool(hasContainerId);
+
+    if (hasContainerId) {
+      if (value.containerId === null) {
+        throw new Error("Inventory source must have a containerId value");
       }
 
-      // If the type is 2 (GlobalInteraction) then write the bitFlags
-      case InventorySourceType.WorldInteraction: {
-        // Check if the bitFlags is null
-        if (value.bitFlags === null) {
-          throw new Error("WorldInteraction type must have a bitFlags value");
-        }
+      stream.writeInt8(value.containerId);
+    }
 
-        // Write the bitFlags value
-        stream.writeVarInt(value.bitFlags);
-        break;
+    stream.writeBool(true);
+
+    const hasBitFlags = value.type === InventorySourceType.WorldInteraction;
+    stream.writeBool(hasBitFlags);
+
+    if (hasBitFlags) {
+      if (value.bitFlags === null) {
+        throw new Error("WorldInteraction type must have a bitFlags value");
       }
 
-      // If the type is 3 (CreativeInventory) then return
-      case InventorySourceType.CreativeInventory: {
-        break;
-      }
-
-      //If the type has not been implemented yet, throw an error
-      default: {
-        throw new Error(
-          `Unknown/not implemented inventory source type: ${value.type}`
-        );
-      }
+      stream.writeVarInt(value.bitFlags);
     }
   }
 }

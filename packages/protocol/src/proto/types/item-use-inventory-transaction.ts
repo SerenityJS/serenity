@@ -1,6 +1,6 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
-import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
+import { NetworkItemStackDescriptorCereal } from "./network-item-stack-descriptor-cereal";
 import { Vector3f } from "./vector3f";
 import { BlockPosition } from "./block-position";
 
@@ -43,7 +43,7 @@ class ItemUseInventoryTransaction extends DataType {
   /**
    * The item of the item use inventory transaction.
    */
-  public readonly item: NetworkItemStackDescriptor;
+  public readonly item: NetworkItemStackDescriptorCereal;
 
   /**
    * The from position of the item use inventory transaction.
@@ -91,7 +91,7 @@ class ItemUseInventoryTransaction extends DataType {
     blockPosition: BlockPosition,
     face: BlockFace,
     slot: number,
-    item: NetworkItemStackDescriptor,
+    item: NetworkItemStackDescriptorCereal,
     fromPosition: Vector3f,
     clickPosition: Vector3f,
     networkBlockId: number,
@@ -117,19 +117,19 @@ class ItemUseInventoryTransaction extends DataType {
     const type = stream.readVarInt() as ItemUseInventoryTransactionType;
 
     // Read the trigger type of the item use inventory transaction
-    const triggerType = stream.readVarInt() as TriggerType;
+    const triggerType = stream.readUint8() as TriggerType;
 
     // Read the block position of the item use inventory transaction
     const blockPosition = BlockPosition.read(stream);
 
     // Read the face of the item use inventory transaction
-    const face = stream.readZigZag();
+    const face = stream.readUint8();
 
     // Read the slot of the item use inventory transaction
     const slot = stream.readZigZag();
 
     // Read the item of the item use inventory transaction
-    const item = NetworkItemStackDescriptor.read(stream);
+    const item = NetworkItemStackDescriptorCereal.read(stream);
 
     // Read the from position of the item use inventory transaction
     const fromPosition = Vector3f.read(stream);
@@ -138,10 +138,10 @@ class ItemUseInventoryTransaction extends DataType {
     const clickPosition = Vector3f.read(stream);
 
     // Read the network block id of the item use inventory transaction
-    const networkBlockId = stream.readZigZag();
+    const networkBlockId = stream.readVarInt();
 
     // Read the client prediction of the item use inventory transaction
-    const clientPrediction = stream.readVarInt() as PredictedResult;
+    const clientPrediction = stream.readUint8() as PredictedResult;
 
     // Read the client cooldown state of the item use inventory transaction
     const clientCooldownState = stream.readUint8();
@@ -170,19 +170,19 @@ class ItemUseInventoryTransaction extends DataType {
     stream.writeVarInt(value.type);
 
     // Write the trigger type of the item use inventory transaction
-    stream.writeVarInt(value.triggerType);
+    stream.writeUint8(value.triggerType);
 
     // Write the block position of the item use inventory transaction
     BlockPosition.write(stream, value.blockPosition);
 
     // Write the face of the item use inventory transaction
-    stream.writeZigZag(value.face);
+    stream.writeUint8(value.face);
 
     // Write the slot of the item use inventory transaction
     stream.writeZigZag(value.slot);
 
     // Write the item of the item use inventory transaction
-    NetworkItemStackDescriptor.write(stream, value.item);
+    NetworkItemStackDescriptorCereal.write(stream, value.item);
 
     // Write the from position of the item use inventory transaction
     Vector3f.write(stream, value.fromPosition);
@@ -191,10 +191,10 @@ class ItemUseInventoryTransaction extends DataType {
     Vector3f.write(stream, value.clickPosition);
 
     // Write the network block id of the item use inventory transaction
-    stream.writeZigZag(value.networkBlockId);
+    stream.writeVarInt(value.networkBlockId);
 
     // Write whether the item use inventory transaction was successful
-    stream.writeVarInt(value.clientPrediction);
+    stream.writeUint8(value.clientPrediction);
 
     // Write the client cooldown state of the item use inventory transaction
     stream.writeUint8(value.clientCooldownState);

@@ -79,12 +79,6 @@ class LegacyTransaction extends DataType {
     // Write the request id.
     stream.writeZigZag(value.request);
 
-    // If the request id is 0, then no actions are present.
-    if (value.request === 0) {
-      // Return.
-      return;
-    }
-
     // Check if the actions are present.
     if (!value.actions) {
       // Write false to the stream.

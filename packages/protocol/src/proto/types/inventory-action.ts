@@ -1,7 +1,7 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { InventorySource } from "./inventory-source";
-import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
+import { NetworkItemStackDescriptorCereal } from "./network-item-stack-descriptor-cereal";
 
 /**
  * Represents an inventory action with in a inventory transaction.
@@ -20,12 +20,12 @@ class InventoryAction extends DataType {
   /**
    * The old item of the inventory action.
    */
-  public readonly oldItem: NetworkItemStackDescriptor;
+  public readonly oldItem: NetworkItemStackDescriptorCereal;
 
   /**
    * The new item of the inventory action.
    */
-  public readonly newItem: NetworkItemStackDescriptor;
+  public readonly newItem: NetworkItemStackDescriptorCereal;
 
   /**
    * Creates a new instance of InventoryAction.
@@ -38,8 +38,8 @@ class InventoryAction extends DataType {
   public constructor(
     source: InventorySource,
     slot: number,
-    oldItem: NetworkItemStackDescriptor,
-    newItem: NetworkItemStackDescriptor
+    oldItem: NetworkItemStackDescriptorCereal,
+    newItem: NetworkItemStackDescriptorCereal
   ) {
     super();
     this.source = source;
@@ -56,8 +56,8 @@ class InventoryAction extends DataType {
     const slot = stream.readVarInt();
 
     // Read the old & new item of the inventory action
-    const oldItem = NetworkItemStackDescriptor.read(stream);
-    const newItem = NetworkItemStackDescriptor.read(stream);
+    const oldItem = NetworkItemStackDescriptorCereal.read(stream);
+    const newItem = NetworkItemStackDescriptorCereal.read(stream);
 
     // Return the new instance of InventoryAction
     return new InventoryAction(source, slot, oldItem, newItem);
@@ -71,8 +71,8 @@ class InventoryAction extends DataType {
     stream.writeVarInt(value.slot);
 
     // Write the old & new item of the inventory action
-    NetworkItemStackDescriptor.write(stream, value.oldItem);
-    NetworkItemStackDescriptor.write(stream, value.newItem);
+    NetworkItemStackDescriptorCereal.write(stream, value.oldItem);
+    NetworkItemStackDescriptorCereal.write(stream, value.newItem);
   }
 }
 

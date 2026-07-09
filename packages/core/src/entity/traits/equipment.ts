@@ -231,11 +231,13 @@ class EntityEquipmentTrait extends EntityTrait {
     // Create a new MobArmorEquipmentPacket, and assign the equipment properties
     const packet = new MobArmorEquipmentPacket();
     packet.runtimeId = this.entity.runtimeId;
-    packet.helmet = ItemStack.toNetworkStack(head ?? ItemStack.empty());
-    packet.chestplate = ItemStack.toNetworkStack(chest ?? ItemStack.empty());
-    packet.leggings = ItemStack.toNetworkStack(legs ?? ItemStack.empty());
-    packet.boots = ItemStack.toNetworkStack(feet ?? ItemStack.empty());
-    packet.body = ItemStack.toNetworkStack(offhand ?? ItemStack.empty());
+    packet.helmet = ItemStack.toNetworkStackCereal(head ?? ItemStack.empty());
+    packet.chestplate = ItemStack.toNetworkStackCereal(
+      chest ?? ItemStack.empty()
+    );
+    packet.leggings = ItemStack.toNetworkStackCereal(legs ?? ItemStack.empty());
+    packet.boots = ItemStack.toNetworkStackCereal(feet ?? ItemStack.empty());
+    packet.body = ItemStack.toNetworkStackCereal(offhand ?? ItemStack.empty());
 
     // Broadcast the packet to the dimension of the entity
     this.entity.dimension.broadcast(packet);
