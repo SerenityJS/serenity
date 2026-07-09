@@ -60,8 +60,20 @@ class InventoryTransaction extends DataType {
   }
 
   public static read(stream: BinaryStream): InventoryTransaction {
+    // if (!stream.readBool()) {
+    //   throw new Error(
+    //     "optional bool for transactionType should always be true, but was false"
+    //   );
+    // }
+
     // Read the type of the inventory transaction
     const type = stream.readVarInt() as ComplexInventoryTransaction;
+
+    // if (!stream.readBool()) {
+    //   throw new Error(
+    //     "optional bool for data should always be true, but was false"
+    //   );
+    // }
 
     // Read the amount of actions
     const amount = stream.readVarInt();

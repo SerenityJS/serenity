@@ -209,6 +209,8 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.experimentalGameplayOverride = false;
         packet.chatRestrictionLevel = 0;
         packet.disablePlayerInteractions = false;
+        packet.serverEditorConnectionPolicy = 0;
+        packet.allowAnonymousBlockDropsInEditorWorld = false;
         packet.levelIdentfier = "SerenityJS";
         packet.levelName = player.world.identifier;
         packet.premiumWorldTemplateId = player.world.identifier;
@@ -232,6 +234,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.clientSideGeneration = false;
         packet.blockNetworkIdsAreHashes = true;
         packet.serverControlledSounds = true;
+        packet.isChatLogging = false;
         packet.containsServerJoinInfo = {
           gatheringJoinInfo: null,
           presenceInfo: null,

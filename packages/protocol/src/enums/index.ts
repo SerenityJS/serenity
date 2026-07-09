@@ -16,6 +16,7 @@ export * from "./block-event-type";
 export * from "./block-face";
 export * from "./book-edit-action";
 export * from "./boss-event-color";
+export * from "./boss-event-overlay";
 export * from "./boss-event-update-type";
 export * from "./camera-audio-listeners";
 export * from "./client-input-locks-flag";

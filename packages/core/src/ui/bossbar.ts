@@ -1,8 +1,6 @@
 import {
-  BossEventAdd,
   BossEventColor,
   BossEventPacket,
-  BossEventUpdate,
   BossEventUpdateType
 } from "@serenityjs/protocol";
 
@@ -64,8 +62,13 @@ class Bossbar {
 
     // Assign the packet properties.
     packet.targetUniqueId = this.boss.uniqueId;
+    packet.playerUniqueId = player.uniqueId;
     packet.type = BossEventUpdateType.Add;
-    packet.add = new BossEventAdd(this.title, this.percent, 0, this.color, 0);
+    packet.title = this.title;
+    packet.filteredTitle = this.title;
+    packet.percent = this.percent;
+    packet.color = this.color;
+    packet.overlay = 0; // TODO: Add support for overlays
 
     // Send the packet to the player.
     player.send(packet);
@@ -86,15 +89,24 @@ class Bossbar {
     // Assign the packet properties.
     packet.targetUniqueId = this.boss.uniqueId;
     packet.type = BossEventUpdateType.Remove;
+    packet.title = this.title;
+    packet.filteredTitle = this.title;
+    packet.percent = this.percent;
+    packet.color = this.color;
+    packet.overlay = 0; // TODO: Add support for overlays
 
     // If a player is provided, send the packet to the player.
     // If a player is not provided, send the packet to all occupants.
     if (player) {
+      packet.playerUniqueId = player.uniqueId;
+
       player.send(packet);
       this.occupants.delete(player);
     } else {
       // Loop through all occupants and send the packet to each one.
       for (const occupant of this.occupants) {
+        packet.playerUniqueId = occupant.uniqueId;
+
         occupant.send(packet);
         this.occupants.delete(occupant);
       }
@@ -111,10 +123,17 @@ class Bossbar {
     // Assign the packet properties.
     packet.targetUniqueId = this.boss.uniqueId;
     packet.type = BossEventUpdateType.UpdateName;
-    packet.update = new BossEventUpdate(null, null, title);
+    packet.title = title;
+    packet.filteredTitle = title;
+    packet.percent = this.percent;
+    packet.color = this.color;
+    packet.overlay = 0; // TODO: Add support for overlays
 
     // Send the packet to all occupants.
     for (const occupant of this.occupants) {
+      // Set the player unique id for the packet.
+      packet.playerUniqueId = occupant.uniqueId;
+
       occupant.send(packet);
     }
 
@@ -132,10 +151,17 @@ class Bossbar {
     // Assign the packet properties.
     packet.targetUniqueId = this.boss.uniqueId;
     packet.type = BossEventUpdateType.UpdatePercent;
-    packet.update = new BossEventUpdate(null, percent);
+    packet.title = this.title;
+    packet.filteredTitle = this.title;
+    packet.percent = percent;
+    packet.color = this.color;
+    packet.overlay = 0; // TODO: Add support for overlays
 
     // Send the packet to all occupants.
     for (const occupant of this.occupants) {
+      // Set the player unique id for the packet.
+      packet.playerUniqueId = occupant.uniqueId;
+
       occupant.send(packet);
     }
 
@@ -153,10 +179,17 @@ class Bossbar {
     // Assign the packet properties.
     packet.targetUniqueId = this.boss.uniqueId;
     packet.type = BossEventUpdateType.UpdateStyle;
-    packet.update = new BossEventUpdate(null, null, null, 0, color, 0);
+    packet.title = this.title;
+    packet.filteredTitle = this.title;
+    packet.percent = this.percent;
+    packet.color = color;
+    packet.overlay = 0; // TODO: Add support for overlays
 
     // Send the packet to all occupants.
     for (const occupant of this.occupants) {
+      // Set the player unique id for the packet.
+      packet.playerUniqueId = occupant.uniqueId;
+
       occupant.send(packet);
     }
 

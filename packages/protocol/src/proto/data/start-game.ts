@@ -98,6 +98,8 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public experimentalGameplayOverride!: boolean;
   @Serialize(Uint8) public chatRestrictionLevel!: number;
   @Serialize(Bool) public disablePlayerInteractions!: boolean;
+  @Serialize(ZigZag) public serverEditorConnectionPolicy!: number;
+  @Serialize(Bool) public allowAnonymousBlockDropsInEditorWorld!: boolean;
   @Serialize(VarString) public levelIdentfier!: string;
   @Serialize(VarString) public levelName!: string;
   @Serialize(VarString) public premiumWorldTemplateId!: string;
@@ -123,6 +125,8 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public clientSideGeneration!: boolean;
   @Serialize(Bool) public blockNetworkIdsAreHashes!: boolean;
   @Serialize(Bool) public serverControlledSounds!: boolean;
+
+  @Serialize(Bool) public isChatLogging!: boolean;
 
   @Serialize(ServerJoinInfo, { optional: true })
   public containsServerJoinInfo!: ServerJoinInfo;
