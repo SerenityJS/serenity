@@ -237,6 +237,13 @@ class EntityItemStackTrait extends EntityTrait {
         // Check if the entity is the same as the item
         if (entity === this.entity) continue;
 
+        // A goofy pre filter that should be less expensive
+        const myX = this.entity.position.x >> 4;
+        const myZ = this.entity.position.z >> 4;
+        const ex = entity.position.x >> 4;
+        const ez = entity.position.z >> 4;
+        if (Math.abs(ex - myX) > 1 || Math.abs(ez - myZ) > 1) continue;
+
         // Continue if the item is being merged
         if (this.isMerging && this.mergingEntity?.isAlive) continue;
         // Check if the item is being merged and the entity is the last item
