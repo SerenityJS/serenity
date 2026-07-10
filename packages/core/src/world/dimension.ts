@@ -246,7 +246,13 @@ class Dimension {
    * @returns The dimension index.
    */
   public indexOf(): number {
-    return [...this.world.dimensions.values()].indexOf(this);
+    // Checks for an index without allocating a new array
+    let i = 0;
+    for (const dim of this.world.dimensions.values()) {
+      if (dim === this) return i;
+      i++;
+    }
+    return -1;
   }
 
   /**
@@ -254,7 +260,6 @@ class Dimension {
    * @param deltaTick The delta tick to tick the dimension with.
    */
   public onTick(deltaTick: number): void {
-    // Use the live player set — no allocation needed
     if (this.players.size === 0) return;
 
     // Get the current tick of the world
@@ -281,15 +286,10 @@ class Dimension {
     const simulationRange = this.simulationDistance << 4;
     const simulationRangeSquared = simulationRange * simulationRange;
 
-    // Build player positions in a single pass
-    const playerPositions: Array<IPosition> = [];
-    for (const player of this.players) playerPositions.push(player.position);
-
     // Iterate over all the entities in the dimension
     for (const entity of this.entities.values()) {
       const inSimulationRange = this.isWithinSimulationRange(
         entity.position,
-        playerPositions,
         simulationRangeSquared
       );
 
@@ -326,7 +326,6 @@ class Dimension {
     for (const [, block] of this.blocks) {
       const inSimulationRange = this.isWithinSimulationRange(
         block.position,
-        playerPositions,
         simulationRangeSquared
       );
 
@@ -542,7 +541,7 @@ class Dimension {
     if (positions && this.sendChunkDeltaUpdates(chunk, positions)) return;
 
     // Iterate over all the players in the dimension
-    for (const player of this.getPlayers()) {
+    for (const player of this.players) {
       // Get the player's chunk rendering trait
       const trait = player.getTrait(PlayerChunkRenderingTrait);
 
@@ -563,21 +562,14 @@ class Dimension {
    */
   private isWithinSimulationRange(
     position: IPosition,
-    playerPositions: Array<IPosition>,
     simulationRangeSquared: number
   ): boolean {
-    // Iterate over all the player positions in the dimension
-    for (const playerPosition of playerPositions) {
-      // Calculate the distance squared between the position and the player position
-      const dx = playerPosition.x - position.x;
-      const dy = playerPosition.y - position.y;
-      const dz = playerPosition.z - position.z;
-
-      // Check if the distance squared is less than or equal to the simulation range squared
+    for (const player of this.players) {
+      const dx = player.position.x - position.x;
+      const dy = player.position.y - position.y;
+      const dz = player.position.z - position.z;
       if (dx * dx + dy * dy + dz * dz <= simulationRangeSquared) return true;
     }
-
-    // Return false if the position is not within the simulation range of any player in the dimension
     return false;
   }
 
@@ -615,7 +607,7 @@ class Dimension {
     let watchers = 0;
 
     // Iterate over all the players in the dimension
-    for (const player of this.getPlayers()) {
+    for (const player of this.players) {
       // Check if the player has the chunk being updated
       const trait = player.getTrait(PlayerChunkRenderingTrait);
       if (!trait.chunks.has(chunk.hash)) continue;
@@ -1032,11 +1024,9 @@ class Dimension {
    * @returns An array of entities.
    */
   public getEntities(options?: EntityQueryOptions): Array<Entity> {
-    // Prepare an array to hold the entities
     const entities: Array<Entity> = [];
 
-    // Get the position, max distance, and min distance from the options
-    const position = options?.position ?? new Vector3f(0, 0, 0);
+    const position = options?.position ?? null;
     const maxDistance = options?.maxDistance ?? 0;
     const minDistance = options?.minDistance ?? 0;
     const maxCount = options?.count ?? Infinity;
@@ -1054,11 +1044,11 @@ class Dimension {
       if (maxCount <= entities.length) break;
 
       //Check if the entity is within the maximum distance
-      if (maxDistance > 0 && entity.position.distance(position) > maxDistance)
+      if (maxDistance > 0 && position && entity.position.distance(position) > maxDistance)
         continue;
 
       // Check if the entity is within the minimum distance
-      if (minDistance > 0 && entity.position.distance(position) < minDistance)
+      if (minDistance > 0 && position && entity.position.distance(position) < minDistance)
         continue;
 
       // Check if the entity is in the specified chunk
@@ -1076,9 +1066,9 @@ class Dimension {
 
       // Check if the entity is at the specific position if specified
       const hasPosition = options?.position !== undefined;
-      if (hasPosition && !maxDistance && !minDistance) {
+      if (hasPosition && position && !maxDistance && !minDistance) {
         const a = entity.position.floor();
-        const b = position?.floor();
+        const b = position.floor();
 
         if (a.x !== b.x || a.y !== b.y || a.z !== b.z) continue;
       }
