@@ -283,7 +283,7 @@ class Dimension {
     const playerPositions = players.map((player) => player.position);
 
     // Iterate over all the entities in the dimension
-    for (const entity of this.getEntities()) {
+    for (const entity of this.entities.values()) {
       const inSimulationRange = this.isWithinSimulationRange(
         entity.position,
         playerPositions,

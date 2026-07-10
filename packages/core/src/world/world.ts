@@ -352,13 +352,11 @@ class World extends Emitter<WorldEventSignals> {
     // Prepare an array of entities
     const entities: Array<Entity> = [];
 
-    // Iterate over each dimension
+    // Iterate over each dimension and push directly from the map values
     for (const dimension of this.dimensions.values()) {
-      // Get the entities in the dimension
-      const dimensionEntities = dimension.getEntities();
-
-      // Add the entities to the array
-      entities.push(...dimensionEntities);
+      for (const entity of dimension.entities.values()) {
+        entities.push(entity);
+      }
     }
 
     // Return the entities

@@ -83,9 +83,7 @@ class PhysicsFeature extends DimensionFeature {
    * Iterates every entity in the dimension and applies physics where relevant.
    */
   public onTick(): void {
-    const entities = this.dimension.getEntities();
-
-    for (const entity of entities) {
+    for (const entity of this.dimension.entities.values()) {
       this.tickEntity(entity);
     }
   }

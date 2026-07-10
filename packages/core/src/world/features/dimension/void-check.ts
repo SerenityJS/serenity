@@ -9,9 +9,7 @@ class VoidCheck extends DimensionFeature {
   public static readonly identifier = "void_check";
 
   public onTick({ currentTick }: FeatureOnTickDetails): void {
-    const entities = this.dimension.getEntities();
-
-    for (const entity of entities) {
+    for (const entity of this.dimension.entities.values()) {
       // Check if the entity is below y = -70
       if (entity.position.y < -70) {
         // If the entity is a player and it's been 20 ticks (1 second), apply void damage
