@@ -948,6 +948,9 @@ class Entity {
     // Add the entity to the dimension
     this.dimension.entities.set(this.uniqueId, this);
 
+    // If the entity is a player, add it to the dimension's player set
+    if (this.isPlayer()) this.dimension.players.add(this as unknown as Player);
+
     // Ensure the chunk storage reflects the current persistence mode.
     this.storage.syncStoredChunk();
 
@@ -1025,6 +1028,9 @@ class Entity {
 
     // Remove the entity from the dimension
     this.dimension.entities.delete(this.uniqueId);
+
+    // If the entity is a player, remove it from the dimension's player set
+    if (this.isPlayer()) this.dimension.players.delete(this as unknown as Player);
 
     // Remove persisted storage unless the entity is being unloaded and should stay in provider storage.
     if (!(options.unloadingChunk && this.canBeSavedtoStorage)) {

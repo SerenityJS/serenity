@@ -132,6 +132,11 @@ class Dimension {
   public readonly entities = new Map<bigint, Entity>();
 
   /**
+   * The players currently in the dimension.
+   */
+  public readonly players = new Set<Player>();
+
+  /**
    * The blocks in the dimension that contain data.
    */
   public readonly blocks = new Map<bigint, Block>();
@@ -249,11 +254,8 @@ class Dimension {
    * @param deltaTick The delta tick to tick the dimension with.
    */
   public onTick(deltaTick: number): void {
-    // Get all the players in the dimension
-    const players = this.getPlayers();
-
-    // Check if there are no players in the dimension
-    if (players.length === 0) return;
+    // Use the live player set — no allocation needed
+    if (this.players.size === 0) return;
 
     // Get the current tick of the world
     const currentTick = this.world.currentTick;
@@ -279,8 +281,9 @@ class Dimension {
     const simulationRange = this.simulationDistance << 4;
     const simulationRangeSquared = simulationRange * simulationRange;
 
-    // Get all the player positions in the dimension.
-    const playerPositions = players.map((player) => player.position);
+    // Build player positions in a single pass
+    const playerPositions: Array<IPosition> = [];
+    for (const player of this.players) playerPositions.push(player.position);
 
     // Iterate over all the entities in the dimension
     for (const entity of this.entities.values()) {
@@ -957,23 +960,22 @@ class Dimension {
    * @returns An array of players.
    */
   public getPlayers(options?: EntityQueryOptions): Array<Player> {
+    if (!options) return [...this.players];
+
     // Prepare an array to hold the players
     const players: Array<Player> = [];
 
     // Get the position, max distance, and min distance from the options
-    const position = options?.position ?? { x: 0, y: 0, z: 0 };
-    const maxDistance = options?.maxDistance ?? 0;
-    const minDistance = options?.minDistance ?? 0;
-    const maxCount = options?.count ?? Infinity;
-    const chunk = options?.chunk ?? null;
+    const position = options.position ?? { x: 0, y: 0, z: 0 };
+    const maxDistance = options.maxDistance ?? 0;
+    const minDistance = options.minDistance ?? 0;
+    const maxCount = options.count ?? Infinity;
+    const chunk = options.chunk ?? null;
 
     // Filter the players based on the options
-    for (const [, player] of this.serenity.players) {
+    for (const player of this.players) {
       // Check if the count is reached
       if (maxCount <= players.length) break;
-
-      // Check if the player dimension is the same as this dimension
-      if (player.dimension !== this) continue;
 
       // Check if the player is within the maximum distance
       if (maxDistance > 0 && player.position.distance(position) > maxDistance)
@@ -1434,8 +1436,7 @@ class Dimension {
    * @param packets The packets to broadcast.
    */
   public broadcast(...packets: Array<DataPacket>): void {
-    // Iterate over all the entities in the dimension
-    for (const player of this.getPlayers()) player.send(...packets); // Send the packet to the player
+    for (const player of this.players) player.send(...packets);
   }
 
   /**
@@ -1444,8 +1445,7 @@ class Dimension {
    * @param packets The packets to broadcast.
    */
   public broadcastImmediate(...packets: Array<DataPacket>): void {
-    // Iterate over all the entities in the dimension
-    for (const player of this.getPlayers()) player.sendImmediate(...packets); // Send the packet to the player
+    for (const player of this.players) player.sendImmediate(...packets);
   }
 
   /**
@@ -1457,9 +1457,8 @@ class Dimension {
     excludedPlayer: Player,
     ...packets: Array<DataPacket>
   ): void {
-    // Iterate over all the entities in the dimension
-    for (const player of this.getPlayers())
-      if (excludedPlayer !== player) player.send(...packets); // Send the packet to the player
+    for (const player of this.players)
+      if (excludedPlayer !== player) player.send(...packets);
   }
 
   /**
