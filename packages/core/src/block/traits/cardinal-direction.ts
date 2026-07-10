@@ -41,12 +41,12 @@ class BlockCardinalDirectionTrait extends BlockDirectionTrait {
     return CardinalDirection[direction as keyof typeof CardinalDirection];
   }
 
-  public setDirection(direction: CardinalDirection): void {
+  public setDirection(direction: CardinalDirection, broadcast = false): void {
     // Transform the cardinal direction to a string
     const value = CardinalDirection[direction].toLowerCase();
 
     // Set the direction of the block
-    this.block.setState(this.state as string, value);
+    this.block.setState(this.state as string, value, broadcast);
   }
 }
 

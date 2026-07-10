@@ -162,7 +162,7 @@ class BlockTorchDirectionTrait extends BlockTrait {
   }
 
   public setDirection(direction: TorchDirection): void {
-    this.block.setState(this.state as string, direction);
+    this.block.setState(this.state as string, direction, false);
   }
 }
 

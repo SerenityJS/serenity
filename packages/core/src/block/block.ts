@@ -266,23 +266,23 @@ class Block {
   public constructor(
     dimension: Dimension,
     position: BlockPosition,
-    storage?: BlockLevelStorage
+    storage?: BlockLevelStorage,
+    chunk?: Chunk
   ) {
     // Assign the properties to the block
     this.serenity = dimension.world.serenity;
     this.dimension = dimension;
     this.position = position;
-    this.chunk = this.dimension.getChunk(position.x >> 4, position.z >> 4);
+    this.chunk = chunk ?? this.dimension.getChunk(position.x >> 4, position.z >> 4);
 
-    if (storage) {
-      this.storage = storage;
-      this.chunk.setBlockStorage(position, storage, false);
-    }
+    if (storage) this.storage = storage;
+
+    const type = this.chunk.getPermutation(position).type;
 
     // Iterate over the traits of the block's storage and add them to the block
     for (const identifier of this.peekStorage()?.getTraits() ?? []) {
       // Break if the block is air
-      if (this.type.air) {
+      if (type.air) {
         // Log the skipping of the trait
         this.world.logger.debug(
           `Skipping BlockTrait for block §u${this.identifier}§r @ §7(§u${this.position.x}§7, §u${this.position.y}§7, §u${this.position.z}§7)§r, as the block is air.`
@@ -310,7 +310,7 @@ class Block {
       }
 
       // Add the trait to the block.
-      const trait = this.addTrait(traitType);
+      const trait = this.addTrait(traitType, undefined, false);
 
       // Log the loading of the trait.
       this.world.logger.debug(
@@ -319,7 +319,7 @@ class Block {
     }
 
     // Add the traits of the block type to the block
-    for (const [, trait] of this.type.traits) this.addTrait(trait);
+    for (const [, trait] of type.traits) this.addTrait(trait, undefined, false);
   }
 
   /**
@@ -391,7 +391,7 @@ class Block {
    * @param key The key of the state to set.
    * @param value The value of the state to set.
    */
-  public setState<T>(key: string, value: T): void {
+  public setState<T>(key: string, value: T, broadcast = true): void {
     // Get the current state of the block
     const current = this.permutation.state;
 
@@ -402,7 +402,7 @@ class Block {
     const permutation = this.type.getPermutation(state);
 
     // Set the permutation of the block
-    this.setPermutation(permutation);
+    this.setPermutation(permutation, undefined, broadcast);
   }
 
   /**
@@ -420,7 +420,8 @@ class Block {
    */
   public setPermutation(
     permutation: BlockPermutation,
-    storage?: BlockLevelStorage
+    storage?: BlockLevelStorage,
+    broadcast = true
   ): void {
     const current = this.permutation;
 
@@ -439,7 +440,8 @@ class Block {
       this.position,
       permutation,
       UpdateBlockLayerType.Normal,
-      storage // Will set the storage in the chunk
+      storage, // Will set the storage in the chunk
+      broadcast
     );
 
     // Check if a level storage is provided.
@@ -464,7 +466,7 @@ class Block {
         }
 
         // Add the trait to the block.
-        const trait = this.addTrait(traitType);
+        const trait = this.addTrait(traitType, undefined, false);
 
         // Log the loading of the trait.
         this.world.logger.debug(
@@ -477,7 +479,8 @@ class Block {
     if (permutation.nbt.size > 0) this.getStorage().push(...permutation.nbt.values());
 
     // Iterate over all the traits and apply them to the block
-    for (const [, trait] of permutation.type.traits) this.addTrait(trait);
+    for (const [, trait] of permutation.type.traits)
+      this.addTrait(trait, undefined, false);
 
     // Check if the block should be cached.
     const blockStorage = this.peekStorage();
@@ -614,11 +617,13 @@ class Block {
    * Adds a trait to the block.
    * @param trait The trait to add to the block.
    * @param options The additional options to pass to the trait.
+   * @param persist Whether the trait identifier should be stored.
    * @returns The trait instance that was added to the block.
    */
   public addTrait<T extends typeof BlockTrait>(
     trait: T,
-    options?: ConstructorParameters<T>[1]
+    options?: ConstructorParameters<T>[1],
+    persist = true
   ): InstanceType<T> {
     // Check if the trait already exists
     if (this.traits.has(trait.identifier))
@@ -654,7 +659,7 @@ class Block {
         : instance.identifier;
 
       // Add the trait to the block's storage
-      this.getStorage().addTrait(identifier);
+      if (persist) this.getStorage().addTrait(identifier);
 
       // Return the trait that was added
       return instance;

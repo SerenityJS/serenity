@@ -50,7 +50,7 @@ class BlockFacingDirection extends BlockDirectionTrait {
 
   public setDirection(direction: FacingDirection): void {
     // Set the direction of the block
-    this.block.setState(this.state as string, direction);
+    this.block.setState(this.state as string, direction, false);
   }
 }
 

@@ -60,12 +60,10 @@ class Container {
    * @param size The size of the container.
    */
   public constructor(type: ContainerType, size: number) {
-    // Assign the properties
-    this.type = type;
-    this.setSize(size);
+    if (size < 0) throw new Error("Container size cannot be negative.");
 
-    // Initialize the storage with null values
-    this.storage = Array.from({ length: size }, () => null);
+    this.type = type;
+    this.storage = Array<ItemStack | null>(size).fill(null);
   }
 
   /**

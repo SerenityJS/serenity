@@ -325,14 +325,17 @@ class InventoryTransactionHandler extends NetworkHandler {
               stack.nbt.get<CompoundTag>("Block")! // The block nbt data from the item stack
             );
 
-            // Set the permutation of the block with the storage
-            resultant.setPermutation(permutation, storage);
+            // Set the permutation of the block with the storage, suppressing the
+            // broadcast so trait mutations below can settle before we send one packet.
+            resultant.setPermutation(permutation, storage, false);
           } else {
-            // Set the permutation of the block
-            resultant.setPermutation(permutation);
+            // Set the permutation of the block, suppressing the broadcast.
+            resultant.setPermutation(permutation, undefined, false);
           }
 
-          // Call the block onPlace trait methods
+          // Call the block onPlace trait methods.
+          // These may call setState() which calls setPermutation(broadcast=false),
+          // so all state changes happen silently until we send the final packet below.
           for (const trait of resultant.getAllTraits()) {
             // Check if the start break was successful
             const success = trait.onPlace?.(options);
@@ -370,11 +373,18 @@ class InventoryTransactionHandler extends NetworkHandler {
             }
 
             // Decrement the stack if the player is in survival mode
-            // This is done AFTER th e onPlace check to avoid losing items on canceled placements
+            // This is done AFTER the onPlace check to avoid losing items on canceled placements
             if (player.getGamemode() === Gamemode.Survival)
               stack.decrementStack();
 
-            return resultant.dimension.broadcast(sound);
+            // Send the final settled permutation in a single UpdateBlockPacket.
+            const blockPacket = new UpdateBlockPacket();
+            blockPacket.networkBlockId = resultant.permutation.networkId;
+            blockPacket.position = resultant.position;
+            blockPacket.flags = UpdateBlockFlagsType.Network;
+            blockPacket.layer = UpdateBlockLayerType.Normal;
+            resultant.dimension.broadcast(blockPacket, sound);
+            return;
           }
         }
       }

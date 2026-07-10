@@ -24,7 +24,7 @@ class BlockWeirdoDirectionTrait extends BlockDirectionTrait {
 
   public setDirection(direction: CardinalDirection): void {
     // Set the direction of the block
-    this.block.setState(this.state as string, direction);
+    this.block.setState(this.state as string, direction, false);
   }
 }
 

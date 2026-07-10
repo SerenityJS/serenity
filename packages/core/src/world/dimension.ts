@@ -507,7 +507,7 @@ class Dimension {
       const position = storage.getPosition();
 
       // Create a new block instance using the block storage
-      const block = new Block(this, position, storage);
+      const block = new Block(this, position, storage, chunk);
 
       // Add the block to the block cache
       this.blocks.set(BlockPosition.hash(block.position), block);
@@ -802,19 +802,18 @@ class Dimension {
 
     // Return the block if it exists
     if (block) return block;
-    else {
-      const chunk = this.getChunk(blockPosition.x >> 4, blockPosition.z >> 4);
-      const storage = chunk.getBlockStorage(blockPosition) ?? undefined;
 
-      const block = new Block(this, blockPosition, storage);
+    const chunk = this.getChunk(blockPosition.x >> 4, blockPosition.z >> 4);
+    const storage = chunk.getBlockStorage(blockPosition, hash) ?? undefined;
+    const created = new Block(this, blockPosition, storage, chunk);
+    const traits = created.getAllTraits();
 
-      // If the block has dynamic properties or traits, we will cache the block
-      if ((storage?.size ?? 0) > 0 || block.getAllTraits().length > 0)
-        this.blocks.set(hash, block);
+    // If the block has dynamic properties or traits, we will cache the block
+    if ((storage?.size ?? 0) > 0 || traits.length > 0)
+      this.blocks.set(hash, created);
 
-      // Return the block
-      return block;
-    }
+    // Return the block
+    return created;
   }
 
   /**
@@ -861,12 +860,15 @@ class Dimension {
    * @param position The position of the block.
    * @param permutation  The permutation to set.
    * @param layer The layer to set the permutation on.
+   * @param storage The block level storage to set.
+   * @param broadcast Whether to broadcast the change to clients. Defaults to true.
    */
   public setPermutation(
     position: IPosition,
     permutation: BlockPermutation,
     layer = UpdateBlockLayerType.Normal,
-    storage?: BlockLevelStorage
+    storage?: BlockLevelStorage,
+    broadcast = true
   ): void {
     // Convert the position to a block position
     const blockPosition = BlockPosition.from(position);
@@ -878,29 +880,21 @@ class Dimension {
     // Get the current permutation of the block
     const current = chunk.getPermutation(blockPosition, layer);
 
-    // Create a new UpdateBlockPacket to broadcast the change.
-    const packet = new UpdateBlockPacket();
+    // Create and emit the BlockPermutationUpdateSignal
+    const signal = new BlockPermutationUpdateSignal(this, blockPosition, permutation);
+    const emitted = signal.emit();
 
-    // Assign the block position and permutation to the packet.
-    packet.networkBlockId = permutation.networkId;
-    packet.position = blockPosition;
-    packet.flags = UpdateBlockFlagsType.Network;
-    packet.layer = layer;
-
-    // Create a new BlockPermutationUpdateSignal
-    const signal = new BlockPermutationUpdateSignal(
-      this,
-      blockPosition,
-      permutation
-    );
-
-    // Emit the signal and check if it is cancelled
-    if (!signal.emit()) {
-      // Assign the permutation to the block
-      packet.networkBlockId = current.networkId;
-
-      // Broadcast the packet to the dimension.
-      return this.broadcast(packet);
+    if (!emitted) {
+      if (broadcast) {
+        // Revert to the current permutation and broadcast to clients
+        const packet = new UpdateBlockPacket();
+        packet.networkBlockId = current.networkId;
+        packet.position = blockPosition;
+        packet.flags = UpdateBlockFlagsType.Network;
+        packet.layer = layer;
+        this.broadcast(packet);
+      }
+      return;
     }
 
     // Set the permutation of the block
@@ -908,21 +902,25 @@ class Dimension {
 
     // Check if the block type has changed
     if (permutation.type !== current.type) {
-      // Clear the chunk storage for the block position
       chunk.setBlockStorage(blockPosition, null);
     } else if (storage) {
-      // Set the block storage for the block position
       chunk.setBlockStorage(blockPosition, storage);
     }
 
     // Check if the block is now air
     if (permutation.type.air) {
-      // Remove the block from the block cache if it is air
       this.blocks.delete(BlockPosition.hash(blockPosition));
     }
 
-    // Broadcast the packet to the dimension.
-    this.broadcast(packet);
+    // Broadcast the final state to clients unless suppressed.
+    if (broadcast) {
+      const packet = new UpdateBlockPacket();
+      packet.networkBlockId = permutation.networkId;
+      packet.position = blockPosition;
+      packet.flags = UpdateBlockFlagsType.Network;
+      packet.layer = layer;
+      this.broadcast(packet);
+    }
   }
 
   /**
@@ -1044,8 +1042,8 @@ class Dimension {
 
     const filteredEntities = options?.filterEntityId
       ? this.entities
-          .values()
-          .filter((entity) => entity.identifier === options?.filterEntityId)
+        .values()
+        .filter((entity) => entity.identifier === options?.filterEntityId)
       : this.entities.values();
 
     // Filter the entities based on the options

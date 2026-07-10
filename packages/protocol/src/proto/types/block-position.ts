@@ -277,21 +277,11 @@ class BlockPosition extends DataType implements IPosition {
    * @returns The hash of the block position.
    */
   public static hash(position: BlockPosition): bigint {
-    // Create a new binary stream.
-    const stream = new BinaryStream();
+    const x = BigInt(position.x) & 0x3ffffffn;
+    const y = BigInt(position.y) & 0xfffn;
+    const z = BigInt(position.z) & 0x3ffffffn;
 
-    // Write the block position to the stream.
-    this.write(stream, position);
-
-    // Calculate the hash of the stream.
-    // Iterate over the buffer and shift the hash left by 8 bits and add the byte.
-    let hash = 0n;
-    for (const byte of stream.getBuffer()) {
-      hash = (hash << 8n) | BigInt(byte);
-    }
-
-    // Return the hash.
-    return hash;
+    return (x << 38n) | (z << 12n) | y;
   }
 
   /**
@@ -300,21 +290,15 @@ class BlockPosition extends DataType implements IPosition {
    * @returns The block position.
    */
   public static unhash(hash: bigint): BlockPosition {
-    // Prepare an array to store the bytes.
-    const bytes = [];
-    while (hash > 0) {
-      bytes.push(Number(hash & 0xffn)); // Get last 8 bits
-      hash >>= 8n; // Shift right by 8 bits
-    }
+    let x = Number(hash >> 38n);
+    let y = Number(hash & 0xfffn);
+    let z = Number((hash >> 12n) & 0x3ffffffn);
 
-    // Create a new buffer from the bytes.
-    const buffer = Buffer.from(bytes.reverse());
+    if (x >= 0x2000000) x -= 0x4000000;
+    if (y >= 0x800) y -= 0x1000;
+    if (z >= 0x2000000) z -= 0x4000000;
 
-    // Create a new binary stream.
-    const stream = new BinaryStream(buffer);
-
-    // Read the block position from the stream.
-    return this.read(stream);
+    return new this(x, y, z);
   }
 }
 

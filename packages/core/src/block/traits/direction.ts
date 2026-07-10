@@ -52,10 +52,12 @@ class BlockDirectionTrait extends BlockTrait {
   /**
    * Sets the direction of the block.
    * @param direction The direction to set.
+   * @param broadcast Whether to broadcast the change. 
+   * Defaults to false since cause its sent in on place
    */
-  public setDirection(direction: number): void {
+  public setDirection(direction: number, broadcast = false): void {
     // Set the direction of the block
-    this.block.setState(this.state as string, direction);
+    this.block.setState(this.state as string, direction, broadcast);
   }
 }
 
