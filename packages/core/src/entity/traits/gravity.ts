@@ -31,6 +31,11 @@ class EntityGravityTrait extends EntityTrait {
    */
   public fallingTicks = 0;
 
+  // Caches last checks, to avoid scanning for blocks when not needed
+  private _cachedGroundBlockY = 0;
+  private _lastGroundCheckX = NaN;
+  private _lastGroundCheckZ = NaN;
+
   public onAdd(): void {
     // Check if the entity has a metadata flag value for gravity
     if (!this.entity.flags.getActorFlag(ActorFlag.HasGravity)) {
@@ -67,17 +72,24 @@ class EntityGravityTrait extends EntityTrait {
       this.entity.isFalling = false;
     }
 
-    // Get the topmost block at the entity's position
-    const block = this.dimension.getTopmostBlock(position.floor());
+    // only changes when horizontal position changes.
+    if (position.x !== this._lastGroundCheckX || position.z !== this._lastGroundCheckZ) {
+      this._cachedGroundBlockY = this.dimension.getTopmostBlock(position).position.y;
+      this._lastGroundCheckX = position.x;
+      this._lastGroundCheckZ = position.z;
+    }
 
     // Calculate the entity's offset from the block
     const entityOffset = position.y - this.entity.getCollisionHeight() / 2;
     // Calculate the distance the entity is from the block
-    const distance = Math.round(entityOffset - block.position.y);
+    const distance = Math.round(entityOffset - this._cachedGroundBlockY);
 
     // Check if the distance is 0
     // This means the entity is on the block
     if (distance === 0 && this.fallingDistance > 0) {
+      // Fetch the block only when needed for the fall event
+      const block = this.dimension.getTopmostBlock(position);
+
       // Trigger the entity onFallOnBlock trait event
       for (const trait of this.entity.traits.values()) {
         // Attempt to trigger the onFallOnBlock event
@@ -143,13 +155,8 @@ class EntityGravityTrait extends EntityTrait {
     if (fallDamage <= 0) return;
 
     // Check if the entity has a health trait
-    if (this.entity.hasTrait(EntityHealthTrait)) {
-      // Get the entity health trait
-      const health = this.entity.getTrait(EntityHealthTrait);
-
-      // Apply the fall damage to the entity
-      health.applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
-    }
+    const health = this.entity.getTrait(EntityHealthTrait);
+    if (health) health.applyDamage(fallDamage, undefined, ActorDamageCause.Fall);
   }
 
   public onDespawn(details: EntityDespawnOptions): void {
