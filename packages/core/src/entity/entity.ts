@@ -457,20 +457,10 @@ class Entity {
    * @param nametag The nametag to set the entity to.
    */
   public setNametag(nametag: string): void {
-    // Check if the entity has a nameable trait
-    if (!this.hasTrait(EntityNameableTrait)) {
-      // If the entity does not have a nameable trait, add the trait
-      const trait = this.addTrait(EntityNameableTrait);
-
-      // Set the nametag in the trait
-      trait.setNametag(nametag);
-    } else {
-      // If the entity has a nameable trait, get the trait
-      const trait = this.getTrait(EntityNameableTrait);
-
-      // Set the nametag in the trait
-      trait.setNametag(nametag);
-    }
+    // Get or create the trait
+    const trait = this.getTrait(EntityNameableTrait) ?? this.addTrait(EntityNameableTrait);
+    // Set the nametag
+    trait.setNametag(nametag);
   }
 
   /**
@@ -493,20 +483,10 @@ class Entity {
    * @param visible Whether the nametag should be always visible.
    */
   public setNametagAlwaysVisible(visible: boolean): void {
-    // Check if the entity has a nameable trait
-    if (!this.hasTrait(EntityNameableTrait)) {
-      // If the entity does not have a nameable trait, add the trait
-      const trait = this.addTrait(EntityNameableTrait);
-
-      // Set the nametag visibility in the trait
-      trait.setNametagAlwaysVisible(visible);
-    } else {
-      // If the entity has a nameable trait, get the trait
-      const trait = this.getTrait(EntityNameableTrait);
-
-      // Set the nametag visibility in the trait
-      trait.setNametagAlwaysVisible(visible);
-    }
+    // Get or create the trait
+    const trait = this.getTrait(EntityNameableTrait) ?? this.addTrait(EntityNameableTrait);
+    // Set the name tag always  visible flag
+    trait.setNametagAlwaysVisible(visible);
   }
 
   /**
@@ -895,10 +875,8 @@ class Entity {
    */
   public getHeldItem(): ItemStack | null {
     // Check if the entity has an inventory trait
-    if (!this.hasTrait(EntityInventoryTrait)) return null;
-
-    // Get the inventory trait
     const inventory = this.getTrait(EntityInventoryTrait);
+    if (!inventory) return null;
 
     // Return the held item
     return inventory.getHeldItem();
@@ -976,12 +954,12 @@ class Entity {
     }
 
     // Iterate over the players in the dimension
-    for (const [, entity] of this.dimension.entities) {
-      // Check if the entity is the same as this
-      if (entity === this || !entity.isPlayer()) continue; // Check if the entity is a player
+    for (const player of this.dimension.players) {
+      // Check if the player is the same as this entity
+      if (player === (this as unknown as Player)) continue;
 
       // Fetch the player entity rendering trait
-      const trait = entity.getTrait(PlayerEntityRenderingTrait);
+      const trait = player.getTrait(PlayerEntityRenderingTrait);
 
       // Check if the player has the trait
       if (trait) trait.addEntity(this); // Add the entity to the player
@@ -1056,12 +1034,9 @@ class Entity {
     }
 
     // Iterate over the players in the dimension
-    for (const [, entity] of this.dimension.entities) {
-      // Check if the entity is the the same as this
-      if (entity === this || !entity.isPlayer()) continue; // Check if the entity is a player
-
+    for (const player of this.dimension.players) {
       // Fetch the player entity rendering trait
-      const trait = entity.getTrait(PlayerEntityRenderingTrait);
+      const trait = player.getTrait(PlayerEntityRenderingTrait);
 
       // Check if the player has the trait
       if (trait) trait.removeEntity(this); // Remove the entity from the player
@@ -1384,15 +1359,7 @@ class Entity {
    * @returns The collision height of the entity.
    */
   public getCollisionHeight(): number {
-    // Check if the entity has a collision trait
-    if (!this.hasTrait(EntityCollisionTrait))
-      return EntityCollisionTrait.defaultHeight;
-
-    // Get the collision trait
-    const collision = this.getTrait(EntityCollisionTrait);
-
-    // Return the collision height
-    return collision.height;
+    return this.getTrait(EntityCollisionTrait)?.height ?? EntityCollisionTrait.defaultHeight;
   }
 
   /**
@@ -1401,12 +1368,7 @@ class Entity {
    * @param height The collision height to set.
    */
   public setCollisionHeight(height: number): void {
-    // Get the collision trait of the entity
-    const collision = this.hasTrait(EntityCollisionTrait)
-      ? this.getTrait(EntityCollisionTrait)
-      : this.addTrait(EntityCollisionTrait);
-
-    // Set the collision height
+    const collision = this.getTrait(EntityCollisionTrait) ?? this.addTrait(EntityCollisionTrait);
     collision.height = height;
   }
 
@@ -1416,15 +1378,7 @@ class Entity {
    * @returns The collision width of the entity.
    */
   public getCollisionWidth(): number {
-    // Check if the entity has a collision trait
-    if (!this.hasTrait(EntityCollisionTrait))
-      return EntityCollisionTrait.defaultWidth;
-
-    // Get the collision trait
-    const collision = this.getTrait(EntityCollisionTrait);
-
-    // Return the collision width
-    return collision.width;
+    return this.getTrait(EntityCollisionTrait)?.width ?? EntityCollisionTrait.defaultWidth;
   }
 
   /**
@@ -1433,12 +1387,7 @@ class Entity {
    * @param width The collision width to set.
    */
   public setCollisionWidth(width: number): void {
-    // Get the collision trait of the entity
-    const collision = this.hasTrait(EntityCollisionTrait)
-      ? this.getTrait(EntityCollisionTrait)
-      : this.addTrait(EntityCollisionTrait);
-
-    // Set the collision width
+    const collision = this.getTrait(EntityCollisionTrait) ?? this.addTrait(EntityCollisionTrait);
     collision.width = width;
   }
 
@@ -1457,15 +1406,7 @@ class Entity {
    * @returns The gravity force of the entity.
    */
   public getGravityForce(): number {
-    // Check if the entity has a gravity trait
-    if (!this.hasTrait(EntityGravityTrait))
-      return EntityGravityTrait.defaultForce;
-
-    // Get the gravity trait
-    const gravity = this.getTrait(EntityGravityTrait);
-
-    // Return the gravity force
-    return gravity.force;
+    return this.getTrait(EntityGravityTrait)?.force ?? EntityGravityTrait.defaultForce;
   }
 
   /**
@@ -1474,12 +1415,7 @@ class Entity {
    * @param force The gravity force to set.
    */
   public setGravityForce(force: number): void {
-    // Get the gravity trait of the entity
-    const gravity = this.hasTrait(EntityGravityTrait)
-      ? this.getTrait(EntityGravityTrait)
-      : this.addTrait(EntityGravityTrait);
-
-    // Set the gravity force
+    const gravity = this.getTrait(EntityGravityTrait) ?? this.addTrait(EntityGravityTrait);
     gravity.force = force;
   }
 
@@ -1488,12 +1424,8 @@ class Entity {
    * @returns The selected hotbar index of the entity.
    */
   public getSelectedSlot(): number {
-    // Check if the entity has an inventory trait
-    if (!this.hasTrait(EntityInventoryTrait))
-      throw new Error("The entity does not have an inventory trait.");
-
-    // Get the inventory trait
     const inventory = this.getTrait(EntityInventoryTrait);
+    if (!inventory) throw new Error("The entity does not have an inventory trait.");
 
     // Return the selected slot
     return inventory.selectedSlot;
@@ -1507,8 +1439,7 @@ class Entity {
    * @returns Whether or not the item was dropped.
    */
   public dropItem(slot: number, amount: number, container: Container): boolean {
-    // Check if the entity has an inventory trait
-    if (!this.hasTrait(EntityInventoryTrait)) return false;
+    if (!this.getTrait(EntityInventoryTrait)) return false;
 
     // Get the item from the slot
     let itemStack = container.getItem(slot);
