@@ -103,6 +103,7 @@ enum LevelSoundEvent {
   Record13 = "record.13",
   RecordCat = "record.cat",
   RecordBlocks = "record.blocks",
+  RecordBounce = "record.bounce",
   RecordChirp = "record.chirp",
   RecordFar = "record.far",
   RecordMall = "record.mall",
@@ -553,6 +554,12 @@ enum LevelSoundEvent {
   GoldenSpearUse = "item.golden_spear.use",
   DiamondSpearUse = "item.diamond_spear.use",
   NetheriteSpearUse = "item.netherite_spear.use",
+  BucketFillLandAnimal = "bucket.fill.land_animal",
+  BucketEmptyLandAnimal = "bucket.empty.land_animal",
+  GeyserEruptionStart = "block.potent_sulfur.geyser_eruption_start",
+  GeyserEruptionActive = "block.potent_sulfur.geyser_eruption_active",
+  GeyserContinuousEruptionStart = "block.potent_sulfur.geyser_continuous_eruption_start",
+  GeyserContinuousEruptionActive = "block.potent_sulfur.geyser_continuous_eruption_active"
 }
 
 export { LevelSoundEvent };
