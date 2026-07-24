@@ -103,6 +103,7 @@ export * from "./map-scale";
 export * from "./material-reducer-data-entry";
 export * from "./materials";
 export * from "./memory-category-counter";
+export * from "./missing-blob-data";
 export * from "./modal-form-canceled";
 export * from "./modal-form-data";
 export * from "./nbt-loop";

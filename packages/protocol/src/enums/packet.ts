@@ -116,6 +116,7 @@ enum Packet {
   ClientCacheStatus = 0x81, // 129
   OnScreenTextureAnimation = 0x82, // 130
   ClientCacheBlobStatus = 0x87, // 135
+  ClientCacheMissResponse = 0x88, // 136
   Emote = 0x8a, // 138
   CompletedUsingItem = 0x8e, // 142
   NetworkSettings = 0x8f, // 143
@@ -185,13 +186,13 @@ enum Packet {
   ServerboundDataStore = 0x1_4c, // 332
   ClientboundDataDrivenUIShowScreenPacket = 0x1_4d, // 333
   ClientboundDataDrivenUIClosePacket = 0x1_4e, // 334
-  VoxelShapesPacket = 337,
-  ClientBoundAttributeLayerSync = 345,
-  ServerStoreInfo = 346,
-  ServerPresenceInfo = 347,
-  ClientboundUpdateSoundData = 348,
-  SendPartyDestinationCookie = 349,
-  PartyDestinationCookieResponse = 350
+  VoxelShapesPacket = 0x1_51, // 337
+  ClientBoundAttributeLayerSync = 0x1_52, // 338
+  ServerStoreInfo = 0x1_5a, // 346
+  ServerPresenceInfo = 0x1_5b, // 347
+  ClientboundUpdateSoundData = 0x1_5c, // 348
+  SendPartyDestinationCookie = 0x1_5d, // 349,
+  PartyDestinationCookieResponse = 0x1_5e // 350
 }
 
 export { Packet };

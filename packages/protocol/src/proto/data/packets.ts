@@ -31,6 +31,7 @@ import { ClientBoundAttributeLayerSyncPacket } from "./client-bound-attribute-la
 import { ClientBoundMapItemDataPacket } from "./client-bound-map-item-data";
 import { ClientCacheBlobStatusPacket } from "./client-cache-blob-status";
 import { ClientCacheStatusPacket } from "./client-cache-status";
+import { ClientCacheMissResponsePacket } from "./client-cache-miss-response";
 import { ClientToServerHandshakePacket } from "./client-to-server-handshake";
 import { ClientboundCloseFormPacket } from "./clientbound-close-form";
 import { ClientboundUpdateSoundDataPacket } from "./clientbound-update-sound-data";
@@ -308,6 +309,7 @@ const Packets = {
   [Packet.ClientCacheStatus]: ClientCacheStatusPacket, // 129
   [Packet.OnScreenTextureAnimation]: OnScreenTextureAnimationPacket, // 130
   [Packet.ClientCacheBlobStatus]: ClientCacheBlobStatusPacket, // 135
+  [Packet.ClientCacheMissResponse]: ClientCacheMissResponsePacket, // 136
   [Packet.Emote]: EmotePacket, // 138
   [Packet.CompletedUsingItem]: CompletedUsingItemPacket, // 142
   [Packet.NetworkSettings]: NetworkSettingsPacket, // 143

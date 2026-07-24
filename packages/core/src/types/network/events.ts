@@ -27,9 +27,10 @@ import type {
   ClientBoundDebugRendererPacket,
   ClientBoundAttributeLayerSyncPacket,
   ClientBoundMapItemDataPacket,
+  ClientboundUpdateSoundDataPacket,
   ClientCacheBlobStatusPacket,
   ClientCacheStatusPacket,
-  ClientboundUpdateSoundDataPacket,
+  ClientCacheMissResponsePacket,
   ClientToServerHandshakePacket,
   ClientboundCloseFormPacket,
   CodeBuilderSourcePacket,
@@ -469,6 +470,9 @@ interface NetworkEvents {
   ];
   [Packet.PartyDestinationCookieResponse]: [
     NetworkPacketEvent<PartyDestinationCookieResponsePacket>
+  ];
+  [Packet.ClientCacheMissResponse]: [
+    NetworkPacketEvent<ClientCacheMissResponsePacket>
   ];
 }
 

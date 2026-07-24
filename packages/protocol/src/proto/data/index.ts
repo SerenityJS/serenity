@@ -35,6 +35,7 @@ export * from "./client-bound-attribute-layer-sync";
 export * from "./client-bound-map-item-data";
 export * from "./client-cache-status";
 export * from "./client-cache-blob-status";
+export * from "./client-cache-miss-response";
 export * from "./client-to-server-handshake";
 export * from "./clientbound-close-form";
 export * from "./code-builder-source";
