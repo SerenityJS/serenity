@@ -1,4 +1,4 @@
-import { ResourcePack, Serenity } from "@serenityjs/core";
+import { ResourcePack, Serenity, WorldEvent } from "@serenityjs/core";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Emitter } from "@serenityjs/emitter";
 
@@ -167,6 +167,20 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
     if (options?.onInitialize) this.onInitialize = options.onInitialize;
     if (options?.onStartUp) this.onStartUp = options.onStartUp;
     if (options?.onShutDown) this.onShutDown = options.onShutDown;
+
+    // Iterate over all the world events, and assign the event hooks provided in the options
+    // The pipeline will then bind these hooks the same as hooks defined on the plugin class
+    for (const event of Object.keys(WorldEvent)) {
+      // Iterate over each of the hook prefixes for the event
+      for (const prefix of ["on", "before", "after"]) {
+        // Get the hook for the event from the options
+        const key = (prefix + event) as keyof PluginEvents;
+        const hook = options?.[key];
+
+        // Check if the hook is a function, and assign it to the plugin
+        if (typeof hook === "function") Reflect.set(this, key, hook);
+      }
+    }
   }
 
   /**
