@@ -9,7 +9,7 @@ interface PluginOnEvents {
   onWorldInitialize?: (event: Core.WorldInitializeSignal) => void;
   onWorldTick?: (event: Core.WorldTickSignal) => void;
   onChunkReady?: (event: Core.ChunkReadySignal) => void;
-  onEntityHealthChange?: (event: Core.EntityHealthChangedSignal) => void;
+  onHealthChanged?: (event: Core.EntityHealthChangedSignal) => void;
   onEntitySpawned?: (event: Core.EntitySpawnedSignal) => void;
   onEntityDespawned?: (event: Core.EntityDespawnedSignal) => void;
   onEntityDied?: (event: Core.EntityDiedSignal) => void;
@@ -21,8 +21,9 @@ interface PluginOnEvents {
   onEntityHurt?: (event: Core.EntityHurtSignal) => void;
   onEntityDropItem?: (event: Core.EntityDropItemSignal) => void;
   onEntityItemPickup?: (event: Core.EntityItemPickupSignal) => void;
-  onEntityEffectAdd?: (event: Core.EffectAddSignal) => void;
-  onEntityEffectRemove?: (event: Core.EffectRemoveSignal) => void;
+  onEffectAdd?: (event: Core.EffectAddSignal) => void;
+  onEffectRemove?: (event: Core.EffectRemoveSignal) => void;
+  onPlayerInitialized?: (event: Core.PlayerInitializedSignal) => void;
   onPlayerJoin?: (event: Core.PlayerJoinSignal) => void;
   onPlayerLeave?: (event: Core.PlayerLeaveSignal) => void;
   onPlayerChat?: (event: Core.PlayerChatSignal) => void;
@@ -32,6 +33,9 @@ interface PluginOnEvents {
   onPlayerAbilityUpdate?: (event: Core.PlayerAbilityUpdateSignal) => void;
   onPlayerStartUsingItem?: (event: Core.PlayerStartUsingItemSignal) => void;
   onPlayerStopUsingItem?: (event: Core.PlayerStopUsingItemSignal) => void;
+  onPlayerUseItem?: (event: Core.PlayerUseItemSignal) => void;
+  onPlayerUseItemOnBlock?: (event: Core.PlayerUseItemOnBlockSignal) => void;
+  onPlayerUseItemOnEntity?: (event: Core.PlayerUseItemOnEntitySignal) => void;
   onPlayerStartEmoting?: (event: Core.PlayerStartEmotingSignal) => void;
   onPlayerStopEmoting?: (event: Core.PlayerStopEmotingSignal) => void;
   onPlayerInteractWithBlock?: (
@@ -45,6 +49,12 @@ interface PluginOnEvents {
   onPlayerContainerInteraction?: (
     event: Core.PlayerContainerInteractionSignal
   ) => void;
+  onPlayerDropExperience?: (event: Core.PlayerDropExperienceSignal) => void;
+  onPlayerEditSign?: (event: Core.PlayerEditSignSignal) => void;
+  onPlayerCraftRecipe?: (event: Core.PlayerCraftRecipeSignal) => void;
+  onBlockUpdate?: (event: Core.BlockUpdateSignal) => void;
+  onBlockPermutationUpdate?: (event: Core.BlockPermutationUpdateSignal) => void;
+  onItemStackDamaged?: (event: Core.ItemStackDamagedSignal) => void;
 }
 
 export { PluginOnEvents };
