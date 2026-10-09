@@ -19,7 +19,7 @@ interface PluginOptions extends Partial<PluginEvents> {
   logger: Logger;
 
   /**
-   * The type of the plugin.
+   * The priority of the plugin, which determines its load order.
    */
   priority: PluginPriority;
 
@@ -80,7 +80,7 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
    * The priority of the plugin.
    * @note This is used to determine the order in which plugins are loaded.
    */
-  public readonly priority: PluginPriority = PluginPriority.Normal;
+  public readonly priority: PluginPriority;
 
   /**
    * The block registry for the plugin.
@@ -162,6 +162,9 @@ class Plugin<T = unknown> extends Emitter<T> implements PluginOptions {
     this.logger =
       options?.logger ??
       new Logger(`${identifier}@${version}`, LoggerColors.Blue);
+
+    // Set the priority for the plugin, defaulting to normal
+    this.priority = options?.priority ?? PluginPriority.Normal;
 
     // Set the on initialize, start up, and shut down options
     if (options?.onInitialize) this.onInitialize = options.onInitialize;
