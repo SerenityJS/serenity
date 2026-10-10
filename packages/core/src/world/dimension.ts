@@ -1266,9 +1266,13 @@ class Dimension {
   /**
    * Executes a command in the dimension.
    * @param command The command to execute.
+   * @param position The position to execute the command at, such as a command block's.
    * @returns The response of the command.
    */
-  public executeCommand<T = unknown>(command: string): CommandResponse<T> {
+  public executeCommand<T = unknown>(
+    command: string,
+    position?: Vector3f
+  ): CommandResponse<T> {
     // Check if the command starts with a slash, remove it if it does not
     if (command.startsWith("/")) command = command.slice(1);
 
@@ -1276,7 +1280,8 @@ class Dimension {
     const state = new CommandExecutionState(
       this.world.commandPalette.getAll(),
       command,
-      this
+      this,
+      position
     );
 
     // Execute the command state

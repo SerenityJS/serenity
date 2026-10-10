@@ -88,10 +88,13 @@ class PositionEnum extends ValidEnum {
       // Return the new position enum.
       return new PositionEnum(position);
     } else {
+      // Relative positions are relative to the position the command is executed at, if any.
+      const base = pointer.state.position ?? new Vector3f(0, 0, 0);
+
       // Create a new position with the steps.
-      const nx = x === "~" ? 0 : x.startsWith("~") ? xsteps : +x;
-      const ny = y === "~" ? 0 : y.startsWith("~") ? ysteps : +y;
-      const nz = z === "~" ? 0 : z.startsWith("~") ? zsteps : +z;
+      const nx = x === "~" ? base.x : x.startsWith("~") ? base.x + xsteps : +x;
+      const ny = y === "~" ? base.y : y.startsWith("~") ? base.y + ysteps : +y;
+      const nz = z === "~" ? base.z : z.startsWith("~") ? base.z + zsteps : +z;
 
       // Create a new position.
       const position = new Vector3f(nx, ny, nz);
