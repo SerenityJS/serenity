@@ -164,8 +164,8 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.confirmedPlatformLockedContent = false;
         packet.multiplayerGame = true;
         packet.broadcastToLan = true;
-        packet.xblBroadcastMode = 6;
-        packet.platformBroadcastMode = 6;
+        packet.xblBroadcastMode = 3; // Friends of friends
+        packet.platformBroadcastMode = 3; // Friends of friends
         packet.commandsEnabled = true;
         packet.texturePacksRequired = false;
 
@@ -206,7 +206,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.isNewNether = false;
         packet.eduResourceUriButtonName = "";
         packet.eduResourceUriLink = "";
-        packet.experimentalGameplayOverride = false;
         packet.chatRestrictionLevel = 0;
         packet.disablePlayerInteractions = false;
         packet.serverEditorConnectionPolicy = 0;
@@ -234,7 +233,6 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.clientSideGeneration = false;
         packet.blockNetworkIdsAreHashes = true;
         packet.serverControlledSounds = true;
-        packet.isChatLogging = false;
         packet.containsServerJoinInfo = {
           gatheringJoinInfo: null,
           presenceInfo: null,
