@@ -109,8 +109,8 @@ class BlockTorchDirectionTrait extends BlockTrait {
         // Get the block below the torch
         const below = this.block.below();
 
-        // Check if the block below is solid
-        if (below && !below.isSolid)
+        // Check if the block below is solid, or has a post to stand on
+        if (below && !below.isSolid && !this.hasPost(below))
           return void this.block.destroy({ dropLoot: true });
         else break;
       }
@@ -159,6 +159,19 @@ class BlockTorchDirectionTrait extends BlockTrait {
 
   public getDirection(): TorchDirection {
     return this.block.getState<TorchDirection>(this.state as string);
+  }
+
+  /**
+   * Whether a block has a post in its center that a torch can stand on.
+   * Walls, fences, glass panes and bars are not solid, but do have one.
+   * @param block The block to check.
+   */
+  private hasPost(block: Block): boolean {
+    return (
+      block.hasState("wall_post_bit") ||
+      (block.hasState("minecraft:connection_east") &&
+        block.identifier !== "minecraft:trip_wire")
+    );
   }
 
   public setDirection(direction: TorchDirection): void {
