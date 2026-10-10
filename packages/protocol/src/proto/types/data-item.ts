@@ -49,7 +49,9 @@ class DataItem<T = unknown> extends DataType {
       const identifier = stream.readVarInt();
 
       // Read the type of the data item.
+      // Since v2168, the type is a variant index followed by the legacy type byte.
       const type = stream.readVarInt();
+      stream.readUint8();
 
       // Read the value of the data item.
       let value: unknown;
@@ -125,7 +127,9 @@ class DataItem<T = unknown> extends DataType {
       stream.writeVarInt(item.identifier);
 
       // Write the type of the data item.
+      // Since v2168, the type is a variant index followed by the legacy type byte.
       stream.writeVarInt(item.type);
+      stream.writeUint8(item.type);
 
       // Write the value of the data item.
       switch (item.type) {
