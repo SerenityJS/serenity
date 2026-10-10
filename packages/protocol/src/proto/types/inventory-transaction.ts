@@ -59,16 +59,10 @@ class InventoryTransaction extends DataType {
     this.itemRelease = itemRelease ?? null;
   }
 
+  // NOTE: Since v2193, the type and the actions are no longer preceded by the presence markers of v2168.
+
   public static read(stream: BinaryStream): InventoryTransaction {
-    if (!stream.readBool()) {
-      throw new Error("Inventory transaction type presence marker missing.");
-    }
-
     const type = stream.readVarInt() as ComplexInventoryTransaction;
-
-    if (!stream.readBool()) {
-      throw new Error("Inventory transaction actions presence marker missing.");
-    }
 
     const amount = stream.readVarInt();
 
@@ -130,10 +124,8 @@ class InventoryTransaction extends DataType {
   }
 
   public static write(stream: BinaryStream, value: InventoryTransaction): void {
-    stream.writeBool(true);
     stream.writeVarInt(value.type);
 
-    stream.writeBool(true);
     stream.writeVarInt(value.actions.length);
 
     // Iterate through the actions

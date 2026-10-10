@@ -48,7 +48,7 @@ class ItemReleaseInventoryTransaction extends DataType {
 
   public static read(stream: BinaryStream): ItemReleaseInventoryTransaction {
     // Read the type of the item release inventory transaction
-    const type = stream.readVarInt() as ItemReleaseInventoryTransactionType;
+    const type = stream.readZigZag() as ItemReleaseInventoryTransactionType;
 
     // Read the slot of the item release inventory transaction
     const slot = stream.readZigZag();
@@ -68,7 +68,7 @@ class ItemReleaseInventoryTransaction extends DataType {
     value: ItemReleaseInventoryTransaction
   ): void {
     // Write the type of the item release inventory transaction
-    stream.writeVarInt(value.type);
+    stream.writeZigZag(value.type);
 
     // Write the slot of the item release inventory transaction
     stream.writeZigZag(value.slot);
