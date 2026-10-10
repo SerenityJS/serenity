@@ -130,6 +130,7 @@ import type {
   ServerToClientHandshakePacket,
   ServerboundDiagnosticsPacket,
   ServerboundLoadingScreenPacketPacket,
+  JigsawStructureDataPacket,
   SetActorDataPacket,
   SetActorLinkPacket,
   SetActorMotionPacket,
@@ -379,6 +380,7 @@ interface NetworkEvents {
   [Packet.ServerboundLoadingScreenPacket]: [
     NetworkPacketEvent<ServerboundLoadingScreenPacketPacket>
   ];
+  [Packet.JigsawStructureData]: [NetworkPacketEvent<JigsawStructureDataPacket>];
   [Packet.UpdateClientInputLocks]: [
     NetworkPacketEvent<UpdateClientInputLocksPacket>
   ];

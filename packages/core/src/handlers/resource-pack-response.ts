@@ -2,6 +2,7 @@ import {
   AvailableActorIdentifiersPacket,
   DisconnectReason,
   GameRuleType,
+  JigsawStructureDataPacket,
   MINECRAFT_VERSION,
   Packet,
   PlayStatus,
@@ -18,7 +19,7 @@ import {
   VoxelShapesPacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
-import { CompoundTag, ListTag } from "@serenityjs/nbt";
+import { CompoundTag, ListTag, TagType } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";
 import { EntityType } from "../entity";
@@ -286,8 +287,29 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         voxels.shapes = [];
         voxels.names = [];
 
+        // The jigsaw structure rules must be sent before the start game packet,
+        // otherwise clients disconnect with "Missing structure data from server" (1.26.50+)
+        const jigsaw = new JigsawStructureDataPacket();
+        jigsaw.data = new CompoundTag();
+
+        // Send an empty set of rules
+        for (const key of [
+          "processors",
+          "template_pools",
+          "jigsaws",
+          "structure_sets"
+        ]) {
+          // Create an empty list of compounds for the rules
+          const list = new ListTag<CompoundTag>([], key);
+          list.elementType = TagType.Compound;
+
+          // Add the list to the rules
+          jigsaw.data.add(list);
+        }
+
         // Send the packets to the player
         player.sendImmediate(
+          jigsaw,
           voxels,
           packet,
           status,
