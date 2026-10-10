@@ -14,12 +14,24 @@ class BlockOpenBitTrait extends BlockTrait {
   public static readonly identifier = "open-bit";
   public static readonly state = "open_bit";
 
-  public onInteract({ origin, cancel }: BlockInteractionOptions): void {
+  public onInteract(options: BlockInteractionOptions): void {
+    // Get the origin of the interaction
+    const { origin, cancel } = options;
+
     // Check if the origin is a player
     if (!origin || !origin.isPlayer()) return;
 
     // Check if the block is a barrel
     if (this.block.type.identifier === BlockIdentifier.Barrel) return;
+
+    // Iron doors and trapdoors are only opened by redstone
+    if (this.block.type.identifier.startsWith("minecraft:iron_")) return;
+
+    // Players sneaking with a block in hand place it rather than open or close the block
+    if (origin.isSneaking && options.placingBlock) return;
+
+    // Opening or closing the block takes the place of placing a block on it
+    options.placingBlock = false;
 
     // Check if the interaction has been cancelled
     if (cancel || !origin.abilities.getAbility(AbilityIndex.DoorsAndSwitches)) {

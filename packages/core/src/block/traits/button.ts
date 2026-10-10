@@ -22,8 +22,11 @@ class BlockButtonTrait extends BlockTrait {
     // Check if the block interaction has been cancelled or if there is no origin
     if (options.cancel || !options.origin) return this.setState(false, true);
 
-    // Check if the origin is sneaking, this will prevent blocks being placed on the button
-    if (!options.origin.isSneaking) options.placingBlock = false;
+    // Players sneaking with a block in hand place it rather than press the button
+    if (options.origin.isSneaking && options.placingBlock) return;
+
+    // Pressing the button takes the place of placing a block on it
+    options.placingBlock = false;
 
     // Check if the block is currently being pressed
     if (this.releaseTick !== -1n) return;

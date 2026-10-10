@@ -14,12 +14,18 @@ class BlockCommandBlockTrait extends BlockTrait {
   public static readonly identifier = "command_block";
   public static readonly types = [BlockIdentifier.CommandBlock];
 
-  public onInteract({ origin, cancel }: BlockInteractionOptions): void {
+  public onInteract(options: BlockInteractionOptions): void {
+    // Get the origin of the interaction
+    const { origin, cancel } = options;
+
     // Check if the block interaction has been cancelled or if there is no origin
     if (cancel || !origin) return;
 
     // Check if the player is sneaking or not an operator
     if (origin.isSneaking || !origin.isOp) return;
+
+    // Opening the command block takes the place of placing a block on it
+    options.placingBlock = false;
 
     // Create the container open packet
     const packet = new ContainerOpenPacket();

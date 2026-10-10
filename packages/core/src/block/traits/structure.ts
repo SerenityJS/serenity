@@ -16,7 +16,10 @@ class BlockStructureTrait extends BlockTrait {
   public static readonly types = [BlockIdentifier.StructureBlock];
 
   public onInteract(options: BlockInteractionOptions): void {
-    if (!options.origin || options.cancel) return;
+    if (!options.origin || options.cancel || options.origin.isSneaking) return;
+
+    // Opening the structure block takes the place of placing a block on it
+    options.placingBlock = false;
 
     const packet = new ContainerOpenPacket();
     packet.type = ContainerType.StructureEditor;
