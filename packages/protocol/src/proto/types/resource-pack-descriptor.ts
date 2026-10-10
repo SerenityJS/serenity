@@ -96,7 +96,7 @@ class ResourcePackDescriptor extends DataType {
     const packs: Array<ResourcePackDescriptor> = [];
 
     // Read the number of packs.
-    const amount = stream.readInt16(Endianness.Little);
+    const amount = stream.readVarInt();
 
     // We then loop through the amount of packs.
     // Reading the individual fields in the stream.
@@ -139,7 +139,7 @@ class ResourcePackDescriptor extends DataType {
     value: Array<ResourcePackDescriptor>
   ): void {
     // Write the number of packs given in the array.
-    stream.writeInt16(value.length, Endianness.Little);
+    stream.writeVarInt(value.length);
 
     // Loop through the packs.
     for (const pack of value) {
