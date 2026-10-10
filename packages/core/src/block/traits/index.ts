@@ -19,3 +19,5 @@ export * from "./chest";
 export * from "./barrel";
 export * from "./shulker-box";
 export * from "./support";
+export * from "./connection";
+export * from "./wall-connection";
