@@ -13,6 +13,9 @@ export class SubChunkRequestPacket extends DataPacket {
   public position!: SubChunkPosition;
 
   public override serialize(): Buffer {
+    // Reset the offset, as the same packet may be serialized more than once (e.g. when broadcasting)
+    this.offset = 0;
+
     this.writeVarInt(Packet.SubChunkRequest);
     this.writeZigZag(this.dimension);
     this.writeVarInt(this.offsets.length);

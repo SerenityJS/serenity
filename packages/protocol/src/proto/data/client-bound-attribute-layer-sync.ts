@@ -20,6 +20,9 @@ class ClientBoundAttributeLayerSyncPacket extends DataPacket {
   public removeAttributeNames!: Array<string>;
 
   public override serialize(): Buffer {
+    // Reset the offset, as the same packet may be serialized more than once (e.g. when broadcasting)
+    this.offset = 0;
+
     this.writeVarInt(Packet.ClientBoundAttributeLayerSync);
     this.writeVarInt(this.payloadType);
 

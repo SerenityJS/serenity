@@ -10,6 +10,9 @@ class ServerPresenceInfoPacket extends DataPacket {
   public presenceInfo: PresenceInfo | null = null;
 
   public override serialize(): Buffer {
+    // Reset the offset, as the same packet may be serialized more than once (e.g. when broadcasting)
+    this.offset = 0;
+
     this.writeVarInt(Packet.ServerPresenceInfo);
     this.writeBool(this.presenceInfo !== null);
 

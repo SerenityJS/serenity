@@ -13,6 +13,9 @@ class ResourcePackChunkDataPacket extends DataPacket {
   public chunkData!: Buffer;
 
   public override serialize(): Buffer {
+    // Reset the offset, as the same packet may be serialized more than once (e.g. when broadcasting)
+    this.offset = 0;
+
     this.writeVarInt(Packet.ResourcePackChunkData);
     this.writeVarString(this.packId);
     this.writeUint32(this.chunkId, Endianness.Little);
