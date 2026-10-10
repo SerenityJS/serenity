@@ -20,16 +20,20 @@ export class PlayerAuthInputTransaction extends DataType {
     value: InputTransaction,
     options: PacketDataTypeOptions<PlayerAuthInputData>
   ) {
-    if (!options.parameter?.hasFlag(InputData.PerformItemInteraction)) return;
-    InputTransaction.write(stream, value);
+    // Since v2168, the transaction is an optional with a presence flag,
+    // which is set when the input data has the item interaction flag
+    const present =
+      options.parameter?.hasFlag(InputData.PerformItemInteraction) ?? false;
+    stream.writeBool(present);
+    if (present) InputTransaction.write(stream, value);
   }
 
   public static read(
     stream: BinaryStream,
-    options: PacketDataTypeOptions<PlayerAuthInputData>
+    _options?: PacketDataTypeOptions<PlayerAuthInputData>
   ): InputTransaction | null {
-    if (!options.parameter?.hasFlag(InputData.PerformItemInteraction))
-      return null;
+    // Since v2168, the transaction is an optional with a presence flag
+    if (!stream.readBool()) return null;
     return InputTransaction.read(stream);
   }
 }

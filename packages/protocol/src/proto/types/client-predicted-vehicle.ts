@@ -29,38 +29,47 @@ class ClientPredictedVehicle extends DataType {
     this.actorUniqueId = actorUniqueId;
   }
 
+  // NOTE: Since v2168, the vehicle rotation and the vehicle actor are two separate optionals,
+  // each preceded by a presence flag.
+
   public static read(
     stream: BinaryStream,
-    options?: PacketDataTypeOptions<PlayerAuthInputData>
+    _options?: PacketDataTypeOptions<PlayerAuthInputData>
   ): ClientPredictedVehicle | null {
-    // Check if the input data has the vehicle flag
-    if (!options?.parameter?.hasFlag(InputData.IsInClientPredictedVehicle))
-      return null;
+    // Read the optional vehicle rotation
+    const rotation = stream.readBool() ? Vector2f.read(stream) : null;
 
-    // Read the vehicle rotation
-    const rotation = Vector2f.read(stream);
+    // Read the optional unique id of the vehicle actor
+    const vehicle = stream.readBool() ? Number(stream.readZigZong()) : null;
 
-    // Read the unique id of the vehicle actor
-    const vehicle = stream.readZigZag();
+    // Return null if the player is not in a client predicted vehicle
+    if (rotation === null && vehicle === null) return null;
 
     // Return a new instance of this class with the rotation and vehicle
-    return new ClientPredictedVehicle(rotation, vehicle);
+    return new ClientPredictedVehicle(
+      rotation ?? new Vector2f(0, 0),
+      vehicle ?? 0
+    );
   }
 
   public static write(
     stream: BinaryStream,
-    value: ClientPredictedVehicle,
+    value: ClientPredictedVehicle | null,
     options?: PacketDataTypeOptions<PlayerAuthInputData>
   ): void {
-    // Check if the input data has the vehicle flag
-    if (!options?.parameter?.hasFlag(InputData.IsInClientPredictedVehicle))
-      return;
+    // The vehicle data is only present when the input data has the vehicle flag
+    const present =
+      value !== null &&
+      (options?.parameter?.hasFlag(InputData.IsInClientPredictedVehicle) ??
+        false);
 
-    // Write the vehicle rotation
-    Vector2f.write(stream, value.vehicleRotation);
+    // Write the optional vehicle rotation
+    stream.writeBool(present);
+    if (present) Vector2f.write(stream, value.vehicleRotation);
 
-    // Write the unique id of the vehicle actor
-    stream.writeZigZag(value.actorUniqueId);
+    // Write the optional unique id of the vehicle actor
+    stream.writeBool(present);
+    if (present) stream.writeZigZong(BigInt(value.actorUniqueId));
   }
 }
 

@@ -4,6 +4,8 @@ import { NetworkItemStackDescriptorCereal } from "./network-item-stack-descripto
 import { Vector3f } from "./vector3f";
 import { BlockPosition } from "./block-position";
 
+import { HandSlot } from "../../enums";
+
 import type {
   BlockFace,
   ItemUseInventoryTransactionType,
@@ -39,6 +41,11 @@ class ItemUseInventoryTransaction extends DataType {
    * The slot of the item use inventory transaction.
    */
   public readonly slot: number;
+
+  /**
+   * The hand that is used for the item use inventory transaction.
+   */
+  public readonly hand: HandSlot;
 
   /**
    * The item of the item use inventory transaction.
@@ -84,6 +91,7 @@ class ItemUseInventoryTransaction extends DataType {
    * @param networkBlockId The network block id of the item use inventory transaction.
    * @param clientPrediction The client prediction of the item use inventory transaction.
    * @param clientCooldownState The client cooldown state of the item use inventory transaction.
+   * @param hand The hand that is used for the item use inventory transaction.
    */
   public constructor(
     type: ItemUseInventoryTransactionType,
@@ -96,7 +104,8 @@ class ItemUseInventoryTransaction extends DataType {
     clickPosition: Vector3f,
     networkBlockId: number,
     clientPrediction: PredictedResult,
-    clientCooldownState: number
+    clientCooldownState: number,
+    hand: HandSlot = HandSlot.MainHand
   ) {
     super();
     this.type = type;
@@ -104,6 +113,7 @@ class ItemUseInventoryTransaction extends DataType {
     this.blockPosition = blockPosition;
     this.face = face;
     this.slot = slot;
+    this.hand = hand;
     this.item = item;
     this.fromPosition = fromPosition;
     this.clickPosition = clickPosition;
@@ -128,6 +138,9 @@ class ItemUseInventoryTransaction extends DataType {
     // Read the slot of the item use inventory transaction
     const slot = stream.readZigZag();
 
+    // Read the hand used for the transaction (added in v2193).
+    const hand = stream.readUint8() as HandSlot;
+
     // Read the item of the item use inventory transaction
     const item = NetworkItemStackDescriptorCereal.read(stream);
 
@@ -138,7 +151,8 @@ class ItemUseInventoryTransaction extends DataType {
     const clickPosition = Vector3f.read(stream);
 
     // Read the network block id of the item use inventory transaction
-    const networkBlockId = stream.readVarInt();
+    // The block runtime id is unsigned on the wire, reinterpreted to match the block permutation hashes.
+    const networkBlockId = stream.readVarInt() | 0;
 
     // Read the client prediction of the item use inventory transaction
     const clientPrediction = stream.readUint8() as PredictedResult;
@@ -158,7 +172,8 @@ class ItemUseInventoryTransaction extends DataType {
       clickPosition,
       networkBlockId,
       clientPrediction,
-      clientCooldownState
+      clientCooldownState,
+      hand
     );
   }
 
@@ -167,7 +182,7 @@ class ItemUseInventoryTransaction extends DataType {
     value: ItemUseInventoryTransaction
   ): void {
     // Write the type of the item use inventory transaction
-    stream.writeVarInt(value.type);
+    stream.writeZigZag(value.type);
 
     // Write the trigger type of the item use inventory transaction
     stream.writeUint8(value.triggerType);
@@ -181,6 +196,9 @@ class ItemUseInventoryTransaction extends DataType {
     // Write the slot of the item use inventory transaction
     stream.writeZigZag(value.slot);
 
+    // Write the hand used for the transaction (added in v2193).
+    stream.writeUint8(value.hand);
+
     // Write the item of the item use inventory transaction
     NetworkItemStackDescriptorCereal.write(stream, value.item);
 
@@ -191,7 +209,7 @@ class ItemUseInventoryTransaction extends DataType {
     Vector3f.write(stream, value.clickPosition);
 
     // Write the network block id of the item use inventory transaction
-    stream.writeVarInt(value.networkBlockId);
+    stream.writeVarInt(value.networkBlockId >>> 0);
 
     // Write whether the item use inventory transaction was successful
     stream.writeUint8(value.clientPrediction);

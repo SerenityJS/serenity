@@ -1,4 +1,4 @@
-import { Endianness, Float32, VarInt } from "@serenityjs/binarystream";
+import { Endianness, Float32, VarInt, ZigZag } from "@serenityjs/binarystream";
 import { Proto, Serialize } from "@serenityjs/raknet";
 
 import { ClientPredictedVehicle } from "../types/client-predicted-vehicle";
@@ -29,7 +29,7 @@ export class PlayerAuthInputPacket extends DataPacket {
   @Serialize(PlayerAuthInputData) public inputData!: PlayerAuthInputData;
   @Serialize(VarInt) public inputMode!: InputMode;
   @Serialize(VarInt) public playMode!: PlayMode;
-  @Serialize(VarInt) public interactionMode!: InteractionMode;
+  @Serialize(ZigZag) public interactionMode!: InteractionMode;
   @Serialize(Vector2f) public interactRotation!: Vector2f;
   @Serialize(PlayerInputTick) public inputTick!: bigint;
   @Serialize(Vector3f) public positionDelta!: Vector3f;

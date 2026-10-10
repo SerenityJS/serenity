@@ -47,16 +47,11 @@ class InventorySource extends DataType {
     let containerId: ContainerId | null = null;
     let bitFlags: number | null = null;
 
-    if (!stream.readBool()) {
-      throw new Error("Inventory source container presence marker missing.");
-    }
+    // NOTE: Since v2193, the container id and the flags are plain optionals;
+    // the extra presence markers of v2168 were removed.
 
     if (stream.readBool()) {
       containerId = stream.readInt8();
-    }
-
-    if (!stream.readBool()) {
-      throw new Error("Inventory source flags presence marker missing.");
     }
 
     if (stream.readBool()) {
@@ -68,8 +63,6 @@ class InventorySource extends DataType {
 
   public static write(stream: BinaryStream, value: InventorySource): void {
     stream.writeVarInt(value.type);
-
-    stream.writeBool(true);
 
     const hasContainerId =
       value.type === InventorySourceType.ContainerInventory ||
@@ -83,8 +76,6 @@ class InventorySource extends DataType {
 
       stream.writeInt8(value.containerId);
     }
-
-    stream.writeBool(true);
 
     const hasBitFlags = value.type === InventorySourceType.WorldInteraction;
     stream.writeBool(hasBitFlags);

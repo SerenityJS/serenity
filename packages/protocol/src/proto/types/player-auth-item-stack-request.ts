@@ -51,11 +51,10 @@ class PlayerAuthItemStackRequest extends DataType {
 
   public static read(
     stream: BinaryStream,
-    options: PacketDataTypeOptions<PlayerAuthInputData>
+    _options?: PacketDataTypeOptions<PlayerAuthInputData>
   ): PlayerAuthItemStackRequest | null {
-    // Check if the input data has the block actions flag
-    if (!options.parameter?.hasFlag(InputData.PerformItemStackRequest))
-      return null; // Return null if the flag is not set
+    // Since v2168, the request is an optional with a presence flag
+    if (!stream.readBool()) return null;
 
     // Read the client request id.
     const clientRequestId = stream.readZigZag();
@@ -90,8 +89,12 @@ class PlayerAuthItemStackRequest extends DataType {
     value: ItemStackRequest,
     options: PacketDataTypeOptions<PlayerAuthInputData>
   ): void {
-    // Check if the input data has the block actions flag
-    if (!options.parameter?.hasFlag(InputData.PerformItemStackRequest)) return; // Return if the flag is not set
+    // Since v2168, the request is an optional with a presence flag,
+    // which is set when the input data has the item stack request flag
+    const present =
+      options.parameter?.hasFlag(InputData.PerformItemStackRequest) ?? false;
+    stream.writeBool(present);
+    if (!present) return;
 
     // Write the client request id.
     stream.writeZigZag(value.clientRequestId);
@@ -107,6 +110,13 @@ class PlayerAuthItemStackRequest extends DataType {
 
     // Write the amount of filter strings.
     stream.writeVarInt(value.filterStrings.length);
+
+    // Write each filter string.
+    for (const filterString of value.filterStrings)
+      stream.writeVarString(filterString);
+
+    // Write the origin of the filter strings.
+    stream.writeInt32(value.stringsFilterOrigin, Endianness.Little);
   }
 }
 
