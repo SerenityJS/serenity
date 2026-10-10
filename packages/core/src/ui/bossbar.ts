@@ -62,7 +62,6 @@ class Bossbar {
 
     // Assign the packet properties.
     packet.targetUniqueId = this.boss.uniqueId;
-    packet.playerUniqueId = player.uniqueId;
     packet.type = BossEventUpdateType.Add;
     packet.title = this.title;
     packet.filteredTitle = this.title;
@@ -98,15 +97,11 @@ class Bossbar {
     // If a player is provided, send the packet to the player.
     // If a player is not provided, send the packet to all occupants.
     if (player) {
-      packet.playerUniqueId = player.uniqueId;
-
       player.send(packet);
       this.occupants.delete(player);
     } else {
       // Loop through all occupants and send the packet to each one.
       for (const occupant of this.occupants) {
-        packet.playerUniqueId = occupant.uniqueId;
-
         occupant.send(packet);
         this.occupants.delete(occupant);
       }
@@ -130,12 +125,7 @@ class Bossbar {
     packet.overlay = 0; // TODO: Add support for overlays
 
     // Send the packet to all occupants.
-    for (const occupant of this.occupants) {
-      // Set the player unique id for the packet.
-      packet.playerUniqueId = occupant.uniqueId;
-
-      occupant.send(packet);
-    }
+    for (const occupant of this.occupants) occupant.send(packet);
 
     // Update the title.
     this.title = title;
@@ -158,12 +148,7 @@ class Bossbar {
     packet.overlay = 0; // TODO: Add support for overlays
 
     // Send the packet to all occupants.
-    for (const occupant of this.occupants) {
-      // Set the player unique id for the packet.
-      packet.playerUniqueId = occupant.uniqueId;
-
-      occupant.send(packet);
-    }
+    for (const occupant of this.occupants) occupant.send(packet);
 
     // Update the percent.
     this.percent = percent;
@@ -186,12 +171,7 @@ class Bossbar {
     packet.overlay = 0; // TODO: Add support for overlays
 
     // Send the packet to all occupants.
-    for (const occupant of this.occupants) {
-      // Set the player unique id for the packet.
-      packet.playerUniqueId = occupant.uniqueId;
-
-      occupant.send(packet);
-    }
+    for (const occupant of this.occupants) occupant.send(packet);
 
     // Update the color.
     this.color = color;

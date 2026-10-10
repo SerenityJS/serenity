@@ -3,31 +3,55 @@ import { BinaryStream, DataType } from "@serenityjs/binarystream";
 import { Uuid } from "./uuid";
 
 class GatheringJoinInfo extends DataType {
+  /**
+   * The unique identifier for the experience.
+   */
   public experienceId: string;
 
+  /**
+   * The name of the experience.
+   */
   public experienceName: string;
 
-  public experienceWorldId: string;
+  /**
+   * The unique identifier for the experience world.
+   */
+  public experienceWorldId: string | null;
 
-  public experienceWorldName: string;
+  /**
+   * The name of the experience world.
+   */
+  public experienceWorldName: string | null;
 
+  /**
+   * The unique identifier for the creator of the experience.
+   */
   public creatorId: string;
 
-  public unk: string;
+  /**
+   * The unique identifier for the target.
+   */
+  public targetId: string | null;
 
-  public unk2: string;
+  /**
+   * The unique identifier for the scenario.
+   */
+  public scenarioId: string | null;
 
-  public serverId: string;
+  /**
+   * The unique identifier for the server.
+   */
+  public serverId: string | null;
 
   public constructor(
     experienceId: string,
     experienceName: string,
-    experienceWorldId: string,
-    experienceWorldName: string,
+    experienceWorldId: string | null,
+    experienceWorldName: string | null,
     creatorId: string,
-    unk: string,
-    unk2: string,
-    serverId: string
+    targetId: string | null = null,
+    scenarioId: string | null = null,
+    serverId: string | null = null
   ) {
     super();
     this.experienceId = experienceId;
@@ -35,20 +59,22 @@ class GatheringJoinInfo extends DataType {
     this.experienceWorldId = experienceWorldId;
     this.experienceWorldName = experienceWorldName;
     this.creatorId = creatorId;
-    this.unk = unk;
-    this.unk2 = unk2;
+    this.targetId = targetId;
+    this.scenarioId = scenarioId;
     this.serverId = serverId;
   }
 
   public static read(stream: BinaryStream): GatheringJoinInfo {
     const experienceId = Uuid.read(stream);
     const experienceName = stream.readVarString();
-    const experienceWorldId = Uuid.read(stream);
-    const experienceWorldName = stream.readVarString();
+    const experienceWorldId = stream.readBool() ? Uuid.read(stream) : null;
+    const experienceWorldName = stream.readBool()
+      ? stream.readVarString()
+      : null;
     const creatorId = stream.readVarString();
-    const unk = Uuid.read(stream);
-    const unk2 = Uuid.read(stream);
-    const serverId = stream.readVarString();
+    const targetId = stream.readBool() ? Uuid.read(stream) : null;
+    const scenarioId = stream.readBool() ? stream.readVarString() : null;
+    const serverId = stream.readBool() ? stream.readVarString() : null;
 
     return new this(
       experienceId,
@@ -56,8 +82,8 @@ class GatheringJoinInfo extends DataType {
       experienceWorldId,
       experienceWorldName,
       creatorId,
-      unk,
-      unk2,
+      targetId,
+      scenarioId,
       serverId
     );
   }
@@ -65,12 +91,25 @@ class GatheringJoinInfo extends DataType {
   public static write(stream: BinaryStream, value: GatheringJoinInfo): void {
     Uuid.write(stream, value.experienceId);
     stream.writeVarString(value.experienceName);
-    Uuid.write(stream, value.experienceWorldId);
-    stream.writeVarString(value.experienceWorldName);
+
+    stream.writeBool(value.experienceWorldId !== null);
+    if (value.experienceWorldId !== null)
+      Uuid.write(stream, value.experienceWorldId);
+
+    stream.writeBool(value.experienceWorldName !== null);
+    if (value.experienceWorldName !== null)
+      stream.writeVarString(value.experienceWorldName);
+
     stream.writeVarString(value.creatorId);
-    Uuid.write(stream, value.unk);
-    Uuid.write(stream, value.unk2);
-    stream.writeVarString(value.serverId);
+
+    stream.writeBool(value.targetId !== null);
+    if (value.targetId !== null) Uuid.write(stream, value.targetId);
+
+    stream.writeBool(value.scenarioId !== null);
+    if (value.scenarioId !== null) stream.writeVarString(value.scenarioId);
+
+    stream.writeBool(value.serverId !== null);
+    if (value.serverId !== null) stream.writeVarString(value.serverId);
   }
 }
 

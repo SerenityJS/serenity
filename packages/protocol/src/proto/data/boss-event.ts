@@ -19,7 +19,6 @@ import { DataPacket } from "./data-packet";
 @Proto(Packet.BossEvent)
 class BossEventPacket extends DataPacket {
   @Serialize(ZigZong) public targetUniqueId!: bigint;
-  @Serialize(ZigZong) public playerUniqueId!: bigint;
   @Serialize(Uint8) public type!: BossEventUpdateType;
   @Serialize(VarString) public title!: string;
   @Serialize(VarString) public filteredTitle!: string;
