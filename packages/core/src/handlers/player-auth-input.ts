@@ -319,34 +319,26 @@ class PlayerAuthInputHandler extends NetworkHandler {
    * @param actions The actions performed by the player
    */
   public handleActorActions(player: Player, actions: Array<InputData>): void {
+    // The player is sneaking while the sneaking flag is set, which the client sends with every input.
+    // The start and stop sneaking actions are not relied on, as a missed one would leave the state wrong.
+    const sneaking = player.flags.getActorFlag(ActorFlag.Sneaking) ?? false;
+    const nextSneaking = actions.includes(InputData.Sneaking);
+
+    // Check if the sneaking state of the player changed
+    if (sneaking !== nextSneaking) {
+      if (nextSneaking) {
+        for (const trait of player.traits.values()) trait.onStartSneaking?.();
+      } else {
+        for (const trait of player.traits.values()) trait.onStopSneaking?.();
+      }
+
+      player.flags.setActorFlag(ActorFlag.Sneaking, nextSneaking);
+    }
+
     // Iterate over the actions
     for (const action of actions) {
       // Handle the action
       switch (action) {
-        // Handle when a player sneaks
-        case InputData.StartSneaking:
-        case InputData.StopSneaking: {
-          // Derive the target sneaking state from the input action instead of
-          // blindly toggling. The client can send explicit start/stop actions
-          // that must remain in sync with placement/interact rules.
-          const sneaking =
-            player.flags.getActorFlag(ActorFlag.Sneaking) ?? false;
-          const nextSneaking = action === InputData.StartSneaking;
-
-          if (sneaking === nextSneaking) break;
-
-          if (nextSneaking) {
-            for (const trait of player.traits.values())
-              trait.onStartSneaking?.();
-          } else {
-            for (const trait of player.traits.values())
-              trait.onStopSneaking?.();
-          }
-
-          player.flags.setActorFlag(ActorFlag.Sneaking, nextSneaking);
-          break;
-        }
-
         // Handle when a player sprints
         case InputData.StartSprinting:
         case InputData.StopSprinting: {
