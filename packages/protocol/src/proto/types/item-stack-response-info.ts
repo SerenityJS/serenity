@@ -55,8 +55,8 @@ class ItemStackResponseInfo extends DataType {
       // Prepare an array to store the containers.
       const containers: Array<ItemStackResponseContainerInfo> = [];
 
-      // Check if the result is Success.
-      if (result === ItemStackResponseResult.Success) {
+      // Since v2168, the containers are an optional, present when there are containers.
+      if (stream.readBool()) {
         // Read the number of containers.
         const containerCount = stream.readVarInt();
 
@@ -96,11 +96,14 @@ class ItemStackResponseInfo extends DataType {
       // Write the client request id.
       stream.writeZigZag(response.clientRequestId);
 
-      // Check if the result is Success and containers exist.
-      if (
+      // Since v2168, the containers are an optional,
+      // present when the result is Success and there are containers.
+      const present =
         response.result === ItemStackResponseResult.Success &&
-        response.containers
-      ) {
+        (response.containers?.length ?? 0) > 0;
+      stream.writeBool(present);
+
+      if (present && response.containers) {
         // Write the number of containers.
         stream.writeVarInt(response.containers.length);
 
