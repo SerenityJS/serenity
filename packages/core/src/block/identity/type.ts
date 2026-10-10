@@ -1,3 +1,4 @@
+import { BinaryStream } from "@serenityjs/binarystream";
 import { CompoundTag, ListTag, StringTag } from "@serenityjs/nbt";
 import { NetworkBlockTypeDefinition } from "@serenityjs/protocol";
 import {
@@ -106,6 +107,20 @@ class BlockType {
 
       // Register the block permutation in the registry.
       BlockPermutation.permutations.set(instance.networkId, instance);
+    }
+
+    // Iterate over the vanilla block types that are defined by data.
+    // The client only knows these from the definitions the server sends,
+    // which are added after the permutations, as creating those would add to them.
+    for (const type of BLOCK_TYPES) {
+      if (!("properties" in type) || !type.properties) continue;
+
+      // Read the definition of the block type.
+      const stream = new BinaryStream(Buffer.from(type.properties, "base64"));
+      const definition = CompoundTag.read(stream);
+
+      // Add the definition to the block type properties.
+      this.types.get(type.identifier)?.properties.push(...definition.values());
     }
   }
 
