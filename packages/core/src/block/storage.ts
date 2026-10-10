@@ -395,6 +395,9 @@ class BlockLevelStorage extends CompoundTag {
     if (index !== -1) {
       traits.splice(index, 1);
 
+      // Remove the list once it is empty, so an empty list is not stored
+      if (traits.length === 0) super.delete("traits");
+
       // Mark the chunk as needing to be saved
       if (this.size > 0) this.chunk.dirty = true;
     }

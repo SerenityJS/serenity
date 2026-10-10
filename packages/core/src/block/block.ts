@@ -309,6 +309,13 @@ class Block {
         continue;
       }
 
+      // Check if the block type provides the trait, which is added below.
+      // Older saves stored these with the block too, so remove it from the storage.
+      if (this.isTypeTrait(traitType)) {
+        this.peekStorage()?.removeTrait(identifier);
+        continue;
+      }
+
       // Add the trait to the block.
       const trait = this.addTrait(traitType);
 
@@ -460,6 +467,13 @@ class Block {
           );
 
           // Skip the trait if it does not exist.
+          continue;
+        }
+
+        // Check if the block type provides the trait, which is added below.
+        // Older saves stored these with the block too, so remove it from the storage.
+        if (this.isTypeTrait(traitType)) {
+          storage.removeTrait(identifier);
           continue;
         }
 
@@ -653,8 +667,9 @@ class Block {
         ? instance.identifier + "@" + instance.state
         : instance.identifier;
 
-      // Add the trait to the block's storage
-      this.getStorage().addTrait(identifier);
+      // Add the trait to the block's storage, unless the block type provides it,
+      // as those are added to the block again whenever it is loaded
+      if (!this.isTypeTrait(trait)) this.getStorage().addTrait(identifier);
 
       // Return the trait that was added
       return instance;
@@ -671,6 +686,15 @@ class Block {
       // Return null as the trait could not be added
       return null as InstanceType<T>;
     }
+  }
+
+  /**
+   * Whether a trait is provided by the block's type, rather than added to the block itself.
+   * @param trait The trait to check.
+   * @returns Whether the block's type provides the trait.
+   */
+  private isTypeTrait(trait: typeof BlockTrait): boolean {
+    return this.type.traits.get(trait.identifier) === trait;
   }
 
   /**
