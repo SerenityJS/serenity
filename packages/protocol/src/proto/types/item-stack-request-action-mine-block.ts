@@ -1,4 +1,4 @@
-import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { BinaryStream, DataType, Endianness } from "@serenityjs/binarystream";
 
 class ItemStackRequestActionMineBlock extends DataType {
   /**
@@ -41,7 +41,7 @@ class ItemStackRequestActionMineBlock extends DataType {
     const predictedDurability = stream.readZigZag();
 
     // Read the network id.
-    const networkId = stream.readZigZag();
+    const networkId = stream.readInt32(Endianness.Little);
 
     // Return the item stack request action.
     return new this(slot, predictedDurability, networkId);
@@ -58,7 +58,7 @@ class ItemStackRequestActionMineBlock extends DataType {
     stream.writeZigZag(value.predictedDurability);
 
     // Write the network id.
-    stream.writeZigZag(value.networkId);
+    stream.writeInt32(value.networkId, Endianness.Little);
   }
 }
 

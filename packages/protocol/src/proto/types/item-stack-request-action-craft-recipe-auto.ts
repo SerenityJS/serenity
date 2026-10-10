@@ -53,7 +53,7 @@ class ItemStackRequestActionCraftRecipeAuto extends DataType {
     // Loop through the ingredients.
     for (let index = 0; index < ingredientsCount; index++) {
       // Read the ingredient.
-      ingredients[index] = RecipeIngredient.read(stream);
+      ingredients[index] = RecipeIngredient.readStackRequest(stream);
     }
 
     // Return the stack request craft recipe action.
@@ -76,7 +76,7 @@ class ItemStackRequestActionCraftRecipeAuto extends DataType {
     // Loop through the ingredients.
     for (const ingredient of value.ingredients) {
       // Write the ingredient.
-      RecipeIngredient.write(stream, ingredient);
+      RecipeIngredient.writeStackRequest(stream, ingredient);
     }
   }
 }

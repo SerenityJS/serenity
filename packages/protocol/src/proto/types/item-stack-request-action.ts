@@ -15,8 +15,8 @@ import { ItemStackRequestActionCraftCreative } from "./item-stack-request-action
 import { ItemStackRequestActionOptional } from "./item-stack-request-action-optional";
 import { ItemStackRequestActionResultsDeprecated } from "./item-stack-request-action-results-deprecated";
 
-import type { ItemStackRequestActionCraftLoomRequest } from "./item-stack-request-action-craft-loom-request";
-import type { ItemStackRequestActionCraftGrindstoneRequest } from "./item-stack-request-action-craft-grindstone-request";
+import { ItemStackRequestActionCraftLoomRequest } from "./item-stack-request-action-craft-loom-request";
+import { ItemStackRequestActionCraftGrindstoneRequest } from "./item-stack-request-action-craft-grindstone-request";
 
 class ItemStackRequestAction extends DataType {
   /**
@@ -148,8 +148,17 @@ class ItemStackRequestAction extends DataType {
   }
 
   public static read(stream: BinaryStream): ItemStackRequestAction {
-    // Read the action.
-    const action = stream.readUint8();
+    // Since v2168, the action is a variant followed by the legacy action type byte.
+    // The variant list leaves out the two container actions that are never sent,
+    // so the variant index runs two behind the action type above them.
+    const variant = stream.readVarInt();
+    const action =
+      variant >= ItemStackRequestActionType.PlaceInItemContainer_DEPRECATED
+        ? variant + 2
+        : variant;
+
+    // Read the legacy action type byte, which is implied by the variant.
+    stream.readUint8();
 
     switch (action) {
       default: {
@@ -282,6 +291,43 @@ class ItemStackRequestAction extends DataType {
           null,
           null,
           ItemStackRequestActionOptional.read(stream)
+        );
+      }
+
+      case ItemStackRequestActionType.CraftRepairAndDisenchant: {
+        return new this(
+          action,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          ItemStackRequestActionCraftGrindstoneRequest.read(stream)
+        );
+      }
+
+      case ItemStackRequestActionType.CraftLoom: {
+        return new this(
+          action,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          ItemStackRequestActionCraftLoomRequest.read(stream)
         );
       }
 

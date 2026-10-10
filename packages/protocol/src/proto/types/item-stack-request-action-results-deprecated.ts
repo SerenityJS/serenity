@@ -1,12 +1,12 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
-import { NetworkItemInstanceDescriptor } from "./network-item-instance-descriptor";
+import { ItemStackRequestItem } from "./item-stack-request-item";
 
 class ItemStackRequestActionResultsDeprecated extends DataType {
   /**
    * The resultants of the item stack request action results deprecated.
    */
-  public readonly resultants: Array<NetworkItemInstanceDescriptor>;
+  public readonly resultants: Array<ItemStackRequestItem>;
 
   /**
    * The amount of the item stack request action results deprecated.
@@ -19,7 +19,7 @@ class ItemStackRequestActionResultsDeprecated extends DataType {
    * @param amount - The amount of the item stack request action results deprecated.
    */
   public constructor(
-    resultants: Array<NetworkItemInstanceDescriptor>,
+    resultants: Array<ItemStackRequestItem>,
     amount: number
   ) {
     super();
@@ -39,7 +39,7 @@ class ItemStackRequestActionResultsDeprecated extends DataType {
     // Loop through the resultants.
     for (let index = 0; index < resultantsCount; index++) {
       // Read the resultant.
-      resultants[index] = NetworkItemInstanceDescriptor.read(stream);
+      resultants[index] = ItemStackRequestItem.read(stream);
     }
 
     // Read the amount.
@@ -59,7 +59,7 @@ class ItemStackRequestActionResultsDeprecated extends DataType {
     // Loop through the resultants.
     for (const resultant of value.resultants) {
       // Write the resultant.
-      NetworkItemInstanceDescriptor.write(stream, resultant);
+      ItemStackRequestItem.write(stream, resultant);
     }
 
     // Write the amount.

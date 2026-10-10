@@ -178,3 +178,4 @@ export * from "./presence-info";
 export * from "./store-entry-point-info";
 export * from "./sound-data-update";
 export * from "./skin-color";
+export * from "./item-stack-request-item";

@@ -1,4 +1,4 @@
-import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { BinaryStream, DataType, Endianness } from "@serenityjs/binarystream";
 
 import { FullContainerName } from "./full-container-name";
 
@@ -43,7 +43,7 @@ class ItemStackRequestSlotInfo extends DataType {
     const slot = stream.readUint8();
 
     // Read the stack id.
-    const stackId = stream.readZigZag();
+    const stackId = stream.readInt32(Endianness.Little);
 
     // Return the stack request slot info.
     return new ItemStackRequestSlotInfo(container, slot, stackId);
@@ -60,7 +60,7 @@ class ItemStackRequestSlotInfo extends DataType {
     stream.writeUint8(value.slot);
 
     // Write the stack id.
-    stream.writeZigZag(value.stackId);
+    stream.writeInt32(value.stackId, Endianness.Little);
   }
 }
 

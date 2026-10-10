@@ -202,6 +202,138 @@ class RecipeIngredient extends DataType {
     // Write the stack size
     stream.writeZigZag(value.stackSize);
   }
+
+  /**
+   * Reads an ingredient as it is written in item stack requests.
+   * Unlike recipes, the descriptor variant index is the descriptor type (empty, name, molang, item tag),
+   * followed by the legacy type byte and the payload, and the stack size is a uint16.
+   * @param stream The stream to read from.
+   * @returns The ingredient.
+   */
+  public static readStackRequest(stream: BinaryStream): RecipeIngredient {
+    // Read the descriptor variant, and the legacy type byte which is implied by it
+    const variant = stream.readVarInt();
+    stream.readUint8();
+
+    // Prepare the type and definition of the ingredient
+    let type = InternalType.Invalid;
+    let definition: RecipeIngredientType | null = null;
+
+    // Read the descriptor based on its variant
+    switch (variant) {
+      default: {
+        throw new Error(
+          `Unknown stack request ingredient descriptor: ${variant}, offset: ${stream.offset}`
+        );
+      }
+
+      case 0: {
+        // The empty descriptor has no payload
+        break;
+      }
+
+      case 1: {
+        // Read the item name and the aux value
+        const name = stream.readVarString();
+        const metadata = stream.readZigZag();
+
+        type = InternalType.Deferred;
+        definition = { name, metadata };
+        break;
+      }
+
+      case 2: {
+        // Read the molang expression and its version
+        const molang = stream.readVarString();
+        const version = stream.readInt16(Endianness.Little);
+
+        type = InternalType.Molang;
+        definition = { molang, version };
+        break;
+      }
+
+      case 3: {
+        // Read the item tag
+        const tag = stream.readVarString();
+
+        type = InternalType.ItemTag;
+        definition = { tag };
+        break;
+      }
+    }
+
+    // Read the stack size
+    const stackSize = stream.readUint16(Endianness.Little);
+
+    // Return the ingredient
+    return new this(type, stackSize, definition);
+  }
+
+  /**
+   * Writes an ingredient as it is written in item stack requests.
+   * @param stream The stream to write to.
+   * @param value The ingredient to write.
+   */
+  public static writeStackRequest(
+    stream: BinaryStream,
+    value: RecipeIngredient
+  ): void {
+    // Get the descriptor variant of the ingredient
+    const variant =
+      value.type === InternalType.Deferred ||
+      value.type === InternalType.ComplexAlias
+        ? 1
+        : value.type === InternalType.Molang
+          ? 2
+          : value.type === InternalType.ItemTag
+            ? 3
+            : value.type === InternalType.Invalid
+              ? 0
+              : -1;
+
+    // Network id ingredients cannot be written since v2168
+    if (variant === -1)
+      throw new Error(
+        `Unsupported ingredient type: ${InternalType[value.type] ?? value.type}; items are referenced by name since v2168, use InternalType.Deferred`
+      );
+
+    // Write the descriptor variant, followed by the legacy type byte
+    stream.writeVarInt(variant);
+    stream.writeUint8(variant);
+
+    // Write the descriptor payload
+    switch (value.type) {
+      case InternalType.Deferred: {
+        const definition = value.definition as RecipeIngredientDeferred;
+        stream.writeVarString(definition.name);
+        stream.writeZigZag(definition.metadata);
+        break;
+      }
+
+      case InternalType.ComplexAlias: {
+        const definition = value.definition as RecipeIngredientComplexAlias;
+        stream.writeVarString(definition.name);
+        stream.writeZigZag(WILDCARD_AUX);
+        break;
+      }
+
+      case InternalType.Molang: {
+        const definition = value.definition as RecipeIngredientMolang;
+        stream.writeVarString(definition.molang);
+        stream.writeInt16(definition.version, Endianness.Little);
+        break;
+      }
+
+      case InternalType.ItemTag: {
+        const definition = value.definition as RecipeIngredientItemTag;
+        stream.writeVarString(definition.tag);
+        break;
+      }
+    }
+
+    // Write the stack size
+    stream.writeUint16(value.stackSize, Endianness.Little);
+  }
 }
 
 export { RecipeIngredient };
