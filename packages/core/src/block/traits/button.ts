@@ -5,6 +5,7 @@ import {
 } from "@serenityjs/protocol";
 
 import { BlockInteractionOptions } from "../../types";
+import { BlockIdentifier } from "../../enums";
 // import { PlayerPressedButtonSignal } from "../../events";
 
 import { BlockTrait } from "./trait";
@@ -38,7 +39,7 @@ class BlockButtonTrait extends BlockTrait {
     this.setState(!state);
 
     // Add a release tick if the button is pressed
-    this.releaseTick = this.block.world.currentTick + 40n;
+    this.releaseTick = this.block.world.currentTick + this.getPressDuration();
   }
 
   public onTick(): void {
@@ -53,6 +54,18 @@ class BlockButtonTrait extends BlockTrait {
       // Reset the release tick
       this.releaseTick = -1n;
     }
+  }
+
+  /**
+   * Gets the number of ticks the button stays pressed for.
+   * Stone buttons stay pressed for 20 ticks, and wooden buttons for 30.
+   */
+  public getPressDuration(): bigint {
+    const identifier = this.block.identifier;
+    return identifier === BlockIdentifier.StoneButton ||
+      identifier === BlockIdentifier.PolishedBlackstoneButton
+      ? 20n
+      : 30n;
   }
 
   /**
@@ -80,8 +93,8 @@ class BlockButtonTrait extends BlockTrait {
     const packet = new LevelSoundEventPacket();
     packet.data = this.block.permutation.networkId;
     packet.event = state
-      ? LevelSoundEvent.ButtonClickOff
-      : LevelSoundEvent.ButtonClickOn;
+      ? LevelSoundEvent.ButtonClickOn
+      : LevelSoundEvent.ButtonClickOff;
     packet.position = BlockPosition.toVector3f(this.block.position);
     packet.uniqueActorId = -1n;
     packet.actorIdentifier = "";
