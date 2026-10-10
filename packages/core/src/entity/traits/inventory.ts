@@ -84,8 +84,8 @@ class EntityInventoryTrait extends EntityTrait {
     // Create a new MobEquipmentPacket
     const packet = new MobEquipmentPacket();
 
-    // Get the held item from the inventory
-    const heldItem = this.getHeldItem();
+    // Get the item in the slot that will be held
+    const heldItem = this.container.getItem(slot);
 
     // Create a new item descriptor from the held item
     const itemDescriptor = heldItem
