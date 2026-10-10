@@ -21,3 +21,4 @@ export * from "./shulker-box";
 export * from "./support";
 export * from "./connection";
 export * from "./wall-connection";
+export * from "./attachment";
