@@ -47,7 +47,8 @@ class GameRules extends DataType {
           break;
         }
         case GameRuleType.Int: {
-          value = stream.readZigZag();
+          // Since v2168, int game rules are a fixed int32, in start game as well.
+          value = stream.readInt32(Endianness.Little);
           break;
         }
         case GameRuleType.Float: {
@@ -88,7 +89,8 @@ class GameRules extends DataType {
           break;
         }
         case GameRuleType.Int: {
-          stream.writeZigZag(rule.value as number);
+          // Since v2168, int game rules are a fixed int32, in start game as well.
+          stream.writeInt32(rule.value as number, Endianness.Little);
           break;
         }
         case GameRuleType.Float: {
