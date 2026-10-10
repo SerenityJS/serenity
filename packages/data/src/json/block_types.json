@@ -69,7 +69,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:acacia_fence_gate",
@@ -250,6 +255,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -492,6 +498,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -694,7 +701,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:bamboo_fence_gate",
@@ -798,6 +810,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -897,6 +910,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -1208,7 +1222,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:birch_fence_gate",
@@ -1389,6 +1408,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -1525,6 +1545,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:black_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5BABub25lCAUAZ3JvdXAAAAEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwEAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEDCABibG9ja19pZNEFAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQoPAGJsb2NrX2FyY2hldHlwZQgRAGRvdWJsZV9zbGFiX2Jsb2NrHQBtaW5lY3JhZnQ6YmxhY2tfY29uY3JldGVfc2xhYgEJAGlzX2RvdWJsZQEIBAB0eXBlCgBzbGFiX2Jsb2NrAAAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8ACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAQAAAA=="
+  },
+  {
     "identifier": "minecraft:black_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -1537,6 +1574,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:black_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwHQBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc2xhYgEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlCAQAdHlwZQoAc2xhYl9ibG9jawgRAGRvdWJsZV9zbGFiX2Jsb2NrJABtaW5lY3JhZnQ6YmxhY2tfY29uY3JldGVfZG91YmxlX3NsYWIBCQBpc19kb3VibGUAAAMIAGJsb2NrX2lkwQUAAAgIAG1hdGVyaWFsBQBzb2xpZAEfAHJlcXVpcmVzX2NvcnJlY3RfdG9vbF9mb3JfZHJvcHMBAAkJAGJsb2NrVGFncwgBAAAAJgBtaW5lY3JhZnQ6aXNfcGlja2F4ZV9pdGVtX2Rlc3RydWN0aWJsZQA="
+  },
+  {
+    "identifier": "minecraft:black_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhCAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUICgBiYXNlX2Jsb2NrGABtaW5lY3JhZnQ6YmxhY2tfY29uY3JldGUIBAB0eXBlCwBzdGFpcl9ibG9jawADCABibG9ja19pZL0FAAAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQERAHJlZHN0b25lQ29uZHVjdG9yAAEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQAKEQBtaW5lY3JhZnQ6c3VwcG9ydAgFAHNoYXBlBQBzdGFpcgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAA"
   },
   {
     "identifier": "minecraft:black_glazed_terracotta",
@@ -1591,7 +1664,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:black_terracotta",
@@ -1618,6 +1696,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:black_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAoNAG1lbnVfY2F0ZWdvcnkICABjYXRlZ29yeQQAbm9uZQgFAGdyb3VwAAABFQBpc19oaWRkZW5faW5fY29tbWFuZHMBAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhAwgAYmxvY2tfaWSfBQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkCg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2sZAG1pbmVjcmFmdDpibGFja193b29sX3NsYWIBCQBpc19kb3VibGUBCAQAdHlwZQoAc2xhYl9ibG9jawAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUA"
+  },
+  {
+    "identifier": "minecraft:black_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlzcxMPwAKHwBtaW5lY3JhZnQ6ZGVzdHJ1Y3Rpb25fcGFydGljbGVzCAcAdGV4dHVyZQAACAsAdGludF9tZXRob2QEAG5vbmUDDgBwYXJ0aWNsZV9jb3VudDAAAAAAChoAbWluZWNyYWZ0OmxpcXVpZF9kZXRlY3Rpb24JDgBkZXRlY3Rpb25SdWxlcwoBAAAAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwAAAAAKDQBtZW51X2NhdGVnb3J5CAgAY2F0ZWdvcnkMAGNvbnN0cnVjdGlvbggFAGdyb3VwHQBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc2xhYgEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEDCABibG9ja19pZI8FAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2sgAG1pbmVjcmFmdDpibGFja193b29sX2RvdWJsZV9zbGFiAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sAAAA="
+  },
+  {
+    "identifier": "minecraft:black_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkBQwAdHJhbnNsdWNlbmN5zcxMPwoPAGJsb2NrX2FyY2hldHlwZQgEAHR5cGULAHN0YWlyX2Jsb2NrCAoAYmFzZV9ibG9jaxQAbWluZWNyYWZ0OmJsYWNrX3dvb2wAAwgAYmxvY2tfaWSLBQAAAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAgPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAoRAG1pbmVjcmFmdDpzdXBwb3J0CAUAc2hhcGUFAHN0YWlyAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAA"
   },
   {
     "identifier": "minecraft:blackstone",
@@ -1679,6 +1810,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -1776,6 +1908,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:blue_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBEQByZWRzdG9uZUNvbmR1Y3RvcgEBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8AAAoNAG1lbnVfY2F0ZWdvcnkICABjYXRlZ29yeQQAbm9uZQgFAGdyb3VwAAABFQBpc19oaWRkZW5faW5fY29tbWFuZHMBAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlAQkAaXNfZG91YmxlAQgEAHR5cGUKAHNsYWJfYmxvY2sIEQBkb3VibGVfc2xhYl9ibG9jaxwAbWluZWNyYWZ0OmJsdWVfY29uY3JldGVfc2xhYgADCABibG9ja19pZNoFAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQAA"
+  },
+  {
     "identifier": "minecraft:blue_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -1788,6 +1937,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:blue_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2sjAG1pbmVjcmFmdDpibHVlX2NvbmNyZXRlX2RvdWJsZV9zbGFiAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sAAwgAYmxvY2tfaWTKBQAACAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlZmbmPwAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwHQBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc2xhYgEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uAAMNAG1vbGFuZ1ZlcnNpb24NAAAAAA=="
+  },
+  {
+    "identifier": "minecraft:blue_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlCAoAYmFzZV9ibG9jaxcAbWluZWNyYWZ0OmJsdWVfY29uY3JldGUIBAB0eXBlCwBzdGFpcl9ibG9jawADCABibG9ja19pZLAFAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwgLAHRpbnRfbWV0aG9kBABub25lAw4AcGFydGljbGVfY291bnQwAAAACAcAdGV4dHVyZQAAAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAAKDQBtZW51X2NhdGVnb3J5CAgAY2F0ZWdvcnkMAGNvbnN0cnVjdGlvbggFAGdyb3VwHwBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc3RhaXJzARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAADDQBtb2xhbmdWZXJzaW9uDQAAAAA="
   },
   {
     "identifier": "minecraft:blue_glazed_terracotta",
@@ -1870,7 +2055,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:blue_terracotta",
@@ -1897,6 +2087,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:blue_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEBFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQKDwBibG9ja19hcmNoZXR5cGUIBAB0eXBlCgBzbGFiX2Jsb2NrCBEAZG91YmxlX3NsYWJfYmxvY2sYAG1pbmVjcmFmdDpibHVlX3dvb2xfc2xhYgEJAGlzX2RvdWJsZQEAAwgAYmxvY2tfaWSoBQAAAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAoNAG1lbnVfY2F0ZWdvcnkBFQBpc19oaWRkZW5faW5fY29tbWFuZHMBCAgAY2F0ZWdvcnkEAG5vbmUIBQBncm91cAAAAAA="
+  },
+  {
+    "identifier": "minecraft:blue_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2sfAG1pbmVjcmFmdDpibHVlX3dvb2xfZG91YmxlX3NsYWIBCQBpc19kb3VibGUACAQAdHlwZQoAc2xhYl9ibG9jawADCABibG9ja19pZJgFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAAAA=="
+  },
+  {
+    "identifier": "minecraft:blue_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUICgBiYXNlX2Jsb2NrEwBtaW5lY3JhZnQ6Ymx1ZV93b29sCAQAdHlwZQsAc3RhaXJfYmxvY2sAAwgAYmxvY2tfaWR+BQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkBQwAdHJhbnNsdWNlbmN5zcxMPwAJCQBibG9ja1RhZ3MIAQAAACUAbWluZWNyYWZ0OmlzX3NoZWFyc19pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlzcxMPwAKHwBtaW5lY3JhZnQ6ZGVzdHJ1Y3Rpb25fcGFydGljbGVzCAsAdGludF9tZXRob2QEAG5vbmUDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAAChoAbWluZWNyYWZ0OmxpcXVpZF9kZXRlY3Rpb24JDgBkZXRlY3Rpb25SdWxlcwoBAAAAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwAAAAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAAChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIAAAoNAG1lbnVfY2F0ZWdvcnkICABjYXRlZ29yeQwAY29uc3RydWN0aW9uCAUAZ3JvdXAfAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zdGFpcnMBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAA="
   },
   {
     "identifier": "minecraft:bone_block",
@@ -2088,6 +2331,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -2169,6 +2413,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:brown_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBEQByZWRzdG9uZUNvbmR1Y3RvcgEBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEAAAoNAG1lbnVfY2F0ZWdvcnkBFQBpc19oaWRkZW5faW5fY29tbWFuZHMBCAgAY2F0ZWdvcnkEAG5vbmUIBQBncm91cAAAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2sdAG1pbmVjcmFmdDpicm93bl9jb25jcmV0ZV9zbGFiAQkAaXNfZG91YmxlAQgEAHR5cGUKAHNsYWJfYmxvY2sAAwgAYmxvY2tfaWTSBQAACAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEAAA=="
+  },
+  {
     "identifier": "minecraft:brown_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -2181,6 +2442,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:brown_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAACg0AbWVudV9jYXRlZ29yeQEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uCAUAZ3JvdXAdAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zbGFiAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlCAQAdHlwZQoAc2xhYl9ibG9jawgRAGRvdWJsZV9zbGFiX2Jsb2NrJABtaW5lY3JhZnQ6YnJvd25fY29uY3JldGVfZG91YmxlX3NsYWIBCQBpc19kb3VibGUAAAMIAGJsb2NrX2lkwgUAAAgIAG1hdGVyaWFsBQBzb2xpZAEfAHJlcXVpcmVzX2NvcnJlY3RfdG9vbF9mb3JfZHJvcHMBAAA="
+  },
+  {
+    "identifier": "minecraft:brown_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAAIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcgAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQERAHJlZHN0b25lQ29uZHVjdG9yAAEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQAKEQBtaW5lY3JhZnQ6c3VwcG9ydAgFAHNoYXBlBQBzdGFpcgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUIBAB0eXBlCwBzdGFpcl9ibG9jawgKAGJhc2VfYmxvY2sYAG1pbmVjcmFmdDpicm93bl9jb25jcmV0ZQADCABibG9ja19pZLwFAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUA"
   },
   {
     "identifier": "minecraft:brown_glazed_terracotta",
@@ -2263,7 +2560,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:brown_terracotta",
@@ -2290,6 +2592,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:brown_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhAwgAYmxvY2tfaWSgBQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkCg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2sZAG1pbmVjcmFmdDpicm93bl93b29sX3NsYWIBCQBpc19kb3VibGUBCAQAdHlwZQoAc2xhYl9ibG9jawAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAQAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwAAABFQBpc19oaWRkZW5faW5fY29tbWFuZHMBCAgAY2F0ZWdvcnkEAG5vbmUAAw0AbW9sYW5nVmVyc2lvbg0AAAAA"
+  },
+  {
+    "identifier": "minecraft:brown_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2sgAG1pbmVjcmFmdDpicm93bl93b29sX2RvdWJsZV9zbGFiAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sAAwgAYmxvY2tfaWSQBQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAA="
+  },
+  {
+    "identifier": "minecraft:brown_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEDCABibG9ja19pZIoFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCAoAYmFzZV9ibG9jaxQAbWluZWNyYWZ0OmJyb3duX3dvb2wIBAB0eXBlCwBzdGFpcl9ibG9jawAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAgPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5AREAcmVkc3RvbmVDb25kdWN0b3IAARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAAoRAG1pbmVjcmFmdDpzdXBwb3J0CAUAc2hhcGUFAHN0YWlyAAAA"
   },
   {
     "identifier": "minecraft:bubble_column",
@@ -2644,6 +2999,17 @@
     ]
   },
   {
+    "identifier": "minecraft:chalkboard",
+    "components": [],
+    "tags": [],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "direction"
+    ]
+  },
+  {
     "identifier": "minecraft:chemical_heat",
     "components": [
       "minecraft:movable",
@@ -2724,7 +3090,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:cherry_fence_gate",
@@ -2897,6 +3268,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -3305,6 +3677,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -3389,6 +3762,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -3422,6 +3796,15 @@
     "tags": [
       "minecraft:is_shovel_item_destructible"
     ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:client_request_placeholder_block",
+    "components": [],
+    "tags": [],
     "air": false,
     "liquid": false,
     "solid": true,
@@ -3545,6 +3928,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -3786,7 +4170,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:copper_block",
@@ -4193,7 +4582,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:crimson_fence_gate",
@@ -4371,6 +4765,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -4511,6 +4906,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -4663,6 +5059,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:cyan_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAoNAG1lbnVfY2F0ZWdvcnkIBQBncm91cAAAARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAQgIAGNhdGVnb3J5BABub25lAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2scAG1pbmVjcmFmdDpjeWFuX2NvbmNyZXRlX3NsYWIBCQBpc19kb3VibGUBCAQAdHlwZQoAc2xhYl9ibG9jawADCABibG9ja19pZNgFAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUA"
+  },
+  {
     "identifier": "minecraft:cyan_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -4675,6 +5088,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:cyan_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQERAHJlZHN0b25lQ29uZHVjdG9yAAEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUIEQBkb3VibGVfc2xhYl9ibG9jayMAbWluZWNyYWZ0OmN5YW5fY29uY3JldGVfZG91YmxlX3NsYWIBCQBpc19kb3VibGUACAQAdHlwZQoAc2xhYl9ibG9jawADCABibG9ja19pZMgFAAAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlAA=="
+  },
+  {
+    "identifier": "minecraft:cyan_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUIBAB0eXBlCwBzdGFpcl9ibG9jawgKAGJhc2VfYmxvY2sXAG1pbmVjcmFmdDpjeWFuX2NvbmNyZXRlAAMIAGJsb2NrX2lkuQUAAAgIAG1hdGVyaWFsBQBzb2xpZAAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzChoAbWluZWNyYWZ0OmxpcXVpZF9kZXRlY3Rpb24JDgBkZXRlY3Rpb25SdWxlcwoBAAAACA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIAAAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAAChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAw4AcGFydGljbGVfY291bnQwAAAAAAAKDQBtZW51X2NhdGVnb3J5CAgAY2F0ZWdvcnkMAGNvbnN0cnVjdGlvbggFAGdyb3VwHwBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc3RhaXJzARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAADDQBtb2xhbmdWZXJzaW9uDQAAAAA="
   },
   {
     "identifier": "minecraft:cyan_glazed_terracotta",
@@ -4729,7 +5178,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:cyan_terracotta",
@@ -4756,6 +5210,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:cyan_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEDCABibG9ja19pZKYFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQKDwBibG9ja19hcmNoZXR5cGUIEQBkb3VibGVfc2xhYl9ibG9jaxgAbWluZWNyYWZ0OmN5YW5fd29vbF9zbGFiAQkAaXNfZG91YmxlAQgEAHR5cGUKAHNsYWJfYmxvY2sAAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAoNAG1lbnVfY2F0ZWdvcnkBFQBpc19oaWRkZW5faW5fY29tbWFuZHMBCAgAY2F0ZWdvcnkEAG5vbmUIBQBncm91cAAAAAA="
+  },
+  {
+    "identifier": "minecraft:cyan_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nAAAACg0AbWVudV9jYXRlZ29yeQEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uCAUAZ3JvdXAdAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zbGFiAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sIEQBkb3VibGVfc2xhYl9ibG9jax8AbWluZWNyYWZ0OmN5YW5fd29vbF9kb3VibGVfc2xhYgADCABibG9ja19pZJYFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/AAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlAA=="
+  },
+  {
+    "identifier": "minecraft:cyan_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUICgBiYXNlX2Jsb2NrEwBtaW5lY3JhZnQ6Y3lhbl93b29sCAQAdHlwZQsAc3RhaXJfYmxvY2sAAwgAYmxvY2tfaWSHBQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkBQwAdHJhbnNsdWNlbmN5zcxMPwAJCQBibG9ja1RhZ3MIAQAAACUAbWluZWNyYWZ0OmlzX3NoZWFyc19pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5AREAcmVkc3RvbmVDb25kdWN0b3IAARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAAoRAG1pbmVjcmFmdDpzdXBwb3J0CAUAc2hhcGUFAHN0YWlyAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAAAAAA="
   },
   {
     "identifier": "minecraft:damaged_anvil",
@@ -4857,7 +5364,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:dark_oak_fence_gate",
@@ -5038,6 +5550,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -5140,6 +5653,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -5589,6 +6103,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -5805,6 +6320,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -5854,6 +6370,54 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:deprecated_anvil",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:deprecated_purpur_block_1",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "pillar_axis"
+    ]
+  },
+  {
+    "identifier": "minecraft:deprecated_purpur_block_2",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "pillar_axis"
+    ]
   },
   {
     "identifier": "minecraft:detector_rail",
@@ -5967,6 +6531,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -7650,6 +8215,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -7666,6 +8232,18 @@
     "air": false,
     "liquid": false,
     "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:end_gateway",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [],
+    "air": false,
+    "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -7839,7 +8417,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:exposed_copper_bulb",
@@ -8035,6 +8618,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -8375,7 +8959,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:glow_frame",
@@ -8408,6 +8997,22 @@
     "states": [
       "multi_face_direction_bits"
     ]
+  },
+  {
+    "identifier": "minecraft:glowingobsidian",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:diamond_tier_destructible",
+      "diamond_pick_diggable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
   },
   {
     "identifier": "minecraft:glowstone",
@@ -8545,6 +9150,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -8674,6 +9280,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:gray_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAoNAG1lbnVfY2F0ZWdvcnkICABjYXRlZ29yeQQAbm9uZQgFAGdyb3VwAAABFQBpc19oaWRkZW5faW5fY29tbWFuZHMBAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUBCQBpc19kb3VibGUBCAQAdHlwZQoAc2xhYl9ibG9jawgRAGRvdWJsZV9zbGFiX2Jsb2NrHABtaW5lY3JhZnQ6Z3JheV9jb25jcmV0ZV9zbGFiAAMIAGJsb2NrX2lk0AUAAAgIAG1hdGVyaWFsBQBzb2xpZAAA"
+  },
+  {
     "identifier": "minecraft:gray_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -8686,6 +9309,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:gray_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUIEQBkb3VibGVfc2xhYl9ibG9jayMAbWluZWNyYWZ0OmdyYXlfY29uY3JldGVfZG91YmxlX3NsYWIBCQBpc19kb3VibGUACAQAdHlwZQoAc2xhYl9ibG9jawADCABibG9ja19pZMAFAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlZmbmPwAKHwBtaW5lY3JhZnQ6ZGVzdHJ1Y3Rpb25fcGFydGljbGVzAw4AcGFydGljbGVfY291bnQwAAAACAcAdGV4dHVyZQAACAsAdGludF9tZXRob2QEAG5vbmUAChoAbWluZWNyYWZ0OmxpcXVpZF9kZXRlY3Rpb24JDgBkZXRlY3Rpb25SdWxlcwoBAAAACA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIAAAAKDQBtZW51X2NhdGVnb3J5ARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIAAA=="
+  },
+  {
+    "identifier": "minecraft:gray_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQoPAGJsb2NrX2FyY2hldHlwZQgKAGJhc2VfYmxvY2sXAG1pbmVjcmFmdDpncmF5X2NvbmNyZXRlCAQAdHlwZQsAc3RhaXJfYmxvY2sAAwgAYmxvY2tfaWS3BQAAAAkJAGJsb2NrVGFncwgBAAAAJgBtaW5lY3JhZnQ6aXNfcGlja2F4ZV9pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAoRAG1pbmVjcmFmdDpzdXBwb3J0CAUAc2hhcGUFAHN0YWlyAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAAIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcgAAAAoNAG1lbnVfY2F0ZWdvcnkIBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uAAA="
   },
   {
     "identifier": "minecraft:gray_glazed_terracotta",
@@ -8740,7 +9399,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:gray_terracotta",
@@ -8767,6 +9431,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:gray_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5BABub25lCAUAZ3JvdXAAAAEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwEAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEDCABibG9ja19pZJ4FAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQKDwBibG9ja19hcmNoZXR5cGUIBAB0eXBlCgBzbGFiX2Jsb2NrCBEAZG91YmxlX3NsYWJfYmxvY2sYAG1pbmVjcmFmdDpncmF5X3dvb2xfc2xhYgEJAGlzX2RvdWJsZQEAAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAA="
+  },
+  {
+    "identifier": "minecraft:gray_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkBQwAdHJhbnNsdWNlbmN5zcxMPwoPAGJsb2NrX2FyY2hldHlwZQgRAGRvdWJsZV9zbGFiX2Jsb2NrHwBtaW5lY3JhZnQ6Z3JheV93b29sX2RvdWJsZV9zbGFiAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sAAwgAYmxvY2tfaWSOBQAAAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAAIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcgAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQERAHJlZHN0b25lQ29uZHVjdG9yAAEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwHQBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc2xhYgEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uAAMNAG1vbGFuZ1ZlcnNpb24NAAAAAA=="
+  },
+  {
+    "identifier": "minecraft:gray_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAKEQBtaW5lY3JhZnQ6c3VwcG9ydAgFAHNoYXBlBQBzdGFpcgAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwHwBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc3RhaXJzARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24AAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEBFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCAoAYmFzZV9ibG9jaxMAbWluZWNyYWZ0OmdyYXlfd29vbAgEAHR5cGULAHN0YWlyX2Jsb2NrAAMIAGJsb2NrX2lkhQUAAAAJCQBibG9ja1RhZ3MIAQAAACUAbWluZWNyYWZ0OmlzX3NoZWFyc19pdGVtX2Rlc3RydWN0aWJsZQA="
   },
   {
     "identifier": "minecraft:green_candle",
@@ -8824,6 +9541,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:green_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhCAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUIEQBkb3VibGVfc2xhYl9ibG9jax0AbWluZWNyYWZ0OmdyZWVuX2NvbmNyZXRlX3NsYWIBCQBpc19kb3VibGUBCAQAdHlwZQoAc2xhYl9ibG9jawADCABibG9ja19pZNcFAAAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAoNAG1lbnVfY2F0ZWdvcnkICABjYXRlZ29yeQQAbm9uZQgFAGdyb3VwAAABFQBpc19oaWRkZW5faW5fY29tbWFuZHMBAAMNAG1vbGFuZ1ZlcnNpb24NAAAAAA=="
+  },
+  {
     "identifier": "minecraft:green_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -8836,6 +9570,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:green_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlZmbmPwAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUIEQBkb3VibGVfc2xhYl9ibG9jayQAbWluZWNyYWZ0OmdyZWVuX2NvbmNyZXRlX2RvdWJsZV9zbGFiAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sAAwgAYmxvY2tfaWTHBQAACAgAbWF0ZXJpYWwFAHNvbGlkAAA="
+  },
+  {
+    "identifier": "minecraft:green_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhCAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUICgBiYXNlX2Jsb2NrGABtaW5lY3JhZnQ6Z3JlZW5fY29uY3JldGUIBAB0eXBlCwBzdGFpcl9ibG9jawADCABibG9ja19pZLsFAAAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAAChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAw4AcGFydGljbGVfY291bnQwAAAAAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AAAAACg0AbWVudV9jYXRlZ29yeQEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uCAUAZ3JvdXAfAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zdGFpcnMAAw0AbW9sYW5nVmVyc2lvbg0AAAAA"
   },
   {
     "identifier": "minecraft:green_glazed_terracotta",
@@ -8890,7 +9660,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:green_terracotta",
@@ -8917,6 +9692,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:green_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAoNAG1lbnVfY2F0ZWdvcnkIBQBncm91cAAAARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAQgIAGNhdGVnb3J5BABub25lAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCAgAbWF0ZXJpYWwFAHNvbGlkCg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2sZAG1pbmVjcmFmdDpncmVlbl93b29sX3NsYWIBCQBpc19kb3VibGUBCAQAdHlwZQoAc2xhYl9ibG9jawADCABibG9ja19pZKUFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUA"
+  },
+  {
+    "identifier": "minecraft:green_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAw4AcGFydGljbGVfY291bnQwAAAAAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAAKDQBtZW51X2NhdGVnb3J5CAUAZ3JvdXAdAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zbGFiARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24AAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEBFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2sgAG1pbmVjcmFmdDpncmVlbl93b29sX2RvdWJsZV9zbGFiAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sAAwgAYmxvY2tfaWSVBQAAAAA="
+  },
+  {
+    "identifier": "minecraft:green_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCAoAYmFzZV9ibG9jaxQAbWluZWNyYWZ0OmdyZWVuX3dvb2wIBAB0eXBlCwBzdGFpcl9ibG9jawADCABibG9ja19pZIkFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQERAHJlZHN0b25lQ29uZHVjdG9yAAEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQAKEQBtaW5lY3JhZnQ6c3VwcG9ydAgFAHNoYXBlBQBzdGFpcgAKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlzcxMPwAKHwBtaW5lY3JhZnQ6ZGVzdHJ1Y3Rpb25fcGFydGljbGVzCAcAdGV4dHVyZQAACAsAdGludF9tZXRob2QEAG5vbmUDDgBwYXJ0aWNsZV9jb3VudDAAAAAAChoAbWluZWNyYWZ0OmxpcXVpZF9kZXRlY3Rpb24JDgBkZXRlY3Rpb25SdWxlcwoBAAAAARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcAAAAKDQBtZW51X2NhdGVnb3J5CAgAY2F0ZWdvcnkMAGNvbnN0cnVjdGlvbggFAGdyb3VwHwBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc3RhaXJzARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAAA"
   },
   {
     "identifier": "minecraft:grindstone",
@@ -8969,7 +9797,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_blue_stained_glass",
@@ -8993,7 +9826,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_brown_stained_glass",
@@ -9017,7 +9855,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_cyan_stained_glass",
@@ -9041,7 +9884,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_glass",
@@ -9065,7 +9913,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_gray_stained_glass",
@@ -9089,7 +9942,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_green_stained_glass",
@@ -9113,7 +9971,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_light_blue_stained_glass",
@@ -9137,7 +10000,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_light_gray_stained_glass",
@@ -9161,7 +10029,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_lime_stained_glass",
@@ -9185,7 +10058,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_magenta_stained_glass",
@@ -9209,7 +10087,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_orange_stained_glass",
@@ -9233,7 +10116,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_pink_stained_glass",
@@ -9257,7 +10145,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_purple_stained_glass",
@@ -9281,7 +10174,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_red_stained_glass",
@@ -9305,7 +10203,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_white_stained_glass",
@@ -9329,7 +10232,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hard_yellow_stained_glass",
@@ -9353,7 +10261,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:hardened_clay",
@@ -9631,6 +10544,38 @@
     "states": []
   },
   {
+    "identifier": "minecraft:info_update",
+    "components": [],
+    "tags": [],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:info_update2",
+    "components": [],
+    "tags": [],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:invisible_bedrock",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
     "identifier": "minecraft:iron_bars",
     "components": [
       "minecraft:movable",
@@ -9643,7 +10588,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:iron_block",
@@ -9837,7 +10787,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:jungle_fence_gate",
@@ -10018,6 +10973,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -10537,6 +11493,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:light_blue_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAoNAG1lbnVfY2F0ZWdvcnkBFQBpc19oaWRkZW5faW5fY29tbWFuZHMBCAgAY2F0ZWdvcnkEAG5vbmUIBQBncm91cAAAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUIEQBkb3VibGVfc2xhYl9ibG9jayIAbWluZWNyYWZ0OmxpZ2h0X2JsdWVfY29uY3JldGVfc2xhYgEJAGlzX2RvdWJsZQEIBAB0eXBlCgBzbGFiX2Jsb2NrAAMIAGJsb2NrX2lk2QUAAAAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUA"
+  },
+  {
     "identifier": "minecraft:light_blue_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -10549,6 +11522,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:light_blue_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5AREAcmVkc3RvbmVDb25kdWN0b3IAARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUIBAB0eXBlCgBzbGFiX2Jsb2NrCBEAZG91YmxlX3NsYWJfYmxvY2spAG1pbmVjcmFmdDpsaWdodF9ibHVlX2NvbmNyZXRlX2RvdWJsZV9zbGFiAQkAaXNfZG91YmxlAAADCABibG9ja19pZMkFAAAICABtYXRlcmlhbAUAc29saWQAAA=="
+  },
+  {
+    "identifier": "minecraft:light_blue_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uCAUAZ3JvdXAfAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zdGFpcnMAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQoPAGJsb2NrX2FyY2hldHlwZQgKAGJhc2VfYmxvY2sdAG1pbmVjcmFmdDpsaWdodF9ibHVlX2NvbmNyZXRlCAQAdHlwZQsAc3RhaXJfYmxvY2sAAwgAYmxvY2tfaWSzBQAAAAkJAGJsb2NrVGFncwgBAAAAJgBtaW5lY3JhZnQ6aXNfcGlja2F4ZV9pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlZmbmPwAKHwBtaW5lY3JhZnQ6ZGVzdHJ1Y3Rpb25fcGFydGljbGVzCAcAdGV4dHVyZQAACAsAdGludF9tZXRob2QEAG5vbmUDDgBwYXJ0aWNsZV9jb3VudDAAAAAAChoAbWluZWNyYWZ0OmxpcXVpZF9kZXRlY3Rpb24JDgBkZXRlY3Rpb25SdWxlcwoBAAAAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwAAAAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAAChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIAAAA="
   },
   {
     "identifier": "minecraft:light_blue_glazed_terracotta",
@@ -10603,7 +11612,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:light_blue_terracotta",
@@ -10630,6 +11644,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:light_blue_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhCAgAbWF0ZXJpYWwFAHNvbGlkCg8AYmxvY2tfYXJjaGV0eXBlAQkAaXNfZG91YmxlAQgEAHR5cGUKAHNsYWJfYmxvY2sIEQBkb3VibGVfc2xhYl9ibG9jax4AbWluZWNyYWZ0OmxpZ2h0X2JsdWVfd29vbF9zbGFiAAMIAGJsb2NrX2lkpwUAAAEVAGNhbl9kYW1wZW5fdmlicmF0aW9ucwEBFgBjYW5fb2NjbHVkZV92aWJyYXRpb25zAQAJCQBibG9ja1RhZ3MIAQAAACUAbWluZWNyYWZ0OmlzX3NoZWFyc19pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlzcxMPwAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IBAAAKDQBtZW51X2NhdGVnb3J5CAgAY2F0ZWdvcnkEAG5vbmUIBQBncm91cAAAARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAQADDQBtb2xhbmdWZXJzaW9uDQAAAAA="
+  },
+  {
+    "identifier": "minecraft:light_blue_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAAIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcgAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAACg0AbWVudV9jYXRlZ29yeQEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uCAUAZ3JvdXAdAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zbGFiAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhAwgAYmxvY2tfaWSXBQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkBQwAdHJhbnNsdWNlbmN5zcxMPwoPAGJsb2NrX2FyY2hldHlwZQgRAGRvdWJsZV9zbGFiX2Jsb2NrJQBtaW5lY3JhZnQ6bGlnaHRfYmx1ZV93b29sX2RvdWJsZV9zbGFiAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sAAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlAA=="
+  },
+  {
+    "identifier": "minecraft:light_blue_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUICgBiYXNlX2Jsb2NrGQBtaW5lY3JhZnQ6bGlnaHRfYmx1ZV93b29sCAQAdHlwZQsAc3RhaXJfYmxvY2sAAwgAYmxvY2tfaWSBBQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkBQwAdHJhbnNsdWNlbmN5zcxMPwAJCQBibG9ja1RhZ3MIAQAAACUAbWluZWNyYWZ0OmlzX3NoZWFyc19pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlzcxMPwAKHwBtaW5lY3JhZnQ6ZGVzdHJ1Y3Rpb25fcGFydGljbGVzAw4AcGFydGljbGVfY291bnQwAAAACAcAdGV4dHVyZQAACAsAdGludF9tZXRob2QEAG5vbmUAChoAbWluZWNyYWZ0OmxpcXVpZF9kZXRlY3Rpb24JDgBkZXRlY3Rpb25SdWxlcwoBAAAACAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAARAAY2FuQ29udGFpbkxpcXVpZAEAAAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAAChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIAAAoNAG1lbnVfY2F0ZWdvcnkICABjYXRlZ29yeQwAY29uc3RydWN0aW9uCAUAZ3JvdXAfAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zdGFpcnMBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAA="
   },
   {
     "identifier": "minecraft:light_gray_candle",
@@ -10687,6 +11754,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:light_gray_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhCAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUIBAB0eXBlCgBzbGFiX2Jsb2NrCBEAZG91YmxlX3NsYWJfYmxvY2siAG1pbmVjcmFmdDpsaWdodF9ncmF5X2NvbmNyZXRlX3NsYWIBCQBpc19kb3VibGUBAAMIAGJsb2NrX2lkzwUAAAAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8ACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAQAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5BABub25lCAUAZ3JvdXAAAAEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwEAAw0AbW9sYW5nVmVyc2lvbg0AAAAA"
+  },
+  {
     "identifier": "minecraft:light_gray_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -10699,6 +11783,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:light_gray_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQoPAGJsb2NrX2FyY2hldHlwZQgRAGRvdWJsZV9zbGFiX2Jsb2NrKQBtaW5lY3JhZnQ6bGlnaHRfZ3JheV9jb25jcmV0ZV9kb3VibGVfc2xhYgEJAGlzX2RvdWJsZQAIBAB0eXBlCgBzbGFiX2Jsb2NrAAMIAGJsb2NrX2lkvwUAAAAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAw4AcGFydGljbGVfY291bnQwAAAAAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAAKDQBtZW51X2NhdGVnb3J5CAgAY2F0ZWdvcnkMAGNvbnN0cnVjdGlvbggFAGdyb3VwHQBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc2xhYgEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAA=="
+  },
+  {
+    "identifier": "minecraft:light_gray_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBEQByZWRzdG9uZUNvbmR1Y3RvcgABFABhbGxvd3NXaXJlVG9TdGVwRG93bgEAChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nAAAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwHwBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc3RhaXJzARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24AAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEDCABibG9ja19pZLgFAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQoPAGJsb2NrX2FyY2hldHlwZQgKAGJhc2VfYmxvY2sdAG1pbmVjcmFmdDpsaWdodF9ncmF5X2NvbmNyZXRlCAQAdHlwZQsAc3RhaXJfYmxvY2sAAAA="
   },
   {
     "identifier": "minecraft:light_gray_shulker_box",
@@ -10737,7 +11857,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:light_gray_terracotta",
@@ -10764,6 +11889,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:light_gray_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwAAABFQBpc19oaWRkZW5faW5fY29tbWFuZHMBCAgAY2F0ZWdvcnkEAG5vbmUAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEDCABibG9ja19pZJ0FAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQKDwBibG9ja19hcmNoZXR5cGUIEQBkb3VibGVfc2xhYl9ibG9jax4AbWluZWNyYWZ0OmxpZ2h0X2dyYXlfd29vbF9zbGFiAQkAaXNfZG91YmxlAQgEAHR5cGUKAHNsYWJfYmxvY2sAAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBEQByZWRzdG9uZUNvbmR1Y3RvcgEBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEAAAA="
+  },
+  {
+    "identifier": "minecraft:light_gray_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2slAG1pbmVjcmFmdDpsaWdodF9ncmF5X3dvb2xfZG91YmxlX3NsYWIBCQBpc19kb3VibGUACAQAdHlwZQoAc2xhYl9ibG9jawADCABibG9ja19pZI0FAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/AAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAAAAAAA=="
+  },
+  {
+    "identifier": "minecraft:light_gray_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCAoAYmFzZV9ibG9jaxkAbWluZWNyYWZ0OmxpZ2h0X2dyYXlfd29vbAgEAHR5cGULAHN0YWlyX2Jsb2NrAAMIAGJsb2NrX2lkhgUAAAEVAGNhbl9kYW1wZW5fdmlicmF0aW9ucwEBFgBjYW5fb2NjbHVkZV92aWJyYXRpb25zAQgIAG1hdGVyaWFsBQBzb2xpZAAJCQBibG9ja1RhZ3MIAQAAACUAbWluZWNyYWZ0OmlzX3NoZWFyc19pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlzcxMPwAKHwBtaW5lY3JhZnQ6ZGVzdHJ1Y3Rpb25fcGFydGljbGVzCAsAdGludF9tZXRob2QEAG5vbmUDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAAChoAbWluZWNyYWZ0OmxpcXVpZF9kZXRlY3Rpb24JDgBkZXRlY3Rpb25SdWxlcwoBAAAACA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIAAAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAAChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIAAAoNAG1lbnVfY2F0ZWdvcnkIBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uAAA="
   },
   {
     "identifier": "minecraft:light_weighted_pressure_plate",
@@ -10887,6 +12065,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:lime_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQoPAGJsb2NrX2FyY2hldHlwZQgEAHR5cGUKAHNsYWJfYmxvY2sIEQBkb3VibGVfc2xhYl9ibG9jaxwAbWluZWNyYWZ0OmxpbWVfY29uY3JldGVfc2xhYgEJAGlzX2RvdWJsZQEAAwgAYmxvY2tfaWTWBQAAAAkJAGJsb2NrVGFncwgBAAAAJgBtaW5lY3JhZnQ6aXNfcGlja2F4ZV9pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlZmbmPwAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IBAAAKDQBtZW51X2NhdGVnb3J5CAgAY2F0ZWdvcnkEAG5vbmUIBQBncm91cAAAARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAQAA"
+  },
+  {
     "identifier": "minecraft:lime_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -10899,6 +12094,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:lime_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhCAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUBCQBpc19kb3VibGUACAQAdHlwZQoAc2xhYl9ibG9jawgRAGRvdWJsZV9zbGFiX2Jsb2NrIwBtaW5lY3JhZnQ6bGltZV9jb25jcmV0ZV9kb3VibGVfc2xhYgADCABibG9ja19pZMYFAAAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAAA=="
+  },
+  {
+    "identifier": "minecraft:lime_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAAChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nAAAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQoPAGJsb2NrX2FyY2hldHlwZQgKAGJhc2VfYmxvY2sXAG1pbmVjcmFmdDpsaW1lX2NvbmNyZXRlCAQAdHlwZQsAc3RhaXJfYmxvY2sAAwgAYmxvY2tfaWS1BQAAAAA="
   },
   {
     "identifier": "minecraft:lime_glazed_terracotta",
@@ -10953,7 +12184,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:lime_terracotta",
@@ -10980,6 +12216,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:lime_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEDCABibG9ja19pZKQFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQKDwBibG9ja19hcmNoZXR5cGUBCQBpc19kb3VibGUBCAQAdHlwZQoAc2xhYl9ibG9jawgRAGRvdWJsZV9zbGFiX2Jsb2NrGABtaW5lY3JhZnQ6bGltZV93b29sX3NsYWIAAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAoNAG1lbnVfY2F0ZWdvcnkICABjYXRlZ29yeQQAbm9uZQgFAGdyb3VwAAABFQBpc19oaWRkZW5faW5fY29tbWFuZHMBAAA="
+  },
+  {
+    "identifier": "minecraft:lime_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAAICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCAgAbWF0ZXJpYWwFAHNvbGlkBQwAdHJhbnNsdWNlbmN5zcxMPwoPAGJsb2NrX2FyY2hldHlwZQEJAGlzX2RvdWJsZQAIBAB0eXBlCgBzbGFiX2Jsb2NrCBEAZG91YmxlX3NsYWJfYmxvY2sfAG1pbmVjcmFmdDpsaW1lX3dvb2xfZG91YmxlX3NsYWIAAwgAYmxvY2tfaWSUBQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlAA=="
+  },
+  {
+    "identifier": "minecraft:lime_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwoRAG1pbmVjcmFmdDpzdXBwb3J0CAUAc2hhcGUFAHN0YWlyAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEDCABibG9ja19pZIMFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCAoAYmFzZV9ibG9jaxMAbWluZWNyYWZ0OmxpbWVfd29vbAgEAHR5cGULAHN0YWlyX2Jsb2NrAAAJCQBibG9ja1RhZ3MIAQAAACUAbWluZWNyYWZ0OmlzX3NoZWFyc19pdGVtX2Rlc3RydWN0aWJsZQA="
   },
   {
     "identifier": "minecraft:lit_blast_furnace",
@@ -11181,6 +12470,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:magenta_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQoPAGJsb2NrX2FyY2hldHlwZQgRAGRvdWJsZV9zbGFiX2Jsb2NrHwBtaW5lY3JhZnQ6bWFnZW50YV9jb25jcmV0ZV9zbGFiAQkAaXNfZG91YmxlAQgEAHR5cGUKAHNsYWJfYmxvY2sAAwgAYmxvY2tfaWTcBQAACAgAbWF0ZXJpYWwFAHNvbGlkAAkJAGJsb2NrVGFncwgBAAAAJgBtaW5lY3JhZnQ6aXNfcGlja2F4ZV9pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5AREAcmVkc3RvbmVDb25kdWN0b3IBARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAAKDQBtZW51X2NhdGVnb3J5CAUAZ3JvdXAAAAEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwEICABjYXRlZ29yeQQAbm9uZQAA"
+  },
+  {
     "identifier": "minecraft:magenta_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -11193,6 +12499,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:magenta_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUIEQBkb3VibGVfc2xhYl9ibG9jayYAbWluZWNyYWZ0Om1hZ2VudGFfY29uY3JldGVfZG91YmxlX3NsYWIBCQBpc19kb3VibGUACAQAdHlwZQoAc2xhYl9ibG9jawADCABibG9ja19pZMwFAAAICABtYXRlcmlhbAUAc29saWQACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlAA=="
+  },
+  {
+    "identifier": "minecraft:magenta_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhAwgAYmxvY2tfaWSyBQAACAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUICgBiYXNlX2Jsb2NrGgBtaW5lY3JhZnQ6bWFnZW50YV9jb25jcmV0ZQgEAHR5cGULAHN0YWlyX2Jsb2NrAAAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwgLAHRpbnRfbWV0aG9kBABub25lAw4AcGFydGljbGVfY291bnQwAAAACAcAdGV4dHVyZQAAAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAAKDQBtZW51X2NhdGVnb3J5CAgAY2F0ZWdvcnkMAGNvbnN0cnVjdGlvbggFAGdyb3VwHwBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc3RhaXJzARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAADDQBtb2xhbmdWZXJzaW9uDQAAAAA="
   },
   {
     "identifier": "minecraft:magenta_glazed_terracotta",
@@ -11247,7 +12589,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:magenta_terracotta",
@@ -11274,6 +12621,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:magenta_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5BABub25lCAUAZ3JvdXAAAAEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwEAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEICABtYXRlcmlhbAUAc29saWQKDwBibG9ja19hcmNoZXR5cGUIEQBkb3VibGVfc2xhYl9ibG9jaxsAbWluZWNyYWZ0Om1hZ2VudGFfd29vbF9zbGFiAQkAaXNfZG91YmxlAQgEAHR5cGUKAHNsYWJfYmxvY2sAAwgAYmxvY2tfaWSqBQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAA="
+  },
+  {
+    "identifier": "minecraft:magenta_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwHQBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc2xhYgEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sIEQBkb3VibGVfc2xhYl9ibG9jayIAbWluZWNyYWZ0Om1hZ2VudGFfd29vbF9kb3VibGVfc2xhYgADCABibG9ja19pZJoFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlAA=="
+  },
+  {
+    "identifier": "minecraft:magenta_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwgLAHRpbnRfbWV0aG9kBABub25lAw4AcGFydGljbGVfY291bnQwAAAACAcAdGV4dHVyZQAAAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAAKDQBtZW51X2NhdGVnb3J5CAUAZ3JvdXAfAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zdGFpcnMBFQBpc19oaWRkZW5faW5fY29tbWFuZHMACAgAY2F0ZWdvcnkMAGNvbnN0cnVjdGlvbgADDQBtb2xhbmdWZXJzaW9uDQAAAAoSAHZhbmlsbGFfYmxvY2tfZGF0YQMIAGJsb2NrX2lkgAUAAAEVAGNhbl9kYW1wZW5fdmlicmF0aW9ucwEBFgBjYW5fb2NjbHVkZV92aWJyYXRpb25zAQgIAG1hdGVyaWFsBQBzb2xpZAUMAHRyYW5zbHVjZW5jec3MTD8KDwBibG9ja19hcmNoZXR5cGUIBAB0eXBlCwBzdGFpcl9ibG9jawgKAGJhc2VfYmxvY2sWAG1pbmVjcmFmdDptYWdlbnRhX3dvb2wAAAA="
   },
   {
     "identifier": "minecraft:magma",
@@ -11356,7 +12756,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:mangrove_fence_gate",
@@ -11545,6 +12950,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -11793,6 +13199,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -11864,6 +13271,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -11901,6 +13309,20 @@
     "air": false,
     "liquid": false,
     "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:moving_block",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
     "states": []
   },
   {
@@ -11964,6 +13386,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -12093,7 +13516,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:nether_brick_slab",
@@ -12126,6 +13554,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -12235,6 +13664,22 @@
     "states": []
   },
   {
+    "identifier": "minecraft:netherreactor",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible",
+      "minecraft:stone_tier_destructible",
+      "metal"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
     "identifier": "minecraft:normal_stone_double_slab",
     "components": [
       "minecraft:movable",
@@ -12280,6 +13725,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -12328,7 +13774,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:oak_hanging_sign",
@@ -12471,6 +13922,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -12607,6 +14059,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:orange_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAoNAG1lbnVfY2F0ZWdvcnkIBQBncm91cAAAARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAQgIAGNhdGVnb3J5BABub25lAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUIBAB0eXBlCgBzbGFiX2Jsb2NrCBEAZG91YmxlX3NsYWJfYmxvY2seAG1pbmVjcmFmdDpvcmFuZ2VfY29uY3JldGVfc2xhYgEJAGlzX2RvdWJsZQEAAwgAYmxvY2tfaWTUBQAACAgAbWF0ZXJpYWwFAHNvbGlkAAkJAGJsb2NrVGFncwgBAAAAJgBtaW5lY3JhZnQ6aXNfcGlja2F4ZV9pdGVtX2Rlc3RydWN0aWJsZQA="
+  },
+  {
     "identifier": "minecraft:orange_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -12619,6 +14088,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:orange_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sIEQBkb3VibGVfc2xhYl9ibG9jayUAbWluZWNyYWZ0Om9yYW5nZV9jb25jcmV0ZV9kb3VibGVfc2xhYgADCABibG9ja19pZMQFAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQAA"
+  },
+  {
+    "identifier": "minecraft:orange_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAAICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAKEQBtaW5lY3JhZnQ6c3VwcG9ydAgFAHNoYXBlBQBzdGFpcgAKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlZmbmPwAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwHwBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc3RhaXJzARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24AAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUICgBiYXNlX2Jsb2NrGQBtaW5lY3JhZnQ6b3JhbmdlX2NvbmNyZXRlCAQAdHlwZQsAc3RhaXJfYmxvY2sAAwgAYmxvY2tfaWSxBQAACAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEAAA=="
   },
   {
     "identifier": "minecraft:orange_glazed_terracotta",
@@ -12634,6 +14139,23 @@
     "solid": true,
     "states": [
       "facing_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:orange_poplar_leaves",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_hoe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "persistent_bit",
+      "update_bit"
     ]
   },
   {
@@ -12673,7 +14195,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:orange_terracotta",
@@ -12714,6 +14241,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:orange_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAQAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwAAABFQBpc19oaWRkZW5faW5fY29tbWFuZHMBCAgAY2F0ZWdvcnkEAG5vbmUAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUBCQBpc19kb3VibGUBCAQAdHlwZQoAc2xhYl9ibG9jawgRAGRvdWJsZV9zbGFiX2Jsb2NrGgBtaW5lY3JhZnQ6b3JhbmdlX3dvb2xfc2xhYgADCABibG9ja19pZKIFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQAAA=="
+  },
+  {
+    "identifier": "minecraft:orange_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkBQwAdHJhbnNsdWNlbmN5zcxMPwoPAGJsb2NrX2FyY2hldHlwZQgRAGRvdWJsZV9zbGFiX2Jsb2NrIQBtaW5lY3JhZnQ6b3JhbmdlX3dvb2xfZG91YmxlX3NsYWIBCQBpc19kb3VibGUACAQAdHlwZQoAc2xhYl9ibG9jawADCABibG9ja19pZJIFAAAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUA"
+  },
+  {
+    "identifier": "minecraft:orange_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUICgBiYXNlX2Jsb2NrFQBtaW5lY3JhZnQ6b3JhbmdlX3dvb2wIBAB0eXBlCwBzdGFpcl9ibG9jawADCABibG9ja19pZH8FAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/AAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAKEQBtaW5lY3JhZnQ6c3VwcG9ydAgFAHNoYXBlBQBzdGFpcgAKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlzcxMPwAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAA=="
   },
   {
     "identifier": "minecraft:oxeye_daisy",
@@ -12774,7 +14354,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:oxidized_copper_bulb",
@@ -12970,6 +14555,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -13155,7 +14741,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:pale_oak_fence_gate",
@@ -13328,6 +14919,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -13542,6 +15134,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:pink_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2scAG1pbmVjcmFmdDpwaW5rX2NvbmNyZXRlX3NsYWIBCQBpc19kb3VibGUBCAQAdHlwZQoAc2xhYl9ibG9jawADCABibG9ja19pZN0FAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8ACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQERAHJlZHN0b25lQ29uZHVjdG9yAQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5BABub25lCAUAZ3JvdXAAAAEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwEAAw0AbW9sYW5nVmVyc2lvbg0AAAAA"
+  },
+  {
     "identifier": "minecraft:pink_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -13554,6 +15163,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:pink_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhAwgAYmxvY2tfaWTNBQAACAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUBCQBpc19kb3VibGUACAQAdHlwZQoAc2xhYl9ibG9jawgRAGRvdWJsZV9zbGFiX2Jsb2NrIwBtaW5lY3JhZnQ6cGlua19jb25jcmV0ZV9kb3VibGVfc2xhYgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAAAAACg0AbWVudV9jYXRlZ29yeQEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uCAUAZ3JvdXAdAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zbGFiAAMNAG1vbGFuZ1ZlcnNpb24NAAAAAA=="
+  },
+  {
+    "identifier": "minecraft:pink_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQERAHJlZHN0b25lQ29uZHVjdG9yAAEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQAKEQBtaW5lY3JhZnQ6c3VwcG9ydAgFAHNoYXBlBQBzdGFpcgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUICgBiYXNlX2Jsb2NrFwBtaW5lY3JhZnQ6cGlua19jb25jcmV0ZQgEAHR5cGULAHN0YWlyX2Jsb2NrAAMIAGJsb2NrX2lktgUAAAgIAG1hdGVyaWFsBQBzb2xpZAEfAHJlcXVpcmVzX2NvcnJlY3RfdG9vbF9mb3JfZHJvcHMBAAkJAGJsb2NrVGFncwgBAAAAJgBtaW5lY3JhZnQ6aXNfcGlja2F4ZV9pdGVtX2Rlc3RydWN0aWJsZQA="
   },
   {
     "identifier": "minecraft:pink_glazed_terracotta",
@@ -13623,7 +15268,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:pink_terracotta",
@@ -13664,6 +15314,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:pink_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEBFgBjYW5fb2NjbHVkZV92aWJyYXRpb25zAQgIAG1hdGVyaWFsBQBzb2xpZAoPAGJsb2NrX2FyY2hldHlwZQgEAHR5cGUKAHNsYWJfYmxvY2sIEQBkb3VibGVfc2xhYl9ibG9jaxgAbWluZWNyYWZ0OnBpbmtfd29vbF9zbGFiAQkAaXNfZG91YmxlAQADCABibG9ja19pZKsFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBEQByZWRzdG9uZUNvbmR1Y3RvcgEBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEAAAoNAG1lbnVfY2F0ZWdvcnkIBQBncm91cAAAARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAQgIAGNhdGVnb3J5BABub25lAAA="
+  },
+  {
+    "identifier": "minecraft:pink_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzChoAbWluZWNyYWZ0OmxpcXVpZF9kZXRlY3Rpb24JDgBkZXRlY3Rpb25SdWxlcwoBAAAAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwAAAAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAAAKDQBtZW51X2NhdGVnb3J5CAgAY2F0ZWdvcnkMAGNvbnN0cnVjdGlvbggFAGdyb3VwHQBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc2xhYgEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sIEQBkb3VibGVfc2xhYl9ibG9jax8AbWluZWNyYWZ0OnBpbmtfd29vbF9kb3VibGVfc2xhYgADCABibG9ja19pZJsFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEAAA=="
+  },
+  {
+    "identifier": "minecraft:pink_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAoRAG1pbmVjcmFmdDpzdXBwb3J0CAUAc2hhcGUFAHN0YWlyAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUICgBiYXNlX2Jsb2NrEwBtaW5lY3JhZnQ6cGlua193b29sCAQAdHlwZQsAc3RhaXJfYmxvY2sAAwgAYmxvY2tfaWSEBQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkBQwAdHJhbnNsdWNlbmN5zcxMPwAJCQBibG9ja1RhZ3MIAQAAACUAbWluZWNyYWZ0OmlzX3NoZWFyc19pdGVtX2Rlc3RydWN0aWJsZQA="
   },
   {
     "identifier": "minecraft:piston",
@@ -13839,6 +15542,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -13919,6 +15623,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -14038,6 +15743,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -14122,6 +15828,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -14206,6 +15913,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -14291,6 +15999,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -14356,6 +16065,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -14420,6 +16130,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -14504,6 +16215,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -14526,6 +16238,315 @@
       "wall_connection_type_south",
       "wall_connection_type_west",
       "wall_post_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_button",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions",
+      "minecraft:redstone_producer"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "button_pressed_bit",
+      "facing_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_door",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "door_hinge_bit",
+      "minecraft:cardinal_direction",
+      "open_bit",
+      "upper_block_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_fence",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_fence_gate",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "in_wall_bit",
+      "minecraft:cardinal_direction",
+      "open_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_hanging_sign",
+    "components": [
+      "minecraft:sign",
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "text_sign",
+      "wood"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "attached_bit",
+      "facing_direction",
+      "ground_sign_direction",
+      "hanging"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_log",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "pillar_axis"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_planks",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
+    "identifier": "minecraft:poplar_pressure_plate",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions",
+      "minecraft:redstone_producer"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "redstone_signal"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_sapling",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "age_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_shelf",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "not_feature_replaceable"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:cardinal_direction",
+      "powered_bit",
+      "powered_shelf_type"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:cornerable_stairs",
+      "minecraft:is_axe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_standing_sign",
+    "components": [
+      "minecraft:sign",
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "text_sign",
+      "wood"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "ground_sign_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_trapdoor",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "trapdoors",
+      "one_way_collidable",
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "direction",
+      "open_bit",
+      "upside_down_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_wall_sign",
+    "components": [
+      "minecraft:sign",
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "text_sign",
+      "wood"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "facing_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:poplar_wood",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "pillar_axis"
     ]
   },
   {
@@ -14584,7 +16605,9 @@
     "air": false,
     "liquid": false,
     "solid": true,
-    "states": []
+    "states": [
+      "potent_sulfur_state"
+    ]
   },
   {
     "identifier": "minecraft:powder_snow",
@@ -14703,6 +16726,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -14753,6 +16777,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -14866,6 +16891,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:purple_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgEAAAoNAG1lbnVfY2F0ZWdvcnkICABjYXRlZ29yeQQAbm9uZQgFAGdyb3VwAAABFQBpc19oaWRkZW5faW5fY29tbWFuZHMBAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUIEQBkb3VibGVfc2xhYl9ibG9jax4AbWluZWNyYWZ0OnB1cnBsZV9jb25jcmV0ZV9zbGFiAQkAaXNfZG91YmxlAQgEAHR5cGUKAHNsYWJfYmxvY2sAAwgAYmxvY2tfaWTbBQAAAAkJAGJsb2NrVGFncwgBAAAAJgBtaW5lY3JhZnQ6aXNfcGlja2F4ZV9pdGVtX2Rlc3RydWN0aWJsZQA="
+  },
+  {
     "identifier": "minecraft:purple_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -14878,6 +16920,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:purple_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAgPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlCAQAdHlwZQoAc2xhYl9ibG9jawgRAGRvdWJsZV9zbGFiX2Jsb2NrJQBtaW5lY3JhZnQ6cHVycGxlX2NvbmNyZXRlX2RvdWJsZV9zbGFiAQkAaXNfZG91YmxlAAADCABibG9ja19pZMsFAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQAA"
+  },
+  {
+    "identifier": "minecraft:purple_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhAwgAYmxvY2tfaWS6BQAACAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUIBAB0eXBlCwBzdGFpcl9ibG9jawgKAGJhc2VfYmxvY2sZAG1pbmVjcmFmdDpwdXJwbGVfY29uY3JldGUAAAkJAGJsb2NrVGFncwgBAAAAJgBtaW5lY3JhZnQ6aXNfcGlja2F4ZV9pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKHwBtaW5lY3JhZnQ6ZGVzdHJ1Y3Rpb25fcGFydGljbGVzCAsAdGludF9tZXRob2QEAG5vbmUDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAAChoAbWluZWNyYWZ0OmxpcXVpZF9kZXRlY3Rpb24JDgBkZXRlY3Rpb25SdWxlcwoBAAAAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwAAAAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAAChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8AAAoNAG1lbnVfY2F0ZWdvcnkICABjYXRlZ29yeQwAY29uc3RydWN0aW9uCAUAZ3JvdXAfAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zdGFpcnMBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAAA=="
   },
   {
     "identifier": "minecraft:purple_glazed_terracotta",
@@ -14932,7 +17010,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:purple_terracotta",
@@ -14959,6 +17042,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:purple_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkCg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2saAG1pbmVjcmFmdDpwdXJwbGVfd29vbF9zbGFiAQkAaXNfZG91YmxlAQgEAHR5cGUKAHNsYWJfYmxvY2sAAwgAYmxvY2tfaWSpBQAAAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBEQByZWRzdG9uZUNvbmR1Y3RvcgEBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEAAAoNAG1lbnVfY2F0ZWdvcnkBFQBpc19oaWRkZW5faW5fY29tbWFuZHMBCAgAY2F0ZWdvcnkEAG5vbmUIBQBncm91cAAAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAAA=="
+  },
+  {
+    "identifier": "minecraft:purple_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhAwgAYmxvY2tfaWSZBQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkBQwAdHJhbnNsdWNlbmN5zcxMPwoPAGJsb2NrX2FyY2hldHlwZQgRAGRvdWJsZV9zbGFiX2Jsb2NrIQBtaW5lY3JhZnQ6cHVycGxlX3dvb2xfZG91YmxlX3NsYWIBCQBpc19kb3VibGUACAQAdHlwZQoAc2xhYl9ibG9jawAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5AREAcmVkc3RvbmVDb25kdWN0b3IAARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAAAA"
+  },
+  {
+    "identifier": "minecraft:purple_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwoRAG1pbmVjcmFmdDpzdXBwb3J0CAUAc2hhcGUFAHN0YWlyAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCAoAYmFzZV9ibG9jaxUAbWluZWNyYWZ0OnB1cnBsZV93b29sCAQAdHlwZQsAc3RhaXJfYmxvY2sAAwgAYmxvY2tfaWSIBQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlAA=="
   },
   {
     "identifier": "minecraft:purpur_block",
@@ -15038,6 +17174,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -15150,6 +17287,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -15277,6 +17415,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:red_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2sbAG1pbmVjcmFmdDpyZWRfY29uY3JldGVfc2xhYgEJAGlzX2RvdWJsZQEIBAB0eXBlCgBzbGFiX2Jsb2NrAAMIAGJsb2NrX2lk0wUAAAgIAG1hdGVyaWFsBQBzb2xpZAEfAHJlcXVpcmVzX2NvcnJlY3RfdG9vbF9mb3JfZHJvcHMBAAkJAGJsb2NrVGFncwgBAAAAJgBtaW5lY3JhZnQ6aXNfcGlja2F4ZV9pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlZmbmPwAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IBAAAKDQBtZW51X2NhdGVnb3J5CAgAY2F0ZWdvcnkEAG5vbmUIBQBncm91cAAAARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAQADDQBtb2xhbmdWZXJzaW9uDQAAAAA="
+  },
+  {
     "identifier": "minecraft:red_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -15289,6 +17444,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:red_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIBFQBpc19oaWRkZW5faW5fY29tbWFuZHMAAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2siAG1pbmVjcmFmdDpyZWRfY29uY3JldGVfZG91YmxlX3NsYWIBCQBpc19kb3VibGUACAQAdHlwZQoAc2xhYl9ibG9jawADCABibG9ja19pZMMFAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwgLAHRpbnRfbWV0aG9kBABub25lAw4AcGFydGljbGVfY291bnQwAAAACAcAdGV4dHVyZQAAAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAAA"
+  },
+  {
+    "identifier": "minecraft:red_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQoPAGJsb2NrX2FyY2hldHlwZQgKAGJhc2VfYmxvY2sWAG1pbmVjcmFmdDpyZWRfY29uY3JldGUIBAB0eXBlCwBzdGFpcl9ibG9jawADCABibG9ja19pZK4FAAAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAoRAG1pbmVjcmFmdDpzdXBwb3J0CAUAc2hhcGUFAHN0YWlyAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAAAA=="
   },
   {
     "identifier": "minecraft:red_glazed_terracotta",
@@ -15394,6 +17585,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -15417,6 +17609,23 @@
       "wall_connection_type_south",
       "wall_connection_type_west",
       "wall_post_bit"
+    ]
+  },
+  {
+    "identifier": "minecraft:red_poplar_leaves",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_hoe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "persistent_bit",
+      "update_bit"
     ]
   },
   {
@@ -15494,6 +17703,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -15518,6 +17728,19 @@
       "wall_connection_type_west",
       "wall_post_bit"
     ]
+  },
+  {
+    "identifier": "minecraft:red_shrub",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWUAAAAAAAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAAKHABtaW5lY3JhZnQ6bWF0ZXJpYWxfaW5zdGFuY2VzCggAbWFwcGluZ3MACgkAbWF0ZXJpYWxzCgEAKgURAGFtYmllbnRfb2NjbHVzaW9uAAAAAAEMAHBhY2tlZF9ib29scwUIDQByZW5kZXJfbWV0aG9kFwBhbHBoYV90ZXN0X3NpbmdsZV9zaWRlZAgHAHRleHR1cmUJAHJlZF9zaHJ1YggLAHRpbnRfbWV0aG9kBABub25lAAAAChUAbWluZWNyYWZ0OnJlcGxhY2VhYmxlAAoSAG1pbmVjcmFmdDpnZW9tZXRyeQEWAG5lZWRzTGVnYWN5VG9wUm90YXRpb24ACA0AY3VsbGluZ19sYXllciEAbWluZWNyYWZ0OmN1bGxpbmdfbGF5ZXIudW5kZWZpbmVkCA0AY3VsbGluZ19zaGFwZQAACg8AYm9uZV92aXNpYmlsaXR5AAEbAHVzZUJsb2NrVHlwZUxpZ2h0QWJzb3JwdGlvbgABBwB1dl9sb2NrAAgHAGN1bGxpbmcAAAgKAGlkZW50aWZpZXIYAG1pbmVjcmFmdDpnZW9tZXRyeS5jcm9zcwEYAGlnbm9yZUdlb21ldHJ5Rm9ySXNTb2xpZAABDQBpc1YxRnVsbGJsb2NrAAAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQACAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMGAHBvcHBlZAEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgAAAAoXAG1pbmVjcmFmdDpjb2xsaXNpb25fYm94CQUAYm94ZXMAAAAAAAEHAGVuYWJsZWQAAAokAG1pbmVjcmFmdDpwcmVjaXBpdGF0aW9uX2ludGVyYWN0aW9ucwgWAHByZWNpcGl0YXRpb25fYmVoYXZpb3ILAHNub3dsb2dnaW5nAAoXAG1pbmVjcmFmdDpzZWxlY3Rpb25fYm94AQcAZW5hYmxlZAEJBgBvcmlnaW4FAwAAAAAAAMEAAAAAAAAAwQkEAHNpemUFAwAAAAAAgEEAAIBBAACAQQAKGQBtaW5lY3JhZnQ6Y29ubmVjdGlvbl9ydWxlCBgAYWNjZXB0c19jb25uZWN0aW9uc19mcm9tBABub25lCRIAZW5hYmxlZF9kaXJlY3Rpb25zCAQAAAAFAHNvdXRoBQBub3J0aAQAZWFzdAQAd2VzdAAACg0AbWVudV9jYXRlZ29yeQEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQYAbmF0dXJlCAUAZ3JvdXAAAAADDQBtb2xhbmdWZXJzaW9uDQAAAAoSAHZhbmlsbGFfYmxvY2tfZGF0YQgIAG1hdGVyaWFsBQBwbGFudAoPAGJsb2NrX2FyY2hldHlwZQgEAHR5cGUKAGJ1c2hfYmxvY2sAAwgAYmxvY2tfaWR7BQAAAAA="
   },
   {
     "identifier": "minecraft:red_shulker_box",
@@ -15556,7 +17779,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:red_terracotta",
@@ -15597,6 +17825,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:red_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEDCABibG9ja19pZKEFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQKDwBibG9ja19hcmNoZXR5cGUIBAB0eXBlCgBzbGFiX2Jsb2NrCBEAZG91YmxlX3NsYWJfYmxvY2sXAG1pbmVjcmFmdDpyZWRfd29vbF9zbGFiAQkAaXNfZG91YmxlAQAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAQAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5BABub25lCAUAZ3JvdXAAAAEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwEAAA=="
+  },
+  {
+    "identifier": "minecraft:red_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAAICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwHQBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc2xhYgEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2seAG1pbmVjcmFmdDpyZWRfd29vbF9kb3VibGVfc2xhYgEJAGlzX2RvdWJsZQAIBAB0eXBlCgBzbGFiX2Jsb2NrAAMIAGJsb2NrX2lkkQUAAAEVAGNhbl9kYW1wZW5fdmlicmF0aW9ucwEACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUA"
+  },
+  {
+    "identifier": "minecraft:red_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwHwBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc3RhaXJzARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24AAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEBFgBjYW5fb2NjbHVkZV92aWJyYXRpb25zAQgIAG1hdGVyaWFsBQBzb2xpZAUMAHRyYW5zbHVjZW5jec3MTD8KDwBibG9ja19hcmNoZXR5cGUICgBiYXNlX2Jsb2NrEgBtaW5lY3JhZnQ6cmVkX3dvb2wIBAB0eXBlCwBzdGFpcl9ibG9jawADCABibG9ja19pZHwFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpyZWRzdG9uZV9jb25kdWN0aXZpdHkBFABhbGxvd3NXaXJlVG9TdGVwRG93bgEBEQByZWRzdG9uZUNvbmR1Y3RvcgAAChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwgHAHRleHR1cmUAAAgLAHRpbnRfbWV0aG9kBABub25lAw4AcGFydGljbGVfY291bnQwAAAAAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAAAAAAA=="
   },
   {
     "identifier": "minecraft:redstone_block",
@@ -15712,6 +17993,15 @@
     ]
   },
   {
+    "identifier": "minecraft:reserved6",
+    "components": [],
+    "tags": [],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": []
+  },
+  {
     "identifier": "minecraft:resin_block",
     "components": [
       "minecraft:movable",
@@ -15769,6 +18059,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -15931,6 +18222,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -16093,6 +18385,22 @@
     "states": [
       "sea_grass_type"
     ]
+  },
+  {
+    "identifier": "minecraft:shelf_mushroom",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "growth",
+      "minecraft:cardinal_direction"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwokAG1pbmVjcmFmdDpwcmVjaXBpdGF0aW9uX2ludGVyYWN0aW9ucwgWAHByZWNpcGl0YXRpb25fYmVoYXZpb3IEAG5vbmUAChoAbWluZWNyYWZ0OmxpcXVpZF9kZXRlY3Rpb24JDgBkZXRlY3Rpb25SdWxlcwoBAAAAARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAARAAY2FuQ29udGFpbkxpcXVpZAAICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwYAcG9wcGVkAAAKHABtaW5lY3JhZnQ6bWF0ZXJpYWxfaW5zdGFuY2VzCggAbWFwcGluZ3MACgkAbWF0ZXJpYWxzCgUAc21hbGwIBwB0ZXh0dXJlFABzaGVsZl9tdXNocm9vbV9zbWFsbAgLAHRpbnRfbWV0aG9kBABub25lBREAYW1iaWVudF9vY2NsdXNpb24AAAAAAQwAcGFja2VkX2Jvb2xzBQgNAHJlbmRlcl9tZXRob2QXAGFscGhhX3Rlc3Rfc2luZ2xlX3NpZGVkAAAAChkAbWluZWNyYWZ0OmNvbm5lY3Rpb25fcnVsZQkSAGVuYWJsZWRfZGlyZWN0aW9ucwgEAAAABQBzb3V0aAUAbm9ydGgEAGVhc3QEAHdlc3QIGABhY2NlcHRzX2Nvbm5lY3Rpb25zX2Zyb20EAG5vbmUAChcAbWluZWNyYWZ0OnNlbGVjdGlvbl9ib3gJBgBvcmlnaW4FAwAAAAAAoMAAAABBAACAPwkEAHNpemUFAwAAAAAAIEEAAEBAAADgQAEHAGVuYWJsZWQBAAoXAG1pbmVjcmFmdDpjb2xsaXNpb25fYm94CQUAYm94ZXMKAQAAAAUEAG1heFgAAFBBBQQAbWF4WQAAMEEFBABtYXhaAACAQQUEAG1pblgAAEBABQQAbWluWQAAgEAFBABtaW5aAAAQQQABBwBlbmFibGVkAQAKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlAAAAAAAKHwBtaW5lY3JhZnQ6ZGVzdHJ1Y3Rpb25fcGFydGljbGVzAw4AcGFydGljbGVfY291bnQwAAAACAcAdGV4dHVyZRcAc2hlbGZfbXVzaHJvb21fcGFydGljbGUICwB0aW50X21ldGhvZAQAbm9uZQAKEgBtaW5lY3JhZnQ6Z2VvbWV0cnkBBwB1dl9sb2NrAAgNAGN1bGxpbmdfbGF5ZXIhAG1pbmVjcmFmdDpjdWxsaW5nX2xheWVyLnVuZGVmaW5lZAgNAGN1bGxpbmdfc2hhcGUAAAgKAGlkZW50aWZpZXInAG1pbmVjcmFmdDpnZW9tZXRyeS5zaGVsZl9tdXNocm9vbV9zbWFsbAgHAGN1bGxpbmcmAG1pbmVjcmFmdDpjdWxsaW5nLnNoZWxmX211c2hyb29tX3NtYWxsARgAaWdub3JlR2VvbWV0cnlGb3JJc1NvbGlkAAEWAG5lZWRzTGVnYWN5VG9wUm90YXRpb24ACg8AYm9uZV92aXNpYmlsaXR5AAENAGlzVjFGdWxsYmxvY2sAARsAdXNlQmxvY2tUeXBlTGlnaHRBYnNvcnB0aW9uAAAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5BgBuYXR1cmUIBQBncm91cAAAARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAADDQBtb2xhbmdWZXJzaW9uDQAAAAkMAHBlcm11dGF0aW9ucwoHAAAACAkAY29uZGl0aW9uYABxdWVyeS5ibG9ja19zdGF0ZSgnZ3Jvd3RoJykgPT0gMCAmJiBxdWVyeS5ibG9ja19zdGF0ZSgnbWluZWNyYWZ0OmNhcmRpbmFsX2RpcmVjdGlvbicpID09ICdzb3V0aCcKCgBjb21wb25lbnRzChgAbWluZWNyYWZ0OnRyYW5zZm9ybWF0aW9uBQIAVFoAAAAABQIAU1oAAIA/BQMAUlhQAAAAAAEeAGhhc0pzb25WZXJzaW9uQmVmb3JlVmFsaWRhdGlvbgAFAwBSWVAAAAAABQMAU1hQAAAAAAMCAFJZAgAAAAUCAFRZAAAAAAMCAFJaAAAAAAMCAFJYAAAAAAUCAFNZAACAPwUCAFRYAAAAAAUDAFJaUAAAAAAFAwBTWVAAAAAABQMAU1pQAAAAAAUCAFNYAACAPwAAAAgJAGNvbmRpdGlvbl8AcXVlcnkuYmxvY2tfc3RhdGUoJ2dyb3d0aCcpID09IDAgJiYgcXVlcnkuYmxvY2tfc3RhdGUoJ21pbmVjcmFmdDpjYXJkaW5hbF9kaXJlY3Rpb24nKSA9PSAnd2VzdCcKCgBjb21wb25lbnRzChgAbWluZWNyYWZ0OnRyYW5zZm9ybWF0aW9uAwIAUlkBAAAABQIAU1oAAIA/BQIAU1kAAIA/BQIAVFkAAAAABQIAVFgAAAAABQMAUlpQAAAAAAUCAFRaAAAAAAMCAFJYAAAAAAUDAFJYUAAAAAAFAgBTWAAAgD8FAwBTWFAAAAAAAwIAUloAAAAABQMAU1lQAAAAAAUDAFNaUAAAAAABHgBoYXNKc29uVmVyc2lvbkJlZm9yZVZhbGlkYXRpb24ABQMAUllQAAAAAAAAAAgJAGNvbmRpdGlvbl8AcXVlcnkuYmxvY2tfc3RhdGUoJ2dyb3d0aCcpID09IDAgJiYgcXVlcnkuYmxvY2tfc3RhdGUoJ21pbmVjcmFmdDpjYXJkaW5hbF9kaXJlY3Rpb24nKSA9PSAnZWFzdCcKCgBjb21wb25lbnRzChgAbWluZWNyYWZ0OnRyYW5zZm9ybWF0aW9uBQIAU1kAAIA/AwIAUlgAAAAABQIAU1oAAIA/BQMAUlpQAAAAAAUDAFNYUAAAAAAFAwBSWVAAAAAABQIAVFoAAAAABQIAU1gAAIA/BQMAUlhQAAAAAAUCAFRYAAAAAAUDAFNaUAAAAAAFAwBTWVAAAAAAAR4AaGFzSnNvblZlcnNpb25CZWZvcmVWYWxpZGF0aW9uAAUCAFRZAAAAAAMCAFJZAwAAAAMCAFJaAAAAAAAAAAoKAGNvbXBvbmVudHMKFwBtaW5lY3JhZnQ6c2VsZWN0aW9uX2JveAkEAHNpemUFAwAAAAAAYEEAAKBAAAAgQQEHAGVuYWJsZWQBCQYAb3JpZ2luBQMAAAAAAODAAADAQAAAAMAAChcAbWluZWNyYWZ0OmNvbGxpc2lvbl9ib3gJBQBib3hlcwoBAAAABQQAbWF4WQAAMEEFBABtYXhaAACAQQUEAG1pblgAAIA/BQQAbWluWQAAgEAFBABtaW5aAADAQAUEAG1heFgAAHBBAAEHAGVuYWJsZWQBAAoSAG1pbmVjcmFmdDpnZW9tZXRyeQgKAGlkZW50aWZpZXInAG1pbmVjcmFmdDpnZW9tZXRyeS5zaGVsZl9tdXNocm9vbV9sYXJnZQEYAGlnbm9yZUdlb21ldHJ5Rm9ySXNTb2xpZAAIDQBjdWxsaW5nX2xheWVyIQBtaW5lY3JhZnQ6Y3VsbGluZ19sYXllci51bmRlZmluZWQBBwB1dl9sb2NrAAEbAHVzZUJsb2NrVHlwZUxpZ2h0QWJzb3JwdGlvbgAKDwBib25lX3Zpc2liaWxpdHkACAcAY3VsbGluZyYAbWluZWNyYWZ0OmN1bGxpbmcuc2hlbGZfbXVzaHJvb21fbGFyZ2UIDQBjdWxsaW5nX3NoYXBlAAABDQBpc1YxRnVsbGJsb2NrAAEWAG5lZWRzTGVnYWN5VG9wUm90YXRpb24AAAocAG1pbmVjcmFmdDptYXRlcmlhbF9pbnN0YW5jZXMKCQBtYXRlcmlhbHMKBQBsYXJnZQgNAHJlbmRlcl9tZXRob2QXAGFscGhhX3Rlc3Rfc2luZ2xlX3NpZGVkCAcAdGV4dHVyZRQAc2hlbGZfbXVzaHJvb21fbGFyZ2UICwB0aW50X21ldGhvZAQAbm9uZQURAGFtYmllbnRfb2NjbHVzaW9uAAAAAAEMAHBhY2tlZF9ib29scwUAAAoIAG1hcHBpbmdzAAAACAkAY29uZGl0aW9uYABxdWVyeS5ibG9ja19zdGF0ZSgnZ3Jvd3RoJykgPT0gMSAmJiBxdWVyeS5ibG9ja19zdGF0ZSgnbWluZWNyYWZ0OmNhcmRpbmFsX2RpcmVjdGlvbicpID09ICdub3J0aCcACgoAY29tcG9uZW50cwoXAG1pbmVjcmFmdDpjb2xsaXNpb25fYm94AQcAZW5hYmxlZAEJBQBib3hlcwoBAAAABQQAbWluWAAAgD8FBABtaW5ZAACAQAUEAG1pbloAAMBABQQAbWF4WAAAcEEFBABtYXhZAAAwQQUEAG1heFoAAIBBAAAKEgBtaW5lY3JhZnQ6Z2VvbWV0cnkIBwBjdWxsaW5nJgBtaW5lY3JhZnQ6Y3VsbGluZy5zaGVsZl9tdXNocm9vbV9sYXJnZQgKAGlkZW50aWZpZXInAG1pbmVjcmFmdDpnZW9tZXRyeS5zaGVsZl9tdXNocm9vbV9sYXJnZQEHAHV2X2xvY2sACA0AY3VsbGluZ19sYXllciEAbWluZWNyYWZ0OmN1bGxpbmdfbGF5ZXIudW5kZWZpbmVkCA0AY3VsbGluZ19zaGFwZQAAARgAaWdub3JlR2VvbWV0cnlGb3JJc1NvbGlkAAENAGlzVjFGdWxsYmxvY2sAARYAbmVlZHNMZWdhY3lUb3BSb3RhdGlvbgABGwB1c2VCbG9ja1R5cGVMaWdodEFic29ycHRpb24ACg8AYm9uZV92aXNpYmlsaXR5AAAKHABtaW5lY3JhZnQ6bWF0ZXJpYWxfaW5zdGFuY2VzCggAbWFwcGluZ3MACgkAbWF0ZXJpYWxzCgUAbGFyZ2UFEQBhbWJpZW50X29jY2x1c2lvbgAAAAABDABwYWNrZWRfYm9vbHMFCA0AcmVuZGVyX21ldGhvZBcAYWxwaGFfdGVzdF9zaW5nbGVfc2lkZWQIBwB0ZXh0dXJlFABzaGVsZl9tdXNocm9vbV9sYXJnZQgLAHRpbnRfbWV0aG9kBABub25lAAAAChcAbWluZWNyYWZ0OnNlbGVjdGlvbl9ib3gJBgBvcmlnaW4FAwAAAAAA4MAAAMBAAAAAwAkEAHNpemUFAwAAAAAAYEEAAKBAAAAgQQEHAGVuYWJsZWQBAAoYAG1pbmVjcmFmdDp0cmFuc2Zvcm1hdGlvbgUDAFNaUAAAAAADAgBSWAAAAAAFAwBSWlAAAAAAAR4AaGFzSnNvblZlcnNpb25CZWZvcmVWYWxpZGF0aW9uAAUCAFRaAAAAAAMCAFJaAAAAAAUCAFNYAACAPwUDAFNYUAAAAAAFAgBUWAAAAAAFAgBTWgAAgD8FAgBTWQAAgD8FAgBUWQAAAAAFAwBSWVAAAAAABQMAUlhQAAAAAAMCAFJZAgAAAAUDAFNZUAAAAAAAAAgJAGNvbmRpdGlvbmAAcXVlcnkuYmxvY2tfc3RhdGUoJ2dyb3d0aCcpID09IDEgJiYgcXVlcnkuYmxvY2tfc3RhdGUoJ21pbmVjcmFmdDpjYXJkaW5hbF9kaXJlY3Rpb24nKSA9PSAnc291dGgnAAgJAGNvbmRpdGlvbl8AcXVlcnkuYmxvY2tfc3RhdGUoJ2dyb3d0aCcpID09IDEgJiYgcXVlcnkuYmxvY2tfc3RhdGUoJ21pbmVjcmFmdDpjYXJkaW5hbF9kaXJlY3Rpb24nKSA9PSAnd2VzdCcKCgBjb21wb25lbnRzChIAbWluZWNyYWZ0Omdlb21ldHJ5Cg8AYm9uZV92aXNpYmlsaXR5AAgKAGlkZW50aWZpZXInAG1pbmVjcmFmdDpnZW9tZXRyeS5zaGVsZl9tdXNocm9vbV9sYXJnZQEHAHV2X2xvY2sAARgAaWdub3JlR2VvbWV0cnlGb3JJc1NvbGlkAAENAGlzVjFGdWxsYmxvY2sAARYAbmVlZHNMZWdhY3lUb3BSb3RhdGlvbgAIBwBjdWxsaW5nJgBtaW5lY3JhZnQ6Y3VsbGluZy5zaGVsZl9tdXNocm9vbV9sYXJnZQgNAGN1bGxpbmdfbGF5ZXIhAG1pbmVjcmFmdDpjdWxsaW5nX2xheWVyLnVuZGVmaW5lZAgNAGN1bGxpbmdfc2hhcGUAAAEbAHVzZUJsb2NrVHlwZUxpZ2h0QWJzb3JwdGlvbgAAChwAbWluZWNyYWZ0Om1hdGVyaWFsX2luc3RhbmNlcwoIAG1hcHBpbmdzAAoJAG1hdGVyaWFscwoFAGxhcmdlBREAYW1iaWVudF9vY2NsdXNpb24AAAAAAQwAcGFja2VkX2Jvb2xzBQgNAHJlbmRlcl9tZXRob2QXAGFscGhhX3Rlc3Rfc2luZ2xlX3NpZGVkCAcAdGV4dHVyZRQAc2hlbGZfbXVzaHJvb21fbGFyZ2UICwB0aW50X21ldGhvZAQAbm9uZQAAAAoXAG1pbmVjcmFmdDpzZWxlY3Rpb25fYm94CQYAb3JpZ2luBQMAAAAAAODAAADAQAAAAMAJBABzaXplBQMAAAAAAGBBAACgQAAAIEEBBwBlbmFibGVkAQAKGABtaW5lY3JhZnQ6dHJhbnNmb3JtYXRpb24FAwBSWFAAAAAABQMAUlpQAAAAAAMCAFJaAAAAAAUCAFRaAAAAAAUCAFNZAACAPwUDAFJZUAAAAAAFAgBUWQAAAAABHgBoYXNKc29uVmVyc2lvbkJlZm9yZVZhbGlkYXRpb24AAwIAUlgAAAAABQMAU1lQAAAAAAUCAFNaAACAPwUCAFRYAAAAAAMCAFJZAQAAAAUDAFNYUAAAAAAFAwBTWlAAAAAABQIAU1gAAIA/AAoXAG1pbmVjcmFmdDpjb2xsaXNpb25fYm94CQUAYm94ZXMKAQAAAAUEAG1heFgAAHBBBQQAbWF4WQAAMEEFBABtYXhaAACAQQUEAG1pblgAAIA/BQQAbWluWQAAgEAFBABtaW5aAADAQAABBwBlbmFibGVkAQAAAAoKAGNvbXBvbmVudHMKHABtaW5lY3JhZnQ6bWF0ZXJpYWxfaW5zdGFuY2VzCgkAbWF0ZXJpYWxzCgUAbGFyZ2UICwB0aW50X21ldGhvZAQAbm9uZQURAGFtYmllbnRfb2NjbHVzaW9uAAAAAAEMAHBhY2tlZF9ib29scwUIDQByZW5kZXJfbWV0aG9kFwBhbHBoYV90ZXN0X3NpbmdsZV9zaWRlZAgHAHRleHR1cmUUAHNoZWxmX211c2hyb29tX2xhcmdlAAAKCABtYXBwaW5ncwAAChcAbWluZWNyYWZ0OnNlbGVjdGlvbl9ib3gBBwBlbmFibGVkAQkGAG9yaWdpbgUDAAAAAADgwAAAwEAAAADACQQAc2l6ZQUDAAAAAABgQQAAoEAAACBBAAoYAG1pbmVjcmFmdDp0cmFuc2Zvcm1hdGlvbgUDAFJYUAAAAAADAgBSWgAAAAAFAwBTWFAAAAAABQIAU1kAAIA/BQIAVFkAAAAAAwIAUlgAAAAABQIAU1gAAIA/BQIAU1oAAIA/AwIAUlkDAAAABQIAVFgAAAAABQMAU1pQAAAAAAUDAFNZUAAAAAAFAgBUWgAAAAAFAwBSWVAAAAAABQMAUlpQAAAAAAEeAGhhc0pzb25WZXJzaW9uQmVmb3JlVmFsaWRhdGlvbgAAChcAbWluZWNyYWZ0OmNvbGxpc2lvbl9ib3gBBwBlbmFibGVkAQkFAGJveGVzCgEAAAAFBABtYXhYAABwQQUEAG1heFkAADBBBQQAbWF4WgAAgEEFBABtaW5YAACAPwUEAG1pblkAAIBABQQAbWluWgAAwEAAAAoSAG1pbmVjcmFmdDpnZW9tZXRyeQoPAGJvbmVfdmlzaWJpbGl0eQAIDQBjdWxsaW5nX2xheWVyIQBtaW5lY3JhZnQ6Y3VsbGluZ19sYXllci51bmRlZmluZWQICgBpZGVudGlmaWVyJwBtaW5lY3JhZnQ6Z2VvbWV0cnkuc2hlbGZfbXVzaHJvb21fbGFyZ2UBGABpZ25vcmVHZW9tZXRyeUZvcklzU29saWQACAcAY3VsbGluZyYAbWluZWNyYWZ0OmN1bGxpbmcuc2hlbGZfbXVzaHJvb21fbGFyZ2UBFgBuZWVkc0xlZ2FjeVRvcFJvdGF0aW9uAAEbAHVzZUJsb2NrVHlwZUxpZ2h0QWJzb3JwdGlvbgAIDQBjdWxsaW5nX3NoYXBlAAABDQBpc1YxRnVsbGJsb2NrAAEHAHV2X2xvY2sAAAAICQBjb25kaXRpb25fAHF1ZXJ5LmJsb2NrX3N0YXRlKCdncm93dGgnKSA9PSAxICYmIHF1ZXJ5LmJsb2NrX3N0YXRlKCdtaW5lY3JhZnQ6Y2FyZGluYWxfZGlyZWN0aW9uJykgPT0gJ2Vhc3QnAAoSAHZhbmlsbGFfYmxvY2tfZGF0YQoPAGJsb2NrX2FyY2hldHlwZQEPAGlzX2JvbmVtZWFsYWJsZQEDCgBzaXplX2NvdW50AgAAAAgEAHR5cGUSAHdhbGxfZm9saWFnZV9ibG9jawUKAGJvdW5jaW5lc3MAAEA/BRYAZmFsbF9kYW1hZ2VfbXVsdGlwbGllcgAAAD8AAwgAYmxvY2tfaWSsBQAACAgAbWF0ZXJpYWwLAHNvbGlkX3BsYW50AAA="
   },
   {
     "identifier": "minecraft:short_dry_grass",
@@ -16315,6 +18623,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -16379,6 +18688,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -16443,6 +18753,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -16726,7 +19037,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:spruce_fence_gate",
@@ -16907,6 +19223,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -17118,6 +19435,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -17209,9 +19527,24 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
+  },
+  {
+    "identifier": "minecraft:stonecutter",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": []
   },
   {
     "identifier": "minecraft:stonecutter_block",
@@ -17227,6 +19560,22 @@
     "solid": false,
     "states": [
       "minecraft:cardinal_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:straw_bed",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "head_piece_bit",
+      "minecraft:cardinal_direction",
+      "occupied_bit"
     ]
   },
   {
@@ -17550,6 +19899,40 @@
     ]
   },
   {
+    "identifier": "minecraft:stripped_poplar_log",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "pillar_axis"
+    ]
+  },
+  {
+    "identifier": "minecraft:stripped_poplar_wood",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_axe_item_destructible",
+      "wood"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "pillar_axis"
+    ]
+  },
+  {
     "identifier": "minecraft:stripped_spruce_log",
     "components": [
       "minecraft:movable",
@@ -17701,6 +20084,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -17772,6 +20156,23 @@
     ]
   },
   {
+    "identifier": "minecraft:sulfur_spike",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "dripstone_thickness",
+      "hanging"
+    ]
+  },
+  {
     "identifier": "minecraft:sulfur_stairs",
     "components": [
       "minecraft:movable",
@@ -17785,6 +20186,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -18057,6 +20459,10 @@
     "states": [
       "attached_bit",
       "disarmed_bit",
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west",
       "powered_bit",
       "suspended_bit"
     ]
@@ -18195,6 +20601,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -18279,6 +20686,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -18582,7 +20990,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:warped_fence_gate",
@@ -18760,6 +21173,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -18924,7 +21338,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:waxed_copper_bulb",
@@ -19120,6 +21539,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -19186,7 +21606,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:waxed_exposed_copper_bulb",
@@ -19382,6 +21807,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -19486,7 +21912,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:waxed_oxidized_copper_bulb",
@@ -19683,6 +22114,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -19769,7 +22201,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:waxed_weathered_copper_bulb",
@@ -19965,6 +22402,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -20050,7 +22488,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:weathered_copper_bulb",
@@ -20246,6 +22689,7 @@
     "liquid": false,
     "solid": false,
     "states": [
+      "minecraft:corner",
       "upside_down_bit",
       "weirdo_direction"
     ]
@@ -20401,6 +22845,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:white_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5BABub25lCAUAZ3JvdXAAAAEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwEAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUIBAB0eXBlCgBzbGFiX2Jsb2NrCBEAZG91YmxlX3NsYWJfYmxvY2sdAG1pbmVjcmFmdDp3aGl0ZV9jb25jcmV0ZV9zbGFiAQkAaXNfZG91YmxlAQADCABibG9ja19pZM4FAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1ZWZm5j8ACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQERAHJlZHN0b25lQ29uZHVjdG9yAQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQAAAA=="
+  },
+  {
     "identifier": "minecraft:white_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -20413,6 +22874,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:white_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAAIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAARAAY2FuQ29udGFpbkxpcXVpZAEICgBsaXF1aWRUeXBlBQB3YXRlcgAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAACg0AbWVudV9jYXRlZ29yeQgFAGdyb3VwHQBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc2xhYgEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uAAMNAG1vbGFuZ1ZlcnNpb24NAAAAChIAdmFuaWxsYV9ibG9ja19kYXRhCAgAbWF0ZXJpYWwFAHNvbGlkAR8AcmVxdWlyZXNfY29ycmVjdF90b29sX2Zvcl9kcm9wcwEKDwBibG9ja19hcmNoZXR5cGUIEQBkb3VibGVfc2xhYl9ibG9jayQAbWluZWNyYWZ0OndoaXRlX2NvbmNyZXRlX2RvdWJsZV9zbGFiAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sAAwgAYmxvY2tfaWS+BQAAAAA="
+  },
+  {
+    "identifier": "minecraft:white_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAKEQBtaW5lY3JhZnQ6c3VwcG9ydAgFAHNoYXBlBQBzdGFpcgAACg0AbWVudV9jYXRlZ29yeQEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAICABjYXRlZ29yeQwAY29uc3RydWN0aW9uCAUAZ3JvdXAfAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zdGFpcnMAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUICgBiYXNlX2Jsb2NrGABtaW5lY3JhZnQ6d2hpdGVfY29uY3JldGUIBAB0eXBlCwBzdGFpcl9ibG9jawADCABibG9ja19pZK8FAAAICABtYXRlcmlhbAUAc29saWQBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQAJCQBibG9ja1RhZ3MIAQAAACYAbWluZWNyYWZ0OmlzX3BpY2theGVfaXRlbV9kZXN0cnVjdGlibGUA"
   },
   {
     "identifier": "minecraft:white_glazed_terracotta",
@@ -20467,7 +22964,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:white_terracotta",
@@ -20508,6 +23010,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:white_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEDCABibG9ja19pZJwFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQKDwBibG9ja19hcmNoZXR5cGUIEQBkb3VibGVfc2xhYl9ibG9jaxkAbWluZWNyYWZ0OndoaXRlX3dvb2xfc2xhYgEJAGlzX2RvdWJsZQEIBAB0eXBlCgBzbGFiX2Jsb2NrAAAJCQBibG9ja1RhZ3MIAQAAACUAbWluZWNyYWZ0OmlzX3NoZWFyc19pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlzcxMPwAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IBAAAKDQBtZW51X2NhdGVnb3J5ARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAQgIAGNhdGVnb3J5BABub25lCAUAZ3JvdXAAAAAA"
+  },
+  {
+    "identifier": "minecraft:white_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sIEQBkb3VibGVfc2xhYl9ibG9jayAAbWluZWNyYWZ0OndoaXRlX3dvb2xfZG91YmxlX3NsYWIAAwgAYmxvY2tfaWSMBQAAARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQAJCQBibG9ja1RhZ3MIAQAAACUAbWluZWNyYWZ0OmlzX3NoZWFyc19pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWXNzEw/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAAICgBsaXF1aWRUeXBlBQB3YXRlcggPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQAAAAoNAG1lbnVfY2F0ZWdvcnkICABjYXRlZ29yeQwAY29uc3RydWN0aW9uCAUAZ3JvdXAdAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zbGFiARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAADDQBtb2xhbmdWZXJzaW9uDQAAAAA="
+  },
+  {
+    "identifier": "minecraft:white_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCAQAdHlwZQsAc3RhaXJfYmxvY2sICgBiYXNlX2Jsb2NrFABtaW5lY3JhZnQ6d2hpdGVfd29vbAADCABibG9ja19pZH0FAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzChEAbWluZWNyYWZ0OnN1cHBvcnQIBQBzaGFwZQUAc3RhaXIACiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwgLAHRpbnRfbWV0aG9kBABub25lAw4AcGFydGljbGVfY291bnQwAAAACAcAdGV4dHVyZQAAAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAEQAGNhbkNvbnRhaW5MaXF1aWQBCAoAbGlxdWlkVHlwZQUAd2F0ZXIIDwBvbkxpcXVpZFRvdWNoZXMIAGJsb2NraW5nARgAc3RvcHNMaXF1aWRGcm9tRGlyZWN0aW9uAAETAHVzZV9saXF1aWRfY2xpcHBpbmcAAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5AREAcmVkc3RvbmVDb25kdWN0b3IAARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAAAKDQBtZW51X2NhdGVnb3J5CAgAY2F0ZWdvcnkMAGNvbnN0cnVjdGlvbggFAGdyb3VwHwBtaW5lY3JhZnQ6aXRlbUdyb3VwLm5hbWUuc3RhaXJzARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAAA"
   },
   {
     "identifier": "minecraft:wildflowers",
@@ -20664,6 +23219,23 @@
     "states": []
   },
   {
+    "identifier": "minecraft:yellow_concrete_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhCg8AYmxvY2tfYXJjaGV0eXBlCBEAZG91YmxlX3NsYWJfYmxvY2seAG1pbmVjcmFmdDp5ZWxsb3dfY29uY3JldGVfc2xhYgEJAGlzX2RvdWJsZQEIBAB0eXBlCgBzbGFiX2Jsb2NrAAMIAGJsb2NrX2lk1QUAAAgIAG1hdGVyaWFsBQBzb2xpZAEfAHJlcXVpcmVzX2NvcnJlY3RfdG9vbF9mb3JfZHJvcHMBAAkJAGJsb2NrVGFncwgBAAAAJgBtaW5lY3JhZnQ6aXNfcGlja2F4ZV9pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlZmbmPwAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IBAAAKDQBtZW51X2NhdGVnb3J5ARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAQgIAGNhdGVnb3J5BABub25lCAUAZ3JvdXAAAAADDQBtb2xhbmdWZXJzaW9uDQAAAAA="
+  },
+  {
     "identifier": "minecraft:yellow_concrete_powder",
     "components": [
       "minecraft:movable",
@@ -20676,6 +23248,42 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:yellow_concrete_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQoPAGJsb2NrX2FyY2hldHlwZQgRAGRvdWJsZV9zbGFiX2Jsb2NrJQBtaW5lY3JhZnQ6eWVsbG93X2NvbmNyZXRlX2RvdWJsZV9zbGFiAQkAaXNfZG91YmxlAAgEAHR5cGUKAHNsYWJfYmxvY2sAAwgAYmxvY2tfaWTFBQAACAgAbWF0ZXJpYWwFAHNvbGlkAAkJAGJsb2NrVGFncwgBAAAAJgBtaW5lY3JhZnQ6aXNfcGlja2F4ZV9pdGVtX2Rlc3RydWN0aWJsZQoKAGNvbXBvbmVudHMKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlZmbmPwAKHwBtaW5lY3JhZnQ6ZGVzdHJ1Y3Rpb25fcGFydGljbGVzAw4AcGFydGljbGVfY291bnQwAAAACAcAdGV4dHVyZQAACAsAdGludF9tZXRob2QEAG5vbmUAAAoNAG1lbnVfY2F0ZWdvcnkICABjYXRlZ29yeQwAY29uc3RydWN0aW9uCAUAZ3JvdXAdAG1pbmVjcmFmdDppdGVtR3JvdXAubmFtZS5zbGFiARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAAA"
+  },
+  {
+    "identifier": "minecraft:yellow_concrete_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_pickaxe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACgoAY29tcG9uZW50cwoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAgPAG9uTGlxdWlkVG91Y2hlcwgAYmxvY2tpbmcBGABzdG9wc0xpcXVpZEZyb21EaXJlY3Rpb24AARMAdXNlX2xpcXVpZF9jbGlwcGluZwABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAoRAG1pbmVjcmFmdDpzdXBwb3J0CAUAc2hhcGUFAHN0YWlyAAogAG1pbmVjcmFmdDpkZXN0cnVjdGlibGVfYnlfbWluaW5nBQUAdmFsdWVmZuY/AAofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMICwB0aW50X21ldGhvZAQAbm9uZQMOAHBhcnRpY2xlX2NvdW50MAAAAAgHAHRleHR1cmUAAAAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEBHwByZXF1aXJlc19jb3JyZWN0X3Rvb2xfZm9yX2Ryb3BzAQoPAGJsb2NrX2FyY2hldHlwZQgKAGJhc2VfYmxvY2sZAG1pbmVjcmFmdDp5ZWxsb3dfY29uY3JldGUIBAB0eXBlCwBzdGFpcl9ibG9jawADCABibG9ja19pZLQFAAAICABtYXRlcmlhbAUAc29saWQACQkAYmxvY2tUYWdzCAEAAAAmAG1pbmVjcmFmdDppc19waWNrYXhlX2l0ZW1fZGVzdHJ1Y3RpYmxlAA=="
   },
   {
     "identifier": "minecraft:yellow_glazed_terracotta",
@@ -20691,6 +23299,23 @@
     "solid": true,
     "states": [
       "facing_direction"
+    ]
+  },
+  {
+    "identifier": "minecraft:yellow_poplar_leaves",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_hoe_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "persistent_bit",
+      "update_bit"
     ]
   },
   {
@@ -20730,7 +23355,12 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:yellow_terracotta",
@@ -20757,6 +23387,59 @@
     "liquid": false,
     "solid": true,
     "states": []
+  },
+  {
+    "identifier": "minecraft:yellow_wool_double_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": true,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAQAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5BABub25lCAUAZ3JvdXAAAAEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwEAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEKDwBibG9ja19hcmNoZXR5cGUIBAB0eXBlCgBzbGFiX2Jsb2NrCBEAZG91YmxlX3NsYWJfYmxvY2saAG1pbmVjcmFmdDp5ZWxsb3dfd29vbF9zbGFiAQkAaXNfZG91YmxlAQADCABibG9ja19pZKMFAAABFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQAAA=="
+  },
+  {
+    "identifier": "minecraft:yellow_wool_slab",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:vertical_half"
+    ],
+    "properties": "CgAAChIAdmFuaWxsYV9ibG9ja19kYXRhARUAY2FuX2RhbXBlbl92aWJyYXRpb25zAQEWAGNhbl9vY2NsdWRlX3ZpYnJhdGlvbnMBCAgAbWF0ZXJpYWwFAHNvbGlkBQwAdHJhbnNsdWNlbmN5zcxMPwoPAGJsb2NrX2FyY2hldHlwZQgRAGRvdWJsZV9zbGFiX2Jsb2NrIQBtaW5lY3JhZnQ6eWVsbG93X3dvb2xfZG91YmxlX3NsYWIBCQBpc19kb3VibGUACAQAdHlwZQoAc2xhYl9ibG9jawADCABibG9ja19pZJMFAAAACQkAYmxvY2tUYWdzCAEAAAAlAG1pbmVjcmFmdDppc19zaGVhcnNfaXRlbV9kZXN0cnVjdGlibGUKCgBjb21wb25lbnRzCiAAbWluZWNyYWZ0OmRlc3RydWN0aWJsZV9ieV9taW5pbmcFBQB2YWx1Zc3MTD8ACh8AbWluZWNyYWZ0OmRlc3RydWN0aW9uX3BhcnRpY2xlcwgLAHRpbnRfbWV0aG9kBABub25lAw4AcGFydGljbGVfY291bnQwAAAACAcAdGV4dHVyZQAAAAoaAG1pbmVjcmFmdDpsaXF1aWRfZGV0ZWN0aW9uCQ4AZGV0ZWN0aW9uUnVsZXMKAQAAAAgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAEQAGNhbkNvbnRhaW5MaXF1aWQBAAAKHwBtaW5lY3JhZnQ6cmVkc3RvbmVfY29uZHVjdGl2aXR5ARQAYWxsb3dzV2lyZVRvU3RlcERvd24BAREAcmVkc3RvbmVDb25kdWN0b3IAAAAKDQBtZW51X2NhdGVnb3J5ARUAaXNfaGlkZGVuX2luX2NvbW1hbmRzAAgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB0AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnNsYWIAAw0AbW9sYW5nVmVyc2lvbg0AAAAA"
+  },
+  {
+    "identifier": "minecraft:yellow_wool_stairs",
+    "components": [
+      "minecraft:movable",
+      "minecraft:precipitation_interactions"
+    ],
+    "tags": [
+      "minecraft:is_shears_item_destructible"
+    ],
+    "air": false,
+    "liquid": false,
+    "solid": false,
+    "states": [
+      "minecraft:corner",
+      "upside_down_bit",
+      "weirdo_direction"
+    ],
+    "properties": "CgAACg0AbWVudV9jYXRlZ29yeQgIAGNhdGVnb3J5DABjb25zdHJ1Y3Rpb24IBQBncm91cB8AbWluZWNyYWZ0Oml0ZW1Hcm91cC5uYW1lLnN0YWlycwEVAGlzX2hpZGRlbl9pbl9jb21tYW5kcwAAAw0AbW9sYW5nVmVyc2lvbg0AAAAKEgB2YW5pbGxhX2Jsb2NrX2RhdGEBFQBjYW5fZGFtcGVuX3ZpYnJhdGlvbnMBARYAY2FuX29jY2x1ZGVfdmlicmF0aW9ucwEICABtYXRlcmlhbAUAc29saWQFDAB0cmFuc2x1Y2VuY3nNzEw/Cg8AYmxvY2tfYXJjaGV0eXBlCAoAYmFzZV9ibG9jaxUAbWluZWNyYWZ0OnllbGxvd193b29sCAQAdHlwZQsAc3RhaXJfYmxvY2sAAwgAYmxvY2tfaWSCBQAAAAkJAGJsb2NrVGFncwgBAAAAJQBtaW5lY3JhZnQ6aXNfc2hlYXJzX2l0ZW1fZGVzdHJ1Y3RpYmxlCgoAY29tcG9uZW50cwofAG1pbmVjcmFmdDpkZXN0cnVjdGlvbl9wYXJ0aWNsZXMDDgBwYXJ0aWNsZV9jb3VudDAAAAAIBwB0ZXh0dXJlAAAICwB0aW50X21ldGhvZAQAbm9uZQAKGgBtaW5lY3JhZnQ6bGlxdWlkX2RldGVjdGlvbgkOAGRldGVjdGlvblJ1bGVzCgEAAAABEABjYW5Db250YWluTGlxdWlkAQgKAGxpcXVpZFR5cGUFAHdhdGVyCA8Ab25MaXF1aWRUb3VjaGVzCABibG9ja2luZwEYAHN0b3BzTGlxdWlkRnJvbURpcmVjdGlvbgABEwB1c2VfbGlxdWlkX2NsaXBwaW5nAAAACh8AbWluZWNyYWZ0OnJlZHN0b25lX2NvbmR1Y3Rpdml0eQEUAGFsbG93c1dpcmVUb1N0ZXBEb3duAQERAHJlZHN0b25lQ29uZHVjdG9yAAAKEQBtaW5lY3JhZnQ6c3VwcG9ydAgFAHNoYXBlBQBzdGFpcgAKIABtaW5lY3JhZnQ6ZGVzdHJ1Y3RpYmxlX2J5X21pbmluZwUFAHZhbHVlzcxMPwAAAA=="
   },
   {
     "identifier": "minecraft:zombie_head",

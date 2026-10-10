@@ -38,14 +38,6 @@
     ]
   },
   {
-    "identifier": "allow_underwater_bit",
-    "type": "bool",
-    "values": [
-      false,
-      true
-    ]
-  },
-  {
     "identifier": "attached_bit",
     "type": "bool",
     "values": [
@@ -109,28 +101,6 @@
       4,
       5,
       6
-    ]
-  },
-  {
-    "identifier": "block_light_level",
-    "type": "int",
-    "values": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15
     ]
   },
   {
@@ -281,26 +251,6 @@
     ]
   },
   {
-    "identifier": "chemistry_table_type",
-    "type": "string",
-    "values": [
-      "compound_creator",
-      "material_reducer",
-      "element_constructor",
-      "lab_table"
-    ]
-  },
-  {
-    "identifier": "chisel_type",
-    "type": "string",
-    "values": [
-      "default",
-      "chiseled",
-      "lines",
-      "smooth"
-    ]
-  },
-  {
     "identifier": "cluster_count",
     "type": "int",
     "values": [
@@ -308,36 +258,6 @@
       1,
       2,
       3
-    ]
-  },
-  {
-    "identifier": "color",
-    "type": "string",
-    "values": [
-      "white",
-      "orange",
-      "magenta",
-      "light_blue",
-      "yellow",
-      "lime",
-      "pink",
-      "gray",
-      "silver",
-      "cyan",
-      "purple",
-      "blue",
-      "brown",
-      "green",
-      "red",
-      "black"
-    ]
-  },
-  {
-    "identifier": "color_bit",
-    "type": "bool",
-    "values": [
-      false,
-      true
     ]
   },
   {
@@ -364,17 +284,6 @@
     ]
   },
   {
-    "identifier": "coral_color",
-    "type": "string",
-    "values": [
-      "blue",
-      "pink",
-      "purple",
-      "red",
-      "yellow"
-    ]
-  },
-  {
     "identifier": "coral_direction",
     "type": "int",
     "values": [
@@ -390,14 +299,6 @@
     "values": [
       0,
       1
-    ]
-  },
-  {
-    "identifier": "coral_hang_type_bit",
-    "type": "bool",
-    "values": [
-      false,
-      true
     ]
   },
   {
@@ -435,16 +336,6 @@
     ]
   },
   {
-    "identifier": "damage",
-    "type": "string",
-    "values": [
-      "undamaged",
-      "slightly_damaged",
-      "very_damaged",
-      "broken"
-    ]
-  },
-  {
     "identifier": "dead_bit",
     "type": "bool",
     "values": [
@@ -469,15 +360,19 @@
       0,
       1,
       2,
-      3
-    ]
-  },
-  {
-    "identifier": "dirt_type",
-    "type": "string",
-    "values": [
-      "normal",
-      "coarse"
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
     ]
   },
   {
@@ -494,18 +389,6 @@
     "values": [
       false,
       true
-    ]
-  },
-  {
-    "identifier": "double_plant_type",
-    "type": "string",
-    "values": [
-      "sunflower",
-      "syringa",
-      "grass",
-      "fern",
-      "rose",
-      "paeonia"
     ]
   },
   {
@@ -574,23 +457,6 @@
       4,
       5,
       6
-    ]
-  },
-  {
-    "identifier": "flower_type",
-    "type": "string",
-    "values": [
-      "poppy",
-      "orchid",
-      "allium",
-      "houstonia",
-      "tulip_red",
-      "tulip_orange",
-      "tulip_white",
-      "tulip_pink",
-      "oxeye",
-      "cornflower",
-      "lily_of_the_valley"
     ]
   },
   {
@@ -911,16 +777,6 @@
     ]
   },
   {
-    "identifier": "minecraft:multi_block_part",
-    "type": "int",
-    "values": [
-      0,
-      1,
-      2,
-      3
-    ]
-  },
-  {
     "identifier": "minecraft:vertical_half",
     "type": "string",
     "values": [
@@ -940,18 +796,6 @@
       5,
       6,
       7
-    ]
-  },
-  {
-    "identifier": "monster_egg_stone_type",
-    "type": "string",
-    "values": [
-      "stone",
-      "cobblestone",
-      "stone_brick",
-      "mossy_stone_brick",
-      "cracked_stone_brick",
-      "chiseled_stone_brick"
     ]
   },
   {
@@ -1033,55 +877,11 @@
     ]
   },
   {
-    "identifier": "new_leaf_type",
-    "type": "string",
-    "values": [
-      "acacia",
-      "dark_oak"
-    ]
-  },
-  {
-    "identifier": "new_log_type",
-    "type": "string",
-    "values": [
-      "acacia",
-      "dark_oak"
-    ]
-  },
-  {
-    "identifier": "no_drop_bit",
-    "type": "bool",
-    "values": [
-      false,
-      true
-    ]
-  },
-  {
     "identifier": "occupied_bit",
     "type": "bool",
     "values": [
       false,
       true
-    ]
-  },
-  {
-    "identifier": "old_leaf_type",
-    "type": "string",
-    "values": [
-      "oak",
-      "spruce",
-      "birch",
-      "jungle"
-    ]
-  },
-  {
-    "identifier": "old_log_type",
-    "type": "string",
-    "values": [
-      "oak",
-      "spruce",
-      "birch",
-      "jungle"
     ]
   },
   {
@@ -1197,6 +997,17 @@
     ]
   },
   {
+    "identifier": "potent_sulfur_state",
+    "type": "string",
+    "values": [
+      "dry",
+      "wet",
+      "dormant",
+      "erupting",
+      "continuous"
+    ]
+  },
+  {
     "identifier": "powered_bit",
     "type": "bool",
     "values": [
@@ -1212,15 +1023,6 @@
       1,
       2,
       3
-    ]
-  },
-  {
-    "identifier": "prismarine_block_type",
-    "type": "string",
-    "values": [
-      "default",
-      "dark",
-      "bricks"
     ]
   },
   {
@@ -1322,37 +1124,6 @@
     ]
   },
   {
-    "identifier": "sand_stone_type",
-    "type": "string",
-    "values": [
-      "default",
-      "heiroglyphs",
-      "cut",
-      "smooth"
-    ]
-  },
-  {
-    "identifier": "sand_type",
-    "type": "string",
-    "values": [
-      "normal",
-      "red"
-    ]
-  },
-  {
-    "identifier": "sapling_type",
-    "type": "string",
-    "values": [
-      "oak",
-      "spruce",
-      "birch",
-      "jungle",
-      "acacia",
-      "dark_oak",
-      "pale_oak"
-    ]
-  },
-  {
     "identifier": "sculk_sensor_phase",
     "type": "int",
     "values": [
@@ -1368,14 +1139,6 @@
       "default",
       "double_top",
       "double_bot"
-    ]
-  },
-  {
-    "identifier": "sponge_type",
-    "type": "string",
-    "values": [
-      "dry",
-      "wet"
     ]
   },
   {
@@ -1401,91 +1164,6 @@
     ]
   },
   {
-    "identifier": "stone_brick_type",
-    "type": "string",
-    "values": [
-      "default",
-      "mossy",
-      "cracked",
-      "chiseled",
-      "smooth"
-    ]
-  },
-  {
-    "identifier": "stone_slab_type",
-    "type": "string",
-    "values": [
-      "smooth_stone",
-      "sandstone",
-      "wood",
-      "cobblestone",
-      "brick",
-      "stone_brick",
-      "quartz",
-      "nether_brick"
-    ]
-  },
-  {
-    "identifier": "stone_slab_type_2",
-    "type": "string",
-    "values": [
-      "red_sandstone",
-      "purpur",
-      "prismarine_rough",
-      "prismarine_dark",
-      "prismarine_brick",
-      "mossy_cobblestone",
-      "smooth_sandstone",
-      "red_nether_brick"
-    ]
-  },
-  {
-    "identifier": "stone_slab_type_3",
-    "type": "string",
-    "values": [
-      "end_stone_brick",
-      "smooth_red_sandstone",
-      "polished_andesite",
-      "andesite",
-      "diorite",
-      "polished_diorite",
-      "granite",
-      "polished_granite"
-    ]
-  },
-  {
-    "identifier": "stone_slab_type_4",
-    "type": "string",
-    "values": [
-      "mossy_stone_brick",
-      "smooth_quartz",
-      "stone",
-      "cut_sandstone",
-      "cut_red_sandstone"
-    ]
-  },
-  {
-    "identifier": "stone_type",
-    "type": "string",
-    "values": [
-      "stone",
-      "granite",
-      "granite_smooth",
-      "diorite",
-      "diorite_smooth",
-      "andesite",
-      "andesite_smooth"
-    ]
-  },
-  {
-    "identifier": "stripped_bit",
-    "type": "bool",
-    "values": [
-      false,
-      true
-    ]
-  },
-  {
     "identifier": "structure_block_type",
     "type": "string",
     "values": [
@@ -1498,29 +1176,11 @@
     ]
   },
   {
-    "identifier": "structure_void_type",
-    "type": "string",
-    "values": [
-      "void",
-      "air"
-    ]
-  },
-  {
     "identifier": "suspended_bit",
     "type": "bool",
     "values": [
       false,
       true
-    ]
-  },
-  {
-    "identifier": "tall_grass_type",
-    "type": "string",
-    "values": [
-      "default",
-      "tall",
-      "fern",
-      "snow"
     ]
   },
   {
@@ -1533,14 +1193,6 @@
   },
   {
     "identifier": "toggle_bit",
-    "type": "bool",
-    "values": [
-      false,
-      true
-    ]
-  },
-  {
-    "identifier": "top_slot_bit",
     "type": "bool",
     "values": [
       false,
@@ -1678,26 +1330,6 @@
     ]
   },
   {
-    "identifier": "wall_block_type",
-    "type": "string",
-    "values": [
-      "cobblestone",
-      "mossy_cobblestone",
-      "granite",
-      "diorite",
-      "andesite",
-      "sandstone",
-      "brick",
-      "stone_brick",
-      "mossy_stone_brick",
-      "nether_brick",
-      "end_brick",
-      "prismarine",
-      "red_sandstone",
-      "red_nether_brick"
-    ]
-  },
-  {
     "identifier": "wall_connection_type_east",
     "type": "string",
     "values": [
@@ -1781,18 +1413,6 @@
       1,
       2,
       3
-    ]
-  },
-  {
-    "identifier": "wood_type",
-    "type": "string",
-    "values": [
-      "oak",
-      "spruce",
-      "birch",
-      "jungle",
-      "acacia",
-      "dark_oak"
     ]
   }
 ]
