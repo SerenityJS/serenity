@@ -21,6 +21,7 @@ import {
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { CompoundTag } from "@serenityjs/nbt";
+import { BinaryStream } from "@serenityjs/binarystream";
 
 import { NetworkHandler } from "../network";
 import { EntityInventoryTrait, Player } from "../entity";
@@ -319,11 +320,14 @@ class InventoryTransactionHandler extends NetworkHandler {
 
           // Check if the item stack has block nbt property
           if (stack.nbt.has("Block")) {
-            // Get the block level storage from the item stack
-            const storage = new BlockLevelStorage(
-              resultant.getChunk(), // The chunk the block is in
-              stack.nbt.get<CompoundTag>("Block")! // The block nbt data from the item stack
-            );
+            // Copy the block nbt data from the item stack, so the block does not share it with the item
+            const stream = new BinaryStream();
+            CompoundTag.write(stream, stack.nbt.get<CompoundTag>("Block")!);
+            const data = CompoundTag.read(new BinaryStream(stream.getBuffer()));
+
+            // Create the block level storage from the data, at the position of the block
+            const storage = new BlockLevelStorage(resultant.getChunk(), data);
+            storage.setPosition(resultant.position);
 
             // Set the permutation of the block with the storage
             resultant.setPermutation(permutation, storage);
@@ -368,6 +372,9 @@ class InventoryTransactionHandler extends NetworkHandler {
             if (resultant.hasTrait(BlockChestTrait)) {
               resultant.getTrait(BlockChestTrait).pair();
             }
+
+            // Send the data the block was placed with to the players, as the client does not have it
+            if (stack.nbt.has("Block")) resultant.sendStorageUpdate();
 
             // Decrement the stack if the player is in survival mode
             // This is done AFTER th e onPlace check to avoid losing items on canceled placements
