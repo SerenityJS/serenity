@@ -318,36 +318,45 @@ class InventoryTransactionHandler extends NetworkHandler {
           // Emit the signal
           options.cancel = !signal.emit();
 
-          // Check if the item stack has block nbt property
-          if (stack.nbt.has("Block")) {
-            // Copy the block nbt data from the item stack, so the block does not share it with the item
-            const stream = new BinaryStream();
-            CompoundTag.write(stream, stack.nbt.get<CompoundTag>("Block")!);
-            const data = CompoundTag.read(new BinaryStream(stream.getBuffer()));
+          // Place the block, holding its block updates until its traits have set its state,
+          // so players see it in the state it is placed in rather than the states before
+          dimension.holdBlockUpdates(resultant.position, () => {
+            // Check if the item stack has block nbt property
+            if (stack.nbt.has("Block")) {
+              // Copy the block nbt data from the item stack, so the block does not share it with the item
+              const stream = new BinaryStream();
+              CompoundTag.write(stream, stack.nbt.get<CompoundTag>("Block")!);
+              const data = CompoundTag.read(
+                new BinaryStream(stream.getBuffer())
+              );
 
-            // Create the block level storage from the data, at the position of the block
-            const storage = new BlockLevelStorage(resultant.getChunk(), data);
-            storage.setPosition(resultant.position);
+              // Create the block level storage from the data, at the position of the block
+              const storage = new BlockLevelStorage(resultant.getChunk(), data);
+              storage.setPosition(resultant.position);
 
-            // Set the permutation of the block with the storage
-            resultant.setPermutation(permutation, storage);
-          } else {
-            // Set the permutation of the block
-            resultant.setPermutation(permutation);
-          }
+              // Set the permutation of the block with the storage
+              resultant.setPermutation(permutation, storage);
+            } else {
+              // Set the permutation of the block
+              resultant.setPermutation(permutation);
+            }
 
-          // Call the block onPlace trait methods
-          for (const trait of resultant.getAllTraits()) {
-            // Check if the start break was successful
-            const success = trait.onPlace?.(options);
+            // Call the block onPlace trait methods
+            for (const trait of resultant.getAllTraits()) {
+              // Check if the start break was successful
+              const success = trait.onPlace?.(options);
 
-            // If the result is undefined, continue
-            // As the trait does not implement the method
-            if (success === undefined) continue;
+              // If the result is undefined, continue
+              // As the trait does not implement the method
+              if (success === undefined) continue;
 
-            // If the result is false, cancel the break
-            options.cancel = !success;
-          }
+              // If the result is false, cancel the break
+              options.cancel = !success;
+            }
+
+            // Revert the block to its previous state if the placement was canceled
+            if (options.cancel) resultant.setPermutation(previousPermutation);
+          });
 
           // Create a new LevelSoundEventPacket to play the block place sound
           const sound = new LevelSoundEventPacket();
@@ -359,11 +368,8 @@ class InventoryTransactionHandler extends NetworkHandler {
           sound.isGlobal = false;
           sound.uniqueActorId = -1n;
 
-          // Check if the block placement was canceled, revert the block
+          // Check if the block placement was canceled
           if (options.cancel) {
-            // Revert the block to its previous state
-            resultant.setPermutation(previousPermutation);
-
             // Resync the inventory slot to the client to correct the predicted stack count
             if (stack.container) stack.container.update();
 

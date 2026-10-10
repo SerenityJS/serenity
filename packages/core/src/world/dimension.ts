@@ -102,6 +102,12 @@ class Dimension {
   private readonly chunkLastAccessAt = new Map<bigint, bigint>();
 
   /**
+   * The positions whose block updates are held, and whether an update was held for each.
+   * @internal Used to send players a block in its final state when it is placed.
+   */
+  private readonly heldBlockUpdates = new Map<bigint, boolean>();
+
+  /**
    * The properties of the dimension.
    */
   public readonly properties: DimensionProperties = DefaultDimensionProperties;
@@ -921,8 +927,57 @@ class Dimension {
       this.blocks.delete(BlockPosition.hash(blockPosition));
     }
 
+    // Check if the block updates of the position are held, as they are sent when the hold ends
+    const hash = BlockPosition.hash(blockPosition);
+    if (
+      layer === UpdateBlockLayerType.Normal &&
+      this.heldBlockUpdates.has(hash)
+    ) {
+      this.heldBlockUpdates.set(hash, true);
+      return;
+    }
+
     // Broadcast the packet to the dimension.
     this.broadcast(packet);
+  }
+
+  /**
+   * Holds the block updates of a position while a callback runs, and sends players
+   * the block in its final state once it returns, if it changed. This is used when
+   * placing a block, so players do not see it in the states it passes through,
+   * such as before the direction it faces is set.
+   * @param position The position of the block.
+   * @param callback The callback that changes the block.
+   * @returns The result of the callback.
+   */
+  public holdBlockUpdates<T>(position: IPosition, callback: () => T): T {
+    // Get the hash of the position
+    const blockPosition = BlockPosition.from(position);
+    const hash = BlockPosition.hash(blockPosition);
+
+    // Check if the position is already held, in which case the outer hold sends the update
+    if (this.heldBlockUpdates.has(hash)) return callback();
+
+    // Hold the block updates of the position
+    this.heldBlockUpdates.set(hash, false);
+
+    try {
+      return callback();
+    } finally {
+      // Check if an update was held, and stop holding them
+      const held = this.heldBlockUpdates.get(hash);
+      this.heldBlockUpdates.delete(hash);
+
+      // Send the block in its final state
+      if (held) {
+        const packet = new UpdateBlockPacket();
+        packet.networkBlockId = this.getPermutation(blockPosition).networkId;
+        packet.position = blockPosition;
+        packet.flags = UpdateBlockFlagsType.Network;
+        packet.layer = UpdateBlockLayerType.Normal;
+        this.broadcast(packet);
+      }
+    }
   }
 
   /**
