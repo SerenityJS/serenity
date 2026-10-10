@@ -136,3 +136,4 @@ export * from "./text-variant-type";
 export * from "./subchunk-request-result";
 export * from "./data-store-property-value-type";
 export * from "./data-store-change-action";
+export * from "./sound-data-update-type";

@@ -176,3 +176,4 @@ export * from "./server-join-info";
 export * from "./gathering-join-info";
 export * from "./presence-info";
 export * from "./store-entry-point-info";
+export * from "./sound-data-update";
