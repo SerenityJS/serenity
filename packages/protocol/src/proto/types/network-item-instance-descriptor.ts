@@ -36,9 +36,8 @@ class NetworkItemInstanceDescriptor extends DataType {
     // Read the network id of the item.
     const network = stream.readZigZag();
 
-    // Check if the network id is 0.
-    // If it is, then we return an empty value. (air)
-    if (network === 0) return new NetworkItemInstanceDescriptor(network);
+    // NOTE: Air (network id 0) is written with all of its fields since v2168,
+    // so the remaining fields are always read.
 
     // Read the remaining fields of the item.
     const stackSize = stream.readUint16(Endianness.Little);
@@ -69,9 +68,8 @@ class NetworkItemInstanceDescriptor extends DataType {
     // Write the network id of the item.
     stream.writeZigZag(value.network);
 
-    // Check if the network id is 0.
-    // If it is, then we return an empty value. (air)
-    if (value.network === 0) return;
+    // NOTE: Air (network id 0) is written with all of its fields since v2168,
+    // with empty user data.
 
     // Write the remaining fields of the item.
     stream.writeUint16(value.stackSize ?? 0, Endianness.Little);
@@ -82,7 +80,7 @@ class NetworkItemInstanceDescriptor extends DataType {
     // If it does, we need to first create a new stream,
     // And then write the extra data to the stream.
     // We then write the length of the stream to the main stream, and then write the stream.
-    if (value.extras) {
+    if (value.extras && value.network !== 0) {
       // Create a new stream for the extra data.
       const extras = new BinaryStream();
 

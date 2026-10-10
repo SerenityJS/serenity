@@ -1,4 +1,4 @@
-import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { CreativeItemCategory } from "../../enums";
 
@@ -49,7 +49,7 @@ class CreativeGroup extends DataType {
     // Iterate over the amount of creative groups.
     for (let i = 0; i < amount; i++) {
       // Read the category of the creative group.
-      const category = stream.readInt32(Endianness.Little);
+      const category = stream.readUint8();
 
       // Read the name of the creative group.
       const name = stream.readVarString();
@@ -72,7 +72,7 @@ class CreativeGroup extends DataType {
     // Iterate over the creative groups.
     for (const group of value) {
       // Write the category of the creative group.
-      stream.writeInt32(group.category, Endianness.Little);
+      stream.writeUint8(group.category);
 
       // Write the name of the creative group.
       stream.writeVarString(group.name);

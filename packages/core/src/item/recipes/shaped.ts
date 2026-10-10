@@ -151,16 +151,16 @@ class ShapedCraftingRecipe extends Recipe {
 
         // Check if the ingredient exists.
         if (ingredient?.type) {
-          // Get the network ID, stack size, and metadata from the ingredient.
-          const networkId = ingredient.type.network;
+          // Get the item name, stack size, and metadata from the ingredient.
+          const name = ingredient.type.identifier;
           const stackSize = ingredient.stackSize ?? 1;
           const metadata = ingredient.metadata ?? 32767; // Default metadata value
 
-          // Create a new RecipeIngredient instance.
+          // Create a new RecipeIngredient instance, items are referenced by name.
           const recipeIngredient = new RecipeIngredient(
-            InternalType.Default,
+            InternalType.Deferred,
             stackSize,
-            { networkId, metadata }
+            { name, metadata }
           );
 
           // Add the ingredient to the ingredients array.
@@ -172,7 +172,7 @@ class ShapedCraftingRecipe extends Recipe {
           // If the ingredient is a tag, create a RecipeIngredient for it.
           const recipeIngredient = new RecipeIngredient(
             InternalType.ItemTag,
-            0,
+            1,
             { tag }
           );
 
@@ -185,7 +185,7 @@ class ShapedCraftingRecipe extends Recipe {
           // If the ingredient is a complex alias, create a RecipeIngredient for it.
           const recipeIngredient = new RecipeIngredient(
             InternalType.ComplexAlias,
-            0,
+            1,
             { name }
           );
 

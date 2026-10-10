@@ -18,6 +18,27 @@ type CraftingDataEntryRecipe =
   | SmithingTransformRecipe
   | SmithingTrimRecipe;
 
+interface CraftingDataEntryCodec {
+  read(stream: BinaryStream): CraftingDataEntryRecipe;
+  write(stream: BinaryStream, value: never): void;
+}
+
+/**
+ * Since v2168, recipes are written as a separate list per recipe type, in this order.
+ */
+const CraftingDataEntryLists: Array<
+  [CraftingDataEntryType, CraftingDataEntryCodec]
+> = [
+  [CraftingDataEntryType.ShapedRecipe, ShapedRecipe],
+  [CraftingDataEntryType.ShapelessRecipe, ShapelessRecipe],
+  [CraftingDataEntryType.MultiRecipe, MultiRecipe],
+  [CraftingDataEntryType.UserDataShapelessRecipe, ShapelessRecipe],
+  [CraftingDataEntryType.ShapelessChemistryRecipe, ShapelessRecipe],
+  [CraftingDataEntryType.ShapedChemistryRecipe, ShapedRecipe],
+  [CraftingDataEntryType.SmithingTransformRecipe, SmithingTransformRecipe],
+  [CraftingDataEntryType.SmithingTrimRecipe, SmithingTrimRecipe]
+];
+
 class CraftingDataEntry extends DataType {
   public readonly type: CraftingDataEntryType;
   public readonly recipe: CraftingDataEntryRecipe;
@@ -32,74 +53,17 @@ class CraftingDataEntry extends DataType {
   }
 
   public static read(stream: BinaryStream): Array<CraftingDataEntry> {
-    // Read the number of entries.
-    const count = stream.readVarInt();
-
     // Prepare an array to store the entries.
     const entries: Array<CraftingDataEntry> = [];
 
-    // Iterate over the entries.
-    for (let index = 0; index < count; index++) {
-      // Read the type of the entry.
-      const type = stream.readZigZag() as CraftingDataEntryType;
+    // Iterate over the recipe lists in their wire order.
+    for (const [type, codec] of CraftingDataEntryLists) {
+      // Read the number of recipes in the list.
+      const count = stream.readVarInt();
 
-      // Prepare the variables to store the recipe.
-      let recipe: CraftingDataEntryRecipe;
-
-      // Read the recipe based on the type.
-      switch (type) {
-        default: {
-          throw new Error(
-            `Unknown crafting data entry type: ${type}, index: ${index}, offset: ${stream.offset}`
-          );
-        }
-
-        case CraftingDataEntryType.ShapelessRecipe: {
-          recipe = ShapelessRecipe.read(stream);
-          break;
-        }
-
-        case CraftingDataEntryType.ShapedRecipe: {
-          recipe = ShapedRecipe.read(stream);
-          break;
-        }
-
-        case CraftingDataEntryType.MultiRecipe: {
-          recipe = MultiRecipe.read(stream);
-          break;
-        }
-
-        case CraftingDataEntryType.UserDataShapelessRecipe: {
-          recipe = ShapelessRecipe.read(stream);
-          break;
-        }
-
-        case CraftingDataEntryType.ShapelessChemistryRecipe: {
-          recipe = ShapelessRecipe.read(stream);
-          break;
-        }
-
-        case CraftingDataEntryType.ShapedChemistryRecipe: {
-          recipe = ShapedRecipe.read(stream);
-          break;
-        }
-
-        case CraftingDataEntryType.SmithingTransformRecipe: {
-          recipe = SmithingTransformRecipe.read(stream);
-          break;
-        }
-
-        case CraftingDataEntryType.SmithingTrimRecipe: {
-          recipe = SmithingTrimRecipe.read(stream);
-          break;
-        }
-      }
-
-      // Create the crafting data entry.
-      const entry = new this(type, recipe);
-
-      // Push the entry to the entries array.
-      entries.push(entry);
+      // Read each recipe in the list, and create an entry for it.
+      for (let index = 0; index < count; index++)
+        entries.push(new this(type, codec.read(stream)));
     }
 
     // Return the entries.
@@ -110,63 +74,22 @@ class CraftingDataEntry extends DataType {
     stream: BinaryStream,
     entries: Array<CraftingDataEntry>
   ): void {
-    // Write the number of entries.
-    stream.writeVarInt(entries.length);
-
-    // Iterate over the entries.
+    // Check that every entry has a type that can be written.
     for (const entry of entries) {
-      // Write the type of the entry.
-      stream.writeZigZag(entry.type);
+      if (!CraftingDataEntryLists.some(([type]) => type === entry.type))
+        throw new Error(`Unknown crafting data entry type: ${entry.type}`);
+    }
 
-      // Write the recipe based on the type.
-      switch (entry.type) {
-        default: {
-          throw new Error(`Unknown crafting data entry type: ${entry.type}`);
-        }
+    // Iterate over the recipe lists in their wire order.
+    for (const [type, codec] of CraftingDataEntryLists) {
+      // Get the entries that belong in the list.
+      const list = entries.filter((entry) => entry.type === type);
 
-        case CraftingDataEntryType.ShapelessRecipe: {
-          ShapelessRecipe.write(stream, entry.recipe as ShapelessRecipe);
-          break;
-        }
+      // Write the number of recipes in the list.
+      stream.writeVarInt(list.length);
 
-        case CraftingDataEntryType.ShapedRecipe: {
-          ShapedRecipe.write(stream, entry.recipe as ShapedRecipe);
-          break;
-        }
-
-        case CraftingDataEntryType.MultiRecipe: {
-          MultiRecipe.write(stream, entry.recipe as MultiRecipe);
-          break;
-        }
-
-        case CraftingDataEntryType.UserDataShapelessRecipe: {
-          ShapelessRecipe.write(stream, entry.recipe as ShapelessRecipe);
-          break;
-        }
-
-        case CraftingDataEntryType.ShapelessChemistryRecipe: {
-          ShapelessRecipe.write(stream, entry.recipe as ShapelessRecipe);
-          break;
-        }
-
-        case CraftingDataEntryType.ShapedChemistryRecipe: {
-          ShapedRecipe.write(stream, entry.recipe as ShapedRecipe);
-          break;
-        }
-
-        case CraftingDataEntryType.SmithingTransformRecipe: {
-          SmithingTransformRecipe.write(
-            stream,
-            entry.recipe as SmithingTransformRecipe
-          );
-          break;
-        }
-
-        case CraftingDataEntryType.SmithingTrimRecipe: {
-          SmithingTrimRecipe.write(stream, entry.recipe as SmithingTrimRecipe);
-          break;
-        }
-      }
+      // Write each recipe in the list.
+      for (const entry of list) codec.write(stream, entry.recipe as never);
     }
   }
 }

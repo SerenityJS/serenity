@@ -40,7 +40,7 @@ class UserDataShapelessRecipe extends DataType {
   /**
    * The requirement to unlock the recipe.
    */
-  public readonly requirement: RecipeUnlockingRequirement;
+  public readonly requirement: RecipeUnlockingRequirement | null;
 
   /**
    * @param identifier The identifier of the recipe.
@@ -57,7 +57,7 @@ class UserDataShapelessRecipe extends DataType {
     uuid: string,
     tag: string,
     priority: number,
-    requirement: RecipeUnlockingRequirement
+    requirement: RecipeUnlockingRequirement | null
   ) {
     super();
     this.identifier = identifier;
@@ -109,7 +109,7 @@ class UserDataShapelessRecipe extends DataType {
     const priority = stream.readZigZag();
 
     // Read the requirement
-    const requirement = RecipeUnlockingRequirement.read(stream);
+    const requirement = RecipeUnlockingRequirement.readOptional(stream);
 
     // Return a new instance with the identifier, ingredients, resultants, UUID, tag, priority, and requirement
     return new this(
@@ -164,7 +164,7 @@ class UserDataShapelessRecipe extends DataType {
     stream.writeZigZag(value.priority);
 
     // Write the requirement
-    RecipeUnlockingRequirement.write(stream, value.requirement);
+    RecipeUnlockingRequirement.writeOptional(stream, value.requirement);
   }
 }
 

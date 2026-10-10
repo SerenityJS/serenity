@@ -32,11 +32,10 @@ class RecipeUnlockingRequirement extends DataType {
 
   public static read(stream: BinaryStream): RecipeUnlockingRequirement {
     // Read the context
-    const context = stream.readUint8() as UnlockingContext;
+    const context = stream.readZigZag() as UnlockingContext;
 
-    // If the context not `None`, return a new instance with the context
-    if (context !== UnlockingContext.None)
-      return new RecipeUnlockingRequirement(context, null);
+    // Check if the ingredients are present, they are only present in the `None` context
+    if (!stream.readBool()) return new RecipeUnlockingRequirement(context, null);
 
     // Prepare an array to store the ingredients
     const ingredients: Array<RecipeIngredient> = [];
@@ -44,13 +43,10 @@ class RecipeUnlockingRequirement extends DataType {
     // Read the number of ingredients
     const count = stream.readVarInt();
 
-    // Loop through the ingredients
+    // Loop through the number of ingredients
     for (let index = 0; index < count; index++) {
       // Read the ingredient
-      const ingredient = RecipeIngredient.read(stream);
-
-      // Add the ingredient to the array
-      ingredients.push(ingredient);
+      ingredients.push(RecipeIngredient.read(stream));
     }
 
     // Return a new instance with the context and ingredients
@@ -62,12 +58,16 @@ class RecipeUnlockingRequirement extends DataType {
     value: RecipeUnlockingRequirement
   ): void {
     // Write the context
-    stream.writeUint8(value.context);
+    stream.writeZigZag(value.context);
 
-    // If the context is `None`, write the number of ingredients and loop through them
-    if (value.context === UnlockingContext.None) {
+    // The ingredients are only present in the `None` context
+    const present = value.context === UnlockingContext.None;
+    stream.writeBool(present);
+
+    // If the ingredients are present, write the number of ingredients and loop through them
+    if (present) {
       // Get the ingredients
-      const ingredients = value.ingredients as Array<RecipeIngredient>;
+      const ingredients = value.ingredients ?? [];
 
       // Write the number of ingredients
       stream.writeVarInt(ingredients.length);
@@ -78,6 +78,30 @@ class RecipeUnlockingRequirement extends DataType {
         RecipeIngredient.write(stream, ingredient);
       }
     }
+  }
+
+  /**
+   * Reads an optional unlocking requirement, which is preceded by a presence flag.
+   * @param stream The stream to read from.
+   * @returns The unlocking requirement, or null if it is not present.
+   */
+  public static readOptional(
+    stream: BinaryStream
+  ): RecipeUnlockingRequirement | null {
+    return stream.readBool() ? RecipeUnlockingRequirement.read(stream) : null;
+  }
+
+  /**
+   * Writes an optional unlocking requirement, preceded by a presence flag.
+   * @param stream The stream to write to.
+   * @param value The unlocking requirement, or null if it is not present.
+   */
+  public static writeOptional(
+    stream: BinaryStream,
+    value: RecipeUnlockingRequirement | null
+  ): void {
+    stream.writeBool(value !== null);
+    if (value !== null) RecipeUnlockingRequirement.write(stream, value);
   }
 }
 

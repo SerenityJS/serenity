@@ -40,7 +40,7 @@ class ShapelessRecipe extends DataType {
   /**
    * The requirement to unlock the recipe.
    */
-  public readonly requirement: RecipeUnlockingRequirement;
+  public readonly requirement: RecipeUnlockingRequirement | null;
 
   /**
    * The network ID of the recipe
@@ -64,7 +64,7 @@ class ShapelessRecipe extends DataType {
     uuid: string,
     tag: string,
     priority: number,
-    requirement: RecipeUnlockingRequirement,
+    requirement: RecipeUnlockingRequirement | null,
     recipeNetorkId: number
   ) {
     super();
@@ -118,7 +118,7 @@ class ShapelessRecipe extends DataType {
     const priority = stream.readZigZag();
 
     // Read the requirement
-    const requirement = RecipeUnlockingRequirement.read(stream);
+    const requirement = RecipeUnlockingRequirement.readOptional(stream);
 
     // Read the recipe network ID
     const recipeNetorkId = stream.readVarInt();
@@ -174,7 +174,7 @@ class ShapelessRecipe extends DataType {
     stream.writeZigZag(value.priority);
 
     // Write the requirement
-    RecipeUnlockingRequirement.write(stream, value.requirement);
+    RecipeUnlockingRequirement.writeOptional(stream, value.requirement);
 
     // Write the recipe network ID
     stream.writeVarInt(value.recipeNetorkId);
