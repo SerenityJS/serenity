@@ -27,6 +27,7 @@ interface ClientData {
   PlatformOnlineId: string;
   PlayformType: number;
   PremiumSkin: boolean;
+  ProfileHash?: string;
   SelfSignedId: string;
   ServerAddress: string;
   SkinAnimationData: string;
