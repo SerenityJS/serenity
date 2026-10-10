@@ -36,6 +36,7 @@ export * from "./color";
 export * from "./command-block-actor-runtime-id";
 export * from "./command-block-settings";
 export * from "./command-origin-data";
+export * from "./command-permission";
 export * from "./command-output-data";
 export * from "./command-output-message";
 export * from "./commands";
