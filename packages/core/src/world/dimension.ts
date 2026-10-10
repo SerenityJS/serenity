@@ -908,8 +908,8 @@ class Dimension {
 
     // Check if the block type has changed
     if (permutation.type !== current.type) {
-      // Clear the chunk storage for the block position
-      chunk.setBlockStorage(blockPosition, null);
+      // Replace the chunk storage for the block position with the storage provided, if any
+      chunk.setBlockStorage(blockPosition, storage ?? null);
     } else if (storage) {
       // Set the block storage for the block position
       chunk.setBlockStorage(blockPosition, storage);
