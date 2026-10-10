@@ -166,6 +166,18 @@ class World extends Emitter<WorldEventSignals> {
    * @param deltaTick The delta tick to tick the world with.
    */
   public onTick(deltaTick: number): void {
+    // Check if the current tick is divisible by the save interval (in minutes)
+    // The world is saved even without players, as their last changes would otherwise wait for one to join
+    if (
+      this.currentTick !== 0n &&
+      this.currentTick % (BigInt(this.properties.saveInterval) * 1200n) === 0n
+    ) {
+      // Save the world via the provider
+      this.provider
+        .onSave()
+        .catch((reason) => this.logger.error("Failed to save world", reason));
+    }
+
     // Check if there are no players in the world
     if (this.getPlayers().length === 0) return;
 
@@ -218,15 +230,6 @@ class World extends Emitter<WorldEventSignals> {
 
       // Broadcast the time packet to all players
       this.broadcast(packet);
-    }
-
-    // Check if the current tick is divisible by the save interval (in minutes)
-    if (
-      this.currentTick !== 0n &&
-      this.currentTick % (BigInt(this.properties.saveInterval) * 1200n) === 0n
-    ) {
-      // Save the world via the provider
-      void this.provider.onSave();
     }
   }
 

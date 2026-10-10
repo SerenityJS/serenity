@@ -28,6 +28,19 @@ class DisconnectHandler extends NetworkHandler {
     // Write the player's data to the storage
     world.provider.writePlayer(player.uuid, player.getStorage());
 
+    // Save the worlds the player leaves empty, the player's world and the default world holding its data,
+    // so the changes are written now rather than waiting for the next save
+    for (const target of new Set([player.world, world])) {
+      // Check if any other players are still in the world
+      const players = target.getPlayers().filter((other) => other !== player);
+      if (players.length > 0) continue;
+
+      // Save the world via the provider
+      target.provider
+        .onSave()
+        .catch((reason) => target.logger.error("Failed to save world", reason));
+    }
+
     // Nullify the player's permissions
     player.permissions.player = null;
 
