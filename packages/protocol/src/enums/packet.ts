@@ -175,6 +175,7 @@ enum Packet {
   AwardAchievement = 0x1_35, // 309
   ClientboundCloseForm = 0x1_36, // 310
   ServerboundLoadingScreenPacket = 0x1_38, // 312
+  JigsawStructureData = 0x1_39, // 313
   CurrentStructureFeature = 0x1_3a, // 314
   ServerboundDiagnosticPacket = 0x1_3b, // 315
   MovementEffect = 0x1_3e, // 318

@@ -117,6 +117,7 @@ import { RespawnPacket } from "./respawn";
 import { RiderJumpPacket } from "./rider-jump";
 import { ScriptMessagePacket } from "./script-message";
 import { ServerboundLoadingScreenPacketPacket } from "./server-bound-loading-screen";
+import { JigsawStructureDataPacket } from "./jigsaw-structure-data";
 import { ServerScriptDebugDrawerPacket } from "./server-script-debug-drawer";
 import { ServerSettingsRequestPacket } from "./server-settings-request";
 import { ServerSettingsResponsePacket } from "./server-settings-response";
@@ -366,6 +367,7 @@ const Packets = {
   [Packet.AwardAchievement]: AwardAchievementPacket, // 309
   [Packet.ClientboundCloseForm]: ClientboundCloseFormPacket, // 310
   [Packet.ServerboundLoadingScreenPacket]: ServerboundLoadingScreenPacketPacket, // 312
+  [Packet.JigsawStructureData]: JigsawStructureDataPacket, // 313
   [Packet.CurrentStructureFeature]: CurrectStructureFeaturePacket, // 314
   [Packet.ServerboundDiagnosticPacket]: ServerboundDiagnosticsPacket, // 315
   [Packet.MovementEffect]: MovementEffectPacket, // 318

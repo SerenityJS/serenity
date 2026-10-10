@@ -129,6 +129,7 @@ export * from "./respawn";
 export * from "./rider-jump";
 export * from "./script-message";
 export * from "./server-bound-loading-screen";
+export * from "./jigsaw-structure-data";
 export * from "./server-script-debug-drawer";
 export * from "./server-settings-request";
 export * from "./server-settings-response";
