@@ -1,4 +1,6 @@
-import { BlockInteractionOptions, BlockPlacementOptions } from "../../types";
+import { BlockFace } from "@serenityjs/protocol";
+
+import { BlockPlacementOptions } from "../../types";
 
 import { BlockTrait } from "./trait";
 
@@ -6,32 +8,25 @@ class VerticalHalfTrait extends BlockTrait {
   public static readonly identifier = "vertical_half";
   public static readonly state = "minecraft:vertical_half";
 
-  public onPlace({ origin, clickedPosition }: BlockPlacementOptions): void {
+  public onPlace({
+    origin,
+    clickedFace,
+    clickedPosition
+  }: BlockPlacementOptions): void {
     // Check if the origin is a player
     if (!origin || !origin.isPlayer() || !clickedPosition) return;
 
-    // Check if the click position is above the center of the block
-    if (clickedPosition.y > 0.5 && clickedPosition.y < 0.99)
-      this.setVerticalHalf(true);
-  }
+    // Double slabs fill their whole space, keeping the half of the slab they were made from
+    if (this.block.identifier.includes("double")) return;
 
-  public onInteract({ origin }: BlockInteractionOptions): boolean {
-    // Check if the origin is a player
-    if (!origin) return false;
+    // The slab takes the top half of its space when placed against the underside of a block,
+    // or the top half of the side of a block
+    const top =
+      clickedFace === BlockFace.Bottom ||
+      (clickedFace !== BlockFace.Top && clickedPosition.y > 0.5);
 
-    // Get the players held item
-    const itemStack = origin.getHeldItem();
-
-    // Check if the stack has a block type
-    if (!itemStack || !itemStack.components.hasBlockPlacer()) return true;
-
-    // Get the block type of the item
-    const blockType = itemStack.components.getBlockPlacer().getBlockType();
-
-    // Check if the block type is equal to the interacting block
-    if (blockType !== this.block.type) return true;
-
-    return false;
+    // Set the half of the slab
+    this.setVerticalHalf(top);
   }
 
   public setVerticalHalf(topBit: boolean): void {

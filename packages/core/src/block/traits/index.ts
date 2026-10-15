@@ -22,3 +22,6 @@ export * from "./support";
 export * from "./connection";
 export * from "./wall-connection";
 export * from "./attachment";
+export * from "./door";
+export * from "./bed";
+export * from "./fence-gate";

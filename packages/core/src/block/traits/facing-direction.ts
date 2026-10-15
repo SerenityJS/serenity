@@ -22,11 +22,17 @@ const OppositeDirections: Record<FacingDirection, FacingDirection> = {
 };
 
 /**
+ * The blocks that face the player and can face up or down, but store the four sides around reversed.
+ */
+const ReversedFacingBlocks = new Set<string>([
+  BlockIdentifier.Piston,
+  BlockIdentifier.StickyPiston
+]);
+
+/**
  * The blocks that face the player and can face up or down, rather than only to the sides.
  */
 const VerticalFacingBlocks = new Set<string>([
-  BlockIdentifier.Piston,
-  BlockIdentifier.StickyPiston,
   BlockIdentifier.Dispenser,
   BlockIdentifier.Dropper,
   BlockIdentifier.CommandBlock,
@@ -49,12 +55,25 @@ class BlockFacingDirection extends BlockDirectionTrait {
     // Stems face the fruit they grow, so they face nothing when placed
     if (identifier.endsWith("_stem")) return;
 
+    // Hanging signs are turned by the sign trait
+    if (identifier.endsWith("_hanging_sign")) return;
+
+    // Pistons face the player, but keep the four sides around reversed, so the number for north means south
+    if (ReversedFacingBlocks.has(identifier)) {
+      const facing = this.getPlayerFacing(origin, true);
+      return this.setDirection(this.reverseSides(facing));
+    }
+
     // Check if the block was placed against a face of another block
     if (clickedFace !== undefined) {
       // The face, as the direction pointing away from the block placed against
       const face = clickedFace as number as FacingDirection;
       const vertical =
         face === FacingDirection.Up || face === FacingDirection.Down;
+
+      // End rods point away from the block they are placed against, keeping the four sides around reversed
+      if (identifier === BlockIdentifier.EndRod)
+        return this.setDirection(this.reverseSides(face));
 
       // Blocks attached to a block face away from it
       if (this.isAttachedToFace(identifier)) {
@@ -118,7 +137,8 @@ class BlockFacingDirection extends BlockDirectionTrait {
 
   /**
    * Gets the direction a block placed by a player faces, which is towards the player.
-   * The block faces up or down when the player looks more up or down than to the side.
+   * A block that can face up or down does so when the player is right beside it,
+   * with their eyes well above it or below it, as vanilla does.
    * @param player The player that placed the block.
    * @param vertical Whether the block can face up or down.
    */
@@ -126,19 +146,20 @@ class BlockFacingDirection extends BlockDirectionTrait {
     player: Player,
     vertical: boolean
   ): FacingDirection {
-    // Check if the player looks more up or down than to the side
-    if (vertical) {
-      const pitch = (player.rotation.pitch * Math.PI) / 180;
-      const yaw = (player.rotation.yaw * Math.PI) / 180;
+    // Check if the player is right beside the block
+    const { x, y, z } = this.block.position;
+    const position = player.position;
+    if (
+      vertical &&
+      Math.abs(Math.floor(position.x) - x) < 2 &&
+      Math.abs(Math.floor(position.z) - z) < 2
+    ) {
+      // Get the height of the player's eyes
+      const eyes = position.y + player.getCollisionHeight();
 
-      // The largest horizontal part of the direction the player looks in
-      const horizontal =
-        Math.cos(pitch) *
-        Math.max(Math.abs(Math.sin(yaw)), Math.abs(Math.cos(yaw)));
-
-      // A player looking down places the block facing up, and looking up, facing down
-      if (Math.abs(Math.sin(pitch)) > horizontal)
-        return pitch > 0 ? FacingDirection.Up : FacingDirection.Down;
+      // A player well above the block places it facing up, and below it, facing down
+      if (eyes - y > 2) return FacingDirection.Up;
+      if (y - eyes > 0) return FacingDirection.Down;
     }
 
     // Otherwise, the block faces the opposite way to the player
@@ -152,6 +173,17 @@ class BlockFacingDirection extends BlockDirectionTrait {
       case CardinalDirection.West:
         return FacingDirection.East;
     }
+  }
+
+  /**
+   * Reverses a direction if it is one of the four sides around, as pistons and end rods store them.
+   * @param direction The direction to reverse.
+   */
+  protected reverseSides(direction: FacingDirection): FacingDirection {
+    return direction === FacingDirection.Up ||
+      direction === FacingDirection.Down
+      ? direction
+      : OppositeDirections[direction];
   }
 
   public getDirection(): FacingDirection {

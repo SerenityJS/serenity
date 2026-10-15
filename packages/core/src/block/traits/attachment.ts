@@ -5,6 +5,7 @@ import { BlockIdentifier, CardinalDirection } from "../../enums";
 import { BlockPlacementOptions } from "../../types";
 
 import { BlockTrait } from "./trait";
+import { BlockSignTrait } from "./sign";
 
 import type { Block } from "../block";
 
@@ -16,8 +17,32 @@ import type { Block } from "../block";
  * - `floor`: resting on the block below.
  * - `door`: the lower half rests on the block below, and the upper half on the lower half.
  * - `lantern`: hanging from the block above, or standing on the block below.
+ * - `crop`: planted in the farmland below.
+ * - `hanging_sign`: hanging from the block above, or sticking out of a wall on either of its sides.
  */
-type AttachmentKind = "face" | "wall" | "lever" | "floor" | "door" | "lantern";
+type AttachmentKind =
+  | "face"
+  | "wall"
+  | "lever"
+  | "floor"
+  | "door"
+  | "lantern"
+  | "crop"
+  | "hanging_sign";
+
+/**
+ * The crops, which are only planted in farmland.
+ */
+const CropBlocks = new Set<string>([
+  BlockIdentifier.Wheat,
+  BlockIdentifier.PumpkinStem,
+  BlockIdentifier.MelonStem,
+  BlockIdentifier.Beetroot,
+  BlockIdentifier.TorchflowerCrop,
+  BlockIdentifier.PitcherCrop,
+  BlockIdentifier.Potatoes,
+  BlockIdentifier.Carrots
+]);
 
 /**
  * Gets how a block is held up, if it needs to be.
@@ -45,6 +70,10 @@ function getAttachmentKind(
     return "face";
 
   if (identifier.endsWith("_door")) return "door";
+
+  if (identifier.endsWith("_hanging_sign")) return "hanging_sign";
+
+  if (CropBlocks.has(identifier)) return "crop";
 
   if (identifier.endsWith("lantern") && states.includes("hanging"))
     return "lantern";
@@ -127,11 +156,6 @@ class BlockAttachmentTrait extends BlockTrait {
   ).map((type) => type.identifier);
 
   /**
-   * Whether the block is breaking because nothing holds it up.
-   */
-  private breaking = false;
-
-  /**
    * How the block is held up.
    */
   protected get kind(): AttachmentKind | null {
@@ -146,9 +170,10 @@ class BlockAttachmentTrait extends BlockTrait {
     if (clickedFace === undefined) return;
 
     switch (this.kind) {
-      // Levers point away from the face they are placed on
+      // Levers point away from the face they are placed on, and need the block they are placed against
       case "lever": {
         this.setLeverDirection(clickedFace, origin?.getCardinalDirection());
+        if (!this.isSupported()) return false;
         break;
       }
 
@@ -156,12 +181,23 @@ class BlockAttachmentTrait extends BlockTrait {
       case "wall": {
         if (clickedFace === BlockFace.Top || clickedFace === BlockFace.Bottom)
           return false;
+
+        // The block placed against needs to hold the block up
+        if (!this.isSupportedFrom(OppositeFaces[clickedFace])) return false;
         break;
       }
 
-      // Blocks resting on the block below are only placed on top of a block.
+      // Blocks attached to a face need the block placed against to hold them up
+      case "face": {
+        if (!this.isSupportedFrom(OppositeFaces[clickedFace])) return false;
+        break;
+      }
+
+      // Blocks resting on the block below are only placed on top of a block,
+      // and crops only in farmland.
       // Doors are not checked, as their upper half is placed before this.
-      case "floor": {
+      case "floor":
+      case "crop": {
         if (!this.isSupported()) return false;
         break;
       }
@@ -169,41 +205,110 @@ class BlockAttachmentTrait extends BlockTrait {
   }
 
   public onUpdate(source?: Block): void {
-    // Only check for support when another block changed, and the block is not already breaking.
-    // Breaking a door removes its other half, which updates this block again.
-    if (!source || source === this.block || this.breaking) return;
+    // Only check for support when another block changed
+    if (!source || source === this.block) return;
 
-    // Break the block, dropping it, if nothing holds it up anymore
-    if (this.isSupported()) return;
-    this.breaking = true;
-    try {
-      this.block.destroy({ dropLoot: true });
-    } finally {
-      this.breaking = false;
-    }
+    // Break the block on the next tick, dropping it, if nothing holds it up anymore
+    if (!this.isSupported()) this.breakNextTick(() => this.isSupported());
   }
 
   /**
    * Whether the block holding this one up is still there.
    */
   public isSupported(): boolean {
+    // A hanging sign on a wall is held up by a block on either of its sides
+    if (
+      this.kind === "hanging_sign" &&
+      !this.block.getState<boolean>("hanging")
+    ) {
+      // Get the sides of the sign, at right angles to the way it faces
+      const facing = this.block.getState<number>("facing_direction");
+      const sides =
+        facing === BlockFace.North || facing === BlockFace.South
+          ? [BlockFace.West, BlockFace.East]
+          : [BlockFace.North, BlockFace.South];
+
+      // Check if either side holds the sign up
+      return sides.some((side) => this.isHeldAlong(side));
+    }
+
     // Get the face of the block holding this one up
     const face = this.getSupportFace();
     if (face === null) return true;
 
+    // Check if the block on the face holds this one up
+    return this.isSupportedFrom(face);
+  }
+
+  /**
+   * Whether the block on a face of this block holds it up.
+   * @param face The face of the block holding this one up.
+   */
+  protected isSupportedFrom(face: BlockFace): boolean {
     // Get the position of the block holding this one up
     const [dx, dy, dz] = FaceOffsets[face];
     const { x, y, z } = this.block.position;
     const position = new BlockPosition(x + dx, y + dy, z + dz);
 
     // Blocks in chunks that are not loaded are assumed to be there
-    const chunks = this.dimension.world.provider.chunks.get(this.dimension);
-    const hash = ChunkCoords.hash({ x: position.x >> 4, z: position.z >> 4 });
-    if (!chunks?.has(hash)) return true;
+    if (!this.isLoaded(position)) return true;
+
+    // Crops are only held up by farmland
+    const support = this.dimension.getBlock(position);
+    if (this.kind === "crop")
+      return support.identifier === BlockIdentifier.Farmland;
+
+    // Hanging signs are not held up by other signs, but for hanging signs on a wall in line with them
+    if (this.kind === "hanging_sign" && this.block.hasTrait(BlockSignTrait)) {
+      const sign = this.block.getTrait(BlockSignTrait);
+      return this.block.getState<boolean>("hanging")
+        ? sign.canHoldUp(support)
+        : sign.holdsUpOnWall(support);
+    }
 
     // The block is held up by anything but air and liquids
-    const support = this.dimension.getBlock(position);
     return !support.isAir && !support.isLiquid;
+  }
+
+  /**
+   * Whether a hanging sign on a wall is held up from one of its sides: by the block on that side,
+   * or, when that is another hanging sign in line with it, by what holds up the line of signs on that side.
+   * Signs in a line do not hold each other up, so the line breaks when nothing at either end holds it.
+   * @param face The side of the sign.
+   */
+  protected isHeldAlong(face: BlockFace): boolean {
+    // Get the sign trait of the block
+    if (!this.block.hasTrait(BlockSignTrait)) return true;
+    const sign = this.block.getTrait(BlockSignTrait);
+
+    // Walk along the line of signs on the side, up to the length of a chunk
+    const [dx, , dz] = FaceOffsets[face];
+    const { x, y, z } = this.block.position;
+    for (let step = 1; step <= 16; step++) {
+      // Get the position of the next block along the line
+      const position = new BlockPosition(x + dx * step, y, z + dz * step);
+
+      // Blocks in chunks that are not loaded are assumed to hold the sign up
+      if (!this.isLoaded(position)) return true;
+
+      // Check if the block holds up the sign, and if it is the end of the line of signs
+      const block = this.dimension.getBlock(position);
+      if (!sign.holdsUpOnWall(block)) return false;
+      if (!block.identifier.endsWith("_hanging_sign")) return true;
+    }
+
+    // A line of signs longer than that is not held up
+    return false;
+  }
+
+  /**
+   * Whether the chunk holding a position is loaded.
+   * @param position The position to check.
+   */
+  protected isLoaded(position: BlockPosition): boolean {
+    const chunks = this.dimension.world.provider.chunks.get(this.dimension);
+    const hash = ChunkCoords.hash({ x: position.x >> 4, z: position.z >> 4 });
+    return chunks?.has(hash) ?? false;
   }
 
   /**
@@ -239,6 +344,14 @@ class BlockAttachmentTrait extends BlockTrait {
         return this.block.getState<boolean>("hanging")
           ? BlockFace.Top
           : BlockFace.Bottom;
+
+      // Crops are planted in the farmland below
+      case "crop":
+        return BlockFace.Bottom;
+
+      // Hanging signs under a ceiling hang from the block above
+      case "hanging_sign":
+        return this.block.getState<boolean>("hanging") ? BlockFace.Top : null;
 
       default:
         return null;

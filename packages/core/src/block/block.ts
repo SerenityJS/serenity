@@ -7,6 +7,8 @@ import {
   Gamemode,
   LevelEvent,
   LevelEventPacket,
+  LevelSoundEvent,
+  LevelSoundEventPacket,
   UpdateBlockLayerType,
   Vector3f
 } from "@serenityjs/protocol";
@@ -47,6 +49,28 @@ import {
 import { BlockLevelStorage } from "./storage";
 import { BlockDirectionTrait, BlockTrait } from "./traits";
 import { BlockState } from "./types";
+
+/**
+ * The blocks that a placed block takes the place of, rather than going beside, besides air and liquids.
+ */
+const ReplaceableBlocks = new Set<string>([
+  BlockIdentifier.Fire,
+  BlockIdentifier.SoulFire,
+  BlockIdentifier.ShortGrass,
+  BlockIdentifier.Fern,
+  BlockIdentifier.Deadbush,
+  BlockIdentifier.Seagrass,
+  BlockIdentifier.CrimsonRoots,
+  BlockIdentifier.WarpedRoots,
+  BlockIdentifier.NetherSprouts,
+  BlockIdentifier.HangingRoots,
+  BlockIdentifier.GlowLichen,
+  BlockIdentifier.Vine,
+  BlockIdentifier.StructureVoid,
+  "minecraft:bush",
+  "minecraft:short_dry_grass",
+  "minecraft:tall_dry_grass"
+]);
 
 /**
  * Block is a class the represents an instance of a block in a dimension of a world.
@@ -158,6 +182,22 @@ class Block {
    */
   public get isSolid(): boolean {
     return this.permutation.type.solid;
+  }
+
+  /**
+   * Whether or not a placed block takes the place of this block, rather than going beside it.
+   * This is the case for air, liquids, fire, and plants like short grass; snow only while it is one layer deep.
+   */
+  public get isReplaceable(): boolean {
+    // Air and liquids are always replaced
+    if (this.isAir || this.isLiquid) return true;
+
+    // Snow is replaced only while it is one layer deep
+    if (this.identifier === BlockIdentifier.SnowLayer)
+      return this.getState<number>("height") === 0;
+
+    // Check if the block is one that is replaced
+    return ReplaceableBlocks.has(this.identifier);
   }
 
   /**
@@ -488,14 +528,18 @@ class Block {
     }
 
     // Push the nbt data of the permutation to the block's nbt.
-    if (permutation.nbt.size > 0) this.getStorage().push(...permutation.nbt.values());
+    if (permutation.nbt.size > 0)
+      this.getStorage().push(...permutation.nbt.values());
 
     // Iterate over all the traits and apply them to the block
     for (const [, trait] of permutation.type.traits) this.addTrait(trait);
 
     // Check if the block should be cached.
     const blockStorage = this.peekStorage();
-    if (((blockStorage?.size ?? 0) > 0 || this.traits.size > 0) && !permutation.type.air) {
+    if (
+      ((blockStorage?.size ?? 0) > 0 || this.traits.size > 0) &&
+      !permutation.type.air
+    ) {
       // Calculate the block hash using the position
       const hash = BlockPosition.hash(this.position);
 
@@ -723,7 +767,9 @@ class Block {
   public peekStorage(): BlockLevelStorage | null {
     if (this.storage) return this.storage;
 
-    this.storage = this.chunk.getBlockStorage(this.position) as BlockLevelStorage | null;
+    this.storage = this.chunk.getBlockStorage(
+      this.position
+    ) as BlockLevelStorage | null;
 
     return this.storage;
   }
@@ -819,6 +865,33 @@ class Block {
 
     // Mark the storage as dirty if specified
     if (dirty) this.chunk.dirty = true;
+
+    // Send the packet to all players in the dimension
+    this.dimension.broadcast(packet);
+  }
+
+  /**
+   * Plays a sound from the middle of the block to all players in the dimension.
+   * The client plays the sound from the sound set of the block the data names, so a lever clicks as a lever does.
+   * @param event The sound to play.
+   * @param data The network id of the block making the sound; defaults to this block's.
+   */
+  public playSound(
+    event: LevelSoundEvent,
+    data = this.permutation.networkId
+  ): void {
+    // Get the position of the block
+    const { x, y, z } = this.position;
+
+    // Create a new LevelSoundEventPacket
+    const packet = new LevelSoundEventPacket();
+    packet.event = event;
+    packet.position = new Vector3f(x + 0.5, y + 0.5, z + 0.5);
+    packet.data = data;
+    packet.actorIdentifier = ":";
+    packet.isBabyMob = false;
+    packet.isGlobal = false;
+    packet.uniqueActorId = -1n;
 
     // Send the packet to all players in the dimension
     this.dimension.broadcast(packet);
@@ -1101,6 +1174,9 @@ class Block {
     for (const drop of this.type.drops) {
       // Check if the drop is air, if so we will skip it.
       if (drop.type === BlockIdentifier.Air) continue;
+
+      // Skip drops with no item, as blocks like fire have none
+      if (!this.world.itemPalette.getType(drop.type)) continue;
 
       // Roll the drop amount.
       const stackSize = drop.roll();
