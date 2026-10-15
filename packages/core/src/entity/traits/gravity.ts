@@ -10,6 +10,20 @@ import {
 import { EntityTrait } from "./trait";
 import { EntityHealthTrait } from "./attribute";
 
+/**
+ * The blocks that entities climb, and so do not fall in.
+ */
+const ClimbableBlocks = new Set<string>([
+  BlockIdentifier.Ladder,
+  BlockIdentifier.Vine,
+  BlockIdentifier.Scaffolding,
+  BlockIdentifier.TwistingVines,
+  BlockIdentifier.WeepingVines,
+  BlockIdentifier.CaveVines,
+  BlockIdentifier.CaveVinesBodyWithBerries,
+  BlockIdentifier.CaveVinesHeadWithBerries
+]);
+
 class EntityGravityTrait extends EntityTrait {
   public static readonly identifier = "gravity";
   public static readonly types = [EntityIdentifier.Player];
@@ -37,6 +51,13 @@ class EntityGravityTrait extends EntityTrait {
       // Set the entity flag for gravity
       this.entity.flags.setActorFlag(ActorFlag.HasGravity, true);
     }
+
+    // Check if the entity has a metadata flag value for climbing
+    // Without it, the client does not let the entity climb ladders and vines
+    if (!this.entity.flags.getActorFlag(ActorFlag.CanClimb)) {
+      // Set the entity flag for climbing
+      this.entity.flags.setActorFlag(ActorFlag.CanClimb, true);
+    }
   }
 
   public onRemove(): void {
@@ -45,11 +66,25 @@ class EntityGravityTrait extends EntityTrait {
       // Remove the entity flag for gravity
       this.entity.flags.setActorFlag(ActorFlag.HasGravity);
     }
+
+    // Check if the entity has a metadata flag value for climbing
+    if (this.entity.flags.getActorFlag(ActorFlag.CanClimb)) {
+      // Remove the entity flag for climbing
+      this.entity.flags.setActorFlag(ActorFlag.CanClimb);
+    }
   }
 
   public onTick(): void {
     // Get the entity's position
     const position = this.entity.position.floor();
+
+    // An entity climbing a ladder, vine or scaffolding does not fall, so it takes no damage climbing down
+    if (ClimbableBlocks.has(this.dimension.getBlock(position).identifier)) {
+      this.fallingDistance = 0;
+      this.fallingTicks = 0;
+      this.entity.isFalling = false;
+      return;
+    }
 
     // Get the entity's velocity
     const velocity = this.entity.velocity;
