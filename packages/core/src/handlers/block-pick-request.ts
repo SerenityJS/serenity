@@ -34,8 +34,9 @@ class BlockPickRequestHandler extends NetworkHandler {
     // Call the onPick trait methods of the block
     for (const trait of block.getAllTraits()) trait.onPick?.(player, addData);
 
-    // Check if the block is air, which has no item
-    if (block.isAir) return;
+    // Check if the block has an item, which air and blocks like fire do not
+    if (block.isAir || !player.world.itemPalette.resolveType(block.type))
+      return;
 
     // Create a new item stack from the block, with the block's data if the player asked for it
     const itemStack = block.getItemStack();
@@ -43,7 +44,7 @@ class BlockPickRequestHandler extends NetworkHandler {
 
     // Get the player's inventory
     const inventory = player.getTrait(EntityInventoryTrait);
-    const { container, selectedSlot } = inventory;
+    const { container } = inventory;
 
     // Check if the player already has the item
     const slot = container.storage.findIndex((item) => item?.equals(itemStack));
@@ -51,33 +52,42 @@ class BlockPickRequestHandler extends NetworkHandler {
       // Select the item if it is in the hotbar
       if (slot < HOTBAR_SIZE) return inventory.setHeldItem(slot);
 
-      // Otherwise, swap it with the held item
-      return container.swapItems(slot, selectedSlot);
+      // Otherwise, move it into the hotbar, swapping places with what was there, and select it
+      const target = this.getHotbarSlot(inventory);
+      container.swapItems(slot, target);
+      return inventory.setHeldItem(target);
     }
 
     // Check if the player is in creative mode, as only they get items they do not have
     if (player.getGamemode() !== Gamemode.Creative) return;
 
-    // Put the item in the held slot if it is empty
-    if (!container.getItem(selectedSlot))
-      return container.setItem(selectedSlot, itemStack);
+    // Get the hotbar slot the item goes in
+    const target = this.getHotbarSlot(inventory);
 
-    // Otherwise, put the item in the first empty hotbar slot, and select it
-    const hotbar = container.storage.slice(0, HOTBAR_SIZE);
-    const emptyHotbarSlot = hotbar.findIndex((item) => !item);
-    if (emptyHotbarSlot !== -1) {
-      container.setItem(emptyHotbarSlot, itemStack);
-      return inventory.setHeldItem(emptyHotbarSlot);
+    // Move what is in the slot to the first empty inventory slot, if there is one
+    if (container.getItem(target)) {
+      const emptySlot = container.storage.findIndex((item, index) => {
+        return index >= HOTBAR_SIZE && !item;
+      });
+      if (emptySlot !== -1) container.swapItems(target, emptySlot);
     }
 
-    // Otherwise, move the held item to the first empty inventory slot, if there is one
-    const emptySlot = container.storage.findIndex((item, index) => {
-      return index >= HOTBAR_SIZE && !item;
-    });
-    if (emptySlot !== -1) container.swapItems(selectedSlot, emptySlot);
+    // Put the item in the slot, replacing what was there if it could not be moved, and select it
+    container.setItem(target, itemStack);
+    inventory.setHeldItem(target);
+  }
 
-    // Hold the item, replacing the held item if it could not be moved
-    container.setItem(selectedSlot, itemStack);
+  /**
+   * Gets the hotbar slot a picked item goes in: the first empty one, from the left, or else the held one.
+   * @param inventory The inventory of the player picking the block.
+   */
+  protected getHotbarSlot(inventory: EntityInventoryTrait): number {
+    // Get the first empty slot of the hotbar
+    const hotbar = inventory.container.storage.slice(0, HOTBAR_SIZE);
+    const empty = hotbar.findIndex((item) => !item);
+
+    // Return the empty slot, or the held slot if there is none
+    return empty === -1 ? inventory.selectedSlot : empty;
   }
 
   /**
