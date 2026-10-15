@@ -35,7 +35,8 @@ class RecipeUnlockingRequirement extends DataType {
     const context = stream.readZigZag() as UnlockingContext;
 
     // Check if the ingredients are present, they are only present in the `None` context
-    if (!stream.readBool()) return new RecipeUnlockingRequirement(context, null);
+    if (!stream.readBool())
+      return new RecipeUnlockingRequirement(context, null);
 
     // Prepare an array to store the ingredients
     const ingredients: Array<RecipeIngredient> = [];

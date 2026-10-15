@@ -1,10 +1,10 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
+import { HandSlot } from "../../enums";
+
 import { NetworkItemStackDescriptorCereal } from "./network-item-stack-descriptor-cereal";
 import { Vector3f } from "./vector3f";
 import { BlockPosition } from "./block-position";
-
-import { HandSlot } from "../../enums";
 
 import type {
   BlockFace,

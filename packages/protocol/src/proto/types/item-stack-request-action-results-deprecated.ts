@@ -18,10 +18,7 @@ class ItemStackRequestActionResultsDeprecated extends DataType {
    * @param resultants - The resultants of the item stack request action results deprecated.
    * @param amount - The amount of the item stack request action results deprecated.
    */
-  public constructor(
-    resultants: Array<ItemStackRequestItem>,
-    amount: number
-  ) {
+  public constructor(resultants: Array<ItemStackRequestItem>, amount: number) {
     super();
     this.resultants = resultants;
     this.amount = amount;
