@@ -220,9 +220,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.currentTick = player.world.currentTick;
         packet.enchantmentSeed = player.world.properties.seed;
 
-        // Map the custom blocks definitions to the packet
+        // Map the definitions of the blocks defined by data to the packet
         packet.blockTypeDefinitions = world.blockPalette
-          .getAllTypes()
+          .getAllDataDrivenTypes()
           .map((type) => type.getNetworkDefinition());
 
         packet.multiplayerCorrelationId = "<raknet>a555-7ece-2f1c-8f69";
