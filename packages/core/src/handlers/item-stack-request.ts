@@ -4,7 +4,6 @@ import {
   Gamemode,
   ItemStackActionTakePlace,
   ItemStackRequestActionCraftCreative,
-  ItemStackRequestActionCraftRecipe,
   ItemStackRequestActionDestroyConsume,
   ItemStackRequestActionDrop,
   ItemStackRequestActionSwap,
@@ -84,7 +83,21 @@ class ItemStackRequestHandler extends NetworkHandler {
         // Handle craft recipe actions
         if (action.craftRecipe) {
           // Update the result variable
-          result = this.handleCraftRecipeAction(player, action.craftRecipe);
+          result = this.handleCraftRecipeAction(
+            player,
+            action.craftRecipe.recipeId,
+            action.craftRecipe.amount
+          );
+        }
+
+        // Handle craft recipe actions from the recipe book, which takes the ingredients from the inventory
+        if (action.craftRecipeAuto) {
+          // Update the result variable
+          result = this.handleCraftRecipeAction(
+            player,
+            action.craftRecipeAuto.recipeId,
+            action.craftRecipeAuto.timesCrafted
+          );
         }
 
         // Deprecated actions are ignored
@@ -508,7 +521,8 @@ class ItemStackRequestHandler extends NetworkHandler {
 
   private handleCraftRecipeAction(
     player: Player,
-    action: ItemStackRequestActionCraftRecipe
+    recipeId: number,
+    amount: number
   ): Array<ItemStackResponseContainerInfo> | null {
     // Get the destination container.
     const destination = player.getContainer({
@@ -527,15 +541,13 @@ class ItemStackRequestHandler extends NetworkHandler {
     }
 
     // Get the recipe from the player's item palette.
-    const recipe = player.world.itemPalette.getRecipeByNetworkId(
-      action.recipeId
-    );
+    const recipe = player.world.itemPalette.getRecipeByNetworkId(recipeId);
 
     // Check if the recipe exists.
     if (!recipe) {
       // Log an error message
       this.serenity.logger.error(
-        `Invalid recipe ID for craft recipe action. Recipe ID: ${action.recipeId}`
+        `Invalid recipe ID for craft recipe action. Recipe ID: ${recipeId}`
       );
 
       // Return null to indicate failure.
@@ -543,7 +555,7 @@ class ItemStackRequestHandler extends NetworkHandler {
     }
 
     // Create and emit a PlayerCraftRecipeSignal
-    const signal = new PlayerCraftRecipeSignal(player, recipe, action.amount);
+    const signal = new PlayerCraftRecipeSignal(player, recipe, amount);
     if (!signal.emit()) return null;
 
     // Iterate over the resultants of the recipe.
@@ -555,11 +567,11 @@ class ItemStackRequestHandler extends NetworkHandler {
         itemStack = ItemStack.from(item);
       } else {
         // Convert the ItemType to an ItemStack.
-        itemStack = new ItemStack(item, { stackSize: action.amount });
+        itemStack = new ItemStack(item);
       }
 
       // Get the current stack size and multiply it by the amount.
-      itemStack.setStackSize(itemStack.getStackSize() * action.amount);
+      itemStack.setStackSize(itemStack.getStackSize() * amount);
 
       // Add the item stack to the destination container.
       destination.setItem(0, itemStack);

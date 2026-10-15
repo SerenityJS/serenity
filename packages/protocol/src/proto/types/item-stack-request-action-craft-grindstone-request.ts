@@ -1,4 +1,4 @@
-import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { BinaryStream, DataType, Endianness } from "@serenityjs/binarystream";
 
 class ItemStackRequestActionCraftGrindstoneRequest extends DataType {
   /**
@@ -33,13 +33,13 @@ class ItemStackRequestActionCraftGrindstoneRequest extends DataType {
     stream: BinaryStream
   ): ItemStackRequestActionCraftGrindstoneRequest {
     // Read the recipe id.
-    const recipeId = stream.readVarInt();
-
-    // Read the cost.
-    const cost = stream.readVarInt();
+    const recipeId = stream.readInt32(Endianness.Little);
 
     // Read the amount.
     const amount = stream.readUint8();
+
+    // Read the cost.
+    const cost = stream.readZigZag();
 
     // Return the stack request craft grindstone action.
     return new this(recipeId, cost, amount);
@@ -50,13 +50,13 @@ class ItemStackRequestActionCraftGrindstoneRequest extends DataType {
     value: ItemStackRequestActionCraftGrindstoneRequest
   ): void {
     // Write the recipe id.
-    stream.writeVarInt(value.recipeId);
-
-    // Write the cost.
-    stream.writeVarInt(value.cost);
+    stream.writeInt32(value.recipeId, Endianness.Little);
 
     // Write the amount.
     stream.writeUint8(value.amount);
+
+    // Write the cost.
+    stream.writeZigZag(value.cost);
   }
 }
 

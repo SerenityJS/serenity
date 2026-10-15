@@ -1,6 +1,7 @@
-import type { Player } from "../../entity/player";
 import { BlockIdentifier } from "../../enums";
 import { Trait } from "../../trait";
+
+import type { Player } from "../../entity/player";
 import type { Container } from "../../container";
 import type {
   BlockDestroyOptions,
@@ -10,7 +11,6 @@ import type {
 } from "../../types";
 import type { Dimension } from "../../world/dimension";
 import type { Block } from "../block";
-
 import type { BlockTypeComponent } from "../identity";
 
 class BlockTrait extends Trait {
@@ -61,6 +61,11 @@ class BlockTrait extends Trait {
    * The block state key that this trait is attached to.
    */
   public readonly state = (this.constructor as typeof BlockTrait).state;
+
+  /**
+   * Whether the block is waiting to break on the next tick, for having lost what holds it up.
+   */
+  private breakPending = false;
 
   /**
    * Creates a new instance of the block trait.
@@ -128,6 +133,29 @@ class BlockTrait extends Trait {
   public onContainerUpdate?(container: Container): void;
 
   public onReplace?(): void;
+
+  /**
+   * Breaks the block on the next tick, dropping it, if it is still not held up then.
+   * Breaking a block updates its neighbours, so blocks held up by one another break one per tick, as in vanilla,
+   * rather than all at once, which spreads the work of breaking many blocks over many ticks.
+   * @param isSupported Checks whether the block is held up.
+   */
+  protected breakNextTick(isSupported: () => boolean): void {
+    // Check if the block is already waiting to break
+    if (this.breakPending) return;
+    this.breakPending = true;
+
+    // Break the block on the next tick
+    this.dimension.schedule(1, () => {
+      this.breakPending = false;
+
+      // Check if the block still has this trait, as it may have changed since, and if it is still not held up
+      if (!this.block.getAllTraits().includes(this) || isSupported()) return;
+
+      // Break the block, dropping it
+      this.block.destroy({ dropLoot: true });
+    });
+  }
 }
 
 export { BlockTrait };

@@ -13,28 +13,36 @@ class TeleportCause extends DataType {
     this.sourceEntityType = sourceEntityType;
   }
 
+  // NOTE: Since v2168, the teleport data is optional and preceded by a presence flag,
+  // which is only set when the move mode is `MoveMode.Teleport`.
+
   public static override read(
     stream: BinaryStream,
-    options: PacketDataTypeOptions<MoveMode>
+    _options?: PacketDataTypeOptions<MoveMode>
   ): TeleportCause | null {
-    if (options.parameter === MoveMode.Teleport) {
-      const cause = stream.readInt32(Endianness.Little);
-      const sourceEntityType = stream.readInt32(Endianness.Little);
+    // Check if the teleport data is present
+    if (!stream.readBool()) return null;
 
-      return new TeleportCause(cause, sourceEntityType);
-    } else {
-      return null;
-    }
+    // Read the cause and the source entity type
+    const cause = stream.readInt32(Endianness.Little);
+    const sourceEntityType = stream.readInt32(Endianness.Little);
+
+    return new TeleportCause(cause, sourceEntityType);
   }
 
   public static override write(
     stream: BinaryStream,
-    value: TeleportCause,
+    value: TeleportCause | null,
     options: PacketDataTypeOptions<MoveMode>
   ): void {
-    if (options.parameter === MoveMode.Teleport) {
-      stream.writeInt32(value.cause, Endianness.Little);
-      stream.writeInt32(value.sourceEntityType, Endianness.Little);
+    // The teleport data is only present when teleporting
+    const present = options.parameter === MoveMode.Teleport;
+    stream.writeBool(present);
+
+    // Write the cause and the source entity type, defaulting to 0
+    if (present) {
+      stream.writeInt32(value?.cause ?? 0, Endianness.Little);
+      stream.writeInt32(value?.sourceEntityType ?? 0, Endianness.Little);
     }
   }
 }

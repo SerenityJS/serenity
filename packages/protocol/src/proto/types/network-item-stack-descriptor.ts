@@ -64,11 +64,9 @@ class NetworkItemStackDescriptor extends DataType {
 
   public static read(stream: BinaryStream): NetworkItemStackDescriptor {
     // Read the network id of the item.
-    const network = stream.readZigZag();
-
-    // Check if the network id is 0.
-    // If it is, then we return an empty value. (air)
-    if (network === 0) return new NetworkItemStackDescriptor(network);
+    // NOTE: Since v2168, item stacks share the cereal layout: an int16 network id,
+    // and air (network id 0) is written with all of its fields.
+    const network = stream.readInt16(Endianness.Little);
 
     // Read the remaining fields of the item.
     const stackSize = stream.readUint16(Endianness.Little);
@@ -77,8 +75,9 @@ class NetworkItemStackDescriptor extends DataType {
     // Check if the stack net id should be included.
     const itemStackId = stream.readBool() ? stream.readZigZag() : null;
 
-    // Read the block runtime id.
-    const networkBlockId = stream.readZigZag();
+    // Read the block runtime id, which is unsigned on the wire.
+    // It is reinterpreted as a signed integer to match the block permutation hashes.
+    const networkBlockId = stream.readVarInt() | 0;
 
     // Check if the item has extra data.
     const length = stream.readVarInt();
@@ -106,11 +105,9 @@ class NetworkItemStackDescriptor extends DataType {
     value: NetworkItemStackDescriptor
   ): void {
     // Write the network id of the item.
-    stream.writeZigZag(value.network);
-
-    // Check if the network id is 0.
-    // If it is, then we return an empty value. (air)
-    if (value.network === 0) return;
+    // NOTE: Since v2168, item stacks share the cereal layout: an int16 network id,
+    // and air (network id 0) is written with all of its fields.
+    stream.writeInt16(value.network, Endianness.Little);
 
     // Write the remaining fields of the item.
     stream.writeUint16(value.stackSize ?? 0, Endianness.Little);
@@ -127,14 +124,14 @@ class NetworkItemStackDescriptor extends DataType {
       stream.writeBool(false);
     }
 
-    // Write the block runtime id.
-    stream.writeZigZag(value.networkBlockId ?? 0);
+    // Write the block runtime id, which is unsigned (block network ids may be hashes).
+    stream.writeVarInt((value.networkBlockId ?? 0) >>> 0);
 
     // Check if the item has extra data.
     // If it does, we need to first create a new stream,
     // And then write the extra data to the stream.
     // We then write the length of the stream to the main stream, and then write the stream.
-    if (value.extras) {
+    if (value.extras && value.network !== 0) {
       // Create a new stream for the extra data.
       const extras = new BinaryStream();
 

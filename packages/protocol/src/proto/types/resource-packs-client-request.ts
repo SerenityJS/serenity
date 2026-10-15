@@ -1,4 +1,4 @@
-import { BinaryStream, DataType, Endianness } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { RequestedResourcePack } from "./requested-resource-pack";
 
@@ -8,7 +8,7 @@ class ResourcePacksClientRequest extends DataType {
     const packs: Array<RequestedResourcePack> = [];
 
     // Read the number of packs.
-    const amount = stream.readUint16(Endianness.Little);
+    const amount = stream.readVarInt();
 
     // Iterate through the number of packs.
     for (let index = 0; index < amount; index++) {
@@ -24,7 +24,7 @@ class ResourcePacksClientRequest extends DataType {
     value: Array<RequestedResourcePack>
   ): void {
     // Write the number of packs given in the array.
-    stream.writeUint16(value.length, Endianness.Little);
+    stream.writeVarInt(value.length);
 
     // Iterate through each pack and write it to the stream.
     for (const pack of value) {

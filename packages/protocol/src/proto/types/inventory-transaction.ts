@@ -59,11 +59,11 @@ class InventoryTransaction extends DataType {
     this.itemRelease = itemRelease ?? null;
   }
 
+  // NOTE: Since v2193, the type and the actions are no longer preceded by the presence markers of v2168.
+
   public static read(stream: BinaryStream): InventoryTransaction {
-    // Read the type of the inventory transaction
     const type = stream.readVarInt() as ComplexInventoryTransaction;
 
-    // Read the amount of actions
     const amount = stream.readVarInt();
 
     // Prepare the actions of the inventory transaction
@@ -124,10 +124,8 @@ class InventoryTransaction extends DataType {
   }
 
   public static write(stream: BinaryStream, value: InventoryTransaction): void {
-    // Write the type of the inventory transaction
     stream.writeVarInt(value.type);
 
-    // Write the amount of actions
     stream.writeVarInt(value.actions.length);
 
     // Iterate through the actions

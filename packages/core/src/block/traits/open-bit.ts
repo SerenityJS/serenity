@@ -1,91 +1,142 @@
-import {
-  AbilityIndex,
-  BlockPosition,
-  LevelSoundEvent,
-  LevelSoundEventPacket
-} from "@serenityjs/protocol";
+import { AbilityIndex, LevelSoundEvent } from "@serenityjs/protocol";
 
 import { BlockInteractionOptions } from "../../types";
-import { BlockIdentifier } from "../../enums";
+import { BlockIdentifier, CardinalDirection } from "../../enums";
 
 import { BlockTrait } from "./trait";
+
+import type { BlockState } from "../types";
+
+/**
+ * The directions opposite each direction.
+ */
+const OppositeDirections: Record<CardinalDirection, CardinalDirection> = {
+  [CardinalDirection.North]: CardinalDirection.South,
+  [CardinalDirection.South]: CardinalDirection.North,
+  [CardinalDirection.East]: CardinalDirection.West,
+  [CardinalDirection.West]: CardinalDirection.East
+};
 
 class BlockOpenBitTrait extends BlockTrait {
   public static readonly identifier = "open-bit";
   public static readonly state = "open_bit";
 
-  public onInteract({ origin, cancel }: BlockInteractionOptions): void {
+  public onInteract(options: BlockInteractionOptions): void {
+    // Get the origin of the interaction
+    const { origin, cancel } = options;
+
     // Check if the origin is a player
     if (!origin || !origin.isPlayer()) return;
 
     // Check if the block is a barrel
     if (this.block.type.identifier === BlockIdentifier.Barrel) return;
 
+    // Iron doors and trapdoors are only opened by redstone
+    if (this.block.type.identifier.startsWith("minecraft:iron_")) return;
+
+    // Players sneaking with a block in hand place it rather than open or close the block
+    if (origin.isSneaking && options.placingBlock) return;
+
+    // Opening or closing the block takes the place of placing a block on it
+    options.placingBlock = false;
+
+    // Get the current state of the block
+    const open = this.block.getState<boolean>("open_bit");
+
     // Check if the interaction has been cancelled
     if (cancel || !origin.abilities.getAbility(AbilityIndex.DoorsAndSwitches)) {
-      // Get the current state of the block
-      const state = this.block.getState<boolean>("open_bit");
-
       // Revert the state of the block
-      return this.setBit(state, true);
+      return this.setBit(open, true);
     }
 
-    // Get the state of the block
-    const state = this.block.getState<boolean>("open_bit");
+    // A fence gate swings away from the player, so one opened from its far side turns round first
+    if (!open && this.block.identifier.endsWith("fence_gate")) {
+      // Get the direction the player faces, and the direction the gate faces
+      const facing = origin.getCardinalDirection();
+      const direction = this.block.getState<string>(
+        "minecraft:cardinal_direction"
+      );
 
-    // Set the bit of the block
-    this.setBit(!state);
+      // Check if the player faces the gate from its far side
+      const opposite = CardinalDirection[OppositeDirections[facing]];
+      if (direction === opposite.toLowerCase()) {
+        // Turn the gate round as it opens
+        return this.setBit(true, false, {
+          "minecraft:cardinal_direction":
+            CardinalDirection[facing].toLowerCase()
+        });
+      }
+    }
+
+    // Open or close the block
+    this.setBit(!open);
   }
 
-  public setBit(open: boolean, silent = false): void {
-    // Get the state of the block
-    const state = this.block.getState<boolean>("open_bit");
-
+  /**
+   * Opens or closes the block, along with the other half of a door, and plays the sound of its kind.
+   * @param open Whether the block is open.
+   * @param silent Whether no sound is played.
+   * @param state Other states of the block to change along with it.
+   */
+  public setBit(open: boolean, silent = false, state?: BlockState): void {
     // Check if the state is already set
-    if (state === open) return;
+    if (this.block.getState<boolean>("open_bit") === open && !state) return;
 
     // Update the state of the block
-    this.block.setState("open_bit", open);
+    const permutation = this.block.type.getPermutation({
+      ...this.block.permutation.state,
+      ...state,
+      open_bit: open
+    });
+    this.block.setPermutation(permutation);
+
+    // A door's two halves open and close together
+    if (this.block.identifier.endsWith("_door")) {
+      // Get the other half of the door
+      const other = this.block.getState<boolean>("upper_block_bit")
+        ? this.block.below()
+        : this.block.above();
+
+      // Open or close the other half, if it is the same door
+      if (other.identifier === this.block.identifier)
+        other.setState("open_bit", open);
+    }
 
     // Check if the block is silent
     if (silent) return;
 
-    // Get the position of the block and the identifier
-    const identifier = this.block.type.identifier;
+    // Play the sound of the kind of block
+    this.block.playSound(this.getSound(open));
+  }
 
-    // Create the level sound event packet
-    const packet = new LevelSoundEventPacket();
-    packet.data = this.block.permutation.networkId;
-    packet.event = open ? LevelSoundEvent.DoorOpen : LevelSoundEvent.DoorClose;
-    packet.position = BlockPosition.toVector3f(this.block.position);
-    packet.actorIdentifier = String();
-    packet.isBabyMob = false;
-    packet.isGlobal = false;
-    packet.uniqueActorId = -1n;
+  /**
+   * Gets the sound the block makes as it opens or closes.
+   * @param open Whether the block is opening.
+   */
+  protected getSound(open: boolean): LevelSoundEvent {
+    // Get the identifier of the block
+    const identifier = this.block.identifier;
 
-    // Check if the block is a trapdoor
-    if (identifier.includes("trapdoor")) {
-      packet.event = open
+    // Levers click on and off
+    if (identifier === BlockIdentifier.Lever)
+      return open ? LevelSoundEvent.PowerOn : LevelSoundEvent.PowerOff;
+
+    // Trapdoors, fence gates and barrels have sounds of their own
+    if (identifier.endsWith("trapdoor"))
+      return open
         ? LevelSoundEvent.TrapdoorOpen
         : LevelSoundEvent.TrapdoorClose;
-    }
 
-    // Check if the block is a fence gate
-    if (identifier.includes("fence_gate")) {
-      packet.event = open
+    if (identifier.endsWith("fence_gate"))
+      return open
         ? LevelSoundEvent.FenceGateOpen
         : LevelSoundEvent.FenceGateClose;
-    }
 
-    // Check if the block is a barrel
-    if (identifier.includes("barrel")) {
-      packet.event = open
-        ? LevelSoundEvent.BarrelOpen
-        : LevelSoundEvent.BarrelClose;
-    }
+    if (identifier === BlockIdentifier.Barrel)
+      return open ? LevelSoundEvent.BarrelOpen : LevelSoundEvent.BarrelClose;
 
-    // Send the packet to the dimension
-    this.block.dimension.broadcast(packet);
+    // Otherwise, the block is a door
+    return open ? LevelSoundEvent.DoorOpen : LevelSoundEvent.DoorClose;
   }
 }
 

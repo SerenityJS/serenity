@@ -1,6 +1,6 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
-import { NetworkItemStackDescriptor } from "./network-item-stack-descriptor";
+import { NetworkItemStackDescriptorCereal } from "./network-item-stack-descriptor-cereal";
 import { Vector3f } from "./vector3f";
 
 import type { ItemReleaseInventoryTransactionType } from "../../enums";
@@ -19,7 +19,7 @@ class ItemReleaseInventoryTransaction extends DataType {
   /**
    * The item of the item release inventory transaction.
    */
-  public readonly item: NetworkItemStackDescriptor;
+  public readonly item: NetworkItemStackDescriptorCereal;
 
   /**
    * The head position of the item release inventory transaction.
@@ -36,7 +36,7 @@ class ItemReleaseInventoryTransaction extends DataType {
   public constructor(
     type: ItemReleaseInventoryTransactionType,
     slot: number,
-    item: NetworkItemStackDescriptor,
+    item: NetworkItemStackDescriptorCereal,
     headPosition: Vector3f
   ) {
     super();
@@ -48,13 +48,13 @@ class ItemReleaseInventoryTransaction extends DataType {
 
   public static read(stream: BinaryStream): ItemReleaseInventoryTransaction {
     // Read the type of the item release inventory transaction
-    const type = stream.readVarInt() as ItemReleaseInventoryTransactionType;
+    const type = stream.readZigZag() as ItemReleaseInventoryTransactionType;
 
     // Read the slot of the item release inventory transaction
     const slot = stream.readZigZag();
 
     // Read the item of the item release inventory transaction
-    const item = NetworkItemStackDescriptor.read(stream);
+    const item = NetworkItemStackDescriptorCereal.read(stream);
 
     // Read the head position of the item release inventory transaction
     const headPosition = Vector3f.read(stream);
@@ -68,13 +68,13 @@ class ItemReleaseInventoryTransaction extends DataType {
     value: ItemReleaseInventoryTransaction
   ): void {
     // Write the type of the item release inventory transaction
-    stream.writeVarInt(value.type);
+    stream.writeZigZag(value.type);
 
     // Write the slot of the item release inventory transaction
     stream.writeZigZag(value.slot);
 
     // Write the item of the item release inventory transaction
-    NetworkItemStackDescriptor.write(stream, value.item);
+    NetworkItemStackDescriptorCereal.write(stream, value.item);
 
     // Write the head position of the item release inventory transaction
     Vector3f.write(stream, value.headPosition);

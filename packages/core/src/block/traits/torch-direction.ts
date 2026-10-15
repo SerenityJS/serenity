@@ -102,63 +102,57 @@ class BlockTorchDirectionTrait extends BlockTrait {
     // Check if there is a source block
     if (!source || source === this.block) return;
 
-    // Switch the direction of the torch based on the source block
-    // We want to make sure the block is still supported by a solid block
+    // Break the torch on the next tick, dropping it, if the block holding it up is gone
+    if (!this.isSupported()) this.breakNextTick(() => this.isSupported());
+  }
+
+  /**
+   * Whether the torch is held up: by the solid block it leans on,
+   * or when standing, by a solid block below or one with a post to stand on.
+   */
+  public isSupported(): boolean {
     switch (this.getDirection()) {
       case TorchDirection.Top: {
         // Get the block below the torch
         const below = this.block.below();
 
-        // Check if the block below is solid
-        if (below && !below.isSolid)
-          return void this.block.destroy({ dropLoot: true });
-        else break;
+        // Check if the block below is solid, or has a post to stand on
+        return below.isSolid || this.hasPost(below);
       }
 
-      case TorchDirection.North: {
-        // Get the north block
-        const north = this.block.north();
+      // Check if the block the torch leans on is solid
+      case TorchDirection.North:
+        return this.block.north().isSolid;
 
-        // Check if the north block is solid
-        if (north && !north.isSolid)
-          return void this.block.destroy({ dropLoot: true });
-        else break;
-      }
+      case TorchDirection.South:
+        return this.block.south().isSolid;
 
-      case TorchDirection.South: {
-        // Get the south block
-        const south = this.block.south();
+      case TorchDirection.East:
+        return this.block.east().isSolid;
 
-        // Check if the south block is solid
-        if (south && !south.isSolid)
-          return void this.block.destroy({ dropLoot: true });
-        else break;
-      }
+      case TorchDirection.West:
+        return this.block.west().isSolid;
 
-      case TorchDirection.East: {
-        // Get the east block
-        const east = this.block.east();
-
-        // Check if the east block is solid
-        if (east && !east.isSolid)
-          return void this.block.destroy({ dropLoot: true });
-        else break;
-      }
-
-      case TorchDirection.West: {
-        // Get the west block
-        const west = this.block.west();
-
-        // Check if the west block is solid
-        if (west && !west.isSolid)
-          return void this.block.destroy({ dropLoot: true });
-        else break;
-      }
+      default:
+        return true;
     }
   }
 
   public getDirection(): TorchDirection {
     return this.block.getState<TorchDirection>(this.state as string);
+  }
+
+  /**
+   * Whether a block has a post in its center that a torch can stand on.
+   * Walls, fences, glass panes and bars are not solid, but do have one.
+   * @param block The block to check.
+   */
+  private hasPost(block: Block): boolean {
+    return (
+      block.hasState("wall_post_bit") ||
+      (block.hasState("minecraft:connection_east") &&
+        block.identifier !== "minecraft:trip_wire")
+    );
   }
 
   public setDirection(direction: TorchDirection): void {

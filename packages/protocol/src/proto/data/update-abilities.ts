@@ -6,7 +6,7 @@ import {
   Packet,
   type PermissionLevel
 } from "../../enums";
-import { AbilityLayer } from "../types";
+import { AbilityLayer, CommandPermission } from "../types";
 
 import { DataPacket } from "./data-packet";
 
@@ -16,7 +16,8 @@ class UpdateAbilitiesPacket extends DataPacket {
   public entityUniqueId!: bigint;
 
   @Serialize(Uint8) public permissionLevel!: PermissionLevel;
-  @Serialize(Uint8) public commandPermissionLevel!: CommandPermissionLevel;
+  @Serialize(CommandPermission)
+  public commandPermissionLevel!: CommandPermissionLevel;
   @Serialize(AbilityLayer) public abilities!: Array<AbilityLayer>;
 }
 

@@ -12029,15 +12029,687 @@
     "maxAmount": 16
   },
   {
-    "identifier": "editor:map_marker_spawn_egg",
+    "identifier": "minecraft:air",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:black_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:black_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:black_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:black_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:black_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:blue_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:blue_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:blue_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:blue_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:blue_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:brown_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:brown_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:brown_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:brown_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:brown_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cyan_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cyan_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cyan_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cyan_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:cyan_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:gray_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:gray_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:gray_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:gray_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:gray_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:green_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:green_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:green_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:green_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:green_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_blue_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_blue_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_blue_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_blue_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_blue_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_gray_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_gray_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_gray_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_gray_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:light_gray_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:lime_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:lime_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:lime_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:lime_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:lime_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:magenta_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:magenta_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:magenta_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:magenta_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:magenta_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:music_disc_bounce",
     "tags": [
-      "minecraft:spawn_egg"
+      "minecraft:music_disc"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:orange_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:orange_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:orange_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:orange_poplar_leaves",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:orange_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:orange_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:pink_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:pink_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:pink_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:pink_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:pink_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poplar_boat",
+    "tags": [
+      "minecraft:boat",
+      "minecraft:boats"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:poplar_button",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poplar_chest_boat",
+    "tags": [
+      "minecraft:boat",
+      "minecraft:boats"
+    ],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:poplar_door",
+    "tags": [
+      "minecraft:door"
     ],
     "stackable": true,
     "maxAmount": 64
   },
   {
-    "identifier": "minecraft:air",
+    "identifier": "minecraft:poplar_fence",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poplar_fence_gate",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poplar_hanging_sign",
+    "tags": [
+      "minecraft:sign",
+      "minecraft:hanging_sign"
+    ],
+    "stackable": true,
+    "maxAmount": 16
+  },
+  {
+    "identifier": "minecraft:poplar_log",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poplar_planks",
+    "tags": [
+      "minecraft:planks",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poplar_pressure_plate",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poplar_sapling",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poplar_shelf",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poplar_sign",
+    "tags": [
+      "minecraft:sign"
+    ],
+    "stackable": true,
+    "maxAmount": 16
+  },
+  {
+    "identifier": "minecraft:poplar_slab",
+    "tags": [
+      "minecraft:wooden_slabs"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poplar_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poplar_trapdoor",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:poplar_wood",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:purple_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:purple_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:purple_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:purple_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:purple_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:red_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:red_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:red_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:red_poplar_leaves",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:red_shrub",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:red_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:red_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:shelf_mushroom",
+    "tags": [
+      "minecraft:mushrooms_for_stew"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:straw_bed",
+    "tags": [],
+    "stackable": false,
+    "maxAmount": 1
+  },
+  {
+    "identifier": "minecraft:stripped_poplar_log",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:stripped_poplar_wood",
+    "tags": [
+      "minecraft:logs",
+      "minecraft:logs_that_burn",
+      "minecraft:sulfur_cube_archetype_bouncy"
+    ],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:sulfur_spike",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:white_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:white_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:white_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:white_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:white_wool_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:yellow_concrete_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:yellow_concrete_stairs",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:yellow_cushion",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:yellow_poplar_leaves",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:yellow_wool_slab",
+    "tags": [],
+    "stackable": true,
+    "maxAmount": 64
+  },
+  {
+    "identifier": "minecraft:yellow_wool_stairs",
     "tags": [],
     "stackable": true,
     "maxAmount": 64

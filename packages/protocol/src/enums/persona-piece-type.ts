@@ -1,0 +1,33 @@
+enum PersonaPieceType {
+  Unknown,
+  Skeleton,
+  Body,
+  Skin,
+  Bottom,
+  Feet,
+  Dress,
+  Top,
+  HighPants,
+  Hands,
+  Outerwear,
+  FacialHair,
+  Mouth,
+  Eyes,
+  Hair,
+  Hood,
+  Back,
+  FaceAccessory,
+  Head,
+  Legs,
+  LeftLeg,
+  RightLeg,
+  Arms,
+  LeftArm,
+  RightArm,
+  Capes,
+  ClassicSkin,
+  Emote,
+  Unsupported
+}
+
+export { PersonaPieceType };

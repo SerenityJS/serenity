@@ -262,11 +262,27 @@ class TargetEnum extends ValidEnum {
         case "p": {
           if (pointer.state.origin instanceof Player) {
             return new TargetEnum([pointer.state.origin]);
-          } else {
+          }
+
+          // Get the position the command is executed at, such as a command block's
+          const position = pointer.state.position;
+          if (!position) {
             throw new TypeError(
               "Nearest player is not available in this context."
             );
           }
+
+          // Get the player in the dimension nearest to the position
+          let nearest: Player | null = null;
+          let nearestDistance = Infinity;
+          for (const player of origin.getPlayers()) {
+            const distance = player.position.distance(position);
+            if (distance >= nearestDistance) continue;
+            nearest = player;
+            nearestDistance = distance;
+          }
+
+          return new TargetEnum(nearest ? [nearest] : []);
         }
 
         // Get a random player.

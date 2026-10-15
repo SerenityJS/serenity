@@ -776,6 +776,8 @@ class Player extends Entity {
     packet.position = position.multiply(8); // Mojank...
     packet.volume = options?.volume ?? 1;
     packet.pitch = options?.pitch ?? 1;
+    packet.loopCount = 0;
+    packet.bypassListenerRangeCheck = false;
 
     // Send the packet to the player
     this.send(packet);

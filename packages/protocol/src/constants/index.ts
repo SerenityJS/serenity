@@ -1,8 +1,8 @@
 // Contains the current protocol version and Minecraft version
 
-const PROTOCOL_VERSION = 975;
-const COMPATIBLE_PROTOCOL_VERSIONS = new Set<number>([975, PROTOCOL_VERSION]);
-const MINECRAFT_SEM_VERSION: [number, number, number] = [1, 26, 20];
+const PROTOCOL_VERSION = 2193;
+const COMPATIBLE_PROTOCOL_VERSIONS = new Set<number>([PROTOCOL_VERSION]);
+const MINECRAFT_SEM_VERSION: [number, number, number] = [1, 26, 50];
 const MINECRAFT_VERSION = MINECRAFT_SEM_VERSION.join(".");
 const MINECRAFT_TICK_SPEED = 50;
 
@@ -11,7 +11,7 @@ const BLOCK_STATE_VERSION =
   (MINECRAFT_SEM_VERSION[1] << 16) |
   (MINECRAFT_SEM_VERSION[2] << 8);
 
-const SHIELD_NETWORK_ID = 387;
+const SHIELD_NETWORK_ID = 358;
 
 export {
   PROTOCOL_VERSION,

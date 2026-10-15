@@ -1,3 +1,5 @@
+import { BlockFace } from "@serenityjs/protocol";
+
 import { BlockPlacementOptions } from "../../types";
 
 import { BlockTrait } from "./trait";
@@ -6,18 +8,19 @@ class BlockUpsideDownBitTrait extends BlockTrait {
   public static readonly identifier = "upside_down_bit";
   public static readonly state = "upside_down_bit";
 
-  public onPlace({ origin, clickedPosition }: BlockPlacementOptions): void {
+  public onPlace({
+    origin,
+    clickedFace,
+    clickedPosition
+  }: BlockPlacementOptions): void {
     // Check if the origin is a player
     if (!origin || !origin.isPlayer() || !clickedPosition) return;
 
-    // Check if the click position is on the top face of the block
-    if (clickedPosition.y === 1) return this.setUpsideDown(false);
-
-    // Check if the click position is on the bottom face of
-    if (clickedPosition.y === 0) return this.setUpsideDown(true);
-
-    // Check if the block needs to be upside down
-    const upsideDown = clickedPosition.y > 0.5;
+    // The block takes the top half of its space when placed against the underside of a block,
+    // or the top half of the side of a block
+    const upsideDown =
+      clickedFace === BlockFace.Bottom ||
+      (clickedFace !== BlockFace.Top && clickedPosition.y > 0.5);
 
     // Set the direction of the block
     return this.setUpsideDown(upsideDown);

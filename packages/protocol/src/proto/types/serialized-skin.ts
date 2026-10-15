@@ -1,9 +1,10 @@
-import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
+import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 import { SkinImage } from "./skin-image";
 import { SkinAnimation } from "./skin-animation";
 import { SkinPersonaPiece } from "./skin-persona-piece";
 import { SkinPersonaTintPiece } from "./skin-persona-tint-piece";
+import { SkinColor } from "./skin-color";
 
 import type { ClientData } from "../../types";
 
@@ -112,6 +113,16 @@ class SerializedSkin extends DataType {
   public overridingPlayerAppearance: boolean;
 
   /**
+   * If the skin is trusted.
+   */
+  public isTrusted: boolean;
+
+  /**
+   * The server-computed appearance hash of the skin.
+   */
+  public profileHash: string;
+
+  /**
    * Creates a new serialized skin.
    *
    * @param identifier The identifier of the skin.
@@ -134,6 +145,8 @@ class SerializedSkin extends DataType {
    * @param isPersonaCapeOnClassic If there is a persona cape on classic skin.
    * @param isPrimaryUser If the skin is used by its primary user.
    * @param overridingPlayerAppearance If the skin will override the player appearance.
+   * @param isTrusted If the skin is trusted.
+   * @param profileHash The server-computed appearance hash of the skin.
    * @returns A new serialized skin.
    */
   public constructor(
@@ -156,7 +169,9 @@ class SerializedSkin extends DataType {
     isPersona: boolean,
     isPersonaCapeOnClassic: boolean,
     isPrimaryUser: boolean,
-    overridingPlayerAppearance: boolean
+    overridingPlayerAppearance: boolean,
+    isTrusted = false,
+    profileHash = ""
   ) {
     super();
     this.identifier = identifier;
@@ -179,6 +194,8 @@ class SerializedSkin extends DataType {
     this.isPersonaCapeOnClassic = isPersonaCapeOnClassic;
     this.isPrimaryUser = isPrimaryUser;
     this.overridingPlayerAppearance = overridingPlayerAppearance;
+    this.isTrusted = isTrusted;
+    this.profileHash = profileHash;
   }
 
   public static read(stream: BinaryStream): SerializedSkin {
@@ -189,7 +206,7 @@ class SerializedSkin extends DataType {
     const skinImage = SkinImage.read(stream);
 
     // Read the amount of animations of the skin.
-    const animationsLength = stream.readUint32(Endianness.Little);
+    const animationsLength = stream.readVarInt();
 
     // Create a new array to store the animations of the skin.
     const animations = [];
@@ -205,11 +222,11 @@ class SerializedSkin extends DataType {
     const animationData = stream.readVarString();
     const capeIdentifier = stream.readVarString();
     const fullIdentifier = stream.readVarString();
-    const armSize = stream.readVarString();
-    const skinColor = stream.readVarString();
+    const armSize = stream.readUint8() === 0 ? "slim" : "wide";
+    const skinColor = SkinColor.read(stream);
 
     // Read the amount of persona pieces of the skin.
-    const personaPiecesLength = stream.readUint32(Endianness.Little);
+    const personaPiecesLength = stream.readVarInt();
 
     // Create a new array to store the persona pieces of the skin.
     const personaPieces = [];
@@ -220,7 +237,7 @@ class SerializedSkin extends DataType {
     }
 
     // Read the amount of tint pieces of the skin.
-    const tintPiecesLength = stream.readUint32(Endianness.Little);
+    const tintPiecesLength = stream.readVarInt();
 
     // Create a new array to store the tint pieces of the skin.
     const tintPieces = [];
@@ -235,6 +252,10 @@ class SerializedSkin extends DataType {
     const isPersonaCapeOnClassic = stream.readBool();
     const isPrimaryUser = stream.readBool();
     const overridingPlayerAppearance = stream.readBool();
+
+    // The trusted flag is serialized as a "true" / "false" string.
+    const isTrusted = stream.readVarString().toLowerCase() === "true";
+    const profileHash = stream.readVarString();
 
     // Return the new serialized skin.
     return new SerializedSkin(
@@ -257,7 +278,9 @@ class SerializedSkin extends DataType {
       isPersona,
       isPersonaCapeOnClassic,
       isPrimaryUser,
-      overridingPlayerAppearance
+      overridingPlayerAppearance,
+      isTrusted,
+      profileHash
     );
   }
 
@@ -269,7 +292,7 @@ class SerializedSkin extends DataType {
     SkinImage.write(stream, skin.skinImage);
 
     // Write the animations of the skin.
-    stream.writeUint32(skin.animations.length, Endianness.Little);
+    stream.writeVarInt(skin.animations.length);
     for (const animation of skin.animations) {
       SkinAnimation.write(stream, animation);
     }
@@ -280,17 +303,17 @@ class SerializedSkin extends DataType {
     stream.writeVarString(skin.animationData);
     stream.writeVarString(skin.capeIdentifier);
     stream.writeVarString(skin.fullIdentifier);
-    stream.writeVarString(skin.armSize);
-    stream.writeVarString(skin.skinColor);
+    stream.writeUint8(skin.armSize === "slim" ? 0 : 1);
+    SkinColor.write(stream, skin.skinColor);
 
     // Write the persona pieces of the skin.
-    stream.writeUint32(skin.personaPieces.length, Endianness.Little);
+    stream.writeVarInt(skin.personaPieces.length);
     for (const personaPiece of skin.personaPieces) {
       SkinPersonaPiece.write(stream, personaPiece);
     }
 
     // Write the tint pieces of the skin.
-    stream.writeUint32(skin.tintPieces.length, Endianness.Little);
+    stream.writeVarInt(skin.tintPieces.length);
     for (const tintPiece of skin.tintPieces) {
       SkinPersonaTintPiece.write(stream, tintPiece);
     }
@@ -300,6 +323,10 @@ class SerializedSkin extends DataType {
     stream.writeBool(skin.isPersonaCapeOnClassic);
     stream.writeBool(skin.isPrimaryUser);
     stream.writeBool(skin.overridingPlayerAppearance);
+
+    // The trusted flag is serialized as a "true" / "false" string.
+    stream.writeVarString(skin.isTrusted ? "true" : "false");
+    stream.writeVarString(skin.profileHash);
   }
 
   /**
@@ -327,9 +354,9 @@ class SerializedSkin extends DataType {
               animation.ImageHeight,
               Buffer.from(animation.Image, "base64")
             ),
+            animation.Type,
             animation.Frames,
-            animation.AnimationExpression,
-            animation.Type
+            animation.AnimationExpression
           )
       ),
       capeImage: new SkinImage(
@@ -366,7 +393,9 @@ class SerializedSkin extends DataType {
       isPersona: data.PersonaSkin,
       isPersonaCapeOnClassic: data.CapeOnClassicSkin,
       isPrimaryUser: data.TrustedSkin,
-      overridingPlayerAppearance: data.OverrideSkin
+      overridingPlayerAppearance: data.OverrideSkin,
+      isTrusted: data.TrustedSkin,
+      profileHash: data.ProfileHash ?? ""
     };
   }
 

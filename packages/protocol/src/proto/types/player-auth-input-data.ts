@@ -73,16 +73,30 @@ export class PlayerAuthInputData extends DataType {
     return flags;
   }
 
+  // NOTE: Since v2168, the input data is a list of the set flags (signed varints),
+  // instead of a bitset. The flags are kept as a bitset in memory.
+
   public static write(stream: BinaryStream, value: PlayerAuthInputData): void {
-    // Write the flags of the input data.
-    stream.writeVarLong(value.flags);
+    // Get the flags that are set.
+    const flags = value.getFlags();
+
+    // Write the amount of flags, followed by each flag.
+    stream.writeVarInt(flags.length);
+    for (const flag of flags) stream.writeZigZag(flag);
   }
 
   public static read(stream: BinaryStream): PlayerAuthInputData {
-    // Read the flags of the input data.
-    const flags = stream.readVarLong();
+    // Read the amount of flags.
+    const amount = stream.readVarInt();
 
-    // Return a new instance of PlayerAuthInputData.
-    return new this(flags);
+    // Create a new instance of PlayerAuthInputData without any flags.
+    const data = new this(0n);
+
+    // Read each flag, and set it in the bitset.
+    for (let index = 0; index < amount; index++)
+      data.setFlag(stream.readZigZag() as InputData, true);
+
+    // Return the input data.
+    return data;
   }
 }

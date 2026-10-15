@@ -13,6 +13,7 @@ import { CompoundTag } from "@serenityjs/nbt";
 
 import { ItemEnum } from "../commands";
 import { ItemIdentifier } from "../enums";
+import { BlockItems } from "../constants/block-items";
 
 import { CustomItemType, ItemType } from "./identity";
 import { CreateContentGroup, CreativeItemDescriptor } from "./creative";
@@ -95,6 +96,10 @@ class ItemPalette {
    * @returns The item type from the palette.
    */
   public resolveType(type: BlockType): ItemType | null {
+    // Check if the block's item has another name, like a sign or a crop
+    const item = BlockItems[type.identifier];
+    if (item) return this.types.get(item) ?? null;
+
     return (
       [...this.types.values()].find((item) => {
         // Check if the item type is a block placer component.

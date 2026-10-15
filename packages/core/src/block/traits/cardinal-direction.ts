@@ -3,6 +3,26 @@ import { BlockPlacementOptions } from "../../types";
 
 import { BlockDirectionTrait } from "./direction";
 
+/**
+ * The directions opposite each direction.
+ */
+const OppositeDirections: Record<CardinalDirection, CardinalDirection> = {
+  [CardinalDirection.North]: CardinalDirection.South,
+  [CardinalDirection.South]: CardinalDirection.North,
+  [CardinalDirection.East]: CardinalDirection.West,
+  [CardinalDirection.West]: CardinalDirection.East
+};
+
+/**
+ * The directions a quarter turn clockwise from each direction, seen from above.
+ */
+const ClockwiseDirections: Record<CardinalDirection, CardinalDirection> = {
+  [CardinalDirection.North]: CardinalDirection.East,
+  [CardinalDirection.East]: CardinalDirection.South,
+  [CardinalDirection.South]: CardinalDirection.West,
+  [CardinalDirection.West]: CardinalDirection.North
+};
+
 class BlockCardinalDirectionTrait extends BlockDirectionTrait {
   public static readonly state = "minecraft:cardinal_direction";
 
@@ -10,24 +30,25 @@ class BlockCardinalDirectionTrait extends BlockDirectionTrait {
     // Check if the origin is a player
     if (!origin || !origin.isPlayer()) return;
 
-    // Get the player's cardinal direction
+    // Get the player's cardinal direction, and the identifier of the block
     const direction = origin.getCardinalDirection();
+    const identifier = this.block.identifier;
 
-    // Set the direction of the block to the opposite of the player's direction
-    switch (direction) {
-      case CardinalDirection.North:
-        this.setDirection(CardinalDirection.South);
-        break;
-      case CardinalDirection.South:
-        this.setDirection(CardinalDirection.North);
-        break;
-      case CardinalDirection.East:
-        this.setDirection(CardinalDirection.West);
-        break;
-      case CardinalDirection.West:
-        this.setDirection(CardinalDirection.East);
-        break;
-    }
+    // Doors name the side a quarter turn clockwise from the way the player faces
+    if (identifier.endsWith("_door"))
+      return this.setDirection(ClockwiseDirections[direction]);
+
+    // Fence gates face the way the player does
+    if (identifier.endsWith("fence_gate")) return this.setDirection(direction);
+
+    // Anvils lie across the way the player faces
+    if (identifier.endsWith("anvil"))
+      return this.setDirection(
+        OppositeDirections[ClockwiseDirections[direction]]
+      );
+
+    // Other blocks turn their front to the player
+    this.setDirection(OppositeDirections[direction]);
   }
 
   public getDirection(): CardinalDirection {

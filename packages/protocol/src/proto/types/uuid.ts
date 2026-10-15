@@ -3,8 +3,9 @@ import { BinaryStream, DataType } from "@serenityjs/binarystream";
 class Uuid extends DataType {
   public static read(stream: BinaryStream): string {
     // Read the most significant bits and least significant bits of the UUID.
-    const msb = stream.read(8).reverse(); // Reverse the bytes to match the UUID format
-    const lsb = stream.read(8).reverse();
+    // The bytes are copied before reversing, as reversing a view would mutate the source buffer.
+    const msb = Buffer.from(stream.read(8)).reverse(); // Reverse the bytes to match the UUID format
+    const lsb = Buffer.from(stream.read(8)).reverse();
 
     // Convert the byte arrays to a hexadecimal string and format it as a UUID.
     const uuid = Buffer.concat([msb, lsb]).toString("hex");

@@ -1,26 +1,27 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
 class PresenceInfo extends DataType {
-  public experienceName: string;
+  /**
+   * The rich presence id that overrides the client-driven rich presence.
+   */
+  public richPresenceId: string | null;
 
-  public worldName: string;
-
-  public constructor(experienceName: string, worldName: string) {
+  public constructor(richPresenceId: string | null = null) {
     super();
-    this.experienceName = experienceName;
-    this.worldName = worldName;
+    this.richPresenceId = richPresenceId;
   }
 
   public static read(stream: BinaryStream): PresenceInfo {
-    const experienceName = stream.readVarString();
-    const worldName = stream.readVarString();
+    const richPresenceId = stream.readBool() ? stream.readVarString() : null;
 
-    return new this(experienceName, worldName);
+    return new this(richPresenceId);
   }
 
   public static write(stream: BinaryStream, value: PresenceInfo): void {
-    stream.writeVarString(value.experienceName);
-    stream.writeVarString(value.worldName);
+    stream.writeBool(value.richPresenceId !== null);
+    if (value.richPresenceId !== null) {
+      stream.writeVarString(value.richPresenceId);
+    }
   }
 }
 

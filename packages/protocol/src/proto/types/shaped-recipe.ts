@@ -55,7 +55,7 @@ class ShapedRecipe extends DataType {
   /**
    * The requirement to unlock the recipe
    */
-  public readonly requirement: RecipeUnlockingRequirement;
+  public readonly requirement: RecipeUnlockingRequirement | null;
 
   /**
    * The network ID of the recipe
@@ -85,7 +85,7 @@ class ShapedRecipe extends DataType {
     tag: string,
     priority: number,
     symmetrical: boolean,
-    requirement: RecipeUnlockingRequirement,
+    requirement: RecipeUnlockingRequirement | null,
     recipeNetorkId: number
   ) {
     super();
@@ -115,8 +115,11 @@ class ShapedRecipe extends DataType {
     // Prepare an array to store the ingredients
     const ingredients: Array<RecipeIngredient> = [];
 
+    // Read the number of ingredients, which should equal width * height
+    const ingredientCount = stream.readVarInt();
+
     // Loop through the ingredients
-    for (let index = 0; index < width * height; index++) {
+    for (let index = 0; index < ingredientCount; index++) {
       // Read the ingredient
       const ingredient = RecipeIngredient.read(stream);
 
@@ -152,7 +155,7 @@ class ShapedRecipe extends DataType {
     const symmetrical = stream.readBool();
 
     // Read the requirement
-    const requirement = RecipeUnlockingRequirement.read(stream);
+    const requirement = RecipeUnlockingRequirement.readOptional(stream);
 
     // Read the recipe network ID
     const recipeNetorkId = stream.readVarInt();
@@ -183,6 +186,9 @@ class ShapedRecipe extends DataType {
     // Write the height
     stream.writeZigZag(value.height);
 
+    // Write the number of ingredients, which should equal width * height
+    stream.writeVarInt(value.ingredients.length);
+
     // Loop through the ingredients
     for (const ingredient of value.ingredients) {
       // Write the ingredient
@@ -211,7 +217,7 @@ class ShapedRecipe extends DataType {
     stream.writeBool(value.symmetrical);
 
     // Write the requirement
-    RecipeUnlockingRequirement.write(stream, value.requirement);
+    RecipeUnlockingRequirement.writeOptional(stream, value.requirement);
 
     // Write the recipe network ID
     stream.writeVarInt(value.recipeNetorkId);

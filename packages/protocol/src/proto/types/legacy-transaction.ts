@@ -39,11 +39,8 @@ class LegacyTransaction extends DataType {
     // Read the request id.
     const request = stream.readZigZag();
 
-    // If the request id is 0, then no transactions are present.
-    if (request === 0) {
-      // Return a new instance of the LegacyTransaction class.
-      return new LegacyTransaction(request);
-    }
+    // Check if the actions are present.
+    if (!stream.readBool()) return new LegacyTransaction(request);
 
     // Prepare an array to store the transactions.
     const transactions: Array<Transactions> = [];
@@ -82,15 +79,16 @@ class LegacyTransaction extends DataType {
     // Write the request id.
     stream.writeZigZag(value.request);
 
-    // If the request id is 0, then no actions are present.
-    if (value.request === 0) {
+    // Check if the actions are present.
+    if (!value.actions) {
+      // Write false to the stream.
+      stream.writeBool(false);
+
       // Return.
       return;
-    }
-
-    // Check if the actions are present.
-    if (value.actions === null) {
-      throw new Error("actions are not present.");
+    } else {
+      // Write true to the stream.
+      stream.writeBool(true);
     }
 
     // Write the number of actions.

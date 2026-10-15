@@ -416,6 +416,11 @@
   },
   {
     "category": 4,
+    "name": "itemGroup.name.cushion",
+    "icon": "minecraft:red_cushion"
+  },
+  {
+    "category": 4,
     "name": "",
     "icon": "minecraft:air"
   },

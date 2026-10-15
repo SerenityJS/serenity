@@ -18,6 +18,12 @@ class ListTag<T extends BaseTag> extends Array<T> implements BaseTag {
   public readonly type = TagType.List;
   public name: string | null;
 
+  /**
+   * The tag type of the elements, which is written when the list is empty.
+   * Non-empty lists use the type of their first element.
+   */
+  public elementType: TagType = TagType.Byte;
+
   // Accept array | iterable | single T | numeric length
   public constructor(
     elements?: Array<T> | Iterable<T> | T | number,
@@ -109,6 +115,9 @@ class ListTag<T extends BaseTag> extends Array<T> implements BaseTag {
 
     // Create a new ListTag instance.
     const tag = new this<T>([], name);
+
+    // Keep the element type, so empty lists are written back with the same type.
+    tag.elementType = type;
 
     // Read the list elements based on the type.
     for (let i = 0; i < length; i++) {
@@ -295,8 +304,8 @@ class ListTag<T extends BaseTag> extends Array<T> implements BaseTag {
 
     // Check if an element is present in the list.
     if (!value[0]) {
-      // If not, write an empty list type and length.
-      stream.writeInt8(TagType.Byte);
+      // If not, write the element type of the empty list.
+      stream.writeInt8(value.elementType);
     } else {
       // If so, get the type of the first element.
       const type = value[0].type;

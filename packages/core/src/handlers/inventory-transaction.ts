@@ -1,6 +1,6 @@
 import {
   ActorFlag,
-  BlockPosition,
+  BlockFace,
   ComplexInventoryTransaction,
   Gamemode,
   InventoryAction,
@@ -10,8 +10,8 @@ import {
   ItemUseInventoryTransactionType,
   ItemUseMethod,
   ItemUseOnEntityInventoryTransaction,
+  ItemUseOnEntityInventoryTransactionType,
   LevelSoundEvent,
-  LevelSoundEventPacket,
   Packet,
   PredictedResult,
   UpdateBlockFlagsType,
@@ -20,6 +20,7 @@ import {
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
 import { CompoundTag } from "@serenityjs/nbt";
+import { BinaryStream } from "@serenityjs/binarystream";
 
 import { NetworkHandler } from "../network";
 import { EntityInventoryTrait, Player } from "../entity";
@@ -27,7 +28,15 @@ import { ItemStack, ItemStackUseOnBlockOptions } from "../item";
 import { BlockIdentifier, EntityInteractMethod } from "../enums";
 import { PlayerPlaceBlockSignal, PlayerStopUsingItemSignal } from "../events";
 import { BlockPlacementOptions } from "../types";
-import { BlockChestTrait, BlockLevelStorage } from "..";
+import {
+  Block,
+  BlockChestTrait,
+  BlockLevelStorage,
+  BlockPalette,
+  BlockPermutation,
+  BlockType
+} from "..";
+import { ItemPlacedBlocks } from "../constants/block-items";
 
 class InventoryTransactionHandler extends NetworkHandler {
   public static readonly packet = Packet.InventoryTransaction;
@@ -182,29 +191,18 @@ class InventoryTransactionHandler extends NetworkHandler {
 
           // Send the packet to the player
           return player.send(packet);
-        } else if (interacting.type.hasTag("plant")) {
-          // Set the resultant block to the interacting block
+        } else if (interacting.isReplaceable && !interacting.isLiquid) {
+          // A block placed against one like short grass takes its place, rather than going beside it
           resultant = interacting;
         }
 
         // Get the held item stack from the player
         const stack = player.getHeldItem();
 
-        // Prepare a flag to determine if the item stack is a block placer
-        let placingBlock = true;
-
-        // Get the block placer from the item type
-        const blockPlacer = stack?.type.components.getBlockPlacer();
-
-        // Determine if the item stack is a block placer
-        if (blockPalette) {
-          // Get the block type from the block placer
-          const blockType = blockPlacer?.getBlockType();
-
-          // Check if the block type exists and is not air
-          if (!blockType || blockType.identifier === BlockIdentifier.Air)
-            placingBlock = false;
-        }
+        // Determine if the item stack places a block
+        const placingBlock = stack
+          ? this.getPlacedBlockType(stack, blockPalette) !== null
+          : false;
 
         // Interact with the block
         const results = interacting.interact({
@@ -238,6 +236,20 @@ class InventoryTransactionHandler extends NetworkHandler {
           // Verify that the item stack exists
           if (!stack) return;
 
+          // Check if the client may have placed the block it holds, which the server did not
+          if (placingBlock) {
+            // Create a new UpdateBlockPacket to show the client what is really in the space
+            const packet = new UpdateBlockPacket();
+            packet.position = resultant.position;
+            packet.networkBlockId = resultant.permutation.networkId;
+            packet.layer = UpdateBlockLayerType.Normal;
+            packet.flags = UpdateBlockFlagsType.Network;
+            player.send(packet);
+
+            // Resync the inventory slot to the client to correct the predicted stack count
+            if (stack.container) stack.container.update();
+          }
+
           // Verify that the item stack network ids match
           if (stack.type.network !== transaction.item.network) return;
 
@@ -249,9 +261,8 @@ class InventoryTransactionHandler extends NetworkHandler {
             face: transaction.face
           });
         } else {
-          // Get the item stack from the player & the previous block permutation
+          // Get the item stack from the player
           const stack = player.getHeldItem() as ItemStack;
-          const previousPermutation = resultant.permutation;
 
           // Check if the item stack exists
           if (!stack) return;
@@ -259,8 +270,38 @@ class InventoryTransactionHandler extends NetworkHandler {
           // Verify that the item stack network ids match
           if (stack.type.network !== transaction.item.network) return;
 
-          // Check if a block type is present for the item stack
-          const blockType = stack.components.getBlockPlacer().getBlockType();
+          // Get the block type the item stack places
+          const blockType =
+            this.getPlacedBlockType(stack, blockPalette) ??
+            stack.components.getBlockPlacer().getBlockType();
+
+          // A slab placed onto the open half of the same slab, or into a space holding one, makes a double slab
+          const slab = this.getDoubleSlab(
+            blockType,
+            interacting,
+            resultant,
+            transaction.face
+          );
+          if (slab) resultant = slab.block;
+
+          // Get the previous block permutation
+          const previousPermutation = resultant.permutation;
+
+          // Check if the block can go in the space, as it only takes the place of blocks like air and short grass
+          if (!slab && !resultant.isReplaceable) {
+            // Create a new UpdateBlockPacket to revert the block for the player
+            const packet = new UpdateBlockPacket();
+            packet.position = resultant.position;
+            packet.networkBlockId = previousPermutation.networkId;
+            packet.layer = UpdateBlockLayerType.Normal;
+            packet.flags = UpdateBlockFlagsType.Network;
+            player.send(packet);
+
+            // Resync the inventory slot to the client to correct the predicted stack count
+            if (stack.container) stack.container.update();
+
+            return;
+          }
 
           // Create the item use options for placing the block
           const useOptions: ItemStackUseOnBlockOptions = {
@@ -291,6 +332,7 @@ class InventoryTransactionHandler extends NetworkHandler {
 
           // Get the permutation to set the block state
           const permutation =
+            slab?.permutation ??
             useOptions.placingBlock.permutations[stack.getAuxiliaryValue()] ??
             useOptions.placingBlock.getPermutation();
 
@@ -316,49 +358,48 @@ class InventoryTransactionHandler extends NetworkHandler {
           // Emit the signal
           options.cancel = !signal.emit();
 
-          // Check if the item stack has block nbt property
-          if (stack.nbt.has("Block")) {
-            // Get the block level storage from the item stack
-            const storage = new BlockLevelStorage(
-              resultant.getChunk(), // The chunk the block is in
-              stack.nbt.get<CompoundTag>("Block")! // The block nbt data from the item stack
-            );
+          // Place the block, holding its block updates until its traits have set its state,
+          // so players see it in the state it is placed in rather than the states before
+          dimension.holdBlockUpdates(resultant.position, () => {
+            // Check if the item stack has block nbt property
+            if (stack.nbt.has("Block")) {
+              // Copy the block nbt data from the item stack, so the block does not share it with the item
+              const stream = new BinaryStream();
+              CompoundTag.write(stream, stack.nbt.get<CompoundTag>("Block")!);
+              const data = CompoundTag.read(
+                new BinaryStream(stream.getBuffer())
+              );
 
-            // Set the permutation of the block with the storage
-            resultant.setPermutation(permutation, storage);
-          } else {
-            // Set the permutation of the block
-            resultant.setPermutation(permutation);
-          }
+              // Create the block level storage from the data, at the position of the block
+              const storage = new BlockLevelStorage(resultant.getChunk(), data);
+              storage.setPosition(resultant.position);
 
-          // Call the block onPlace trait methods
-          for (const trait of resultant.getAllTraits()) {
-            // Check if the start break was successful
-            const success = trait.onPlace?.(options);
+              // Set the permutation of the block with the storage
+              resultant.setPermutation(permutation, storage);
+            } else {
+              // Set the permutation of the block
+              resultant.setPermutation(permutation);
+            }
 
-            // If the result is undefined, continue
-            // As the trait does not implement the method
-            if (success === undefined) continue;
+            // Call the block onPlace trait methods
+            for (const trait of resultant.getAllTraits()) {
+              // Check if the start break was successful
+              const success = trait.onPlace?.(options);
 
-            // If the result is false, cancel the break
-            options.cancel = !success;
-          }
+              // If the result is undefined, continue
+              // As the trait does not implement the method
+              if (success === undefined) continue;
 
-          // Create a new LevelSoundEventPacket to play the block place sound
-          const sound = new LevelSoundEventPacket();
-          sound.event = LevelSoundEvent.Place;
-          sound.position = BlockPosition.toVector3f(resultant.position);
-          sound.data = resultant.permutation.networkId;
-          sound.actorIdentifier = String();
-          sound.isBabyMob = false;
-          sound.isGlobal = false;
-          sound.uniqueActorId = -1n;
+              // If the result is false, cancel the break
+              options.cancel = !success;
+            }
 
-          // Check if the block placement was canceled, revert the block
+            // Revert the block to its previous state if the placement was canceled
+            if (options.cancel) resultant.setPermutation(previousPermutation);
+          });
+
+          // Check if the block placement was canceled
           if (options.cancel) {
-            // Revert the block to its previous state
-            resultant.setPermutation(previousPermutation);
-
             // Resync the inventory slot to the client to correct the predicted stack count
             if (stack.container) stack.container.update();
 
@@ -368,12 +409,16 @@ class InventoryTransactionHandler extends NetworkHandler {
               resultant.getTrait(BlockChestTrait).pair();
             }
 
+            // Send the data of the placed block to the players, now that they have the block itself
+            resultant.sendStorageUpdate();
+
             // Decrement the stack if the player is in survival mode
             // This is done AFTER th e onPlace check to avoid losing items on canceled placements
             if (player.getGamemode() === Gamemode.Survival)
               stack.decrementStack();
 
-            return resultant.dimension.broadcast(sound);
+            // Play the sound of the block being placed
+            return resultant.playSound(LevelSoundEvent.Place);
           }
         }
       }
@@ -452,7 +497,10 @@ class InventoryTransactionHandler extends NetworkHandler {
     if (!entity) return;
 
     // Get the entity interact method
-    const method = transaction.type as unknown as EntityInteractMethod;
+    const method =
+      transaction.type === ItemUseOnEntityInventoryTransactionType.Interact
+        ? EntityInteractMethod.Interact
+        : EntityInteractMethod.Attack;
 
     // Call the onInteract method for the entity
     entity.interact(player, method);
@@ -472,6 +520,81 @@ class InventoryTransactionHandler extends NetworkHandler {
         targetEntity: entity
       });
     }
+  }
+
+  /**
+   * Gets the block type an item stack places: the block its type names, or,
+   * for items that place a block of another name, like signs and seeds, that block.
+   * @param stack The item stack.
+   * @param palette The block palette of the world.
+   * @returns The block type the item stack places, or null if it places none.
+   */
+  public getPlacedBlockType(
+    stack: ItemStack,
+    palette: BlockPalette
+  ): BlockType | null {
+    // Check if the item type names the block it places
+    const type = stack.type.components.getBlockPlacer().getBlockType();
+    if (!type.air) return type;
+
+    // Check if the item places a block of another name
+    const identifier = ItemPlacedBlocks[stack.type.identifier];
+    return identifier ? (palette.types.get(identifier) ?? null) : null;
+  }
+
+  /**
+   * Gets the double slab a placed slab makes with another of its kind:
+   * the slab it was placed onto the open half of, or the slab in the space it was placed into.
+   * @param type The block type being placed.
+   * @param interacting The block the slab was placed against.
+   * @param resultant The block in the space the slab was placed into.
+   * @param face The face of the block the slab was placed against.
+   * @returns The block that becomes a double slab, and the permutation of the double slab; or null if there is none.
+   */
+  public getDoubleSlab(
+    type: BlockType,
+    interacting: Block,
+    resultant: Block,
+    face: BlockFace
+  ): { block: Block; permutation: BlockPermutation } | null {
+    // Check if the block type is a slab, rather than a double slab or another block
+    const identifier = type.identifier;
+    if (!identifier.endsWith("_slab") || identifier.includes("double"))
+      return null;
+
+    // Prepare the slab that becomes a double slab
+    let block: Block | null = null;
+
+    // Check if the slab was placed onto the open half of the same slab
+    if (interacting.type === type) {
+      // Get the open face of the slab, which is its top unless it is a top slab
+      const top =
+        interacting.getState<string>("minecraft:vertical_half") === "top";
+      if (face === (top ? BlockFace.Bottom : BlockFace.Top))
+        block = interacting;
+    }
+
+    // Check if the slab was placed into a space holding the same slab
+    if (!block && resultant.type === type) block = resultant;
+    if (!block) return null;
+
+    // Get the double slab of the slab; copper slabs put "double" first
+    const double = block.world.blockPalette.types.get(
+      identifier.endsWith("cut_copper_slab")
+        ? identifier.replace("cut_copper_slab", "double_cut_copper_slab")
+        : identifier.replace(/_slab$/, "_double_slab")
+    );
+    if (!double) return null;
+
+    // The double slab keeps the half of the slab it was made from
+    const permutation = double.getPermutation({
+      "minecraft:vertical_half": block.getState<string>(
+        "minecraft:vertical_half"
+      )
+    });
+
+    // Return the slab and the permutation of the double slab
+    return { block, permutation };
   }
 }
 

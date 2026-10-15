@@ -414,8 +414,28 @@ class PlayerChunkRenderingTrait extends PlayerTrait {
   }
 
   public onDespawn(options: EntityDespawnOptions): void {
+    // A disconnected player has no view left to clear, so only release its chunks
+    if (options.disconnected) return this.release();
+
     // Clear the chunks from the player's view if the player has not died
     if (!options.hasDied || options.changedDimensions) this.clear();
+  }
+
+  /**
+   * Releases the chunks the player was watching, without sending anything to the player.
+   * This also stops any chunks that are still being sent.
+   */
+  private release(): void {
+    // Cancel any in-flight send() loops
+    this.sendGeneration++;
+
+    // Unwatch the chunks the player was watching, so they can be unloaded
+    for (const hash of this.chunks) this.dimension.onChunkUnwatched(hash);
+
+    // Clear the sent and pending chunks & queue
+    this.chunks.clear();
+    this.pending.clear();
+    this.chunkQueue = [];
   }
 
   public onTeleport(): void {

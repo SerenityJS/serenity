@@ -31,7 +31,7 @@ const register = (world: World) => {
           const itemIdentifier = itemResult.includes(":")
             ? itemResult
             : `minecraft:${itemResult}`;
-          let stackSize = context.amount?.result ?? 1;
+          const amount = context.amount?.result ?? 1;
           const auxiliary = context.auxiliary?.result ?? 0;
 
           // Loop through the targets
@@ -39,28 +39,39 @@ const register = (world: World) => {
             // Get the player's inventory
             const { container } = target.getTrait(EntityInventoryTrait);
 
-            while (stackSize > 0) {
-              // Create the item stack
+            // Give the amount to each target, a stack at a time
+            let remaining = amount;
+            while (remaining > 0) {
+              // Create the item stack, no larger than a full stack
               const itemStack = new ItemStack(
                 itemIdentifier as ItemIdentifier,
                 {
-                  stackSize,
+                  stackSize: remaining,
                   auxiliary,
                   world
                 }
               );
+              const size = Math.min(remaining, itemStack.maxStackSize);
+              itemStack.setStackSize(size);
 
-              // Add the item to the player's inventory
-              container.addItem(itemStack);
+              // Add the item to the player's inventory, stopping once it is full
+              if (!container.addItem(itemStack)) break;
 
-              // Decrement the stack size with the created item stack amount.
-              stackSize -= itemStack.getStackSize();
+              // The item stack was either placed in an empty slot, or merged into a stack
+              // in the inventory, which takes what fits and leaves the rest in the item stack
+              const added =
+                itemStack.container === container
+                  ? size
+                  : size - itemStack.getStackSize();
+
+              // Decrement the remaining amount by the amount added
+              remaining -= added;
             }
           }
 
           // Send the success message
           return {
-            message: `§7Successfully gave §ux${stackSize} ${itemIdentifier}§7 to §u${targets.length}§7 entities.`
+            message: `§7Successfully gave §ux${amount} ${itemIdentifier}§7 to §u${targets.length}§7 entities.`
           };
         }
       );

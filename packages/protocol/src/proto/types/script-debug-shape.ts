@@ -1,9 +1,10 @@
-import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
+import { BinaryStream, DataType, Endianness } from "@serenityjs/binarystream";
 
 import { ScriptDebugShapeType } from "../../enums";
 
-import { Vector3f } from "./vector3f";
 import { Color } from "./color";
+import { Vector2f } from "./vector2f";
+import { Vector3f } from "./vector3f";
 
 class ScriptDebugShape extends DataType {
   public readonly runtimeId: bigint;
@@ -19,6 +20,16 @@ class ScriptDebugShape extends DataType {
   public arrowHeadLength?: number;
   public arrowHeadRadius?: number;
   public numSegments?: number;
+  public cylinderRadiusX?: Vector2f;
+  public cylinderRadiusZ?: Vector2f;
+  public cylinderHeight?: number;
+  public pyramidWidth?: number;
+  public pyramidDepth?: number;
+  public pyramidHeight?: number;
+  public ellipsoidRadii?: Vector3f;
+  public ellipsoidSegmentsPerAxis?: number;
+  public coneRadii?: Vector2f;
+  public coneHeight?: number;
 
   public constructor(
     runtimeId: bigint,
@@ -33,7 +44,17 @@ class ScriptDebugShape extends DataType {
     lineEndLocation?: Vector3f,
     arrowHeadLength?: number,
     arrowHeadRadius?: number,
-    numSegments?: number
+    numSegments?: number,
+    cylinderRadiusX?: Vector2f,
+    cylinderRadiusZ?: Vector2f,
+    cylinderHeight?: number,
+    pyramidWidth?: number,
+    pyramidDepth?: number,
+    pyramidHeight?: number,
+    ellipsoidRadii?: Vector3f,
+    ellipsoidSegmentsPerAxis?: number,
+    coneRadii?: Vector2f,
+    coneHeight?: number
   ) {
     super();
     this.runtimeId = runtimeId;
@@ -49,100 +70,117 @@ class ScriptDebugShape extends DataType {
     this.arrowHeadLength = arrowHeadLength;
     this.arrowHeadRadius = arrowHeadRadius;
     this.numSegments = numSegments;
+    this.cylinderRadiusX = cylinderRadiusX;
+    this.cylinderRadiusZ = cylinderRadiusZ;
+    this.cylinderHeight = cylinderHeight;
+    this.pyramidWidth = pyramidWidth;
+    this.pyramidDepth = pyramidDepth;
+    this.pyramidHeight = pyramidHeight;
+    this.ellipsoidRadii = ellipsoidRadii;
+    this.ellipsoidSegmentsPerAxis = ellipsoidSegmentsPerAxis;
+    this.coneRadii = coneRadii;
+    this.coneHeight = coneHeight;
   }
 
   public static read(stream: BinaryStream): Array<ScriptDebugShape> {
-    // Prepare the array to hold the shapes
     const shapes: Array<ScriptDebugShape> = [];
-
-    // Read the number of shapes
     const amount = stream.readVarInt();
 
-    // Loop through the number of shapes
     for (let i = 0; i < amount; i++) {
-      // Read the shape runtime id
       const runtimeId = stream.readVarLong();
-
-      // Create a new shape
       const shape = new this(runtimeId);
 
-      // Check if the shape contains a type
       if (stream.readBool()) {
-        // Read the shape type
         shape.type = stream.readUint8();
       }
 
-      // Check if the shape contains a location
       if (stream.readBool()) {
-        // Read the shape location
         shape.location = Vector3f.read(stream);
       }
 
-      // Check if the shape contains a scale
       if (stream.readBool()) {
-        // Read the shape scale
         shape.scale = stream.readFloat32(Endianness.Little);
       }
 
-      // Check if the shape contains a rotation
       if (stream.readBool()) {
-        // Read the shape rotation
         shape.rotation = Vector3f.read(stream);
       }
 
-      // Check if the shape contains a total time left
       if (stream.readBool()) {
-        // Read the shape total time left
         shape.totalTimeLeft = stream.readFloat32(Endianness.Little);
       }
 
-      // Check if the shape contains a color
       if (stream.readBool()) {
-        // Read the shape color
         shape.color = Color.read(stream);
       }
 
-      // Check if the shape contains a text
       if (stream.readBool()) {
-        // Read the shape text
         shape.text = stream.readVarString();
       }
 
-      // Check if the shape contains a box bound
       if (stream.readBool()) {
-        // Read the shape box bound
         shape.boxBound = Vector3f.read(stream);
       }
 
-      // Check if the shape contains a line end location
       if (stream.readBool()) {
-        // Read the shape line end location
         shape.lineEndLocation = Vector3f.read(stream);
       }
 
-      // Check if the shape contains an arrow head length
       if (stream.readBool()) {
-        // Read the shape arrow head length
         shape.arrowHeadLength = stream.readFloat32(Endianness.Little);
       }
 
-      // Check if the shape contains an arrow head radius
       if (stream.readBool()) {
-        // Read the shape arrow head radius
         shape.arrowHeadRadius = stream.readFloat32(Endianness.Little);
       }
 
-      // Check if the shape contains a number of segments
       if (stream.readBool()) {
-        // Read the shape number of segments
         shape.numSegments = stream.readUint8();
       }
 
-      // Add the shape to the array
+      if (stream.readBool()) {
+        shape.cylinderRadiusX = Vector2f.read(stream);
+      }
+
+      if (stream.readBool()) {
+        shape.cylinderRadiusZ = Vector2f.read(stream);
+      }
+
+      if (stream.readBool()) {
+        shape.cylinderHeight = stream.readFloat32(Endianness.Little);
+      }
+
+      if (stream.readBool()) {
+        shape.pyramidWidth = stream.readFloat32(Endianness.Little);
+      }
+
+      if (stream.readBool()) {
+        shape.pyramidDepth = stream.readFloat32(Endianness.Little);
+      }
+
+      if (stream.readBool()) {
+        shape.pyramidHeight = stream.readFloat32(Endianness.Little);
+      }
+
+      if (stream.readBool()) {
+        shape.ellipsoidRadii = Vector3f.read(stream);
+      }
+
+      if (stream.readBool()) {
+        shape.ellipsoidSegmentsPerAxis = stream.readUint8();
+      }
+
+      if (stream.readBool()) {
+        shape.coneRadii = Vector2f.read(stream);
+      }
+
+      if (stream.readBool()) {
+        shape.coneHeight = stream.readFloat32(Endianness.Little);
+      }
+
       shapes.push(shape);
     }
 
-    // Read the shapes that were read
     return shapes;
   }
 
@@ -150,23 +188,18 @@ class ScriptDebugShape extends DataType {
     stream: BinaryStream,
     value: Array<ScriptDebugShape>
   ): void {
-    // Write the amount of shapes
     stream.writeVarInt(value.length);
 
-    // Loop through the shapes
     for (const shape of value) {
-      // Write the shape runtime id
       stream.writeVarLong(shape.runtimeId);
 
-      // Check if the shape contains a type
-      if (shape.type) {
+      if (shape.type !== undefined) {
         stream.writeBool(true);
         stream.writeUint8(shape.type);
       } else {
         stream.writeBool(false);
       }
 
-      // Check if the shape contains a location
       if (shape.location) {
         stream.writeBool(true);
         Vector3f.write(stream, shape.location);
@@ -174,15 +207,13 @@ class ScriptDebugShape extends DataType {
         stream.writeBool(false);
       }
 
-      // Check if the shape contains a scale
-      if (shape.scale) {
+      if (shape.scale !== undefined) {
         stream.writeBool(true);
         stream.writeFloat32(shape.scale, Endianness.Little);
       } else {
         stream.writeBool(false);
       }
 
-      // Check if the shape contains a rotation
       if (shape.rotation) {
         stream.writeBool(true);
         Vector3f.write(stream, shape.rotation);
@@ -190,15 +221,13 @@ class ScriptDebugShape extends DataType {
         stream.writeBool(false);
       }
 
-      // Check if the shape contains a total time left
-      if (shape.totalTimeLeft) {
+      if (shape.totalTimeLeft !== undefined) {
         stream.writeBool(true);
         stream.writeFloat32(shape.totalTimeLeft, Endianness.Little);
       } else {
         stream.writeBool(false);
       }
 
-      // Check if the shape contains a color
       if (shape.color) {
         stream.writeBool(true);
         Color.write(stream, shape.color);
@@ -206,15 +235,13 @@ class ScriptDebugShape extends DataType {
         stream.writeBool(false);
       }
 
-      // Check if the shape contains a text
-      if (shape.text) {
+      if (shape.text !== undefined) {
         stream.writeBool(true);
         stream.writeVarString(shape.text);
       } else {
         stream.writeBool(false);
       }
 
-      // Check if the shape contains a box bound
       if (shape.boxBound) {
         stream.writeBool(true);
         Vector3f.write(stream, shape.boxBound);
@@ -222,7 +249,6 @@ class ScriptDebugShape extends DataType {
         stream.writeBool(false);
       }
 
-      // Check if the shape contains a line end location
       if (shape.lineEndLocation) {
         stream.writeBool(true);
         Vector3f.write(stream, shape.lineEndLocation);
@@ -230,26 +256,93 @@ class ScriptDebugShape extends DataType {
         stream.writeBool(false);
       }
 
-      // Check if the shape contains an arrow head length
-      if (shape.arrowHeadLength) {
+      if (shape.arrowHeadLength !== undefined) {
         stream.writeBool(true);
         stream.writeFloat32(shape.arrowHeadLength, Endianness.Little);
       } else {
         stream.writeBool(false);
       }
 
-      // Check if the shape contains an arrow head radius
-      if (shape.arrowHeadRadius) {
+      if (shape.arrowHeadRadius !== undefined) {
         stream.writeBool(true);
         stream.writeFloat32(shape.arrowHeadRadius, Endianness.Little);
       } else {
         stream.writeBool(false);
       }
 
-      // Check if the shape contains a number of segments
-      if (shape.numSegments) {
+      if (shape.numSegments !== undefined) {
         stream.writeBool(true);
         stream.writeUint8(shape.numSegments);
+      } else {
+        stream.writeBool(false);
+      }
+
+      if (shape.cylinderRadiusX) {
+        stream.writeBool(true);
+        Vector2f.write(stream, shape.cylinderRadiusX);
+      } else {
+        stream.writeBool(false);
+      }
+
+      if (shape.cylinderRadiusZ) {
+        stream.writeBool(true);
+        Vector2f.write(stream, shape.cylinderRadiusZ);
+      } else {
+        stream.writeBool(false);
+      }
+
+      if (shape.cylinderHeight !== undefined) {
+        stream.writeBool(true);
+        stream.writeFloat32(shape.cylinderHeight, Endianness.Little);
+      } else {
+        stream.writeBool(false);
+      }
+
+      if (shape.pyramidWidth !== undefined) {
+        stream.writeBool(true);
+        stream.writeFloat32(shape.pyramidWidth, Endianness.Little);
+      } else {
+        stream.writeBool(false);
+      }
+
+      if (shape.pyramidDepth !== undefined) {
+        stream.writeBool(true);
+        stream.writeFloat32(shape.pyramidDepth, Endianness.Little);
+      } else {
+        stream.writeBool(false);
+      }
+
+      if (shape.pyramidHeight !== undefined) {
+        stream.writeBool(true);
+        stream.writeFloat32(shape.pyramidHeight, Endianness.Little);
+      } else {
+        stream.writeBool(false);
+      }
+
+      if (shape.ellipsoidRadii) {
+        stream.writeBool(true);
+        Vector3f.write(stream, shape.ellipsoidRadii);
+      } else {
+        stream.writeBool(false);
+      }
+
+      if (shape.ellipsoidSegmentsPerAxis !== undefined) {
+        stream.writeBool(true);
+        stream.writeUint8(shape.ellipsoidSegmentsPerAxis);
+      } else {
+        stream.writeBool(false);
+      }
+
+      if (shape.coneRadii) {
+        stream.writeBool(true);
+        Vector2f.write(stream, shape.coneRadii);
+      } else {
+        stream.writeBool(false);
+      }
+
+      if (shape.coneHeight !== undefined) {
+        stream.writeBool(true);
+        stream.writeFloat32(shape.coneHeight, Endianness.Little);
       } else {
         stream.writeBool(false);
       }

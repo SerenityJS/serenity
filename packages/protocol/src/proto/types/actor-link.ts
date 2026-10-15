@@ -1,4 +1,4 @@
-import { BinaryStream, DataType } from "@serenityjs/binarystream";
+import { BinaryStream, DataType, Endianness } from "@serenityjs/binarystream";
 
 import type { ActorLinkType } from "../../enums";
 
@@ -33,7 +33,7 @@ class ActorLink extends DataType {
     stream.writeUint8(value.type);
     stream.writeBool(value.immediate);
     stream.writeBool(value.riderInitiated);
-    stream.writeFloat32(value.vehicleAngularVelocity);
+    stream.writeFloat32(value.vehicleAngularVelocity, Endianness.Little);
   }
 
   public static read(stream: BinaryStream): ActorLink {
@@ -43,7 +43,7 @@ class ActorLink extends DataType {
       stream.readUint8(),
       stream.readBool(),
       stream.readBool(),
-      stream.readFloat32()
+      stream.readFloat32(Endianness.Little)
     );
   }
 }

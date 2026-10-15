@@ -808,53 +808,40 @@ class Pipeline {
   }
 
   protected bindEvents(plugin: Plugin): void {
-    // Get the prototype of the plugin
-    const prototype = Object.getPrototypeOf(plugin);
-
-    // Get the object keys from the plugin
-    const pluginKeys = Object.getOwnPropertyNames(prototype);
-
     // Get the world event keys, and slice them in half
     let eventKeys = Object.keys(WorldEvent);
     eventKeys = eventKeys.slice(eventKeys.length / 2);
 
     // Iterate over all the event keys
+    // Hooks are looked up on the plugin itself, so hooks defined as class methods,
+    // inherited from a parent class, or provided through the plugin options are all bound
     for (const eventKey of eventKeys) {
       // Get the index of the event key
       const index = eventKeys.indexOf(eventKey) as WorldEvent;
 
-      // Check if the plugin has any "on" event keys
-      if (pluginKeys.includes("on" + eventKey)) {
-        // Get the value of the event key
-        const value = plugin[("on" + eventKey) as keyof Plugin];
+      // Get the "on" hook of the event key
+      const on = plugin[("on" + eventKey) as keyof Plugin];
 
-        // Check if the value is a function
-        if (typeof value === "function")
-          // Bind the event to the plugin
-          this.serenity.on(index, value.bind(plugin) as () => void);
-      }
+      // Check if the hook is a function
+      if (typeof on === "function")
+        // Bind the event to the plugin
+        this.serenity.on(index, on.bind(plugin) as () => void);
 
-      // Check if the plugin has any "before" event keys
-      if (pluginKeys.includes("before" + eventKey)) {
-        // Get the value of the event key
-        const value = plugin[("before" + eventKey) as keyof Plugin];
+      // Get the "before" hook of the event key
+      const before = plugin[("before" + eventKey) as keyof Plugin];
 
-        // Check if the value is a function
-        if (typeof value === "function")
-          // Bind the event to the plugin
-          this.serenity.before(index, value.bind(plugin) as () => boolean);
-      }
+      // Check if the hook is a function
+      if (typeof before === "function")
+        // Bind the event to the plugin
+        this.serenity.before(index, before.bind(plugin) as () => boolean);
 
-      // Check if the plugin has any "after" event keys
-      if (pluginKeys.includes("after" + eventKey)) {
-        // Get the value of the event key
-        const value = plugin[("after" + eventKey) as keyof Plugin];
+      // Get the "after" hook of the event key
+      const after = plugin[("after" + eventKey) as keyof Plugin];
 
-        // Check if the value is a function
-        if (typeof value === "function")
-          // Bind the event to the plugin
-          this.serenity.after(index, value.bind(plugin) as () => void);
-      }
+      // Check if the hook is a function
+      if (typeof after === "function")
+        // Bind the event to the plugin
+        this.serenity.after(index, after.bind(plugin) as () => void);
     }
   }
 

@@ -8,6 +8,7 @@ enum MoveDeltaFlags {
   OnGround = 0x40,
   Teleport = 0x80,
   ForceMove = 0x100,
+  ForceCompletion = 0x200,
   All = 0x3f
 }
 

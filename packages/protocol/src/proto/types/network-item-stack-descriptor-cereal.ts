@@ -77,12 +77,15 @@ class NetworkItemStackDescriptorCereal extends DataType {
     const metadata = stream.readVarInt();
 
     // Read if the stack net id information is included.
+    // Since v2168, the net id variant is projected to a single signed varint:
+    // non-negative is a server net id, negative-odd a client request id, negative-even a legacy request id.
     const hasStackNetId = stream.readBool();
-    const itemStackVariant = hasStackNetId ? stream.readVarInt() : null;
+    const itemStackVariant = hasStackNetId ? 0 : null;
     const itemStackId = hasStackNetId ? stream.readZigZag() : null;
 
-    // Read the block runtime id.
-    const networkBlockId = stream.readZigZag();
+    // Read the block runtime id, which is unsigned on the wire.
+    // It is reinterpreted as a signed integer to match the block permutation hashes.
+    const networkBlockId = stream.readVarInt() | 0;
 
     // Check if the item has extra data.
     const length = stream.readVarInt();
@@ -117,23 +120,21 @@ class NetworkItemStackDescriptorCereal extends DataType {
 
     // Check if the stack net id should be included.
     const hasStackNetId =
-      value.itemStackVariant !== null && value.itemStackId !== null;
+      value.itemStackId !== null && value.itemStackId !== undefined;
 
     // Write if the stack net id information is included.
+    // Since v2168, the net id variant is projected to a single signed varint.
     stream.writeBool(hasStackNetId);
-    if (hasStackNetId) {
-      stream.writeVarInt(value.itemStackVariant ?? 0);
-      stream.writeZigZag(value.itemStackId ?? 0);
-    }
+    if (hasStackNetId) stream.writeZigZag(value.itemStackId ?? 0);
 
-    // Write the block runtime id.
-    stream.writeZigZag(value.networkBlockId ?? 0);
+    // Write the block runtime id, which is unsigned (block network ids may be hashes).
+    stream.writeVarInt((value.networkBlockId ?? 0) >>> 0);
 
     // Check if the item has extra data.
     // If it does, we need to first create a new stream,
     // And then write the extra data to the stream.
     // We then write the length of the stream to the main stream, and then write the stream.
-    if (value.extras) {
+    if (value.extras && value.network !== 0) {
       // Create a new stream for the extra data.
       const extras = new BinaryStream();
 

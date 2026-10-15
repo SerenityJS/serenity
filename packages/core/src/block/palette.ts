@@ -45,6 +45,20 @@ class BlockPalette {
   }
 
   /**
+   * Gets the block types the client only knows from the definitions the server sends:
+   * custom block types, and the vanilla block types defined by data, like the wool and concrete stairs.
+   * Other vanilla block types are known to the client, and a definition sent for one replaces what it knows, like its sounds.
+   * @returns The block types defined by data.
+   */
+  public getAllDataDrivenTypes(): Array<BlockType> {
+    return this.getAllTypes().filter(
+      (type) =>
+        type instanceof CustomBlockType ||
+        type.properties.has("vanilla_block_data")
+    );
+  }
+
+  /**
    * Gets all block permutations from the palette.
    * @returns All block permutations from the palette.
    */

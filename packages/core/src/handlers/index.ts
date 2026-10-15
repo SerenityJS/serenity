@@ -31,6 +31,7 @@ import { SetPlayerGameTypeHander } from "./set-player-game-type";
 import { BlockActorDataHandler } from "./block-actor-data";
 import { StructureBlockUpdateHander } from "./structure-block-update";
 import { ServerboundDataStoreHandler } from "./serverbound-data-store";
+import { LevelSoundEventHandler } from "./level-sound-event";
 
 const Handlers = [
   RequestNetworkSettingsHandler,
@@ -65,7 +66,8 @@ const Handlers = [
   SetPlayerGameTypeHander,
   BlockActorDataHandler,
   StructureBlockUpdateHander,
-  ServerboundDataStoreHandler
+  ServerboundDataStoreHandler,
+  LevelSoundEventHandler
 ];
 
 export { Handlers };

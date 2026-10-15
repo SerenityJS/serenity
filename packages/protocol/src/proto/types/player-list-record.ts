@@ -107,93 +107,17 @@ class PlayerListRecord extends DataType {
 
   public static read(
     stream: BinaryStream,
-    options: PacketDataTypeOptions<PlayerListAction>
+    _options?: PacketDataTypeOptions<PlayerListAction>
   ): Array<PlayerListRecord> {
-    // Check if the action is to remove a player.
-    if (options.parameter === PlayerListAction.Remove) {
-      // Read the amount of uuids of the players to remove.
-      const uuidsLength = stream.readVarInt();
-
-      // Create a new array to store the players to remove.
-      const playersToRemove = [];
-
-      // Read the uuids of the players to remove.
-      for (let index = 0; index < uuidsLength; index++) {
-        // Read the uuid of the player to remove.
-        const uuid = Uuid.read(stream);
-
-        // Push a new PlayerListRecord to the array.
-        playersToRemove.push(new this(uuid));
-      }
-
-      // Return the players to remove.
-      return playersToRemove;
-    }
-
-    // Read the amount of records.
-    const recordsLength = stream.readVarInt();
+    // Read the amount of entries.
+    const length = stream.readVarInt();
 
     // Create a new array to store the records.
-    const records = [];
+    const records: Array<PlayerListRecord> = [];
 
-    // Read the records.
-    for (let index = 0; index < recordsLength; index++) {
-      // Read the uuid of the player.
-      const uuid = Uuid.read(stream);
-
-      // Read the unique actor id of the player.
-      const uniqueId = stream.readZigZong();
-
-      // Read the username of the player.
-      const username = stream.readVarString();
-
-      // Read the xbox user id of the player.
-      const xuid = stream.readVarString();
-
-      // Read the platform chat identifier of the player.
-      const platformChatIdentifier = stream.readVarString();
-
-      // Read the platform build of the player.
-      const platformBuild = stream.readInt32(Endianness.Little);
-
-      // Read the skin of the player.
-      const skin = SerializedSkin.read(stream);
-
-      // Read whether the player is a teacher.
-      const isTeacher = stream.readBool();
-
-      // Read whether the player is a host.
-      const isHost = stream.readBool();
-
-      // Read whether the player is a visitor.
-      const isVisitor = stream.readBool();
-
-      // Read the locator bar color of the player.
-      const locatorColor = Color.read(stream);
-
-      // Add the record to the array.
-      records.push(
-        new PlayerListRecord(
-          uuid,
-          uniqueId,
-          username,
-          xuid,
-          platformChatIdentifier,
-          platformBuild,
-          skin,
-          isTeacher,
-          isHost,
-          isVisitor,
-          locatorColor
-        )
-      );
-    }
-
-    // Read the verification data.
-    for (let index = 0; index < recordsLength; index++) {
-      // We won't use this data, so we'll just read it and discard it.
-      stream.readBool();
-    }
+    // Read each entry, discarding its action.
+    for (let index = 0; index < length; index++)
+      records.push(PlayerListRecord.readEntry(stream)[1]);
 
     // Return the records.
     return records;
@@ -204,62 +128,124 @@ class PlayerListRecord extends DataType {
     records: Array<PlayerListRecord>,
     options: PacketDataTypeOptions<PlayerListAction>
   ): void {
-    // Write the amount of records.
+    // Write the amount of entries.
     stream.writeVarInt(records.length);
 
-    // Check if the action is to remove a player.
-    if (options.parameter === PlayerListAction.Remove) {
-      // Write the uuids of the players to remove.
-      for (const record of records) {
-        // Write the uuid of the player to remove.
-        Uuid.write(stream, record.uuid);
-      }
+    // Write each entry with the given action.
+    for (const record of records)
+      PlayerListRecord.writeEntry(
+        stream,
+        options.parameter ?? PlayerListAction.Add,
+        record
+      );
+  }
 
-      // We are done here.
-      return;
-    }
+  /**
+   * Reads a single player list entry.
+   * Since v2168, each entry is a variant of an add or remove entry.
+   * @param stream The stream to read from.
+   * @returns The action of the entry, and the record.
+   */
+  public static readEntry(
+    stream: BinaryStream
+  ): [PlayerListAction, PlayerListRecord] {
+    // Read the variant index of the entry; 1 is add, 0 is remove.
+    const variant = stream.readVarInt();
+    const action =
+      variant === 1 ? PlayerListAction.Add : PlayerListAction.Remove;
 
-    // Write the records.
-    for (const record of records) {
-      // Write the uuid of the player.
-      Uuid.write(stream, record.uuid);
+    // Read the legacy action byte, which is implied by the variant.
+    stream.readUint8();
 
-      // Write the unique actor id of the player.
-      stream.writeZigZong(record.uniqueId as bigint);
+    // Read the uuid of the player.
+    const uuid = Uuid.read(stream);
 
-      // Write the username of the player.
-      stream.writeVarString(record.username as string);
+    // Remove entries only contain the uuid of the player.
+    if (action === PlayerListAction.Remove) return [action, new this(uuid)];
 
-      // Write the xbox user id of the player.
-      stream.writeVarString(record.xuid as string);
+    // Read the properties of the player.
+    const uniqueId = stream.readZigZong();
+    const username = stream.readVarString();
+    const xuid = stream.readVarString();
+    const platformChatIdentifier = stream.readVarString();
+    const platformBuild = stream.readInt32(Endianness.Little);
+    const skin = SerializedSkin.read(stream);
+    const isTeacher = stream.readBool();
+    const isHost = stream.readBool();
+    const isVisitor = stream.readBool();
 
-      // Write the platform chat identifier of the player.
-      stream.writeVarString(record.platformChatIdentifier as string);
+    // The color is an ARGB integer written in little-endian order.
+    const argb = stream.readUint32(Endianness.Little);
+    const locatorColor = new Color(
+      (argb >>> 16) & 0xff,
+      (argb >>> 8) & 0xff,
+      argb & 0xff,
+      (argb >>> 24) & 0xff
+    );
 
-      // Write the platform build of the player.
-      stream.writeInt32(record.platformBuild as number, Endianness.Little);
+    // Return the action and the record.
+    return [
+      action,
+      new this(
+        uuid,
+        uniqueId,
+        username,
+        xuid,
+        platformChatIdentifier,
+        platformBuild,
+        skin,
+        isTeacher,
+        isHost,
+        isVisitor,
+        locatorColor
+      )
+    ];
+  }
 
-      // Write the skin of the player.
-      SerializedSkin.write(stream, record.skin as SerializedSkin);
+  /**
+   * Writes a single player list entry.
+   * Since v2168, each entry is a variant of an add or remove entry.
+   * @param stream The stream to write to.
+   * @param action The action of the entry.
+   * @param record The record to write.
+   */
+  public static writeEntry(
+    stream: BinaryStream,
+    action: PlayerListAction,
+    record: PlayerListRecord
+  ): void {
+    // Write the variant index of the entry; 1 is add, 0 is remove.
+    stream.writeVarInt(action === PlayerListAction.Add ? 1 : 0);
 
-      // Write whether the player is a teacher.
-      stream.writeBool(record.isTeacher as boolean);
+    // Write the legacy action byte.
+    stream.writeUint8(action);
 
-      // Write whether the player is a host.
-      stream.writeBool(record.isHost as boolean);
+    // Write the uuid of the player.
+    Uuid.write(stream, record.uuid);
 
-      // Write whether the player is a visitor.
-      stream.writeBool(record.isVisitor as boolean);
+    // Remove entries only contain the uuid of the player.
+    if (action === PlayerListAction.Remove) return;
 
-      // Write the locator bar color of the player.
-      Color.write(stream, record.locatorColor as Color);
-    }
+    // Write the properties of the player.
+    stream.writeZigZong(record.uniqueId as bigint);
+    stream.writeVarString(record.username as string);
+    stream.writeVarString(record.xuid as string);
+    stream.writeVarString(record.platformChatIdentifier as string);
+    stream.writeInt32(record.platformBuild as number, Endianness.Little);
+    SerializedSkin.write(stream, record.skin as SerializedSkin);
+    stream.writeBool(record.isTeacher as boolean);
+    stream.writeBool(record.isHost as boolean);
+    stream.writeBool(record.isVisitor as boolean);
 
-    // Write the verification data.
-    for (let index = 0; index < records.length; index++) {
-      // Write the verification data.
-      stream.writeBool(true);
-    }
+    // Write the color as an ARGB integer in little-endian order.
+    const color = record.locatorColor ?? new Color(255, 255, 255, 255);
+    const argb =
+      ((color.alpha << 24) |
+        (color.red << 16) |
+        (color.green << 8) |
+        color.blue) >>>
+      0;
+    stream.writeUint32(argb, Endianness.Little);
   }
 }
 

@@ -5,7 +5,8 @@ import {
   ContainerType,
   FullContainerName,
   InventoryContentPacket,
-  NetworkItemStackDescriptor
+  NetworkItemStackDescriptor,
+  NetworkItemStackDescriptorCereal
 } from "@serenityjs/protocol";
 
 import { Container } from "../container";
@@ -74,16 +75,16 @@ class EntityContainer extends Container {
       // Set the properties of the packet.
       packet.fullContainerName = new FullContainerName(0, 0);
       packet.containerId = this.identifier ?? ContainerId.None;
-      packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
+      packet.storageItem = new NetworkItemStackDescriptorCereal(0); // Bundles ?
 
       // Map the items in the storage to network item stack descriptors.
       packet.items = this.storage.map((item) => {
         // If the item is null, return a new NetworkItemStackDescriptor.
         // This will indicate that the slot is empty.
-        if (!item) return new NetworkItemStackDescriptor(0);
+        if (!item) return new NetworkItemStackDescriptorCereal(0);
 
         // Convert the item stack to a network item stack descriptor
-        return ItemStack.toNetworkStack(item);
+        return ItemStack.toNetworkStackCereal(item);
       });
 
       // Send the packet to the player.

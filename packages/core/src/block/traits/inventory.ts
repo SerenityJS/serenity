@@ -46,7 +46,10 @@ class BlockInventoryTrait extends BlockTrait {
     );
   }
 
-  public onInteract({ cancel, origin }: BlockInteractionOptions): void {
+  public onInteract(options: BlockInteractionOptions): void {
+    // Get the origin of the interaction
+    const { cancel, origin } = options;
+
     // Check if the block interaction has been cancelled
     if (cancel || !origin) return;
 
@@ -56,6 +59,9 @@ class BlockInventoryTrait extends BlockTrait {
       !origin.abilities.getAbility(AbilityIndex.OpenContainers)
     )
       return;
+
+    // Opening the container takes the place of placing a block on it
+    options.placingBlock = false;
 
     // Show the container to the player
     this.container.show(origin);

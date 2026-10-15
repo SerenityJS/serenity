@@ -50,9 +50,9 @@ class SkinAnimation extends DataType {
   public static read(stream: BinaryStream): SkinAnimation {
     // Read the image, type, frames and expression of the animation.
     const image = SkinImage.read(stream);
-    const type = stream.readUint32(Endianness.Little);
+    const type = stream.readVarInt();
     const frames = stream.readFloat32(Endianness.Little);
-    const expression = stream.readUint32(Endianness.Little);
+    const expression = stream.readVarInt();
 
     // Return the new skin animation.
     return new SkinAnimation(image, type, frames, expression);
@@ -61,9 +61,9 @@ class SkinAnimation extends DataType {
   public static write(stream: BinaryStream, animation: SkinAnimation): void {
     // Write the image, type, frames and expression of the animation.
     SkinImage.write(stream, animation.image);
-    stream.writeUint32(animation.type, Endianness.Little);
+    stream.writeVarInt(animation.type);
     stream.writeFloat32(animation.frames, Endianness.Little);
-    stream.writeUint32(animation.expression, Endianness.Little);
+    stream.writeVarInt(animation.expression);
   }
 }
 

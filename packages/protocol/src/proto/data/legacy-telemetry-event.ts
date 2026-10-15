@@ -15,6 +15,9 @@ class LegacyTelemetryEventPacket extends DataPacket {
     | undefined;
 
   public override serialize(): Buffer {
+    // Reset the offset, as the same packet may be serialized more than once (e.g. when broadcasting)
+    this.offset = 0;
+
     this.writeVarInt(Packet.LegacyTelemetryEvent);
     this.writeVarLong(this.unique_id);
     this.writeVarInt(this.type);

@@ -2,6 +2,7 @@ import { BlockFace } from "@serenityjs/protocol";
 
 import { BlockType } from "../identity";
 import { Block } from "../block";
+import { BlockIdentifier } from "../../enums";
 
 import { BlockTrait } from "./trait";
 
@@ -29,32 +30,37 @@ class BlockSupportTrait extends BlockTrait {
   }
 
   public onUpdate(): void {
-    // Prepare a flag to track if the block is supported
-    let supported = false;
+    // Break the block on the next tick, dropping it, if it is not supported
+    if (!this.isSupported()) this.breakNextTick(() => this.isSupported());
+  }
 
+  /**
+   * Whether the block is supported from any of its support directions.
+   */
+  public isSupported(): boolean {
     // Check if the block is supported from any of the defined directions
     for (const direction of this.supportDirections) {
       // Get the block in the support direction
       const supportBlock = this.block.face(direction);
 
-      // Check if the support block exists and is of the correct type
-      if (supportBlock && supportBlock.type == this.supportBlockType) {
-        // Set the supported flag to true
-        supported = true;
-        break;
-      } else if (
-        supportBlock &&
-        this.supportBlockType === null &&
-        supportBlock.isSolid
-      ) {
-        // If no specific support block type is defined, any solid block can provide support
-        supported = true;
-        break;
+      // The upper half of a plant two blocks tall is supported by its lower half
+      if (supportBlock.type === this.block.type) return true;
+
+      // Check if the support block is of the correct type
+      if (this.supportBlockType !== null) {
+        if (supportBlock.type === this.supportBlockType) return true;
       }
+
+      // If no specific support block type is defined, any solid block or farmland can provide support
+      else if (
+        supportBlock.isSolid ||
+        supportBlock.identifier === BlockIdentifier.Farmland
+      )
+        return true;
     }
 
-    // If the block is not supported, destroy it
-    if (!supported) this.block.destroy({ dropLoot: true });
+    // The block is not supported
+    return false;
   }
 }
 

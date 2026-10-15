@@ -1,5 +1,5 @@
 import { BlockIdentifier } from "../../enums";
-import { BlockInteractionOptions } from "../../types";
+import { BlockInteractionOptions, BlockPlacementOptions } from "../../types";
 
 import { BlockTrait } from "./trait";
 
@@ -35,9 +35,16 @@ class BlockUpperTrait extends BlockTrait {
     this.block.setPermutation(permutation);
   }
 
+  /**
+   * Whether the block is a door, whose halves the door and open bit traits handle.
+   */
+  public get isDoor(): boolean {
+    return this.block.identifier.endsWith("_door");
+  }
+
   public onInteract(options: BlockInteractionOptions): boolean | void {
-    // Check if the block is not the upper block
-    if (!this.isUpperBlock) return;
+    // Check if the block is not the upper block, or is a door, which opens both halves itself
+    if (!this.isUpperBlock || this.isDoor) return;
 
     // Get the below block
     const below = this.block.below();
@@ -46,19 +53,23 @@ class BlockUpperTrait extends BlockTrait {
     return below.interact(options).cancel;
   }
 
-  public onPlace(): void {
+  public onPlace({ cancel }: BlockPlacementOptions): boolean | void {
+    // Check if the placement was cancelled, or if the block is a door, which the door trait places
+    if (cancel || this.isDoor) return;
+
     // Get the state of the block
     const state = this.block.permutation.state as { upper_block_bit: boolean };
 
     // Check if the block is the upper block
     if (state.upper_block_bit) return;
 
-    // Get the above block
+    // Get the above block, which needs to be free for the upper half
     const above = this.block.above();
+    if (!above.isReplaceable) return false;
 
-    // Get the permutation of the block
+    // Get the permutation of the upper half, in the same state as the lower half
     const permutation = this.block.type.getPermutation({
-      ...above.permutation.state,
+      ...state,
       upper_block_bit: true
     });
 
@@ -72,14 +83,16 @@ class BlockUpperTrait extends BlockTrait {
       // Get the below block
       const below = this.block.below();
 
-      // Break the below block
-      below.identifier = BlockIdentifier.Air;
+      // Break the below block, if it is the other half
+      if (below.identifier === this.block.identifier)
+        below.identifier = BlockIdentifier.Air;
     } else {
       // Get the above block
       const above = this.block.above();
 
-      // Break the above block
-      above.identifier = BlockIdentifier.Air;
+      // Break the above block, if it is the other half
+      if (above.identifier === this.block.identifier)
+        above.identifier = BlockIdentifier.Air;
     }
   }
 }

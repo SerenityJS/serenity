@@ -1,3 +1,5 @@
+import { Vector3f } from "@serenityjs/protocol";
+
 import { Dimension } from "../world";
 import { Entity } from "../entity";
 
@@ -65,10 +67,16 @@ class CommandExecutionState {
    */
   public readonly origin: Dimension | Entity;
 
+  /**
+   * The position the command is executed at, when the origin is not an entity.
+   */
+  public readonly position: Vector3f | null;
+
   public constructor(
     commands: Array<Command>,
     source: string,
-    origin: Dimension | Entity
+    origin: Dimension | Entity,
+    position?: Vector3f | null
   ) {
     this.split = this.parse(source);
 
@@ -81,6 +89,7 @@ class CommandExecutionState {
         command.name === name || command.aliases.includes(name as string)
     );
     this.origin = origin;
+    this.position = position ?? null;
   }
 
   /**

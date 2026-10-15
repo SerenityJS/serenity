@@ -1,3 +1,4 @@
+import { BinaryStream } from "@serenityjs/binarystream";
 import { CompoundTag, ListTag, StringTag } from "@serenityjs/nbt";
 import { NetworkBlockTypeDefinition } from "@serenityjs/protocol";
 import {
@@ -9,6 +10,7 @@ import {
 
 import { BlockIdentifier, BlockMaterialSound } from "../../enums";
 import { BlockTypeDefinition, BlockTypeProperties } from "../../types";
+import { BlockItems } from "../../constants/block-items";
 import { BlockState } from "../types";
 
 import { ItemDrop } from "./drops";
@@ -16,6 +18,11 @@ import { BlockTypeComponentCollection } from "./collection";
 import { BlockPermutation } from "./permutation";
 
 import type { BlockTrait } from "../traits";
+
+/**
+ * Matches the identifiers of double slabs.
+ */
+const DoubleSlabPattern = /double.*_slab$/;
 
 /**
  * BlockType represents a block type in the game, which hold all possible permutations the block can have.
@@ -73,8 +80,13 @@ class BlockType {
           instance.drops.push(itemDrop);
         }
       }
-      // Register the default drop for the block type.
-      else instance.drops.push(new ItemDrop(type.identifier, 1, 1, 1));
+      // Register the default drop for the block type, which is its item.
+      // Blocks like signs drop an item of another name, and double slabs drop two of their slab.
+      else {
+        const item = BlockItems[type.identifier] ?? type.identifier;
+        const amount = DoubleSlabPattern.test(type.identifier) ? 2 : 1;
+        instance.drops.push(new ItemDrop(item, amount, amount, 1));
+      }
 
       // Set the block type in the registry.
       this.types.set(type.identifier as BlockIdentifier, instance);
@@ -106,6 +118,20 @@ class BlockType {
 
       // Register the block permutation in the registry.
       BlockPermutation.permutations.set(instance.networkId, instance);
+    }
+
+    // Iterate over the vanilla block types that are defined by data.
+    // The client only knows these from the definitions the server sends,
+    // which are added after the permutations, as creating those would add to them.
+    for (const type of BLOCK_TYPES) {
+      if (!("properties" in type) || !type.properties) continue;
+
+      // Read the definition of the block type.
+      const stream = new BinaryStream(Buffer.from(type.properties, "base64"));
+      const definition = CompoundTag.read(stream);
+
+      // Add the definition to the block type properties.
+      this.types.get(type.identifier)?.properties.push(...definition.values());
     }
   }
 
@@ -240,11 +266,14 @@ class BlockType {
   public getPermutation(state?: BlockState): BlockPermutation {
     if (!state) return this.permutations[0] as BlockPermutation;
 
-    const cached = this.permutationStateIndex.get(this.getPermutationStateKey(state));
+    const cached = this.permutationStateIndex.get(
+      this.getPermutationStateKey(state)
+    );
     if (cached) return cached;
 
     for (const permutation of this.permutations)
-      if (permutation.matches(state as BlockState)) return permutation as BlockPermutation;
+      if (permutation.matches(state as BlockState))
+        return permutation as BlockPermutation;
 
     return this.permutations[0] as BlockPermutation;
   }

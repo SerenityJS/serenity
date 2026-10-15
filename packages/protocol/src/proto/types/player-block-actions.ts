@@ -24,13 +24,13 @@ class PlayerBlockActions extends DataType {
 
   public static read(
     stream: BinaryStream,
-    options: PacketDataTypeOptions<PlayerAuthInputData>
+    _options?: PacketDataTypeOptions<PlayerAuthInputData>
   ): PlayerBlockActions | null {
-    // Check if the input data has the block actions flag
-    if (!options.parameter?.hasFlag(InputData.PerformBlockActions)) return null; // Return null if the flag is not set
+    // Since v2168, the block actions are an optional with a presence flag
+    if (!stream.readBool()) return null;
 
     // Read the amount of block actions
-    const count = stream.readZigZag(); // Why
+    const count = stream.readVarInt();
 
     // Create an array to store the block actions
     const actions: Array<PlayerBlockActionData> = [];
@@ -49,11 +49,15 @@ class PlayerBlockActions extends DataType {
     value: PlayerBlockActions,
     options: PacketDataTypeOptions<PlayerAuthInputData>
   ): void {
-    // Check if the input data has the block actions flag
-    if (!options.parameter?.hasFlag(InputData.PerformBlockActions)) return; // Return if the flag is not set
+    // Since v2168, the block actions are an optional with a presence flag,
+    // which is set when the input data has the block actions flag
+    const present =
+      options.parameter?.hasFlag(InputData.PerformBlockActions) ?? false;
+    stream.writeBool(present);
+    if (!present) return;
 
     // Write the amount of block actions
-    stream.writeZigZag(value.actions.length); // Why
+    stream.writeVarInt(value.actions.length);
 
     // Write each block action to the stream
     for (const action of value.actions) {

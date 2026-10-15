@@ -2,6 +2,7 @@ import {
   AvailableActorIdentifiersPacket,
   DisconnectReason,
   GameRuleType,
+  JigsawStructureDataPacket,
   MINECRAFT_VERSION,
   Packet,
   PlayStatus,
@@ -18,7 +19,7 @@ import {
   VoxelShapesPacket
 } from "@serenityjs/protocol";
 import { Connection } from "@serenityjs/raknet";
-import { CompoundTag, ListTag } from "@serenityjs/nbt";
+import { CompoundTag, ListTag, TagType } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";
 import { EntityType } from "../entity";
@@ -164,8 +165,8 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.confirmedPlatformLockedContent = false;
         packet.multiplayerGame = true;
         packet.broadcastToLan = true;
-        packet.xblBroadcastMode = 6;
-        packet.platformBroadcastMode = 6;
+        packet.xblBroadcastMode = 3; // Friends of friends
+        packet.platformBroadcastMode = 3; // Friends of friends
         packet.commandsEnabled = true;
         packet.texturePacksRequired = false;
 
@@ -206,9 +207,10 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.isNewNether = false;
         packet.eduResourceUriButtonName = "";
         packet.eduResourceUriLink = "";
-        packet.experimentalGameplayOverride = false;
         packet.chatRestrictionLevel = 0;
         packet.disablePlayerInteractions = false;
+        packet.serverEditorConnectionPolicy = 0;
+        packet.allowAnonymousBlockDropsInEditorWorld = false;
         packet.levelIdentfier = "SerenityJS";
         packet.levelName = player.world.identifier;
         packet.premiumWorldTemplateId = player.world.identifier;
@@ -218,9 +220,9 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.currentTick = player.world.currentTick;
         packet.enchantmentSeed = player.world.properties.seed;
 
-        // Map the custom blocks definitions to the packet
+        // Map the definitions of the blocks defined by data to the packet
         packet.blockTypeDefinitions = world.blockPalette
-          .getAllTypes()
+          .getAllDataDrivenTypes()
           .map((type) => type.getNetworkDefinition());
 
         packet.multiplayerCorrelationId = "<raknet>a555-7ece-2f1c-8f69";
@@ -285,8 +287,29 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         voxels.shapes = [];
         voxels.names = [];
 
+        // The jigsaw structure rules must be sent before the start game packet,
+        // otherwise clients disconnect with "Missing structure data from server" (1.26.50+)
+        const jigsaw = new JigsawStructureDataPacket();
+        jigsaw.data = new CompoundTag();
+
+        // Send an empty set of rules
+        for (const key of [
+          "processors",
+          "template_pools",
+          "jigsaws",
+          "structure_sets"
+        ]) {
+          // Create an empty list of compounds for the rules
+          const list = new ListTag<CompoundTag>([], key);
+          list.elementType = TagType.Compound;
+
+          // Add the list to the rules
+          jigsaw.data.add(list);
+        }
+
         // Send the packets to the player
         player.sendImmediate(
+          jigsaw,
           voxels,
           packet,
           status,

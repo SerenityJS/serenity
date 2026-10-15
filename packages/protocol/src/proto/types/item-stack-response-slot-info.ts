@@ -63,9 +63,11 @@ class ItemStackResponseSlotInfo extends DataType {
     const slot = stream.readUint8();
 
     const amount = stream.readUint8();
-    const itemStackId = stream.readZigZag();
+
+    // Since v2168, the item stack id and the filtered custom name are optionals.
+    const itemStackId = stream.readBool() ? stream.readZigZag() : 0;
     const customName = stream.readVarString();
-    const filterCustomName = stream.readVarString();
+    const filterCustomName = stream.readBool() ? stream.readVarString() : "";
     const durabilityCorrection = stream.readZigZag();
 
     // Return a new instance of the ItemStackResponseSlotInfo class.
@@ -86,9 +88,18 @@ class ItemStackResponseSlotInfo extends DataType {
     stream.writeUint8(value.slot);
     stream.writeUint8(value.slot);
     stream.writeUint8(value.amount);
-    stream.writeZigZag(value.itemStackId);
+
+    // Since v2168, the item stack id is only present for valid (positive) ids.
+    stream.writeBool(value.itemStackId > 0);
+    if (value.itemStackId > 0) stream.writeZigZag(value.itemStackId);
+
     stream.writeVarString(value.customName);
-    stream.writeVarString(value.filterCustomName);
+
+    // Since v2168, the filtered custom name is an optional; it is omitted when empty.
+    stream.writeBool(value.filterCustomName.length > 0);
+    if (value.filterCustomName.length > 0)
+      stream.writeVarString(value.filterCustomName);
+
     stream.writeZigZag(value.durabilityCorrection);
   }
 }

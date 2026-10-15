@@ -4,7 +4,8 @@ import {
   ContainerType,
   FullContainerName,
   InventoryContentPacket,
-  NetworkItemStackDescriptor
+  NetworkItemStackDescriptor,
+  NetworkItemStackDescriptorCereal
 } from "@serenityjs/protocol";
 
 import { ItemStack } from "./item/stack";
@@ -148,74 +149,63 @@ class Container {
 
   /**
    * Adds an item stack to the container.
+   * The item stack is merged into the stacks of the same item that are not full,
+   * and the rest is placed in empty slots. What does not fit is left in the item stack.
    * @param item The item stack to add.
-   * @returns Whether the item was successfully added into the container.
+   * @returns Whether all of the item stack was added into the container.
    */
   public addItem(item: ItemStack): boolean {
-    // Find a slot that has the same item type and isn't full (x64)
-    // If there is no slot, find the next empty slot.
-    const slot = this.storage.findIndex((slot) => {
-      // Check if the slot is null.
-      if (!slot) return false;
+    // Merge the item into the stacks of the same item that are not full
+    if (item.isStackable) {
+      for (const existingItem of this.storage) {
+        // Check if all of the item has been added
+        if (item.getStackSize() <= 0) return true;
 
-      // Check if the item can be stacked.
-      if (slot.getStackSize() >= item.maxStackSize) return false;
+        // Check if the slot has the same item, and room for more of it
+        if (!existingItem || !item.equals(existingItem)) continue;
+        if (existingItem.getStackSize() >= existingItem.maxStackSize) continue;
 
-      // Check if the item is equal to the slot.
-      return item.equals(slot);
-    });
+        // Calculate the amount of items to add.
+        const amount = Math.min(
+          existingItem.maxStackSize - existingItem.getStackSize(),
+          item.getStackSize()
+        );
 
-    // Check if the item is maxed.
-    const maxed = item.getStackSize() >= item.maxStackSize;
-
-    // Check if exists an available slot
-    if (slot > -1 && !maxed && item.isStackable) {
-      // Get the item if slot available
-      const existingItem = this.storage[slot] as ItemStack;
-
-      // Calculate the amount of items to add.
-      const amount = Math.min(
-        item.maxStackSize - existingItem.getStackSize(),
-        item.getStackSize()
-      );
-
-      // Add the amount to the existing item.
-      existingItem.incrementStack(amount);
-
-      // Subtract the amount from the item.
-      item.decrementStack(amount);
-
-      // Return true as the item was successfully added.
-      return true;
-    } else {
-      // Find the next empty slot.
-      const emptySlot = this.storage.indexOf(null);
-
-      // Check if there is an empty slot, if not return false.
-      if (emptySlot === -1) return false;
-
-      // Check if the item is maxed.
-      if (item.getStackSize() > item.maxStackSize) {
-        // Create a full stack item for the empty slot
-        const newItem = new ItemStack(item.type, {
-          ...item,
-          stackSize: item.maxStackSize
-        });
-
-        // Add the new Item and decrease it
-        this.setItem(emptySlot, newItem);
-        item.decrementStack(item.maxStackSize);
-
-        // Because it is greater than 64 call the function to add the remaining items
-        return this.addItem(item);
+        // Move the amount from the item to the existing item.
+        existingItem.incrementStack(amount);
+        item.decrementStack(amount);
       }
 
-      // Set the item in the empty slot.
-      this.setItem(emptySlot, item);
-
-      // Return true as the item was successfully added.
-      return true;
+      // Check if all of the item has been added
+      if (item.getStackSize() <= 0) return true;
     }
+
+    // Place the rest of the item in empty slots, a full stack at a time
+    while (item.getStackSize() > item.maxStackSize) {
+      // Find the next empty slot, and stop if there is none.
+      const emptySlot = this.storage.indexOf(null);
+      if (emptySlot === -1) return false;
+
+      // Create a full stack item for the empty slot
+      const newItem = new ItemStack(item.type, {
+        ...item,
+        stackSize: item.maxStackSize
+      });
+
+      // Add the new item and decrease the item
+      this.setItem(emptySlot, newItem);
+      item.decrementStack(item.maxStackSize);
+    }
+
+    // Find the next empty slot for the last of the item, if there is one.
+    const emptySlot = this.storage.indexOf(null);
+    if (emptySlot === -1) return false;
+
+    // Set the item in the empty slot.
+    this.setItem(emptySlot, item);
+
+    // Return true as the item was successfully added.
+    return true;
   }
 
   /**
@@ -371,16 +361,16 @@ class Container {
     // Vanilla/BDS on proto-v944 sends identifier 0 here for these inventory
     // sync packets, even for hopper windows. Match that behavior exactly.
     packet.fullContainerName = new FullContainerName(0, 0);
-    packet.storageItem = new NetworkItemStackDescriptor(0); // Bundles ?
+    packet.storageItem = new NetworkItemStackDescriptorCereal(0); // Bundles ?
 
     // Map the items in the storage to network item stack descriptors.
     packet.items = this.storage.map((item) => {
       // If the item is null, return a new NetworkItemStackDescriptor.
       // This will indicate that the slot is empty.
-      if (!item) return new NetworkItemStackDescriptor(0);
+      if (!item) return new NetworkItemStackDescriptorCereal(0);
 
       // Convert the item stack to a network item stack descriptor
-      return ItemStack.toNetworkStack(item);
+      return ItemStack.toNetworkStackCereal(item);
     });
 
     // Send the packet to the occupants.

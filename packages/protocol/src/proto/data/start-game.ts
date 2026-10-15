@@ -56,7 +56,7 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public createdInEdior!: boolean;
   @Serialize(Bool) public exportedFromEdior!: boolean;
   @Serialize(ZigZag) public dayCycleStopTime!: number;
-  @Serialize(ZigZag) public eduOffer!: number;
+  @Serialize(VarInt) public eduOffer!: number;
   @Serialize(Bool) public eduFeatures!: boolean;
   @Serialize(VarString) public eduProductUuid!: string;
   @Serialize(Float32, { endian: Endianness.Little }) public rainLevel!: number;
@@ -65,8 +65,8 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public confirmedPlatformLockedContent!: boolean;
   @Serialize(Bool) public multiplayerGame!: boolean;
   @Serialize(Bool) public broadcastToLan!: boolean;
-  @Serialize(VarInt) public xblBroadcastMode!: number;
-  @Serialize(VarInt) public platformBroadcastMode!: number;
+  @Serialize(ZigZag) public xblBroadcastMode!: number;
+  @Serialize(ZigZag) public platformBroadcastMode!: number;
   @Serialize(Bool) public commandsEnabled!: boolean;
   @Serialize(Bool) public texturePacksRequired!: boolean;
   @Serialize(GameRules) public gamerules!: Array<GameRules>;
@@ -74,7 +74,7 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public experimentsPreviouslyToggled!: boolean;
   @Serialize(Bool) public bonusChest!: boolean;
   @Serialize(Bool) public mapEnabled!: boolean;
-  @Serialize(ZigZag) public permissionLevel!: PermissionLevel;
+  @Serialize(Uint8) public permissionLevel!: PermissionLevel;
   @Serialize(Int32, { endian: Endianness.Little })
   public serverChunkTickRange!: number;
   @Serialize(Bool) public hasLockedBehaviorPack!: boolean;
@@ -95,9 +95,12 @@ class StartGamePacket extends DataPacket {
   @Serialize(Bool) public isNewNether!: boolean;
   @Serialize(VarString) public eduResourceUriButtonName!: string;
   @Serialize(VarString) public eduResourceUriLink!: string;
-  @Serialize(Bool) public experimentalGameplayOverride!: boolean;
+  @Serialize(Bool, { optional: true })
+  public experimentalGameplayOverride?: boolean;
   @Serialize(Uint8) public chatRestrictionLevel!: number;
   @Serialize(Bool) public disablePlayerInteractions!: boolean;
+  @Serialize(ZigZag) public serverEditorConnectionPolicy!: number;
+  @Serialize(Bool) public allowAnonymousBlockDropsInEditorWorld!: boolean;
   @Serialize(VarString) public levelIdentfier!: string;
   @Serialize(VarString) public levelName!: string;
   @Serialize(VarString) public premiumWorldTemplateId!: string;

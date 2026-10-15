@@ -4,26 +4,27 @@ interface PluginBeforeEvents {
   beforeWorldInitialize?: (event: Core.WorldInitializeSignal) => boolean;
   beforeWorldTick?: (event: Core.WorldTickSignal) => boolean;
   beforeChunkReady?: (event: Core.ChunkReadySignal) => boolean;
-  beforeEntityHealthChange?: (event: Core.EntityHealthChangedSignal) => boolean;
+  beforeHealthChanged?: (event: Core.EntityHealthChangedSignal) => boolean;
   beforeEntitySpawned?: (event: Core.EntitySpawnedSignal) => boolean;
   beforeEntityDespawned?: (event: Core.EntityDespawnedSignal) => boolean;
   beforeEntityDied?: (event: Core.EntityDiedSignal) => boolean;
   beforeEntityFlagUpdate?: (event: Core.EntityFlagUpdateSignal) => boolean;
-  beforeEntityDimensionChange: (
+  beforeEntityDimensionChange?: (
     event: Core.EntityDimensionChangeSignal
   ) => boolean;
-  beforeEntityMetadataUpdate: (
+  beforeEntityMetadataUpdate?: (
     event: Core.EntityMetadataUpdateSignal
   ) => boolean;
-  beforeEntityAttributeUpdate: (
+  beforeEntityAttributeUpdate?: (
     event: Core.EntityAttributeUpdateSignal
   ) => boolean;
   beforeEntityHit?: (event: Core.EntityHitSignal) => boolean;
   beforeEntityHurt?: (event: Core.EntityHurtSignal) => boolean;
   beforeEntityDropItem?: (event: Core.EntityDropItemSignal) => boolean;
   beforeEntityItemPickup?: (event: Core.EntityItemPickupSignal) => boolean;
-  beforeEntityEffectAdd?: (event: Core.EffectAddSignal) => boolean;
-  beforeEntityEffectRemove?: (event: Core.EffectRemoveSignal) => boolean;
+  beforeEffectAdd?: (event: Core.EffectAddSignal) => boolean;
+  beforeEffectRemove?: (event: Core.EffectRemoveSignal) => boolean;
+  beforePlayerInitialized?: (event: Core.PlayerInitializedSignal) => boolean;
   beforePlayerJoin?: (event: Core.PlayerJoinSignal) => boolean;
   beforePlayerLeave?: (event: Core.PlayerLeaveSignal) => boolean;
   beforePlayerChat?: (event: Core.PlayerChatSignal) => boolean;
@@ -40,6 +41,13 @@ interface PluginBeforeEvents {
   ) => boolean;
   beforePlayerStopUsingItem?: (
     event: Core.PlayerStopUsingItemSignal
+  ) => boolean;
+  beforePlayerUseItem?: (event: Core.PlayerUseItemSignal) => boolean;
+  beforePlayerUseItemOnBlock?: (
+    event: Core.PlayerUseItemOnBlockSignal
+  ) => boolean;
+  beforePlayerUseItemOnEntity?: (
+    event: Core.PlayerUseItemOnEntitySignal
   ) => boolean;
   beforePlayerStartEmoting?: (event: Core.PlayerStartEmotingSignal) => boolean;
   beforePlayerStopEmoting?: (event: Core.PlayerStopEmotingSignal) => boolean;
@@ -58,6 +66,16 @@ interface PluginBeforeEvents {
   beforePlayerContainerInteraction?: (
     event: Core.PlayerContainerInteractionSignal
   ) => boolean;
+  beforePlayerDropExperience?: (
+    event: Core.PlayerDropExperienceSignal
+  ) => boolean;
+  beforePlayerEditSign?: (event: Core.PlayerEditSignSignal) => boolean;
+  beforePlayerCraftRecipe?: (event: Core.PlayerCraftRecipeSignal) => boolean;
+  beforeBlockUpdate?: (event: Core.BlockUpdateSignal) => boolean;
+  beforeBlockPermutationUpdate?: (
+    event: Core.BlockPermutationUpdateSignal
+  ) => boolean;
+  beforeItemStackDamaged?: (event: Core.ItemStackDamagedSignal) => boolean;
 }
 
 export { PluginBeforeEvents };

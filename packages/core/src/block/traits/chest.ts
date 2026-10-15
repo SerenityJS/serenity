@@ -272,6 +272,9 @@ class BlockChestTrait extends BlockInventoryTrait {
       return;
     }
 
+    // Opening the chest takes the place of placing a block on it
+    options.placingBlock = false;
+
     const trait = this.getSharedContainerTrait();
     if (trait.isPaired() && trait.container.getSize() !== 54) {
       trait.container.setSize(54);

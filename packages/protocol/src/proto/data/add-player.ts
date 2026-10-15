@@ -21,6 +21,7 @@ import {
   AbilityLayer,
   ActorLink,
   ActorLinkSet,
+  CommandPermission,
   DataItem,
   NetworkItemStackDescriptor,
   PropertySyncData,
@@ -52,7 +53,8 @@ class AddPlayerPacket extends DataPacket {
   public uniqueEntityId!: bigint;
 
   @Serialize(Uint8) public permissionLevel!: PermissionLevel;
-  @Serialize(Uint8) public commandPermission!: CommandPermissionLevel;
+  @Serialize(CommandPermission)
+  public commandPermission!: CommandPermissionLevel;
   @Serialize(AbilityLayer) public abilities!: Array<AbilityLayer>;
   @Serialize(ActorLinkSet) public links!: Array<ActorLink>;
   @Serialize(VarString) public deviceId!: string;
