@@ -10,6 +10,7 @@ import {
 
 import { BlockIdentifier, BlockMaterialSound } from "../../enums";
 import { BlockTypeDefinition, BlockTypeProperties } from "../../types";
+import { BlockItems } from "../../constants/block-items";
 import { BlockState } from "../types";
 
 import { ItemDrop } from "./drops";
@@ -17,6 +18,11 @@ import { BlockTypeComponentCollection } from "./collection";
 import { BlockPermutation } from "./permutation";
 
 import type { BlockTrait } from "../traits";
+
+/**
+ * Matches the identifiers of double slabs.
+ */
+const DoubleSlabPattern = /double.*_slab$/;
 
 /**
  * BlockType represents a block type in the game, which hold all possible permutations the block can have.
@@ -74,8 +80,13 @@ class BlockType {
           instance.drops.push(itemDrop);
         }
       }
-      // Register the default drop for the block type.
-      else instance.drops.push(new ItemDrop(type.identifier, 1, 1, 1));
+      // Register the default drop for the block type, which is its item.
+      // Blocks like signs drop an item of another name, and double slabs drop two of their slab.
+      else {
+        const item = BlockItems[type.identifier] ?? type.identifier;
+        const amount = DoubleSlabPattern.test(type.identifier) ? 2 : 1;
+        instance.drops.push(new ItemDrop(item, amount, amount, 1));
+      }
 
       // Set the block type in the registry.
       this.types.set(type.identifier as BlockIdentifier, instance);
@@ -255,11 +266,14 @@ class BlockType {
   public getPermutation(state?: BlockState): BlockPermutation {
     if (!state) return this.permutations[0] as BlockPermutation;
 
-    const cached = this.permutationStateIndex.get(this.getPermutationStateKey(state));
+    const cached = this.permutationStateIndex.get(
+      this.getPermutationStateKey(state)
+    );
     if (cached) return cached;
 
     for (const permutation of this.permutations)
-      if (permutation.matches(state as BlockState)) return permutation as BlockPermutation;
+      if (permutation.matches(state as BlockState))
+        return permutation as BlockPermutation;
 
     return this.permutations[0] as BlockPermutation;
   }

@@ -10,6 +10,7 @@ import { ITEM_METADATA, ITEM_TYPES } from "@serenityjs/data";
 
 import { ItemIdentifier, ItemTypeToolTier } from "../../enums";
 import { BlockType } from "../../block";
+import { BlockItems } from "../../constants/block-items";
 
 import { ItemTypeComponents } from "./components";
 import { ItemTypeComponentCollection } from "./collection";
@@ -494,6 +495,10 @@ class ItemType {
    * @param type The block type to resolve.
    */
   public static resolve(type: BlockType): ItemType | null {
+    // Check if the block's item has another name, like a sign or a crop
+    const item = BlockItems[type.identifier];
+    if (item) return ItemType.types.get(item) ?? null;
+
     return (
       [...ItemType.types.values()].find((item) => {
         // Check if the item type is a block placer component.
