@@ -48,10 +48,10 @@ class ByteListTag extends Array<number> implements BaseTag {
       const type: TagType = stream.readInt8();
 
       // Verify that the tag type matches the expected type.
-      if (type !== TagType.Byte) {
+      if (type !== TagType.ByteList) {
         // Throw an error if the type does not match.
         throw new Error(
-          `Expected tag type to be ${TagType[TagType.Byte]}, received ${TagType[type] ?? type}.`
+          `Expected tag type to be ${TagType[TagType.ByteList]}, received ${TagType[type] ?? type}.`
         );
       }
     }
