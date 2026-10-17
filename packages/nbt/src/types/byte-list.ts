@@ -16,7 +16,9 @@ class ByteListTag extends Array<number> implements BaseTag {
    * @param name The name of the tag, defaults to null.
    */
   public constructor(elements: Array<number>, name?: string | null) {
-    super(...elements);
+    // Push the elements, so a single element is not treated as a length.
+    super();
+    this.push(...elements);
     this.name = name ?? null;
   }
 
