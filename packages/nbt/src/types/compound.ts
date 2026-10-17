@@ -13,6 +13,8 @@ import { DoubleTag } from "./double";
 import { StringTag } from "./string";
 import { ListTag } from "./list";
 import { ByteListTag } from "./byte-list";
+import { IntListTag } from "./int-list";
+import { LongListTag } from "./long-list";
 
 class CompoundTag extends Map<string, BaseTag> implements BaseTag {
   public readonly type = TagType.Compound;
@@ -254,6 +256,36 @@ class CompoundTag extends Map<string, BaseTag> implements BaseTag {
           continue;
         }
 
+        case TagType.IntList: {
+          // Read the next element as an IntListTag.
+          const element = IntListTag.read(stream, {
+            ...options,
+            name: true,
+            type: false
+          });
+
+          // Add the element to the CompoundTag instance.
+          tag.set(element.name ?? "", element);
+
+          // Continue to the next iteration.
+          continue;
+        }
+
+        case TagType.LongList: {
+          // Read the next element as a LongListTag.
+          const element = LongListTag.read(stream, {
+            ...options,
+            name: true,
+            type: false
+          });
+
+          // Add the element to the CompoundTag instance.
+          tag.set(element.name ?? "", element);
+
+          // Continue to the next iteration.
+          continue;
+        }
+
         case TagType.String: {
           // Read the next element as a StringTag.
           const element = StringTag.read(stream, {
@@ -404,6 +436,30 @@ class CompoundTag extends Map<string, BaseTag> implements BaseTag {
         case TagType.ByteList: {
           // Write the ByteListTag to the stream.
           ByteListTag.write(stream, tag as ByteListTag, {
+            ...options,
+            name: true,
+            type: true
+          });
+
+          // Continue to the next iteration.
+          continue;
+        }
+
+        case TagType.IntList: {
+          // Write the IntListTag to the stream.
+          IntListTag.write(stream, tag as IntListTag, {
+            ...options,
+            name: true,
+            type: true
+          });
+
+          // Continue to the next iteration.
+          continue;
+        }
+
+        case TagType.LongList: {
+          // Write the LongListTag to the stream.
+          LongListTag.write(stream, tag as LongListTag, {
             ...options,
             name: true,
             type: true

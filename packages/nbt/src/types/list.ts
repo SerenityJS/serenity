@@ -13,6 +13,8 @@ import { DoubleTag } from "./double";
 import { StringTag } from "./string";
 import { CompoundTag } from "./compound";
 import { ByteListTag } from "./byte-list";
+import { IntListTag } from "./int-list";
+import { LongListTag } from "./long-list";
 
 class ListTag<T extends BaseTag> extends Array<T> implements BaseTag {
   public readonly type = TagType.List;
@@ -230,6 +232,36 @@ class ListTag<T extends BaseTag> extends Array<T> implements BaseTag {
           continue;
         }
 
+        case TagType.IntList: {
+          // Read the next element as an IntListTag.
+          const element = IntListTag.read(stream, {
+            ...options,
+            name: false,
+            type: false
+          });
+
+          // Add the element to the list.
+          tag.push(element as unknown as T);
+
+          // Continue to the next iteration.
+          continue;
+        }
+
+        case TagType.LongList: {
+          // Read the next element as a LongListTag.
+          const element = LongListTag.read(stream, {
+            ...options,
+            name: false,
+            type: false
+          });
+
+          // Add the element to the list.
+          tag.push(element as unknown as T);
+
+          // Continue to the next iteration.
+          continue;
+        }
+
         case TagType.String: {
           // Read the next element as a StringTag.
           const element = StringTag.read(stream, {
@@ -397,6 +429,30 @@ class ListTag<T extends BaseTag> extends Array<T> implements BaseTag {
         case TagType.ByteList: {
           // Write the element as a ByteTag.
           ByteListTag.write(stream, element as unknown as ByteListTag, {
+            ...options,
+            name: false,
+            type: false
+          });
+
+          // Continue to the next iteration.
+          continue;
+        }
+
+        case TagType.IntList: {
+          // Write the element as an IntListTag.
+          IntListTag.write(stream, element as unknown as IntListTag, {
+            ...options,
+            name: false,
+            type: false
+          });
+
+          // Continue to the next iteration.
+          continue;
+        }
+
+        case TagType.LongList: {
+          // Write the element as a LongListTag.
+          LongListTag.write(stream, element as unknown as LongListTag, {
             ...options,
             name: false,
             type: false
