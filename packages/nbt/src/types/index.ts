@@ -6,6 +6,8 @@ export * from "./long";
 export * from "./float";
 export * from "./double";
 export * from "./byte-list";
+export * from "./int-list";
+export * from "./long-list";
 export * from "./string";
 export * from "./list";
 export * from "./compound";
