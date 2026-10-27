@@ -142,6 +142,11 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   public state: ServerState = ServerState.StartingUp;
 
   /**
+   * The tick the server started shutting down at
+   */
+  protected shutdownTick: bigint | null = null;
+
+  /**
    * The ticks that have been recorded by the server
    */
   public ticks: Array<number> = [];
@@ -280,7 +285,19 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       }
 
       // Check if the server is still alive
-      if (this.state === ServerState.ShuttingDown && this.schedules.size <= 0) {
+      // Pending schedules get a few seconds to complete, so repeating ones cannot keep the server alive
+      const graceExpired =
+        this.shutdownTick !== null &&
+        this.currentTick - this.shutdownTick >=
+          BigInt(this.properties.ticksPerSecond * 5);
+
+      if (
+        this.state === ServerState.ShuttingDown &&
+        (this.schedules.size <= 0 || graceExpired)
+      ) {
+        // Drop the schedules that did not complete in time
+        this.schedules.clear();
+
         // Stop the nethernet server
         this.network.nethernet.stop();
 
@@ -291,8 +308,10 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
         return void (this.state = ServerState.Stopped);
       }
 
-      // Set the server state as running if it is not already
-      if (this.state !== ServerState.Running) this.state = ServerState.Running;
+      // Set the server state as running once it has started up
+      // A shutting down server keeps ticking until its schedules complete, and must not be set back to running
+      if (this.state === ServerState.StartingUp)
+        this.state = ServerState.Running;
 
       // Get the current time
       const [seconds, nanoseconds] = process.hrtime(lastTick);
@@ -389,6 +408,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
     // Set the server state as shutting
     this.state = ServerState.ShuttingDown;
+    this.shutdownTick = this.currentTick;
 
     // Disconnect all players
     for (const player of this.players.values()) {
