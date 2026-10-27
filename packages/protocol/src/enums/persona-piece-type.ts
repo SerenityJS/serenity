@@ -27,6 +27,7 @@ enum PersonaPieceType {
   Capes,
   ClassicSkin,
   Emote,
+  CoCo,
   Unsupported
 }
 

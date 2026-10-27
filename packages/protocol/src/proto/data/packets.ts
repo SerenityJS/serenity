@@ -193,6 +193,14 @@ import { ClientboundDataStorePacket } from "./clientbound-data-store";
 import { ClientboundDataDrivenUIClosePacket } from "./clientbound-data-driven-ui-close-screen";
 import { ServerboundDataStorePacket } from "./serverbound-data-store";
 import { SendPartyDestinationCookiePacket } from "./send-party-destination-cookie";
+import { ClientboundMatchmakingStatePacket } from "./clientbound-matchmaking-state";
+import { ServerboundStonecutterSetRecipePacket } from "./serverbound-stonecutter-set-recipe";
+import { ClientboundStonecutterSetRecipePacket } from "./clientbound-stonecutter-set-recipe";
+import { ServerboundMatchmakingCancelPacket } from "./serverbound-matchmaking-cancel";
+import { SetPassengerOfBlockPacket } from "./set-passenger-of-block";
+import { ServerboundCursorItemDragPacket } from "./serverbound-cursor-item-drag";
+import { ClientboundPlayAudioContentPacket } from "./clientbound-play-audio-content";
+import { ServerboundRegisterAudioContentPacket } from "./serverbound-register-audio-content";
 
 const Packets = {
   [Packet.Login]: LoginPacket, // 1
@@ -386,8 +394,18 @@ const Packets = {
   [Packet.ServerPresenceInfo]: ServerPresenceInfoPacket, // 347
   [Packet.ClientboundUpdateSoundData]: ClientboundUpdateSoundDataPacket, // 348
   [Packet.SendPartyDestinationCookie]: SendPartyDestinationCookiePacket, // 349
-  [Packet.PartyDestinationCookieResponse]:
-    PartyDestinationCookieResponsePacket // 350
+  [Packet.PartyDestinationCookieResponse]: PartyDestinationCookieResponsePacket, // 350
+  [Packet.ClientboundMatchmakingState]: ClientboundMatchmakingStatePacket, // 353
+  [Packet.ServerboundStonecutterSetRecipe]:
+    ServerboundStonecutterSetRecipePacket, // 354
+  [Packet.ClientboundStonecutterSetRecipe]:
+    ClientboundStonecutterSetRecipePacket, // 355
+  [Packet.ServerboundMatchmakingCancel]: ServerboundMatchmakingCancelPacket, // 356
+  [Packet.SetPassengerOfBlock]: SetPassengerOfBlockPacket, // 357
+  [Packet.ServerboundCursorItemDrag]: ServerboundCursorItemDragPacket, // 358
+  [Packet.ClientboundPlayAudioContent]: ClientboundPlayAudioContentPacket, // 359
+  [Packet.ServerboundRegisterAudioContent]:
+    ServerboundRegisterAudioContentPacket // 360
 };
 
 export { Packets };

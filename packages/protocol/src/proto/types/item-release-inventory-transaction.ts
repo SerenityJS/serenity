@@ -1,9 +1,12 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
+import {
+  HandSlot,
+  type ItemReleaseInventoryTransactionType
+} from "../../enums";
+
 import { NetworkItemStackDescriptorCereal } from "./network-item-stack-descriptor-cereal";
 import { Vector3f } from "./vector3f";
-
-import type { ItemReleaseInventoryTransactionType } from "../../enums";
 
 class ItemReleaseInventoryTransaction extends DataType {
   /**
@@ -27,23 +30,31 @@ class ItemReleaseInventoryTransaction extends DataType {
   public readonly headPosition: Vector3f;
 
   /**
+   * The hand of the item being released.
+   */
+  public readonly hand: HandSlot;
+
+  /**
    * Creates an instance of ItemReleaseInventoryTransaction.
    * @param type - The type of the item release inventory transaction.
    * @param slot - The slot of the item release inventory transaction.
    * @param item - The item of the item release inventory transaction.
    * @param headPosition - The head position of the item release inventory transaction.
+   * @param hand - The hand of the item being released.
    */
   public constructor(
     type: ItemReleaseInventoryTransactionType,
     slot: number,
     item: NetworkItemStackDescriptorCereal,
-    headPosition: Vector3f
+    headPosition: Vector3f,
+    hand = HandSlot.MainHand
   ) {
     super();
     this.type = type;
     this.slot = slot;
     this.item = item;
     this.headPosition = headPosition;
+    this.hand = hand;
   }
 
   public static read(stream: BinaryStream): ItemReleaseInventoryTransaction {
@@ -59,8 +70,17 @@ class ItemReleaseInventoryTransaction extends DataType {
     // Read the head position of the item release inventory transaction
     const headPosition = Vector3f.read(stream);
 
+    // Read the hand of the item being released
+    const hand = stream.readVarInt() as HandSlot;
+
     // Return the new instance of ItemReleaseInventoryTransaction
-    return new ItemReleaseInventoryTransaction(type, slot, item, headPosition);
+    return new ItemReleaseInventoryTransaction(
+      type,
+      slot,
+      item,
+      headPosition,
+      hand
+    );
   }
 
   public static write(
@@ -78,6 +98,9 @@ class ItemReleaseInventoryTransaction extends DataType {
 
     // Write the head position of the item release inventory transaction
     Vector3f.write(stream, value.headPosition);
+
+    // Write the hand of the item being released
+    stream.writeVarInt(value.hand);
   }
 }
 

@@ -130,6 +130,7 @@ class LoginHandler extends NetworkHandler {
     const properties: Partial<PlayerProperties> = {
       username: xname,
       xuid: xid,
+      playFabId: clientData.PlayFabId ?? "",
       uuid,
       clientSystemInfo,
       skin

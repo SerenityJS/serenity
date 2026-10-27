@@ -6,6 +6,7 @@ import { PlayerProperties } from "../types";
 const DefaultPlayerProperties: PlayerProperties = {
   username: "SerenityJS",
   xuid: "0000000000000000",
+  playFabId: "",
   uuid: "00000000-0000-0000-0000-000000000000",
   clientSystemInfo: ClientSystemInfo.empty(),
   skin: SerializedSkin.empty()

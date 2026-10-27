@@ -93,6 +93,11 @@ class Player extends Entity {
   public readonly xuid: string;
 
   /**
+   * The PlayFab id of the player; empty when unknown
+   */
+  public readonly playFabId: string;
+
+  /**
    * The uuid of the player
    */
   public readonly uuid: string;
@@ -213,6 +218,7 @@ class Player extends Entity {
     // Assign the properties to the player
     this.username = props.username;
     this.xuid = props.xuid;
+    this.playFabId = props.playFabId;
     this.uuid = props.uuid;
     this.clientSystemInfo = props.clientSystemInfo;
     this.skin = new PlayerSkin(this, props.skin);

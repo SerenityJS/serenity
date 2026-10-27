@@ -1,6 +1,7 @@
 import {
   AvailableActorIdentifiersPacket,
   DisconnectReason,
+  EditorLevelMigrationVersion,
   GameRuleType,
   JigsawStructureDataPacket,
   MINECRAFT_VERSION,
@@ -156,6 +157,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.editorWorldType = 0;
         packet.createdInEdior = false;
         packet.exportedFromEdior = false;
+        packet.editorLevelMigrationVersion = EditorLevelMigrationVersion.Legacy;
         packet.dayCycleStopTime = player.world.dayTime;
         packet.eduOffer = 0;
         packet.eduFeatures = true;

@@ -1,9 +1,12 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
 
+import {
+  HandSlot,
+  type ItemUseOnEntityInventoryTransactionType
+} from "../../enums";
+
 import { NetworkItemStackDescriptorCereal } from "./network-item-stack-descriptor-cereal";
 import { Vector3f } from "./vector3f";
-
-import type { ItemUseOnEntityInventoryTransactionType } from "../../enums";
 
 /**
  * Represents an item use on entity inventory transaction.
@@ -23,6 +26,11 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
    * The slot of the item use on entity inventory transaction.
    */
   public readonly slot: number;
+
+  /**
+   * The hand of the item being used.
+   */
+  public readonly hand: HandSlot;
 
   /**
    * The item of the item use on entity inventory transaction.
@@ -47,6 +55,7 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
    * @param item - The item of the item use on entity inventory transaction.
    * @param fromPosition - The from position of the item use on entity inventory transaction.
    * @param clickPosition - The click position of the item use on entity inventory transaction.
+   * @param hand - The hand of the item being used.
    */
   public constructor(
     actorRuntimeId: bigint,
@@ -54,7 +63,8 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
     slot: number,
     item: NetworkItemStackDescriptorCereal,
     fromPosition: Vector3f,
-    clickPosition: Vector3f
+    clickPosition: Vector3f,
+    hand = HandSlot.MainHand
   ) {
     super();
     this.actorRuntimeId = actorRuntimeId;
@@ -63,6 +73,7 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
     this.item = item;
     this.fromPosition = fromPosition;
     this.clickPosition = clickPosition;
+    this.hand = hand;
   }
 
   public static read(
@@ -76,6 +87,9 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
 
     // Read the slot of the item use on entity inventory transaction
     const slot = stream.readZigZag();
+
+    // Read the hand of the item being used
+    const hand = stream.readVarInt() as HandSlot;
 
     // Read the item of the item use on entity inventory transaction
     const item = NetworkItemStackDescriptorCereal.read(stream);
@@ -93,7 +107,8 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
       slot,
       item,
       fromPosition,
-      clickPosition
+      clickPosition,
+      hand
     );
   }
 
@@ -109,6 +124,9 @@ class ItemUseOnEntityInventoryTransaction extends DataType {
 
     // Write the slot of the item use on entity inventory transaction
     stream.writeZigZag(value.slot);
+
+    // Write the hand of the item being used
+    stream.writeVarInt(value.hand);
 
     // Write the item of the item use on entity inventory transaction
     NetworkItemStackDescriptorCereal.write(stream, value.item);

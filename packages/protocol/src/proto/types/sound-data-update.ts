@@ -56,8 +56,11 @@ class SoundDataUpdate extends DataType {
   }
 
   public static read(stream: BinaryStream): SoundDataUpdate {
-    // Read the type of the update
+    // Since v2225, the update is a single tagged variant.
+    // The variant index is followed by the uint8 type tag of the alternative,
+    // which is implied by the variant, as the alternatives are ordered by type.
     const type = stream.readVarInt() as SoundDataUpdateType;
+    stream.readUint8();
 
     // Read the payload based on the type of the update
     switch (type) {
@@ -89,8 +92,10 @@ class SoundDataUpdate extends DataType {
   }
 
   public static write(stream: BinaryStream, value: SoundDataUpdate): void {
-    // Write the type of the update
+    // Write the variant index of the update, followed by its uint8 type tag.
+    // The alternatives are ordered by their type, so both values are the same.
     stream.writeVarInt(value.type);
+    stream.writeUint8(value.type);
 
     // Write the payload based on the type of the update
     switch (value.type) {
