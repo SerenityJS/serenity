@@ -1,3 +1,5 @@
+import { formatWithOptions } from "node:util";
+
 import moment from "moment";
 
 import { formatMinecraftColorCode } from "./minecraft-colors";
@@ -11,6 +13,12 @@ class Logger {
    * Whether or not debug messages should be shown.
    */
   public static DEBUG: boolean = false;
+
+  /**
+   * Where formatted log lines are written to, instead of the console.
+   * An interactive console can use this to print logs above the line being typed.
+   */
+  public static output: ((line: string) => void) | null = null;
 
   /**
    * The module name of the logger.
@@ -44,7 +52,7 @@ class Logger {
       `${LoggerColors.DarkGray + "<"}${LoggerColors.Reset + moment().format("MM-DD-YYYY HH:mm:ss")}${LoggerColors.DarkGray + ">"} ${LoggerColors.DarkGray + "["}${this.color + this.name + LoggerColors + "]"}` +
       LoggerColors.Reset;
 
-    console.log(format, ...colorized);
+    this.write(format, ...colorized);
   }
 
   /**
@@ -60,7 +68,7 @@ class Logger {
       }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkGray + "["}${LoggerColors.DarkAqua + "Info"}${LoggerColors.DarkGray + "]"}` +
       LoggerColors.Reset;
 
-    console.log(format, ...colorized);
+    this.write(format, ...colorized);
   }
 
   /**
@@ -76,7 +84,7 @@ class Logger {
       }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkGray + "["}${LoggerColors.Yellow + "Warning"}${LoggerColors.DarkGray + "]"}` +
       LoggerColors.Reset;
 
-    console.log(format, ...colorized);
+    this.write(format, ...colorized);
   }
 
   /**
@@ -91,7 +99,7 @@ class Logger {
       }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkGray + "["}${LoggerColors.DarkRed + "Error"}${LoggerColors.DarkGray + "]"}` +
       LoggerColors.Reset;
 
-    console.log(format, ...arguments_);
+    this.write(format, ...arguments_);
   }
 
   /**
@@ -108,7 +116,7 @@ class Logger {
         LoggerColors.DarkGray + "]"
       }` + LoggerColors.Reset;
 
-    console.log(format, ...colorized);
+    this.write(format, ...colorized);
   }
 
   /**
@@ -127,7 +135,7 @@ class Logger {
       }${this.color + this.name + LoggerColors.DarkGray + "]"} ${LoggerColors.DarkGray + "["}${LoggerColors.Red + "DEBUG"}${LoggerColors.DarkGray + "]"}` +
       LoggerColors.Reset;
 
-    console.log(format, ...colorized);
+    this.write(format, ...colorized);
   }
 
   /**
@@ -143,7 +151,7 @@ class Logger {
       LoggerColors.DarkGray + "]" + LoggerColors.Reset
     }`;
 
-    console.log(format, colorized[0], ">", colorized[1]);
+    this.write(format, colorized[0], ">", colorized[1]);
   }
 
   public colorize(...arguments_: Array<unknown>): Array<unknown> {
@@ -154,6 +162,20 @@ class Logger {
     });
 
     return colorized;
+  }
+
+  /**
+   * Writes a log line, formatted like `console.log` formats its arguments.
+   *
+   * @param arguments_ - The arguments to write.
+   */
+  protected write(...arguments_: Array<unknown>): void {
+    // Without an output, log to the console as usual
+    if (!Logger.output) return console.log(...arguments_);
+
+    // Format the line the same way the console would, with colored objects on color terminals
+    const colors = process.stdout.hasColors?.() ?? false;
+    Logger.output(formatWithOptions({ colors }, ...arguments_));
   }
 }
 
