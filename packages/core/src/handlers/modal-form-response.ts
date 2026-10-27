@@ -3,7 +3,7 @@ import {
   ModalFormResponsePacket,
   Packet
 } from "@serenityjs/protocol";
-import { Connection } from "@serenityjs/raknet";
+import { Connection } from "@serenityjs/nethernet";
 
 import { NetworkHandler } from "../network";
 

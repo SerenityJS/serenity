@@ -9,7 +9,7 @@ import {
 
 import { NetworkHandler } from "../network";
 
-import type { Connection } from "@serenityjs/raknet";
+import type { Connection } from "@serenityjs/nethernet";
 
 class RequestNetworkSettingsHandler extends NetworkHandler {
   public static readonly packet = Packet.RequestNetworkSettings;

@@ -1,5 +1,5 @@
 import { BlockActorDataPacket, Packet } from "@serenityjs/protocol";
-import { Connection } from "@serenityjs/raknet";
+import { Connection } from "@serenityjs/nethernet";
 import { CompoundTag, StringTag } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";

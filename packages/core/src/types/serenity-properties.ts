@@ -1,4 +1,4 @@
-import { RaknetServerProperties } from "@serenityjs/raknet";
+import { NetherNetServerProperties } from "@serenityjs/nethernet";
 
 import { NetworkProperties } from "../network";
 import { ResourcesProperties } from "../resources";
@@ -21,7 +21,20 @@ interface SerenityProperties {
 interface ServerProperties {
   serenity: Partial<SerenityProperties>;
   network: Partial<NetworkProperties>;
-  raknet: Partial<RaknetServerProperties>;
+  nethernet: Partial<NetherNetServerProperties>;
+
+  /**
+   * The properties of the removed RakNet transport, read from older properties files.
+   * Its address, port, message and max connections are carried over to NetherNet.
+   * @deprecated Use `nethernet` instead.
+   */
+  raknet?: Partial<
+    Pick<
+      NetherNetServerProperties,
+      "address" | "port" | "message" | "maxConnections"
+    >
+  >;
+
   path: string | null;
 }
 

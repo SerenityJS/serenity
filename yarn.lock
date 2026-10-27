@@ -1875,8 +1875,8 @@ __metadata:
     "@serenityjs/leveldb": "npm:^1.5.12"
     "@serenityjs/logger": "npm:*"
     "@serenityjs/nbt": "npm:*"
+    "@serenityjs/nethernet": "npm:*"
     "@serenityjs/protocol": "npm:*"
-    "@serenityjs/raknet": "npm:*"
     "@swc/core": "npm:1.7.42"
     "@types/node": "npm:^24.2.1"
     eslint: "npm:9.13.0"
@@ -2016,7 +2016,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serenityjs/nethernet@workspace:packages/nethernet":
+"@serenityjs/nethernet@npm:*, @serenityjs/nethernet@workspace:packages/nethernet":
   version: 0.0.0-use.local
   resolution: "@serenityjs/nethernet@workspace:packages/nethernet"
   dependencies:
@@ -2056,24 +2056,6 @@ __metadata:
   dependencies:
     "@serenityjs/binarystream": "npm:^3.1.0"
     "@serenityjs/internal-config": "npm:*"
-    "@serenityjs/nbt": "npm:*"
-    "@swc/core": "npm:1.7.42"
-    "@types/node": "npm:22.8.6"
-    eslint: "npm:9.13.0"
-    reflect-metadata: "npm:0.2.2"
-    tsup: "npm:8.3.5"
-    typescript: "npm:5.6.3"
-  languageName: unknown
-  linkType: soft
-
-"@serenityjs/raknet@npm:*, @serenityjs/raknet@workspace:packages/raknet":
-  version: 0.0.0-use.local
-  resolution: "@serenityjs/raknet@workspace:packages/raknet"
-  dependencies:
-    "@serenityjs/binarystream": "npm:^3.1.0"
-    "@serenityjs/emitter": "npm:*"
-    "@serenityjs/internal-config": "npm:*"
-    "@serenityjs/logger": "npm:*"
     "@serenityjs/nbt": "npm:*"
     "@swc/core": "npm:1.7.42"
     "@types/node": "npm:22.8.6"
@@ -4148,8 +4130,8 @@ __metadata:
     "@serenityjs/internal-config": "npm:*"
     "@serenityjs/logger": "npm:*"
     "@serenityjs/nbt": "npm:*"
+    "@serenityjs/nethernet": "npm:*"
     "@serenityjs/plugins": "npm:*"
-    "@serenityjs/raknet": "npm:*"
     "@swc/core": "npm:1.7.42"
     "@types/node": "npm:22.8.6"
     eslint: "npm:9.13.0"

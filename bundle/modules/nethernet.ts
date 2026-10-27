@@ -1,9 +1,9 @@
-import * as module from "@serenityjs/raknet";
+import * as module from "@serenityjs/nethernet";
 
 import type { PluginBuilder } from "bun";
 
 function inject(builder: PluginBuilder) {
-  builder.module("@serenityjs/raknet", () => {
+  builder.module("@serenityjs/nethernet", () => {
     return {
       exports: module,
       loader: "object",

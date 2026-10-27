@@ -3,7 +3,7 @@ import {
   Packet,
   ChunkRadiusUpdatePacket
 } from "@serenityjs/protocol";
-import { Connection } from "@serenityjs/raknet";
+import { Connection } from "@serenityjs/nethernet";
 
 import { NetworkHandler } from "../network";
 import { PlayerChunkRenderingTrait } from "../entity";

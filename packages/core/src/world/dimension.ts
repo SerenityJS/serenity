@@ -1502,7 +1502,7 @@ class Dimension {
 
   /**
    * Broadcast packets to all the players in the dimension immediately.
-   * This will bypass the RakNet queue and send the packets immediately.
+   * This will not wait for the next batch, and send the packets immediately.
    * @param packets The packets to broadcast.
    */
   public broadcastImmediate(...packets: Array<DataPacket>): void {

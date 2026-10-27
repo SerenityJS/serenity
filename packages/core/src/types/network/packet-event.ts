@@ -1,5 +1,5 @@
 import type { DataPacket } from "@serenityjs/protocol";
-import type { Connection } from "@serenityjs/raknet";
+import type { Connection } from "@serenityjs/nethernet";
 import type { NetworkBound } from "../../enums";
 
 interface SessionPacketEvent<T extends DataPacket> {
@@ -20,7 +20,7 @@ interface SessionPacketEvent<T extends DataPacket> {
 interface NetworkPacketEvent<T extends DataPacket>
   extends SessionPacketEvent<T> {
   /**
-   * The raknet connection that the packet is being sent from.
+   * The nethernet connection that the packet is being sent from.
    */
   connection: Connection;
 }

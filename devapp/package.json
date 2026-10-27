@@ -17,7 +17,7 @@
     "@serenityjs/logger": "*",
     "@serenityjs/nbt": "*",
     "@serenityjs/plugins": "*",
-    "@serenityjs/raknet": "*"
+    "@serenityjs/nethernet": "*"
   },
   "devDependencies": {
     "@serenityjs/internal-config": "*",

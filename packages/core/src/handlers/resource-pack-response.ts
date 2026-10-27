@@ -18,7 +18,7 @@ import {
   PackType,
   VoxelShapesPacket
 } from "@serenityjs/protocol";
-import { Connection } from "@serenityjs/raknet";
+import { Connection } from "@serenityjs/nethernet";
 import { CompoundTag, ListTag, TagType } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";

@@ -12,7 +12,7 @@ import {
   ResourcePacksInfoPacket,
   SerializedSkin
 } from "@serenityjs/protocol";
-import { Connection } from "@serenityjs/raknet";
+import { Connection } from "@serenityjs/nethernet";
 import {
   Authentication,
   AuthenticationType

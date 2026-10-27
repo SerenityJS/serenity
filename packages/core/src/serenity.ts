@@ -7,7 +7,7 @@ import {
   PROTOCOL_VERSION
 } from "@serenityjs/protocol";
 import { Logger, LoggerColors } from "@serenityjs/logger";
-import { Connection, RAKNET_TPS } from "@serenityjs/raknet";
+import { Connection } from "@serenityjs/nethernet";
 import Emitter from "@serenityjs/emitter";
 
 import { Network } from "./network";
@@ -183,11 +183,19 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
     // Set the enabled value for debug logging
     Logger.DEBUG = this.properties.debugLogging;
 
+    // Carry over the settings of the removed RakNet transport from older properties files
+    const { address, port, message, maxConnections } = properties?.raknet ?? {};
+    const legacy = Object.fromEntries(
+      Object.entries({ address, port, message, maxConnections }).filter(
+        ([, value]) => value !== undefined
+      )
+    );
+
     // Create a new network handler for the server
     this.network = new Network(
       this,
       properties?.network,
-      properties?.raknet,
+      { ...legacy, ...properties?.nethernet },
       Handlers
     );
 
@@ -258,8 +266,8 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    * Starts the server and begins listening for incoming connections
    */
   public async start(): Promise<void> {
-    // Start the raknet server
-    this.network.raknet.start(false);
+    // Start the nethernet server
+    await this.network.nethernet.start();
 
     // Initialize the last tick variable
     let lastTick = process.hrtime();
@@ -273,8 +281,8 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
       // Check if the server is still alive
       if (this.state === ServerState.ShuttingDown && this.schedules.size <= 0) {
-        // Stop the raknet server
-        this.network.raknet.stop();
+        // Stop the nethernet server
+        this.network.nethernet.stop();
 
         // Log that the server has shutdown successfully
         this.logger.info(`Server has shutdown successfully.`);
@@ -303,13 +311,6 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
         simulation.callback(deltaTime);
         simulation.lastRunTime = now;
-      }
-
-      // Check if the server should tick the raknet connections
-      if (delta >= 1 / RAKNET_TPS) {
-        // Iterate over all the connections and tick the connection
-        for (const connection of this.network.raknet.connections)
-          connection.tick();
       }
 
       // Check if the server should tick
@@ -375,7 +376,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
 
     // Log that the server is now running
     this.logger.info(
-      `§7Server is now running at §u${this.network.raknet.address}§8:§u${this.network.raknet.port}§7.§r §8(v${MINECRAFT_VERSION}, proto-v${PROTOCOL_VERSION})§r`
+      `§7Server is now running at §u${this.network.nethernet.address}§8:§u${this.network.nethernet.port}§7 (TCP & UDP).§r §8(v${MINECRAFT_VERSION}, proto-v${PROTOCOL_VERSION})§r`
     );
   }
 
@@ -426,7 +427,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
    * @param motd The message of the day to set
    */
   public setMotd(motd: string): void {
-    this.network.raknet.message = motd;
+    this.network.nethernet.message = motd;
   }
 
   /**
@@ -821,7 +822,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
   }
 
   /**
-   * Gets a player by their raknet connection
+   * Gets a player by their nethernet connection
    * @param connection The connection to get the player from
    * @returns The player, if found; otherwise, null
    */
@@ -929,7 +930,7 @@ class Serenity extends Emitter<WorldEventSignals & ServerEvents> {
       const properties: Partial<ServerProperties> = {
         serenity: this.properties,
         network: this.network.properties,
-        raknet: this.network.raknet.properties
+        nethernet: this.network.nethernet.properties
       };
 
       // Write the properties to the file

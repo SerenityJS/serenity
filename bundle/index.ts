@@ -4,6 +4,7 @@ import { Serenity, LevelDBProvider, SuperflatWorker } from "@serenityjs/core";
 import { Pipeline } from "@serenityjs/plugins";
 
 import { Modules } from "./modules";
+import "./modules/native";
 
 // Inject all modules
 Bun.plugin({
