@@ -24,6 +24,7 @@ export * from "./wall-connection";
 export * from "./redstone-wire";
 export * from "./fire";
 export * from "./chorus-plant";
+export * from "./redstone-component";
 export * from "./attachment";
 export * from "./door";
 export * from "./bed";
