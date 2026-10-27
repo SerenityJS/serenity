@@ -145,12 +145,14 @@ class BlockTorchDirectionTrait extends BlockTrait {
   /**
    * Whether a block has a post in its center that a torch can stand on.
    * Walls, fences, glass panes and bars are not solid, but do have one.
+   * Fire and chorus plants have connection states too, and connect up, but have none.
    * @param block The block to check.
    */
   private hasPost(block: Block): boolean {
     return (
       block.hasState("wall_post_bit") ||
       (block.hasState("minecraft:connection_east") &&
+        !block.hasState("minecraft:connection_up") &&
         block.identifier !== "minecraft:trip_wire")
     );
   }

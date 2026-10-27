@@ -3615,7 +3615,14 @@
     "air": false,
     "liquid": false,
     "solid": false,
-    "states": []
+    "states": [
+      "minecraft:connection_down",
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_up",
+      "minecraft:connection_west"
+    ]
   },
   {
     "identifier": "minecraft:cinnabar",
@@ -8720,7 +8727,12 @@
     "liquid": false,
     "solid": false,
     "states": [
-      "age"
+      "age",
+      "minecraft:connection_east",
+      "minecraft:connection_north",
+      "minecraft:connection_south",
+      "minecraft:connection_up",
+      "minecraft:connection_west"
     ]
   },
   {
@@ -17948,7 +17960,11 @@
     "liquid": false,
     "solid": false,
     "states": [
-      "redstone_signal"
+      "redstone_east",
+      "redstone_north",
+      "redstone_signal",
+      "redstone_south",
+      "redstone_west"
     ]
   },
   {

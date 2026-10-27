@@ -722,6 +722,14 @@
     ]
   },
   {
+    "identifier": "minecraft:connection_down",
+    "type": "bool",
+    "values": [
+      false,
+      true
+    ]
+  },
+  {
     "identifier": "minecraft:connection_east",
     "type": "bool",
     "values": [
@@ -739,6 +747,14 @@
   },
   {
     "identifier": "minecraft:connection_south",
+    "type": "bool",
+    "values": [
+      false,
+      true
+    ]
+  },
+  {
+    "identifier": "minecraft:connection_up",
     "type": "bool",
     "values": [
       false,
@@ -1061,6 +1077,24 @@
     ]
   },
   {
+    "identifier": "redstone_east",
+    "type": "string",
+    "values": [
+      "none",
+      "side",
+      "up"
+    ]
+  },
+  {
+    "identifier": "redstone_north",
+    "type": "string",
+    "values": [
+      "none",
+      "side",
+      "up"
+    ]
+  },
+  {
     "identifier": "redstone_signal",
     "type": "int",
     "values": [
@@ -1080,6 +1114,24 @@
       13,
       14,
       15
+    ]
+  },
+  {
+    "identifier": "redstone_south",
+    "type": "string",
+    "values": [
+      "none",
+      "side",
+      "up"
+    ]
+  },
+  {
+    "identifier": "redstone_west",
+    "type": "string",
+    "values": [
+      "none",
+      "side",
+      "up"
     ]
   },
   {

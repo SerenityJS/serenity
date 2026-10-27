@@ -40,7 +40,9 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-// Dragonfly's "Support 1.26.50" commit (protocol 2193).
+// Dragonfly's "Support 1.26.50" commit (protocol 2193). The block files were
+// then updated for 1.26.60 by hand (see the README), which running the script
+// at this commit undoes: point it at a commit that supports 1.26.60 first.
 const DRAGONFLY_COMMIT = "4c7b5074be94fa83a1cd98e9c752083ad04a6e21";
 const DRAGONFLY_URL = "https://raw.githubusercontent.com/df-mc/dragonfly";
 

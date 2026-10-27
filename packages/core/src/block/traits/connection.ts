@@ -46,6 +46,10 @@ class BlockConnectionTrait extends BlockTrait {
   ];
 
   public onUpdate(): void {
+    // Since 1.26.60 fire and chorus plants have these states too, and also connect up,
+    // but they connect to other blocks than fences do, so leave their states as they are.
+    if (this.block.hasState("minecraft:connection_up")) return;
+
     // Prepare the connection states of the block.
     const state: BlockState = {};
 
