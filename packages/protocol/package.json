@@ -32,6 +32,6 @@
   "dependencies": {
     "@serenityjs/binarystream": "^3.1.0",
     "@serenityjs/nbt": "*",
-    "@serenityjs/raknet": "*"
+    "reflect-metadata": "0.2.2"
   }
 }

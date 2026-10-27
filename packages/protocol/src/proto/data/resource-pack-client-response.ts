@@ -1,5 +1,4 @@
-import { Proto } from "@serenityjs/raknet";
-
+import { Proto } from "../../decorators";
 import { Packet, ResourcePackResponse } from "../../enums";
 import { RequestedResourcePack, ResourcePacksClientRequest } from "../types";
 

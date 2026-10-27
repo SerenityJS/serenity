@@ -1,6 +1,6 @@
 import { Endianness, Float32, VarInt, ZigZag } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { ClientPredictedVehicle } from "../types/client-predicted-vehicle";
 import { PlayerAuthInputData } from "../types/player-auth-input-data";
 import { Packet } from "../../enums";

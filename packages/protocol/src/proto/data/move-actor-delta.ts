@@ -1,6 +1,6 @@
-import { Proto } from "@serenityjs/raknet";
 import { Endianness } from "@serenityjs/binarystream";
 
+import { Proto } from "../../decorators";
 import { MoveDeltaFlags, Packet } from "../../enums";
 import { RotationByte } from "../types";
 

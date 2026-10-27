@@ -1,6 +1,6 @@
 import { Bool, Uint8, VarInt, VarLong, ZigZag } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { type EffectType, type MobEffectEvents, Packet } from "../../enums";
 import { PlayerInputTick } from "../types";
 

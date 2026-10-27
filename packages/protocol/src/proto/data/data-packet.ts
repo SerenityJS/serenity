@@ -1,5 +1,6 @@
-import { BasePacket } from "@serenityjs/raknet";
 import { VarInt } from "@serenityjs/binarystream";
+
+import { BasePacket } from "./base-packet";
 
 import type { Packet } from "../../enums";
 

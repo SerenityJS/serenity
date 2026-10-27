@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Int8, ZigZag } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { type ContainerDataType, type ContainerId, Packet } from "../../enums";
 
 import { DataPacket } from "./data-packet";

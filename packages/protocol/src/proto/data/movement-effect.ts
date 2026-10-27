@@ -1,6 +1,6 @@
 import { VarInt, VarLong } from "@serenityjs/binarystream";
-import { Serialize, Proto } from "@serenityjs/raknet";
 
+import { Serialize, Proto } from "../../decorators";
 import { MovementEffectType, Packet } from "../../enums";
 
 import { DataPacket } from "./data-packet";

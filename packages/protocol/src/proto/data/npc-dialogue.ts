@@ -4,8 +4,8 @@ import {
   ZigZag,
   VarString
 } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { type NpcDialogueAction, Packet } from "../../enums";
 
 import { DataPacket } from "./data-packet";

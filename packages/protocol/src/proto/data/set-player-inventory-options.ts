@@ -1,4 +1,3 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Bool, VarInt } from "@serenityjs/binarystream";
 
 import {
@@ -7,6 +6,7 @@ import {
   type InventoryRightTab,
   Packet
 } from "../../enums";
+import { Proto, Serialize } from "../../decorators";
 
 import { DataPacket } from "./data-packet";
 

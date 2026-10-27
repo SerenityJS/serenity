@@ -1,5 +1,4 @@
-import { Proto } from "@serenityjs/raknet";
-
+import { Proto } from "../../decorators";
 import { AttributeLayerPayloadType, Packet } from "../../enums";
 import {
   AttributeLayerData,

@@ -1,6 +1,6 @@
 import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
+import { PacketDataTypeOptions } from "../../types";
 import { PlayerListAction } from "../../enums";
 
 import { SerializedSkin } from "./serialized-skin";

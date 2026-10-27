@@ -1,6 +1,6 @@
 import { Bool } from "@serenityjs/binarystream";
-import { Serialize, Proto } from "@serenityjs/raknet";
 
+import { Serialize, Proto } from "../../decorators";
 import { Packet } from "../../enums";
 
 import { DataPacket } from "./data-packet";

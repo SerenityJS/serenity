@@ -1,5 +1,4 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
-
+import { Proto, Serialize } from "../../decorators";
 import { GameRules } from "../types";
 import { Packet } from "../../enums";
 

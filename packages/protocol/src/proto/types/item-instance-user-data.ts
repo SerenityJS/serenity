@@ -1,7 +1,7 @@
 import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
+import { PacketDataTypeOptions } from "../../types";
 import { SHIELD_NETWORK_ID } from "../../constants";
 
 class ItemInstanceUserData extends DataType {

@@ -5,8 +5,8 @@ import {
   VarString,
   ZigZag
 } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
 import { Vector3f } from "../types";
 

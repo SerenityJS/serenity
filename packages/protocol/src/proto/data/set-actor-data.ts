@@ -1,5 +1,4 @@
 import { VarLong } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
 import {
   ActorDataId,
@@ -7,6 +6,7 @@ import {
   type ActorFlag,
   Packet
 } from "../../enums";
+import { Proto, Serialize } from "../../decorators";
 import { PropertySyncData, DataItem, PlayerInputTick } from "../types";
 
 import { DataPacket } from "./data-packet";

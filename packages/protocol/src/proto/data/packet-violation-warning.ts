@@ -1,11 +1,11 @@
 import { VarString, ZigZag } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
 import {
   Packet,
   type ViolationSeverity,
   type ViolationType
 } from "../../enums";
+import { Proto, Serialize } from "../../decorators";
 
 import { DataPacket } from "./data-packet";
 

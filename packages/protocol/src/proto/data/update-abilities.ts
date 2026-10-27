@@ -1,11 +1,11 @@
 import { Endianness, Int64, Uint8 } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
 import {
   type CommandPermissionLevel,
   Packet,
   type PermissionLevel
 } from "../../enums";
+import { Proto, Serialize } from "../../decorators";
 import { AbilityLayer, CommandPermission } from "../types";
 
 import { DataPacket } from "./data-packet";

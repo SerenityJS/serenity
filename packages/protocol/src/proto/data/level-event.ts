@@ -1,6 +1,6 @@
 import { ZigZag } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { type LevelEvent, Packet } from "../../enums";
 import { Vector3f } from "../types";
 

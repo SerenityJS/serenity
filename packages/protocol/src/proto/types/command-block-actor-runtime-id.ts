@@ -1,5 +1,6 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
+
+import { PacketDataTypeOptions } from "../../types";
 
 class CommandBlockActorRuntimeId extends DataType {
   public static read(

@@ -1,5 +1,4 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
-
+import { Proto, Serialize } from "../../decorators";
 import { EnchantOption } from "../types/enchant-option";
 import { Packet } from "../../enums";
 

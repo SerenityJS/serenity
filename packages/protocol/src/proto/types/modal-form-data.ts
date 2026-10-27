@@ -1,5 +1,6 @@
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
+
+import { PacketDataTypeOptions } from "../../types";
 
 class ModalFormData extends DataType {
   public static override read(

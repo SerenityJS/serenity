@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Uint8 } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { Uuid } from "../types";
 import { Packet, ShowStoreOfferRedirectType } from "../../enums";
 

@@ -1,6 +1,6 @@
 import { VarLong, ZigZag } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { type PlayerActionType, Packet } from "../../enums";
 import { BlockPosition } from "../types";
 

@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Uint8, ZigZong } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { AgentAnimationId, Packet } from "../../enums";
 
 import { DataPacket } from "./data-packet";

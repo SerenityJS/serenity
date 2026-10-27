@@ -1,6 +1,6 @@
 import { Endianness, BinaryStream, DataType } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
+import { PacketDataTypeOptions } from "../../types";
 import { type BossEventColor, BossEventUpdateType } from "../../enums";
 
 class BossEventUpdate extends DataType {

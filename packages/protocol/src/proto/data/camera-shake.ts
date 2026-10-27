@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Float32, Uint8 } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet, type ShakeAction, type ShakeType } from "../../enums";
 
 import { DataPacket } from "./data-packet";

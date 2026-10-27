@@ -1,6 +1,6 @@
 import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
+import { PacketDataTypeOptions } from "../../types";
 import { InputData } from "../../enums";
 
 import { ItemStackRequest } from "./item-stack-request";

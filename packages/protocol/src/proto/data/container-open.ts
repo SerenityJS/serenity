@@ -1,6 +1,6 @@
 import { Int8, ZigZong } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet, type ContainerId, type ContainerType } from "../../enums";
 import { BlockPosition } from "../types";
 

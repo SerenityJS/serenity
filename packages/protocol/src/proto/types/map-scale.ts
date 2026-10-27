@@ -1,5 +1,6 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
+
+import { PacketDataTypeOptions } from "../../types";
 
 class MapScale extends DataType {
   public static write(

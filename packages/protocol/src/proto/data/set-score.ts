@@ -1,6 +1,6 @@
 import { Uint8 } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet, type ScoreboardActionType } from "../../enums";
 import { ScoreEntry } from "../types";
 

@@ -12,7 +12,6 @@ import {
   ZigZag,
   ZigZong
 } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { CompoundTag } from "@serenityjs/nbt";
 
 import {
@@ -31,6 +30,7 @@ import {
   ServerTelemetryData,
   ServerJoinInfo
 } from "../types";
+import { Proto, Serialize } from "../../decorators";
 
 import { DataPacket } from "./data-packet";
 

@@ -5,8 +5,8 @@ import {
   Uint8,
   VarString
 } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { AnimateSwingSourceType, type AnimateType, Packet } from "../../enums";
 
 import { DataPacket } from "./data-packet";

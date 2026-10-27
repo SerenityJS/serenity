@@ -5,8 +5,8 @@ import {
   Bool,
   VarLong
 } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { type MoveMode, Packet } from "../../enums";
 import { Vector3f, TeleportCause, PlayerInputTick } from "../types";
 

@@ -1,7 +1,7 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Bool } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
 
 import { DataPacket } from "./data-packet";

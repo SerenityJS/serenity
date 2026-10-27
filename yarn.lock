@@ -1978,10 +1978,10 @@ __metadata:
     "@serenityjs/binarystream": "npm:^3.1.0"
     "@serenityjs/internal-config": "npm:*"
     "@serenityjs/nbt": "npm:*"
-    "@serenityjs/raknet": "npm:*"
     "@swc/core": "npm:1.7.42"
     "@types/node": "npm:22.8.6"
     eslint: "npm:9.13.0"
+    reflect-metadata: "npm:0.2.2"
     tsup: "npm:8.3.5"
     typescript: "npm:5.6.3"
   languageName: unknown

@@ -8,7 +8,6 @@ import {
   VarString,
   ZigZag
 } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
 import {
   type CommandPermissionLevel,
@@ -28,6 +27,7 @@ import {
   Uuid,
   Vector3f
 } from "../types";
+import { Proto, Serialize } from "../../decorators";
 
 import { DataPacket } from "./data-packet";
 

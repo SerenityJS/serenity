@@ -2,6 +2,7 @@
 
 export * from "./packets";
 
+export * from "./base-packet";
 export * from "./data-packet";
 
 export * from "./actor-event";
