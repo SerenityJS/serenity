@@ -1,5 +1,4 @@
-import { Proto } from "@serenityjs/raknet";
-
+import { Proto } from "../../decorators";
 import { Packet, PlayerListAction } from "../../enums";
 import { PlayerListRecord } from "../types";
 

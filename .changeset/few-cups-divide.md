@@ -7,7 +7,7 @@
 "@serenityjs/nbt": patch
 "@serenityjs/plugins": patch
 "@serenityjs/protocol": patch
-"@serenityjs/raknet": patch
+"@serenityjs/nethernet": patch
 ---
 
 init v0.8.22

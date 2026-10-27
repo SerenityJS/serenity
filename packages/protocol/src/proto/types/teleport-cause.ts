@@ -1,6 +1,6 @@
 import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
+import { PacketDataTypeOptions } from "../../types";
 import { MoveMode } from "../../enums";
 
 class TeleportCause extends DataType {

@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Bool, Endianness, Uint32, VarString } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
 import { CommandBlockActorRuntimeId, CommandBlockSettings } from "../types";
 

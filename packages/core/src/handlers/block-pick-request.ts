@@ -1,7 +1,7 @@
 import { BinaryStream } from "@serenityjs/binarystream";
 import { CompoundTag } from "@serenityjs/nbt";
 import { BlockPickRequestPacket, Gamemode, Packet } from "@serenityjs/protocol";
-import { Connection } from "@serenityjs/raknet";
+import { Connection } from "@serenityjs/nethernet";
 
 import { EntityInventoryTrait } from "../entity";
 import { NetworkHandler } from "../network";

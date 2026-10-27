@@ -36,6 +36,8 @@ const PersonaPieceTypeNames: Record<PersonaPieceType, string> = {
   [PersonaPieceType.Capes]: "persona_capes",
   [PersonaPieceType.ClassicSkin]: "persona_classic_skin",
   [PersonaPieceType.Emote]: "persona_emote",
+  // ? The login data name of the CoCo piece type is assumed to follow the persona naming
+  [PersonaPieceType.CoCo]: "persona_coco",
   [PersonaPieceType.Unsupported]: "unsupported"
 };
 

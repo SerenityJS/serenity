@@ -8,7 +8,6 @@ import {
   VarString,
   ZigZag
 } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
 import {
   type CommandPermissionLevel,
@@ -24,10 +23,12 @@ import {
   CommandPermission,
   DataItem,
   NetworkItemStackDescriptor,
+  PassengerOfBlockArguments,
   PropertySyncData,
   Uuid,
   Vector3f
 } from "../types";
+import { Proto, Serialize } from "../../decorators";
 
 import { DataPacket } from "./data-packet";
 
@@ -57,6 +58,13 @@ class AddPlayerPacket extends DataPacket {
   public commandPermission!: CommandPermissionLevel;
   @Serialize(AbilityLayer) public abilities!: Array<AbilityLayer>;
   @Serialize(ActorLinkSet) public links!: Array<ActorLink>;
+
+  /**
+   * The initial passenger of block state of the player, if it is riding a block.
+   */
+  @Serialize(PassengerOfBlockArguments, { optional: true })
+  public passengerBlockData?: PassengerOfBlockArguments;
+
   @Serialize(VarString) public deviceId!: string;
   @Serialize(Int32, { endian: Endianness.Little }) public deviceOS!: DeviceOS;
 }

@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, createPublicKey } from "node:crypto";
 
 import {
   ClientData,
@@ -12,7 +12,7 @@ import {
   ResourcePacksInfoPacket,
   SerializedSkin
 } from "@serenityjs/protocol";
-import { Connection } from "@serenityjs/raknet";
+import { Connection } from "@serenityjs/nethernet";
 import {
   Authentication,
   AuthenticationType
@@ -75,6 +75,19 @@ class LoginHandler extends NetworkHandler {
       xname = onlineData.xname;
       uuid = LoginHandler.getUUIDFromXUID(xid);
     }
+
+    // NetherNet connections are not encrypted by the game, so a captured login could be replayed.
+    // The client proved its key when signaling, so the login must be signed by that same key.
+    if (
+      connection.identity &&
+      !LoginHandler.isSameKey(connection.identity.publicKey, cpk)
+    )
+      return void this.network.disconnectConnection(
+        connection,
+        "Your login does not match the identity of your connection.",
+        DisconnectReason.NetherNetIdentityNotAllowed
+      );
+
     const clientData = await Authentication.verify<ClientData>(
       packet.tokens.client,
       cpk
@@ -130,6 +143,7 @@ class LoginHandler extends NetworkHandler {
     const properties: Partial<PlayerProperties> = {
       username: xname,
       xuid: xid,
+      playFabId: clientData.PlayFabId ?? "",
       uuid,
       clientSystemInfo,
       skin
@@ -198,6 +212,28 @@ class LoginHandler extends NetworkHandler {
 
   public static getUUIDFromUsername(username: string): string {
     return uuidFromBytes(new TextEncoder().encode(`OfflinePlayer:${username}`));
+  }
+
+  /**
+   * Checks whether two base64 encoded DER public keys are the same key
+   * @param a The first public key
+   * @param b The second public key
+   * @returns Whether the keys are the same
+   */
+  public static isSameKey(a: string, b: string): boolean {
+    try {
+      // Compare the keys in their canonical DER form, regardless of how they were encoded
+      const der = (key: string) =>
+        createPublicKey({
+          key: Buffer.from(key, "base64"),
+          format: "der",
+          type: "spki"
+        }).export({ type: "spki", format: "der" });
+
+      return der(a).equals(der(b));
+    } catch {
+      return false;
+    }
   }
 
   /**

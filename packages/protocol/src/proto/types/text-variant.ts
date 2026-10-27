@@ -1,6 +1,6 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
+import { PacketDataTypeOptions } from "../../types";
 import { TextType, TextVariantType } from "../../enums";
 
 class TextVariant extends DataType {

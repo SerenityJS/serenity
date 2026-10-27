@@ -396,7 +396,7 @@ class World extends Emitter<WorldEventSignals> {
 
   /**
    * Sends a packet to all players in the world immediately.
-   * This will bypass the RakNet queue and send the packet immediately.
+   * This will not wait for the next batch, and send the packet immediately.
    * @param packets The packets to send.
    */
   public broadcastImmediate(...packets: Array<DataPacket>): void {

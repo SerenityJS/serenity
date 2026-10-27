@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { ZigZag } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet, type HudVisibility } from "../../enums";
 import { HudElementData } from "../types";
 

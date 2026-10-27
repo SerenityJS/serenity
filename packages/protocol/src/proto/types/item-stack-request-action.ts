@@ -14,9 +14,9 @@ import { ItemStackRequestActionCraftRecipeAuto } from "./item-stack-request-acti
 import { ItemStackRequestActionCraftCreative } from "./item-stack-request-action-craft-creative";
 import { ItemStackRequestActionOptional } from "./item-stack-request-action-optional";
 import { ItemStackRequestActionResultsDeprecated } from "./item-stack-request-action-results-deprecated";
-
 import { ItemStackRequestActionCraftLoomRequest } from "./item-stack-request-action-craft-loom-request";
 import { ItemStackRequestActionCraftGrindstoneRequest } from "./item-stack-request-action-craft-grindstone-request";
+import { ItemStackRequestActionCraftReserved } from "./item-stack-request-action-craft-reserved";
 
 class ItemStackRequestAction extends DataType {
   /**
@@ -95,6 +95,11 @@ class ItemStackRequestAction extends DataType {
   public readonly resultsDeprecated: ItemStackRequestActionResultsDeprecated | null;
 
   /**
+   * The craft reserved of the item stack request action.
+   */
+  public readonly craftReserved: ItemStackRequestActionCraftReserved | null;
+
+  /**
    * Creates a new instance of ItemStackRequestAction.
    * @param action - The action of the item stack request action.
    * @param takeOrPlace - The take or place of the item stack request action.
@@ -111,6 +116,7 @@ class ItemStackRequestAction extends DataType {
    * @param craftGrindstoneRequest - The craft grindstone request of the item stack request action.
    * @param craftLoomRequest - The craft loom request of the item stack request action.
    * @param resultsDeprecated - The results deprecated of the item stack request action.
+   * @param craftReserved - The craft reserved of the item stack request action.
    */
   public constructor(
     action: ItemStackRequestActionType,
@@ -127,7 +133,8 @@ class ItemStackRequestAction extends DataType {
     optional?: ItemStackRequestActionOptional | null,
     craftGrindstoneRequest?: ItemStackRequestActionCraftGrindstoneRequest | null,
     craftLoomRequest?: ItemStackRequestActionCraftLoomRequest | null,
-    resultsDeprecated?: ItemStackRequestActionResultsDeprecated | null
+    resultsDeprecated?: ItemStackRequestActionResultsDeprecated | null,
+    craftReserved?: ItemStackRequestActionCraftReserved | null
   ) {
     super();
     this.action = action;
@@ -145,6 +152,7 @@ class ItemStackRequestAction extends DataType {
     this.craftGrindstoneRequest = craftGrindstoneRequest ?? null;
     this.craftLoomRequest = craftLoomRequest ?? null;
     this.resultsDeprecated = resultsDeprecated ?? null;
+    this.craftReserved = craftReserved ?? null;
   }
 
   public static read(stream: BinaryStream): ItemStackRequestAction {
@@ -328,6 +336,27 @@ class ItemStackRequestAction extends DataType {
           null,
           null,
           ItemStackRequestActionCraftLoomRequest.read(stream)
+        );
+      }
+
+      case ItemStackRequestActionType.CraftReservedAction: {
+        return new this(
+          action,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          ItemStackRequestActionCraftReserved.read(stream)
         );
       }
 

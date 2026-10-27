@@ -1,6 +1,6 @@
 import { Uint8, Bool, VarString } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet, TextVariantType } from "../../enums";
 import { TextVariant } from "../types";
 

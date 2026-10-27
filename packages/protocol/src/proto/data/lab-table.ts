@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Uint8 } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { LabTableReactionType, LabTableType, Packet } from "../../enums";
 import { BlockPosition } from "../types";
 

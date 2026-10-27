@@ -1,11 +1,11 @@
 import { VarInt } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
 import {
   Packet,
   type UpdateBlockFlagsType,
   type UpdateBlockLayerType
 } from "../../enums";
+import { Proto, Serialize } from "../../decorators";
 import { BlockPosition } from "../types";
 
 import { DataPacket } from "./data-packet";

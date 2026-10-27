@@ -180,3 +180,7 @@ export * from "./store-entry-point-info";
 export * from "./sound-data-update";
 export * from "./skin-color";
 export * from "./item-stack-request-item";
+export * from "./passenger-of-block-arguments";
+export * from "./matchmaking-state-options";
+export * from "./audio-content-registration-entry";
+export * from "./item-stack-request-action-craft-reserved";

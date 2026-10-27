@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Uint8, VarString } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet, UpdateSoftEnumType } from "../../enums";
 import { UpdateSoftEnumData } from "../types";
 

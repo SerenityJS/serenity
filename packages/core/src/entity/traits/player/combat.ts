@@ -4,7 +4,8 @@ import {
   AnimatePacket,
   Vector3f,
   AnimateType,
-  Gamemode
+  Gamemode,
+  HandSlot
 } from "@serenityjs/protocol";
 import { FloatTag } from "@serenityjs/nbt";
 
@@ -265,6 +266,7 @@ class PlayerCombatTrait extends PlayerTrait {
       packet.type = AnimateType.CriticalHit;
       packet.actorRuntimeId = target.runtimeId;
       packet.data = 0;
+      packet.hand = HandSlot.MainHand;
 
       // Broadcast the animate packet to the dimension of the player.
       this.player.dimension.broadcast(packet);

@@ -1,4 +1,4 @@
-import { Connection } from "@serenityjs/raknet";
+import { Connection } from "@serenityjs/nethernet";
 import {
   AbilityIndex,
   BlockPosition,
@@ -78,7 +78,7 @@ import { PlayerCamera } from "./camera";
 
 class Player extends Entity {
   /**
-   * The current raknet connection of the player
+   * The current nethernet connection of the player
    */
   public readonly connection: Connection;
 
@@ -91,6 +91,11 @@ class Player extends Entity {
    * The xbox user id of the player
    */
   public readonly xuid: string;
+
+  /**
+   * The PlayFab id of the player; empty when unknown
+   */
+  public readonly playFabId: string;
 
   /**
    * The uuid of the player
@@ -194,7 +199,7 @@ class Player extends Entity {
   /**
    * Create a new player instance within a dimension.
    * @param dimension The dimension the player will spawn in.
-   * @param connection The raknet connection of the player.
+   * @param connection The nethernet connection of the player.
    * @param properties The additional properties of the player.
    */
   public constructor(
@@ -213,6 +218,7 @@ class Player extends Entity {
     // Assign the properties to the player
     this.username = props.username;
     this.xuid = props.xuid;
+    this.playFabId = props.playFabId;
     this.uuid = props.uuid;
     this.clientSystemInfo = props.clientSystemInfo;
     this.skin = new PlayerSkin(this, props.skin);

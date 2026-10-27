@@ -1,6 +1,6 @@
 import { Bool, ZigZag } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { DimensionType, Packet } from "../../enums";
 import { SubChunkRequestEntry, SubChunkPosition } from "../types";
 

@@ -1,6 +1,6 @@
 import { BinaryStream, DataType } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
+import { PacketDataTypeOptions } from "../../types";
 import { InputData } from "../../enums";
 
 import { PlayerBlockActionData } from "./player-block-action-data";

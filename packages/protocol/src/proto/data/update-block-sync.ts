@@ -1,4 +1,3 @@
-import { Serialize, Proto } from "@serenityjs/raknet";
 import { VarInt, ZigZong } from "@serenityjs/binarystream";
 
 import {
@@ -6,6 +5,7 @@ import {
   UpdateBlockFlagsType,
   UpdateBlockLayerType
 } from "../../enums";
+import { Serialize, Proto } from "../../decorators";
 import { BlockPosition } from "../types";
 
 import { DataPacket } from "./data-packet";

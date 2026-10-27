@@ -1,6 +1,6 @@
 import { ZigZag, Bool } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet, type DisconnectReason } from "../../enums";
 import { DisconnectMessage } from "../types";
 

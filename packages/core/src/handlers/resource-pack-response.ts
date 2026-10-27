@@ -1,6 +1,7 @@
 import {
   AvailableActorIdentifiersPacket,
   DisconnectReason,
+  EditorLevelMigrationVersion,
   GameRuleType,
   JigsawStructureDataPacket,
   MINECRAFT_VERSION,
@@ -18,7 +19,7 @@ import {
   PackType,
   VoxelShapesPacket
 } from "@serenityjs/protocol";
-import { Connection } from "@serenityjs/raknet";
+import { Connection } from "@serenityjs/nethernet";
 import { CompoundTag, ListTag, TagType } from "@serenityjs/nbt";
 
 import { NetworkHandler } from "../network";
@@ -156,6 +157,7 @@ class ResourcePackClientResponseHandler extends NetworkHandler {
         packet.editorWorldType = 0;
         packet.createdInEdior = false;
         packet.exportedFromEdior = false;
+        packet.editorLevelMigrationVersion = EditorLevelMigrationVersion.Legacy;
         packet.dayCycleStopTime = player.world.dayTime;
         packet.eduOffer = 0;
         packet.eduFeatures = true;

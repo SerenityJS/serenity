@@ -1,6 +1,6 @@
 import { Endianness, BinaryStream, DataType } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
+import { PacketDataTypeOptions } from "../../types";
 import { ScoreboardActionType, ScoreboardIdentityType } from "../../enums";
 
 class ScoreEntry extends DataType {

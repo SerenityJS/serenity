@@ -183,7 +183,15 @@ import type {
   VoxelShapesPacket,
   ClientboundDataDrivenUIShowScreenPacket,
   ClientboundDataStorePacket,
-  ServerboundDataStorePacket
+  ServerboundDataStorePacket,
+  ClientboundMatchmakingStatePacket,
+  ServerboundStonecutterSetRecipePacket,
+  ClientboundStonecutterSetRecipePacket,
+  ServerboundMatchmakingCancelPacket,
+  SetPassengerOfBlockPacket,
+  ServerboundCursorItemDragPacket,
+  ClientboundPlayAudioContentPacket,
+  ServerboundRegisterAudioContentPacket
 } from "@serenityjs/protocol";
 import type { NetworkPacketEvent } from "./packet-event";
 
@@ -471,6 +479,28 @@ interface NetworkEvents {
   ];
   [Packet.PartyDestinationCookieResponse]: [
     NetworkPacketEvent<PartyDestinationCookieResponsePacket>
+  ];
+  [Packet.ClientboundMatchmakingState]: [
+    NetworkPacketEvent<ClientboundMatchmakingStatePacket>
+  ];
+  [Packet.ServerboundStonecutterSetRecipe]: [
+    NetworkPacketEvent<ServerboundStonecutterSetRecipePacket>
+  ];
+  [Packet.ClientboundStonecutterSetRecipe]: [
+    NetworkPacketEvent<ClientboundStonecutterSetRecipePacket>
+  ];
+  [Packet.ServerboundMatchmakingCancel]: [
+    NetworkPacketEvent<ServerboundMatchmakingCancelPacket>
+  ];
+  [Packet.SetPassengerOfBlock]: [NetworkPacketEvent<SetPassengerOfBlockPacket>];
+  [Packet.ServerboundCursorItemDrag]: [
+    NetworkPacketEvent<ServerboundCursorItemDragPacket>
+  ];
+  [Packet.ClientboundPlayAudioContent]: [
+    NetworkPacketEvent<ClientboundPlayAudioContentPacket>
+  ];
+  [Packet.ServerboundRegisterAudioContent]: [
+    NetworkPacketEvent<ServerboundRegisterAudioContentPacket>
   ];
 }
 

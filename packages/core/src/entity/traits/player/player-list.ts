@@ -92,6 +92,7 @@ class PlayerListTrait extends PlayerTrait {
         uniqueId: player.uniqueId,
         uuid: player.uuid,
         xuid: player.xuid,
+        playFabId: player.playFabId,
         username: player.username,
         skin: player.skin.getSerialized(),
         platformBuild: player.clientSystemInfo.os,

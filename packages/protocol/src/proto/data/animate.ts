@@ -1,13 +1,19 @@
 import {
   Endianness,
   Float32,
+  VarInt,
   VarLong,
   Uint8,
   VarString
 } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
-import { AnimateSwingSourceType, type AnimateType, Packet } from "../../enums";
+import { Proto, Serialize } from "../../decorators";
+import {
+  AnimateSwingSourceType,
+  type AnimateType,
+  type HandSlot,
+  Packet
+} from "../../enums";
 
 import { DataPacket } from "./data-packet";
 
@@ -34,6 +40,13 @@ class AnimatePacket extends DataPacket {
    */
   @Serialize(VarString, { optional: true })
   public swingSourceType!: AnimateSwingSourceType | null;
+
+  /**
+   * The hand that is animating.
+   * The client defaults to the main hand when this is not provided.
+   */
+  @Serialize(VarInt, { optional: true })
+  public hand?: HandSlot;
 }
 
 export { AnimatePacket };

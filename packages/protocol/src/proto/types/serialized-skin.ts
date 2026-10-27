@@ -18,11 +18,6 @@ class SerializedSkin extends DataType {
   public identifier: string;
 
   /**
-   * The playfab identifier of the skin.
-   */
-  public playFabIdentifier: string;
-
-  /**
    * The resource patch of the skin.
    */
   public resourcePatch: string;
@@ -126,7 +121,6 @@ class SerializedSkin extends DataType {
    * Creates a new serialized skin.
    *
    * @param identifier The identifier of the skin.
-   * @param playFabIdentifier The playfab identifier of the skin.
    * @param resourcePatch The resource patch of the skin.
    * @param skinImage The skin image.
    * @param animations The animations of the skin.
@@ -151,7 +145,6 @@ class SerializedSkin extends DataType {
    */
   public constructor(
     identifier: string,
-    playFabIdentifier: string,
     resourcePatch: string,
     skinImage: SkinImage,
     animations: Array<SkinAnimation>,
@@ -175,7 +168,6 @@ class SerializedSkin extends DataType {
   ) {
     super();
     this.identifier = identifier;
-    this.playFabIdentifier = playFabIdentifier;
     this.resourcePatch = resourcePatch;
     this.skinImage = skinImage;
     this.animations = animations;
@@ -201,7 +193,6 @@ class SerializedSkin extends DataType {
   public static read(stream: BinaryStream): SerializedSkin {
     // Read the properties of the serialized skin.
     const identifier = stream.readVarString();
-    const playFabIdentifier = stream.readVarString();
     const resourcePatch = stream.readVarString();
     const skinImage = SkinImage.read(stream);
 
@@ -260,7 +251,6 @@ class SerializedSkin extends DataType {
     // Return the new serialized skin.
     return new SerializedSkin(
       identifier,
-      playFabIdentifier,
       resourcePatch,
       skinImage,
       animations,
@@ -287,7 +277,6 @@ class SerializedSkin extends DataType {
   public static write(stream: BinaryStream, skin: SerializedSkin): void {
     // Write the properties of the serialized skin.
     stream.writeVarString(skin.identifier);
-    stream.writeVarString(skin.playFabIdentifier);
     stream.writeVarString(skin.resourcePatch);
     SkinImage.write(stream, skin.skinImage);
 
@@ -337,7 +326,6 @@ class SerializedSkin extends DataType {
   public static from(data: ClientData): SerializedSkin {
     return {
       identifier: data.SkinId,
-      playFabIdentifier: "",
       resourcePatch: Buffer.from(data.SkinResourcePatch, "base64").toString(
         "utf8"
       ),
@@ -405,7 +393,6 @@ class SerializedSkin extends DataType {
    */
   public static empty(): SerializedSkin {
     return new SerializedSkin(
-      "",
       "",
       "",
       new SkinImage(0, 0, Buffer.alloc(0)),

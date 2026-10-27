@@ -1,6 +1,6 @@
 import { Endianness } from "@serenityjs/binarystream";
-import { Proto } from "@serenityjs/raknet";
 
+import { Proto } from "../../decorators";
 import { Packet } from "../../enums";
 
 import { DataPacket } from "./data-packet";
@@ -38,6 +38,12 @@ class LevelChunkPacket extends DataPacket {
 
   public data!: Buffer;
 
+  /**
+   * Whether the biome data of the chunk overrides the client biome data.
+   * Since v2225, this is written after the chunk payload.
+   */
+  public isClientBiomeUpdate = false;
+
   public override serialize(): Buffer {
     // Reset the offset, as the same packet may be serialized more than once (e.g. when broadcasting)
     this.offset = 0;
@@ -68,6 +74,9 @@ class LevelChunkPacket extends DataPacket {
     // Write the chunk payload.
     this.writeVarInt(this.data.length);
     this.write(this.data);
+
+    // Write whether the server biome data overrides the client biome data.
+    this.writeBool(this.isClientBiomeUpdate);
 
     return this.getBuffer();
   }
@@ -103,6 +112,9 @@ class LevelChunkPacket extends DataPacket {
     // Read the chunk payload.
     const dataLength = this.readVarInt();
     this.data = this.read(dataLength);
+
+    // Read whether the server biome data overrides the client biome data.
+    this.isClientBiomeUpdate = this.readBool();
 
     return this;
   }

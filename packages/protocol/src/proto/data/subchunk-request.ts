@@ -1,6 +1,6 @@
 import { Endianness } from "@serenityjs/binarystream";
-import { Proto } from "@serenityjs/raknet";
 
+import { Proto } from "../../decorators";
 import { DimensionType, Packet } from "../../enums";
 import { SubChunkPosition, SubChunkRequestPositionOffset } from "../types";
 

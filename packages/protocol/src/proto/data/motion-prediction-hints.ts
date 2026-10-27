@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { VarLong, Bool } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { DataPacket, Packet } from "../..";
 import { Vector3f } from "../types";
 

@@ -1,1 +1,1 @@
-yarn commitlint --edit \
+yarn commitlint --edit "$1"

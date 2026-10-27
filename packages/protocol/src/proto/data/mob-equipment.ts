@@ -1,6 +1,6 @@
 import { Int8, Uint8, VarLong } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { type ContainerId, Packet } from "../../enums";
 import { NetworkItemStackDescriptorCereal } from "../types";
 

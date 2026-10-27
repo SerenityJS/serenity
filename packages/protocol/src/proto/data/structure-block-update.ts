@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Bool } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { BlockPosition, StructureEditorData } from "../types";
 import { Packet } from "../../enums";
 

@@ -5,8 +5,8 @@ import {
   VarString,
   ZigZong
 } from "@serenityjs/binarystream";
-import { Serialize, Proto } from "@serenityjs/raknet";
 
+import { Serialize, Proto } from "../../decorators";
 import { Packet } from "../../enums";
 import {
   DataItem,
@@ -14,7 +14,8 @@ import {
   EntityAttributes,
   ActorLinkSet,
   PropertySyncData,
-  ActorLink
+  ActorLink,
+  PassengerOfBlockArguments
 } from "../types";
 
 import { DataPacket } from "./data-packet";
@@ -34,6 +35,12 @@ class AddEntityPacket extends DataPacket {
   @Serialize(DataItem) public data!: Array<DataItem>;
   @Serialize(PropertySyncData) public properties!: PropertySyncData;
   @Serialize(ActorLinkSet) public links!: Array<ActorLink>;
+
+  /**
+   * The initial passenger of block state of the entity, if it is riding a block.
+   */
+  @Serialize(PassengerOfBlockArguments, { optional: true })
+  public passengerBlockData?: PassengerOfBlockArguments;
 }
 
 export { AddEntityPacket };

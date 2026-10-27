@@ -65,7 +65,11 @@ enum ContainerName {
   Dynamic,
   RecipeFoodContainer,
   RecipeBlocksContainer,
-  RecipeFurnaceItmesContainer
+  RecipeFurnaceItmesContainer,
+  ReservedContainerA,
+  ReservedContainerB,
+  ReservedContainerC,
+  ReservedContainerD
 }
 
 export { ContainerName };

@@ -1,5 +1,4 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
-
+import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
 import { GraphicsOverrideParameterPayload } from "../types";
 

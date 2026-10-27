@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Bool, Uint8, VarInt, ZigZong } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
 import {
   BlockPosition,

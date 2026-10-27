@@ -1,4 +1,3 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import {
   Endianness,
   Float32,
@@ -7,6 +6,7 @@ import {
   VarString
 } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { Vector3f } from "../types";
 import { Packet } from "../../enums";
 

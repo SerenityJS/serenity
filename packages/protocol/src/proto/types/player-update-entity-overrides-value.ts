@@ -1,6 +1,6 @@
 import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
+import { PacketDataTypeOptions } from "../../types";
 import { PlayerUpdateEntityOverridesType } from "../../enums";
 
 class PlayerUpdateEntityOverridesValue extends DataType {

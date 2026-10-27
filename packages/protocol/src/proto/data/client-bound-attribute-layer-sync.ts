@@ -1,5 +1,4 @@
-import { Proto } from "@serenityjs/raknet";
-
+import { Proto } from "../../decorators";
 import { AttributeLayerPayloadType, Packet } from "../../enums";
 import {
   AttributeLayerData,
@@ -62,7 +61,9 @@ class ClientBoundAttributeLayerSyncPacket extends DataPacket {
         break;
       }
       default: {
-        throw new Error(`Unknown attribute layer payload type: ${this.payloadType}`);
+        throw new Error(
+          `Unknown attribute layer payload type: ${this.payloadType}`
+        );
       }
     }
 
@@ -109,7 +110,9 @@ class ClientBoundAttributeLayerSyncPacket extends DataPacket {
         break;
       }
       default: {
-        throw new Error(`Unknown attribute layer payload type: ${this.payloadType}`);
+        throw new Error(
+          `Unknown attribute layer payload type: ${this.payloadType}`
+        );
       }
     }
 

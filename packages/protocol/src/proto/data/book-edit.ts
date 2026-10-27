@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Uint8 } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { type BookEditAction, Packet } from "../../enums";
 import { BookActions } from "../types";
 

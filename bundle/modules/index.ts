@@ -5,9 +5,9 @@ import Emitter from "./emitter";
 import LevelDB from "./leveldb";
 import Logger from "./logger";
 import NBT from "./nbt";
+import NetherNet from "./nethernet";
 import Plugins from "./plugins";
 import Protocol from "./protocol";
-import Raknet from "./raknet";
 
 const Modules = [
   Binarystream,
@@ -17,9 +17,9 @@ const Modules = [
   LevelDB,
   Logger,
   NBT,
+  NetherNet,
   Plugins,
-  Protocol,
-  Raknet
+  Protocol
 ];
 
 export { Modules };

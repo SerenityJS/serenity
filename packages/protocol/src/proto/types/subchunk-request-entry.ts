@@ -1,6 +1,6 @@
 import { BinaryStream, DataType, Endianness } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
+import { PacketDataTypeOptions } from "../../types";
 import { SubChunkHeightMapDataType, SubChunkRequestResult } from "../../enums";
 
 import { SubChunkRequestPositionOffset } from "./subchunk-request-position-offset";

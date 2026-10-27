@@ -37,7 +37,8 @@ enum ContainerType {
   SmithingTable = 33,
   ChestBoat = 34,
   DecoratedPot = 35,
-  Crafter = 36
+  Crafter = 36,
+  ReservedContainerType = 38
 }
 
 export { ContainerType };

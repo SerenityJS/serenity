@@ -14,7 +14,7 @@ import {
   ItemStackResponseResult,
   Packet
 } from "@serenityjs/protocol";
-import { Connection } from "@serenityjs/raknet";
+import { Connection } from "@serenityjs/nethernet";
 
 import { Player } from "../entity";
 import {
@@ -102,6 +102,9 @@ class ItemStackRequestHandler extends NetworkHandler {
 
         // Deprecated actions are ignored
         if (action.resultsDeprecated) continue;
+
+        // Reserved craft actions are not implemented, and are ignored
+        if (action.craftReserved) continue;
 
         // If a result was obtained, create a new response info
         if (result) {

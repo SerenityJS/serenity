@@ -1,6 +1,6 @@
-import { Serialize } from "@serenityjs/raknet";
 import { Int32 } from "@serenityjs/binarystream";
 
+import { Serialize } from "../../decorators";
 import { Vector3f } from "../types";
 
 import { DataPacket } from "./data-packet";

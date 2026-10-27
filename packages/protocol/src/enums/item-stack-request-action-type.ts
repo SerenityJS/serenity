@@ -17,12 +17,13 @@ enum ItemStackRequestActionType {
   CraftRecipeOptional = 15,
   CraftRepairAndDisenchant = 16,
   CraftLoom = 17,
-  CraftNonImplemented_DEPRECATEDASKTYLAING = 18,
-  CraftResults_DEPRECATEDASKTYLAING = 19,
-  ifdef = 20,
-  TEST_INFRASTRUCTURE_ENABLED = 21,
-  Test = 22,
-  endif = 23
+  CraftReservedAction = 18,
+  CraftNonImplemented_DEPRECATEDASKTYLAING = 19,
+  CraftResults_DEPRECATEDASKTYLAING = 20,
+  ifdef = 21,
+  TEST_INFRASTRUCTURE_ENABLED = 22,
+  Test = 23,
+  endif = 24
 }
 
 export { ItemStackRequestActionType };

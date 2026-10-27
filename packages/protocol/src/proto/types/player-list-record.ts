@@ -1,6 +1,6 @@
 import { BinaryStream, Endianness, DataType } from "@serenityjs/binarystream";
-import { PacketDataTypeOptions } from "@serenityjs/raknet";
 
+import { PacketDataTypeOptions } from "../../types";
 import { PlayerListAction } from "../../enums";
 
 import { SerializedSkin } from "./serialized-skin";
@@ -27,6 +27,11 @@ class PlayerListRecord extends DataType {
    * The xbox user id of the player.
    */
   public readonly xuid: string | null;
+
+  /**
+   * The server-verified PlayFab identifier of the player, when available.
+   */
+  public readonly playFabId: string | null;
 
   /**
    * The platform chat identifier of the player.
@@ -77,6 +82,7 @@ class PlayerListRecord extends DataType {
    * @param isHost Whether the player is a host.
    * @param isVisitor Whether the player is a visitor.
    * @param locatorColor The locator bar color of the player.
+   * @param playFabId The server-verified PlayFab identifier of the player.
    */
   public constructor(
     uuid: string,
@@ -89,13 +95,15 @@ class PlayerListRecord extends DataType {
     isTeacher?: boolean | null,
     isHost?: boolean | null,
     isVisitor?: boolean | null,
-    locatorColor?: Color | null
+    locatorColor?: Color | null,
+    playFabId?: string | null
   ) {
     super();
     this.uuid = uuid;
     this.uniqueId = uniqueId ?? null;
     this.username = username ?? null;
     this.xuid = xuid ?? null;
+    this.playFabId = playFabId ?? null;
     this.platformChatIdentifier = platformChatIdentifier ?? null;
     this.platformBuild = platformBuild ?? null;
     this.skin = skin ?? null;
@@ -167,6 +175,7 @@ class PlayerListRecord extends DataType {
     const uniqueId = stream.readZigZong();
     const username = stream.readVarString();
     const xuid = stream.readVarString();
+    const playFabId = stream.readVarString();
     const platformChatIdentifier = stream.readVarString();
     const platformBuild = stream.readInt32(Endianness.Little);
     const skin = SerializedSkin.read(stream);
@@ -197,7 +206,8 @@ class PlayerListRecord extends DataType {
         isTeacher,
         isHost,
         isVisitor,
-        locatorColor
+        locatorColor,
+        playFabId
       )
     ];
   }
@@ -230,6 +240,9 @@ class PlayerListRecord extends DataType {
     stream.writeZigZong(record.uniqueId as bigint);
     stream.writeVarString(record.username as string);
     stream.writeVarString(record.xuid as string);
+
+    // Since v2225, the PlayFab identifier is part of the entry instead of the skin.
+    stream.writeVarString(record.playFabId ?? "");
     stream.writeVarString(record.platformChatIdentifier as string);
     stream.writeInt32(record.platformBuild as number, Endianness.Little);
     SerializedSkin.write(stream, record.skin as SerializedSkin);

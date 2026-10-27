@@ -12,11 +12,11 @@ import {
   ZigZag,
   ZigZong
 } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { CompoundTag } from "@serenityjs/nbt";
 
 import {
   type Difficulty,
+  type EditorLevelMigrationVersion,
   type Gamemode,
   Packet,
   type PermissionLevel
@@ -31,6 +31,7 @@ import {
   ServerTelemetryData,
   ServerJoinInfo
 } from "../types";
+import { Proto, Serialize } from "../../decorators";
 
 import { DataPacket } from "./data-packet";
 
@@ -55,6 +56,14 @@ class StartGamePacket extends DataPacket {
   @Serialize(ZigZag) public editorWorldType!: number;
   @Serialize(Bool) public createdInEdior!: boolean;
   @Serialize(Bool) public exportedFromEdior!: boolean;
+
+  /**
+   * The editor migration version of the level.
+   * Since v2225, this is written after the exported from editor flag.
+   */
+  @Serialize(ZigZag)
+  public editorLevelMigrationVersion!: EditorLevelMigrationVersion;
+
   @Serialize(ZigZag) public dayCycleStopTime!: number;
   @Serialize(VarInt) public eduOffer!: number;
   @Serialize(Bool) public eduFeatures!: boolean;

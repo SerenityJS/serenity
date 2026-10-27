@@ -1,6 +1,6 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import { Endianness, Int32, Int16 } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { type ItemUseMethod, Packet } from "../../enums";
 
 import { DataPacket } from "./data-packet";

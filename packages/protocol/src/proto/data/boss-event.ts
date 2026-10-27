@@ -5,7 +5,6 @@ import {
   Float32,
   Endianness
 } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
 import {
   BossEventColor,
@@ -13,6 +12,7 @@ import {
   type BossEventUpdateType,
   Packet
 } from "../../enums";
+import { Proto, Serialize } from "../../decorators";
 
 import { DataPacket } from "./data-packet";
 

@@ -534,6 +534,7 @@ enum LevelSoundEvent {
   SpearUse = "item.spear.use",
   WoodenSpearUse = "item.wooden_spear.use",
   SaddleInWater = "saddle_in_water",
+  IceBallBreak = "ice_ball.break",
   Undefined = "undefined",
   StoneSpearAttackHit = "item.stone_spear.attack_hit",
   IronSpearAttackHit = "item.iron_spear.attack_hit",
@@ -552,7 +553,7 @@ enum LevelSoundEvent {
   CopperSpearUse = "item.copper_spear.use",
   GoldenSpearUse = "item.golden_spear.use",
   DiamondSpearUse = "item.diamond_spear.use",
-  NetheriteSpearUse = "item.netherite_spear.use",
+  NetheriteSpearUse = "item.netherite_spear.use"
 }
 
 export { LevelSoundEvent };

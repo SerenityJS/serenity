@@ -1,6 +1,6 @@
 import { VarString, Uint16, Endianness, Bool } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet } from "../../enums";
 import { GatheringJoinInfo } from "../types";
 

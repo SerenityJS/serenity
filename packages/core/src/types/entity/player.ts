@@ -8,6 +8,7 @@ import { EntityProperties } from "./entity";
 interface PlayerProperties extends EntityProperties {
   username: string;
   xuid: string;
+  playFabId: string;
   uuid: string;
   skin: SerializedSkin;
   clientSystemInfo: ClientSystemInfo;

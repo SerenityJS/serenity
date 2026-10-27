@@ -2,6 +2,7 @@
 
 export * from "./packets";
 
+export * from "./base-packet";
 export * from "./data-packet";
 
 export * from "./actor-event";
@@ -194,3 +195,11 @@ export * from "./clientbound-update-sound-data";
 export * from "./send-party-destination-cookie";
 export * from "./party-destination-cookie-response";
 export * from "./voxel-shapes-packet";
+export * from "./clientbound-matchmaking-state";
+export * from "./serverbound-stonecutter-set-recipe";
+export * from "./clientbound-stonecutter-set-recipe";
+export * from "./serverbound-matchmaking-cancel";
+export * from "./set-passenger-of-block";
+export * from "./serverbound-cursor-item-drag";
+export * from "./clientbound-play-audio-content";
+export * from "./serverbound-register-audio-content";

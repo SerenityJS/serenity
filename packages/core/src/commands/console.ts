@@ -1,6 +1,13 @@
-import { createInterface } from "node:readline";
+import {
+  clearScreenDown,
+  createInterface,
+  cursorTo,
+  moveCursor
+} from "node:readline";
 import { stdin, stdout } from "node:process";
 import { ReadStream } from "node:tty";
+
+import { Logger } from "@serenityjs/logger";
 
 import { Serenity } from "../serenity";
 
@@ -27,9 +34,22 @@ class ConsoleInterface {
     this.interface.on("line", this.onLineHandler);
 
     this.interface.setPrompt("> ");
+
+    // In a terminal, print logs above the line being typed and show the prompt
+    // Piped output (such as server panels) gets plain logs, without a prompt or cursor movement
+    if (stdout.isTTY) {
+      Logger.output = this.print.bind(this);
+      this.interface.prompt();
+    }
   }
 
   public close(): void {
+    // Stop printing logs above the prompt, and leave a clean line for the logs that follow
+    if (stdout.isTTY) {
+      Logger.output = null;
+      this.clearInput();
+    }
+
     // Remove all listeners
     this.interface.removeAllListeners();
 
@@ -45,7 +65,33 @@ class ConsoleInterface {
     }
   }
 
+  /**
+   * Prints a line above the input being typed, then redraws the prompt and the input.
+   * @param line The line to print.
+   */
+  protected print(line: string): void {
+    this.clearInput();
+
+    // Print the line, then redraw the prompt with what was typed so far
+    stdout.write(line + "\n");
+    this.interface.prompt(true);
+  }
+
+  /**
+   * Clears the prompt and the input being typed from the terminal.
+   */
+  protected clearInput(): void {
+    // Move to the start of the prompt, as long input wraps over several rows
+    const { rows } = this.interface.getCursorPos();
+    moveCursor(stdout, 0, -rows);
+    cursorTo(stdout, 0);
+    clearScreenDown(stdout);
+  }
+
   protected async onLine(line: string): Promise<void> {
+    // Show the prompt again for the next command
+    if (stdout.isTTY) this.interface.prompt();
+
     // Check if the line starts with a /
     // If so, slice the line and execute the command
     const format = line.startsWith("/") ? line.slice(1) : line;

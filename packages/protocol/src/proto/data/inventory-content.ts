@@ -1,6 +1,6 @@
 import { VarInt } from "@serenityjs/binarystream";
-import { Proto, Serialize } from "@serenityjs/raknet";
 
+import { Proto, Serialize } from "../../decorators";
 import { Packet, type ContainerId } from "../../enums";
 import {
   FullContainerName,

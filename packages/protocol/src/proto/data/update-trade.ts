@@ -1,4 +1,3 @@
-import { Proto, Serialize } from "@serenityjs/raknet";
 import {
   Bool,
   Int8,
@@ -7,6 +6,7 @@ import {
   ZigZong
 } from "@serenityjs/binarystream";
 
+import { Proto, Serialize } from "../../decorators";
 import { ContainerId, ContainerType, Packet } from "../../enums";
 import { TradeOffer } from "../types";
 
