@@ -5,7 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "tsup --watch --onSuccess 'node dist/index.js'",
+    "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
     "build": "tsup",
     "watch": "tsup --watch",
     "lint": "eslint src/",
@@ -16,8 +16,8 @@
     "@serenityjs/core": "*",
     "@serenityjs/logger": "*",
     "@serenityjs/nbt": "*",
-    "@serenityjs/plugins": "*",
-    "@serenityjs/nethernet": "*"
+    "@serenityjs/nethernet": "*",
+    "@serenityjs/plugins": "*"
   },
   "devDependencies": {
     "@serenityjs/internal-config": "*",
