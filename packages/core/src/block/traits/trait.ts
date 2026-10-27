@@ -12,6 +12,7 @@ import type {
 import type { Dimension } from "../../world/dimension";
 import type { Block } from "../block";
 import type { BlockTypeComponent } from "../identity";
+import type { BlockState } from "../types";
 
 class BlockTrait extends Trait {
   /**
@@ -155,6 +156,35 @@ class BlockTrait extends Trait {
       // Break the block, dropping it
       this.block.destroy({ dropLoot: true });
     });
+  }
+
+  /**
+   * Sets states of the block, if any of them changed.
+   * @param changes The states to set.
+   * @returns Whether the permutation of the block changed.
+   */
+  protected setStates(changes: BlockState): boolean {
+    // Get the current state of the block.
+    const state = this.block.permutation.state;
+
+    // Check if any of the states changed, as setting the permutation
+    // updates the neighboring blocks, which would update this block again.
+    const changed = Object.entries(changes).some(
+      ([key, value]) => state[key] !== value
+    );
+    if (!changed) return false;
+
+    // Get the permutation with the changed states.
+    const permutation = this.block.type.getPermutation({
+      ...state,
+      ...changes
+    });
+
+    // Set the permutation of the block, if it is a different one.
+    if (permutation === this.block.permutation) return false;
+    this.block.setPermutation(permutation);
+
+    return true;
   }
 }
 

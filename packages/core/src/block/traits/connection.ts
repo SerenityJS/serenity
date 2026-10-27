@@ -47,7 +47,7 @@ class BlockConnectionTrait extends BlockTrait {
 
   public onUpdate(): void {
     // Since 1.26.60 fire and chorus plants have these states too, and also connect up,
-    // but they connect to other blocks than fences do, so leave their states as they are.
+    // but they connect to other blocks than fences do, so their own traits set them.
     if (this.block.hasState("minecraft:connection_up")) return;
 
     // Prepare the connection states of the block.
@@ -106,33 +106,6 @@ class BlockConnectionTrait extends BlockTrait {
   }
 
   /**
-   * Sets states of the block, if any of them changed.
-   * @param changes The states to set.
-   */
-  protected setStates(changes: BlockState): void {
-    // Get the current state of the block.
-    const state = this.block.permutation.state;
-
-    // Check if any of the states changed, as setting the permutation
-    // updates the neighboring blocks, which would update this block again.
-    const changed = Object.entries(changes).some(
-      ([key, value]) => state[key] !== value
-    );
-
-    // Set the permutation of the block, if the states changed.
-    if (changed) {
-      const permutation = this.block.type.getPermutation({
-        ...state,
-        ...changes
-      });
-
-      // Set the permutation of the block, if it is a different one.
-      if (permutation !== this.block.permutation)
-        this.block.setPermutation(permutation);
-    }
-  }
-
-  /**
    * Whether a block is a fence.
    * @param identifier The identifier of the block.
    */
@@ -182,6 +155,15 @@ class BlockConnectionTrait extends BlockTrait {
    * @param face The face of the block to check.
    */
   protected isSturdy(block: Block, face: BlockFace): boolean {
+    return BlockConnectionTrait.isFaceSturdy(block, face);
+  }
+
+  /**
+   * Whether a face of a block is a full, solid face that blocks can connect to, or be placed on.
+   * @param block The block to check.
+   * @param face The face of the block to check.
+   */
+  public static isFaceSturdy(block: Block, face: BlockFace): boolean {
     // Get the identifier and type of the block.
     const { identifier, type } = block;
 
@@ -205,7 +187,7 @@ class BlockConnectionTrait extends BlockTrait {
 
     // Stairs have a full face on their back, and on their top or bottom.
     if (identifier.endsWith("_stairs") && block.hasState("weirdo_direction"))
-      return this.isStairsFaceSturdy(block, face);
+      return BlockConnectionTrait.isStairsFaceSturdy(block, face);
 
     // Return whether the block is solid.
     return type.solid;
@@ -216,7 +198,7 @@ class BlockConnectionTrait extends BlockTrait {
    * @param block The stairs to check.
    * @param face The face of the stairs to check.
    */
-  private isStairsFaceSturdy(block: Block, face: BlockFace): boolean {
+  private static isStairsFaceSturdy(block: Block, face: BlockFace): boolean {
     // Get the states of the stairs.
     const upsideDown = block.getState<boolean>("upside_down_bit");
     const direction = block.getState<number>("weirdo_direction");
